@@ -5,6 +5,7 @@ import { Developers } from '../../api/user/DeveloperCollection';
 import { Administrators } from '../../api/user/AdmininistratorCollection';
 import { SlackUsers } from '../../api/slackbot/SlackUserCollection';
 
+let app;
 if (!Meteor.isAppTest) {
   let pathToDotEnv = `${process.cwd()}`;
   pathToDotEnv = pathToDotEnv.substring(0, pathToDotEnv.indexOf('.meteor'));
@@ -14,7 +15,7 @@ if (!Meteor.isAppTest) {
   require('dotenv').config({ path: pathToDotEnv });
 // console.log(result);
 
-  const app = new App({
+  app = new App({
     signingSecret: process.env.SLACK_SIGNING_SECRET,
     token: process.env.SLACK_BOT_TOKEN,
   });
@@ -73,4 +74,11 @@ if (!Meteor.isAppTest) {
     await app.start(port);
     console.log(`⚡️ Bolt app is running on port ${port}!`);
   })();
+
 }
+
+/**
+ * Exports the singleton slackBot for use in HACC Hui.
+ * @type {App}
+ */
+export const slackBot = app;
