@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
+import { check } from 'meteor/check';
 
 class BaseCollection {
   /**
@@ -48,7 +49,10 @@ class BaseCollection {
    * @param { String | Object } name A document or docID in this collection.
    */
   removeIt(name) {
-    throw new Meteor.Error(`removeIt(${name}) is not defined in BaseCollection.`);
+    const doc = this.findDoc(name);
+    check(doc, Object);
+    this._collection.remove(doc._id);
+    return true;
   }
 
   /**
@@ -147,6 +151,17 @@ class BaseCollection {
   }
 
   /**
+   * Verifies that the passed object is one of this collection's instances.
+   * @param { String | List } name Should be a defined ID or doc in this collection.
+   * @throws { Meteor.Error } If not defined.
+   */
+  assertDefined(name) {
+    if (!this.isDefined(name)) {
+      throw new Meteor.Error(`${name} is not a valid instance of ${this._type}.`, '', Error().stack);
+    }
+  }
+
+  /**
    * Default publication method for entities.
    * It publishes the entire collection. This should be overridden in subclasses.
    */
@@ -164,6 +179,58 @@ class BaseCollection {
     if (Meteor.isClient) {
       Meteor.subscribe(this._collectionName);
     }
+  }
+
+  /**
+   * Returns an object with two fields: name and contents.
+   * Name is the name of this collection.
+   * Contents is an array of objects suitable for passing to the restore() method.
+   * @returns {Object} An object representing the contents of this collection.
+   */
+  dumpAll() {
+    const dumpObject = {
+      name: this._collectionName,
+      contents: this.find()
+          .map(docID => this.dumpOne(docID)),
+    };
+    // If a collection doesn't want to be dumped, it can just return null from dumpOne.
+    dumpObject.contents = _.without(dumpObject.contents, null);
+    // sort the contents array by slug (if present)
+    if (dumpObject.contents[0] && dumpObject.contents[0].slug) {
+      dumpObject.contents = _.sortBy(dumpObject.contents, obj => obj.slug);
+    }
+    return dumpObject;
+  }
+
+  /**
+   * Returns an object representing the definition of docID in a format appropriate to the restoreOne function.
+   * Must be overridden by each collection.
+   * @param docID A docID from this collection.
+   * @returns { Object } An object representing this document.
+   */
+  dumpOne(docID) { // eslint-disable-line
+    throw new Meteor.Error(`Default dumpOne method invoked by collection ${this._collectionName}`, '', Error().stack);
+  }
+
+  /**
+   * Defines the entity represented by dumpObject.
+   * Defaults to calling the define() method if it exists.
+   * @param dumpObject An object representing one document in this collection.
+   * @returns { String } The docID of the newly created document.
+   */
+  restoreOne(dumpObject) {
+    if (typeof this.define === 'function') {
+      return this.define(dumpObject);
+    }
+    return null;
+  }
+
+  /**
+   * Defines all the entities in the passed array of objects.
+   * @param dumpObjects The array of objects representing the definition of a document in this collection.
+   */
+  restoreAll(dumpObjects) {
+    _.each(dumpObjects, dumpObject => this.restoreOne(dumpObject));
   }
 }
 
