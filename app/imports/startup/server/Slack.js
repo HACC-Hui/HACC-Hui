@@ -22,7 +22,7 @@ if (!Meteor.isAppTest) {
 
   app.event('message', async ({ event, say, context }) => {
     // console.log('message', event, context);
-    if (event.text.includes('register me')) {
+    if (event.text.includes('register')) {
       const { profile } = await app.client.users.profile.get({
         token: context.botToken,
         user: event.user,
