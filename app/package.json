@@ -1,13 +1,16 @@
 {
-  "name": "meteor-application-template-react-production",
+  "name": "hacc-hui",
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.9.6",
+    "@slack/bolt": "^2.1.1",
     "classnames": "^2.2.6",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
     "graphql": "^15.0.0",
     "meteor-node-stubs": "^1.0.0",
+    "moment": "^2.26.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-addons-pure-render-mixin": "^15.6.2",
@@ -20,7 +23,8 @@
     "sweetalert": "^2.1.2",
     "uniforms": "^2.6.7",
     "uniforms-bridge-simple-schema-2": "^2.6.7",
-    "uniforms-semantic": "^2.6.7"
+    "uniforms-semantic": "^2.6.7",
+    "xkpasswd": "^1.0.5"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -41,11 +45,11 @@
     "sinon": "^9.0.2"
   },
   "scripts": {
-    "start": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --settings ../config/settings.development.json",
+    "start": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --settings ../config/settings.development.json --port 3400",
     "lint": "eslint --quiet --ext .jsx --ext .js ./imports",
     "pretest": "npm run lint",
-    "test": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha --port 3100",
-    "test-no-lint": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha --port 3100",
-    "test-app": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --full-app --once --driver-package meteortesting:mocha --port 3100"
+    "test": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha --port 3500",
+    "test-no-lint": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha --port 3500",
+    "test-app": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --full-app --once --driver-package meteortesting:mocha --port 3500"
   }
 }

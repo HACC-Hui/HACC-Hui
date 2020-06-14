@@ -5,7 +5,7 @@ import { check } from 'meteor/check';
 
 class BaseCollection {
   /**
-   * Superclass constructor for all meteor-application-template-react-production entities.
+   * Superclass constructor for all HACC Hui entities.
    * Defines internal fields needed by all entities: _type, _collectionName, _collection, and _schema.
    * @param {String} type The name of the entity defined by the subclass.
    * @param {SimpleSchema} schema The schema for validating fields on insertion to the DB.
@@ -235,6 +235,6 @@ class BaseCollection {
 }
 
 /**
- * The BaseCollection used by all meteor-application-template-react-production entities.
+ * The BaseCollection used by all HACC Hui entities.
  */
 export default BaseCollection;

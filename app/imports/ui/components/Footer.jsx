@@ -11,7 +11,7 @@ class Footer extends React.Component {
               Department of Information and Computer Sciences <br />
               University of Hawaii<br />
               Honolulu, HI 96822 <br />
-            <a href="http://ics-software-engineering.github.io/meteor-application-template-react">Template Home Page</a>
+            <a href="http://HACC-Hui.github.io">HACC Hui Home Page</a>
           </div>
         </footer>
     );
