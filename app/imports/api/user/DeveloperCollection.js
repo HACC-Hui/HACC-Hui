@@ -126,6 +126,22 @@ class DeveloperCollection extends BaseSlugCollection {
     return { username, firstName, lastName, demographicLevel, lookingForTeam,
       linkedIn, gitHub, website, aboutMe, challenges, interests, skills, tools };
   }
+
+  /**
+   * Returns non-null if the user has a profile in this collection.
+   * @param user The user (either their username (email) or their userID).
+   * @return The profile document if the profile exists, or null if not found.
+   * @throws { Meteor.Error } If user is not a valid user.
+   */
+  hasProfile(user) {
+    const userID = Users.getID(user);
+    return this.collection.findOne({ userID });
+  }
+
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+  }
+
 }
 
 export const Developers = new DeveloperCollection();

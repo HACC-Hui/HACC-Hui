@@ -2,6 +2,7 @@ import SimpleSchema from 'simpl-schema';
 import BaseCollection from '../base/BaseCollection';
 import { Challenges } from '../challenge/ChallengeCollection';
 import { Developers } from './DeveloperCollection';
+import { ROLE } from '../role/Role';
 
 class DeveloperChallengeCollection extends BaseCollection {
   constructor() {
@@ -42,6 +43,11 @@ class DeveloperChallengeCollection extends BaseCollection {
     const developerID = Developers.getID(developer);
     this._collection.remove({ developerID });
   }
+
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+  }
+
 }
 
 export const DeveloperChallenges = new DeveloperChallengeCollection();

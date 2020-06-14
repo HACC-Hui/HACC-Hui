@@ -16,10 +16,13 @@ import { DeveloperChallenges } from '../user/DeveloperChallengeCollection';
 import { DeveloperInterests } from '../user/DeveloperInterestCollection';
 import { DeveloperSkills } from '../user/DeveloperSkillCollection';
 import { DeveloperTools } from '../user/DeveloperToolCollection';
+import { Administrators } from '../user/AdmininistratorCollection';
+import { SlackUsers } from '../slackbot/SlackUserCollection';
 
 class HACCHuiClass {
   constructor() {
     this.collections = [
+        Administrators,
         Challenges,
         ChallengeInterests,
         Developers,
@@ -29,6 +32,7 @@ class HACCHuiClass {
         DeveloperTools,
         Interests,
         Skills,
+        SlackUsers,
         Slugs,
         Teams,
         TeamChallenges,
@@ -38,11 +42,14 @@ class HACCHuiClass {
         Tools,
     ];
     this.collectionLoadSequence = [
+        Administrators,
         Interests,
         Skills,
         Tools,
         Challenges,
+        Developers,
         Teams,
+        SlackUsers,
     ];
     this.collectionAssociation = {};
     _.each(this.collections, (collection) => {
@@ -53,7 +60,7 @@ class HACCHuiClass {
   getCollection(collectionName) {
     const collection = this.collectionAssociation[collectionName];
     if (!collection) {
-      throw new Meteor.Error(`Called RadGrad.getCollection with unknown collection name: ${collectionName}`);
+      throw new Meteor.Error(`Called HACCHui.getCollection with unknown collection name: ${collectionName}`);
     }
     return collection;
 

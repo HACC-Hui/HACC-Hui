@@ -2,6 +2,7 @@ import SimpleSchema from 'simpl-schema';
 import BaseCollection from '../base/BaseCollection';
 import { Developers } from './DeveloperCollection';
 import { Interests } from '../interest/InterestCollection';
+import { ROLE } from '../role/Role';
 
 class DeveloperInterestCollection extends BaseCollection {
   constructor() {
@@ -36,6 +37,10 @@ class DeveloperInterestCollection extends BaseCollection {
   removeDeveloper(developer) {
     const developerID = Developers.getID(developer);
     this._collection.remove({ developerID });
+  }
+
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
   }
 
 }

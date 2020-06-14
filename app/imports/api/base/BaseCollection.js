@@ -232,6 +232,19 @@ class BaseCollection {
   restoreAll(dumpObjects) {
     _.each(dumpObjects, dumpObject => this.restoreOne(dumpObject));
   }
+
+  assertRole(userId, roles) {
+    if (!userId) {
+      throw new Meteor.Error('unauthorized', 'You must be logged in.');
+    } else if (!Roles.userIsInRole(userId, roles)) {
+      throw new Meteor.Error('unauthorized', `You must be one of the following roles: ${roles}`);
+    }
+    return true;
+  }
+
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN]);
+  }
 }
 
 /**

@@ -3,6 +3,7 @@ import BaseCollection from '../base/BaseCollection';
 import { Tools } from '../tool/ToolCollection';
 import { Teams } from './TeamCollection';
 import { skillAndToolLevels } from '../level/Levels';
+import { ROLE } from '../role/Role';
 
 class TeamToolCollection extends BaseCollection {
   constructor() {
@@ -47,6 +48,11 @@ class TeamToolCollection extends BaseCollection {
     const toolID = Tools.getID(tool);
     this._collection.remove({ toolID });
   }
+
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+  }
+
 }
 
 export const TeamTools = new TeamToolCollection();

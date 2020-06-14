@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { App } from '@slack/bolt';
 import { isAdminEmail } from '../../api/user/helpers';
 import { Developers } from '../../api/user/DeveloperCollection';
+import { Administrators } from '../../api/user/AdmininistratorCollection';
+import { SlackUsers } from '../../api/slackbot/SlackUserCollection';
 
 if (!Meteor.isAppTest) {
   let pathToDotEnv = `${process.cwd()}`;
@@ -26,13 +28,31 @@ if (!Meteor.isAppTest) {
       });
       // console.log(profile);
       const { email, first_name, last_name } = profile;
-      // console.log(email, first_name, last_name, real_name_normalized);
+      // console.log(email, first_name, last_name);
       if (!isAdminEmail(email)) { // they are a developer
         if (!Developers.isDefined(email)) {
           const firstName = first_name;
           const lastName = last_name;
           const username = email;
           const { password } = Developers.define({ username, firstName, lastName });
+          // record this user
+          SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
+          await say(`
+      Welcome to HACC Hui! Here are your credentials
+      Host: https//hackhui.com
+      Username: ${username}
+      Password: ${password}`);
+        } else {
+          await say(`<@${event.user}> You've already registered. You can login to HACC Hui.`);
+        }
+      } else {
+        if (!Administrators.isDefined(email)) {
+          const firstName = first_name;
+          const lastName = last_name;
+          const username = email;
+          const { password } = Administrators.define({ username, firstName, lastName });
+          // record this user
+          SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
           await say(`
       Welcome to HACC Hui! Here are your credentials
       Host: https//hackhui.com
