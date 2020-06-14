@@ -1,8 +1,7 @@
-import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { Administrators } from '../user/AdmininistratorCollection';
+import { Administrators } from '../user/AdministratorCollection';
 import { slackBot } from '../../startup/server/Slack';
 import { SlackUsers } from './SlackUserCollection';
 

@@ -16,7 +16,7 @@ import { DeveloperChallenges } from '../user/DeveloperChallengeCollection';
 import { DeveloperInterests } from '../user/DeveloperInterestCollection';
 import { DeveloperSkills } from '../user/DeveloperSkillCollection';
 import { DeveloperTools } from '../user/DeveloperToolCollection';
-import { Administrators } from '../user/AdmininistratorCollection';
+import { Administrators } from '../user/AdministratorCollection';
 import { SlackUsers } from '../slackbot/SlackUserCollection';
 
 class HACCHuiClass {

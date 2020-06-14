@@ -1,13 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { _ } from 'meteor/underscore';
 import BaseSlugCollection from '../base/BaseSlugCollection';
 import { Slugs } from '../slug/SlugCollection';
 import { ROLE } from '../role/Role';
 import { Users } from './UserCollection';
 
-class AdmininistratorCollection extends BaseSlugCollection {
-  constructor(props) {
+class AdministratorCollection extends BaseSlugCollection {
+  constructor() {
     super('Administrator', new SimpleSchema({
       username: { type: String },
       slugID: { type: String },
@@ -66,4 +65,4 @@ class AdmininistratorCollection extends BaseSlugCollection {
 
 }
 
-export const Administrators = new AdmininistratorCollection();
+export const Administrators = new AdministratorCollection();

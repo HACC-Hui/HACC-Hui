@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { App } from '@slack/bolt';
 import { isAdminEmail } from '../../api/user/helpers';
 import { Developers } from '../../api/user/DeveloperCollection';
-import { Administrators } from '../../api/user/AdmininistratorCollection';
+import { Administrators } from '../../api/user/AdministratorCollection';
 import { SlackUsers } from '../../api/slackbot/SlackUserCollection';
 
 let app;
@@ -12,7 +12,8 @@ if (!Meteor.isAppTest) {
   pathToDotEnv = `${pathToDotEnv}.env`;
 // console.log(pathToDotEnv);
 // const result = require('dotenv').config({ path: pathToDotEnv });
-  require('dotenv').config({ path: pathToDotEnv });
+// eslint-disable-next-line global-require
+require('dotenv').config({ path: pathToDotEnv });
 // console.log(result);
 
   app = new App({
@@ -46,8 +47,7 @@ if (!Meteor.isAppTest) {
         } else {
           await say(`<@${event.user}> You've already registered. You can login to HACC Hui.`);
         }
-      } else {
-        if (!Administrators.isDefined(email)) {
+      } else if (!Administrators.isDefined(email)) {
           const firstName = first_name;
           const lastName = last_name;
           const username = email;
@@ -62,7 +62,6 @@ if (!Meteor.isAppTest) {
         } else {
           await say(`<@${event.user}> You've already registered. You can login to HACC Hui.`);
         }
-      }
     } else {
       await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me.`);
     }

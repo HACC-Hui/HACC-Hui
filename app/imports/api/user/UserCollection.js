@@ -1,8 +1,9 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
-import { Meteor } from "meteor/meteor";
+import { Meteor } from 'meteor/meteor';
+import { _ } from 'meteor/underscore';
 import { Developers } from './DeveloperCollection';
-import { Administrators } from './AdmininistratorCollection';
+import { Administrators } from './AdministratorCollection';
 
 const xkpasswd = require('xkpasswd');
 

@@ -4,6 +4,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { _ } from 'meteor/underscore';
 import { HACCHui } from '../hacc-hui/HACCHui';
 import { Users } from '../user/UserCollection';
+import { ROLE } from '../role/Role';
 
 /**
  * Allows admins to create and return a JSON object to the client representing a snapshot of the HACCHui database.
@@ -75,4 +76,3 @@ export const removeItMethod = new ValidatedMethod({
     return true;
   },
 });
-
