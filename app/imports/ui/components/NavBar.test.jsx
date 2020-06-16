@@ -18,7 +18,6 @@ if (Meteor.isClient) {
       const wrapper = mount(<Router><NavBar/></Router>);
       expect(wrapper.find('a').at(0).text()).to.equal('HACC Hui');
       expect(wrapper.find('a').at(1).text()).to.equal('Sign In');
-      expect(wrapper.find('a').at(2).text()).to.equal('Sign Up');
     });
 
     it('should render logged in as normal user', async function test2() {

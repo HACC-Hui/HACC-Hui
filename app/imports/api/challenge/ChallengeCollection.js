@@ -25,7 +25,7 @@ class ChallengeCollection extends BaseSlugCollection {
       if (cis.length === interestIDs.length) {
         let same = true;
         _.each(cis, (ci) => {
-          if (!_.contains(interestIDs, ci)) {
+          if (!_.includes(interestIDs, ci)) {
             same = false;
           }
         });
