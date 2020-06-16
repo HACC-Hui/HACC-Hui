@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { _ } from 'meteor/erasaur:meteor-lodash';
+import { _ } from 'lodash';
 import moment from 'moment';
 import { HACCHui } from '../../api/hacc-hui/HACCHui';
 
@@ -72,7 +72,6 @@ export function loadCollection(collection, loadJSON, consolep) {
  */
 function loadDatabase() {
   const loadFileName = Meteor.settings.databaseRestoreFileName;
-  console.log(Meteor.settings, totalDocuments());
   if (loadFileName && totalDocuments() === 0) {
     const loadFileAge = getRestoreFileAge(loadFileName);
     console.log(`Loading database from file ${loadFileName}, dumped ${loadFileAge}.`);
