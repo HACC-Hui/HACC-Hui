@@ -1,4 +1,4 @@
-import { _ } from 'meteor/underscore';
+import { _ } from 'meteor/erasaur:meteor-lodash';
 import faker from 'faker';
 
 export const demographicLevel = {

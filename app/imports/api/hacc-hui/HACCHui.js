@@ -1,4 +1,4 @@
-import { _ } from 'meteor/underscore';
+import { _ } from 'meteor/erasaur:meteor-lodash';
 import { Meteor } from 'meteor/meteor';
 import { Challenges } from '../challenge/ChallengeCollection';
 import { ChallengeInterests } from '../challenge/ChallengeInterestCollection';

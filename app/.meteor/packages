@@ -25,7 +25,6 @@ aldeed:collection2-core          # Integrate node simpl-schema with Meteor colle
 aldeed:schema-index              # Support index: true and unique: true in schema definitions.
 
 # Utilities
-underscore@1.0.10                # http://underscorejs.org/
 ejson@1.1.1                      # https://docs.meteor.com/api/ejson.html
 alanning:roles                   # https://github.com/Meteor-Community-Packages/meteor-roles
 
@@ -35,3 +34,4 @@ meteortesting:mocha
 xolvio:cleaner
 dburles:factory
 react-meteor-data
+erasaur:meteor-lodash

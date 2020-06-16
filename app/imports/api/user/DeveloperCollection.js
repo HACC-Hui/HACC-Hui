@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { _ } from 'meteor/underscore';
+import { _ } from 'meteor/erasaur:meteor-lodash';
 import BaseSlugCollection from '../base/BaseSlugCollection';
 import { demographicLevels } from '../level/Levels';
 import { Slugs } from '../slug/SlugCollection';

@@ -1,5 +1,5 @@
 import { Roles } from 'meteor/alanning:roles';
-import { _ } from 'meteor/underscore';
+import { _ } from 'meteor/erasaur:meteor-lodash';
 import { Meteor } from 'meteor/meteor';
 
 /**

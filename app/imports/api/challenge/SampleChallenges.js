@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { _ } from 'meteor/underscore';
+import { _ } from 'meteor/erasaur:meteor-lodash';
 import { makeSampleInterestSlugArray } from '../interest/SampleInterests';
 import { Challenges } from './ChallengeCollection';
 
