@@ -62,6 +62,9 @@ class AdministratorCollection extends BaseSlugCollection {
     return this.collection.findOne({ userID });
   }
 
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN]);
+  }
 
 }
 
