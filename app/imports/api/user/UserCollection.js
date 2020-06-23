@@ -24,6 +24,22 @@ class UserCollection {
   }
 
   /**
+   * Returns the userID associated with user, or throws an error if not defined.
+   * @param user The user (username or userID).
+   * @returns { String } The userID
+   * @throws { Meteor.Error } If user is not a defined username or userID.
+   */
+  getID(user) {
+    const userDoc = (Meteor.users.findOne({ _id: user })) || (Meteor.users.findOne({ username: user }));
+    if (!userDoc) {
+      console.error('Error: user is not defined: ', user);
+      // console.trace(`Error: user is not defined: ${user}`);
+      throw new Meteor.Error(`Error: user ${user} is not defined.`);
+    }
+    return userDoc._id;
+  }
+
+  /**
    * Returns the profile document associated with user, or null if not found.
    * Assumes that the user is defined. If not, throws an error.
    * @param user The username or userID.
