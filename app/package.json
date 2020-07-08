@@ -9,7 +9,7 @@
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "graphql": "^15.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "meteor-node-stubs": "^1.0.0",
     "moment": "^2.26.0",
     "prop-types": "^15.7.2",
@@ -22,9 +22,9 @@
     "semantic-ui-react": "^0.88.2",
     "simpl-schema": "^1.7.3",
     "sweetalert": "^2.1.2",
-    "uniforms": "^2.6.8",
-    "uniforms-bridge-simple-schema-2": "^2.6.8",
-    "uniforms-semantic": "^2.6.8",
+    "uniforms": "^3.0.0-alpha.5",
+    "uniforms-bridge-simple-schema-2": "^3.0.0-alpha.5",
+    "uniforms-semantic": "^3.0.0-alpha.5",
     "xkpasswd": "^1.0.5"
   },
   "devDependencies": {
