@@ -17,7 +17,6 @@ export const userInteractionDefineMethod = new ValidatedMethod({
 
 /**
  * The validated method for removing UserInteractions.
- * @memberOf api/analytic
  */
 export const userInteractionRemoveUserMethod = new ValidatedMethod({
   name: 'UserInteraction.removeUser',
@@ -31,7 +30,6 @@ export const userInteractionRemoveUserMethod = new ValidatedMethod({
 
 /**
  * The validated method for finding UserInteractions.
- * @memberOf api/analytic
  */
 export const userInteractionFindMethod = new ValidatedMethod({
   name: 'UserInteraction.find',
