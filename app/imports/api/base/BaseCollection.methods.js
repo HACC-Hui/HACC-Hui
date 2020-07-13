@@ -38,7 +38,7 @@ export const dumpDatabaseMethod = new ValidatedMethod({
  * Meteor method used to define new instances of the given collection name.
  * @param collectionName the name of the collection.
  * @param definitionDate the object used in the collection.define method.
- * @memberOf api/base
+ * @type {ValidatedMethod}
  */
 export const defineMethod = new ValidatedMethod({
   name: 'BaseCollection.define',
@@ -52,6 +52,12 @@ export const defineMethod = new ValidatedMethod({
   },
 });
 
+/**
+ * Meteor method used to update a document in the given collection.
+ * @param collectionName the name of the collection to update.
+ * @param updateData an object containing the document ID and the update data.
+ * @type {ValidatedMethod}
+ */
 export const updateMethod = new ValidatedMethod({
   name: 'BaseCollection.update',
   mixins: [CallPromiseMixin],
@@ -65,6 +71,12 @@ export const updateMethod = new ValidatedMethod({
   },
 });
 
+/**
+ * Meteor method used to remove a document from a collection.
+ * @param collectionName the name of the collection.
+ * @param instance the document ID to remove.
+ * @type {ValidatedMethod}
+ */
 export const removeItMethod = new ValidatedMethod({
   name: 'BaseCollection.removeIt',
   mixins: [CallPromiseMixin],
