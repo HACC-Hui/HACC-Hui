@@ -3,12 +3,12 @@ import { Grid, Segment, Header } from 'semantic-ui-react';
 import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
-import 'uniforms-bridge-simple-schema-2'; // required for Uniforms
+import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { stuffDefineMethod } from '../../api/stuff/StuffCollection.methods';
 
 /** Create a schema to specify the structure of the data to appear in the form. */
-const formSchema = new SimpleSchema({
+const schema = new SimpleSchema({
   name: String,
   quantity: Number,
   condition: {
@@ -43,6 +43,7 @@ class AddStuff extends React.Component {
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
     let fRef = null;
+    const formSchema = new SimpleSchema2Bridge(schema);
     return (
         <Grid container centered>
           <Grid.Column>

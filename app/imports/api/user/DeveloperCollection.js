@@ -29,17 +29,23 @@ class DeveloperCollection extends BaseSlugCollection {
       aboutMe: { type: String, optional: true },
       userID: { type: SimpleSchema.RegEx.Id, optional: true },
       lookingForTeam: { type: Boolean, optional: true },
+      isCompliant: { type: Boolean, optional: true },
     }));
   }
 
-  define({ username, firstName, lastName, demographicLevel, lookingForTeam,
-         challenges = [], interests = [], skills = [], tools = [],
-         linkedIn = '', gitHub = '', website = '', aboutMe = '' }) {
+  define({
+           username, firstName, lastName, demographicLevel, lookingForTeam,
+           challenges = [], interests = [], skills = [], tools = [],
+           linkedIn = '', gitHub = '', website = '', aboutMe = '',
+           isCompliant = false,
+         }) {
     if (Meteor.isServer) {
       const role = ROLE.DEVELOPER;
       const slugID = Slugs.define({ name: username }); // ensure the usernames are unique
-      const profileID = this._collection.insert({ username, slugID, firstName, lastName, demographicLevel,
-        lookingForTeam, linkedIn, gitHub, website, aboutMe });
+      const profileID = this._collection.insert({
+        username, slugID, firstName, lastName, demographicLevel,
+        lookingForTeam, linkedIn, gitHub, website, aboutMe, isCompliant,
+      });
       Slugs.updateEntityID(slugID, profileID);
       const { userID, password } = Users.define({ username, role });
       this._collection.update(profileID, { $set: { userID } });
@@ -52,8 +58,10 @@ class DeveloperCollection extends BaseSlugCollection {
     return undefined;
   }
 
-  update(docID, { firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
-    skills, tools, linkedIn, gitHub, website, aboutMe }) {
+  update(docID, {
+    firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
+    skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant,
+  }) {
     this.assertDefined(docID);
     const updateData = {};
     if (firstName) {
@@ -65,7 +73,7 @@ class DeveloperCollection extends BaseSlugCollection {
     if (demographicLevel) {
       updateData.demographicLevel = demographicLevel;
     }
-    if (lookingForTeam) {
+    if (_.isBoolean(lookingForTeam)) {
       updateData.lookingForTeam = lookingForTeam;
     }
     if (linkedIn) {
@@ -79,6 +87,9 @@ class DeveloperCollection extends BaseSlugCollection {
     }
     if (aboutMe) {
       updateData.aboutMe = aboutMe;
+    }
+    if (_.isBoolean(isCompliant)) {
+      updateData.isCompliant = isCompliant;
     }
     this._collection.update(docID, { $set: updateData });
     const developer = this.findSlugByID(docID);
@@ -112,8 +123,10 @@ class DeveloperCollection extends BaseSlugCollection {
 
   dumpOne(docID) {
     this.assertDefined(docID);
-    const { username, firstName, lastName, demographicLevel, lookingForTeam,
-      linkedIn, gitHub, website, aboutMe } = this.findDoc(docID);
+    const {
+      username, firstName, lastName, demographicLevel, lookingForTeam,
+      linkedIn, gitHub, website, aboutMe, isCompliant,
+    } = this.findDoc(docID);
     const selector = { developerID: docID };
     const devChallenges = DeveloperChallenges.find(selector).fetch();
     const challenges = _.map(devChallenges, (dC) => Challenges.findSlugByID(dC.challengeID));
@@ -123,8 +136,10 @@ class DeveloperCollection extends BaseSlugCollection {
     const skills = _.map(devSkills, (dS) => Skills.findSlugByID(dS.skillID));
     const devTools = DeveloperTools.find(selector).fetch();
     const tools = _.map(devTools, (dT) => Tools.findSlugByID(dT.toolID));
-    return { username, firstName, lastName, demographicLevel, lookingForTeam,
-      linkedIn, gitHub, website, aboutMe, challenges, interests, skills, tools };
+    return {
+      username, firstName, lastName, demographicLevel, lookingForTeam, isCompliant,
+      linkedIn, gitHub, website, aboutMe, challenges, interests, skills, tools,
+    };
   }
 
   /**

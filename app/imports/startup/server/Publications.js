@@ -1,29 +1,10 @@
 import { Meteor } from 'meteor/meteor';
+import _ from 'lodash';
+import { HACCHui } from '../../api/hacc-hui/HACCHui';
 import { Stuffs } from '../../api/stuff/StuffCollection';
-import { Slugs } from '../../api/slug/SlugCollection';
-import { Challenges } from '../../api/challenge/ChallengeCollection';
-import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
-import { Interests } from '../../api/interest/InterestCollection';
-import { Skills } from '../../api/skill/SkillCollection';
-import { Tools } from '../../api/tool/ToolCollection';
-import { Teams } from '../../api/team/TeamCollection';
-import { TeamChallenges } from '../../api/team/TeamChallengeCollection';
-import { TeamSkills } from '../../api/team/TeamSkillCollection';
-import { TeamTools } from '../../api/team/TeamToolCollection';
-import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
 
 /** Publish all the collections you need. */
-Challenges.publish();
-ChallengeInterests.publish();
-Interests.publish();
-Skills.publish();
-Slugs.publish();
-Teams.publish();
-TeamChallenges.publish();
-TeamDevelopers.publish();
-TeamSkills.publish();
-TeamTools.publish();
-Tools.publish();
+_.forEach(HACCHui.collections, (collection) => collection.publish());
 Stuffs.publish();
 
 /** Need this for the alanning:roles package */
