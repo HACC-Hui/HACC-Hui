@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: test-utils/test-utilities.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: test-utils/test-utilities.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Meteor } from 'meteor/meteor';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { DDP } from 'meteor/ddp-client';
+import faker from 'faker';
+import { Accounts } from 'meteor/accounts-base';
+import { Roles } from 'meteor/alanning:roles';
+import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
+import { Stuffs } from '../api/stuff/StuffCollection';
+
+export function withSubscriptions() {
+  return new Promise((resolve => {
+    // Add the collections to subscribe to.
+    Stuffs.subscribeStuff();
+    const poll = Meteor.setInterval(() => {
+      if (DDP._allSubscriptionsReady()) {
+        Meteor.clearInterval(poll);
+        resolve();
+      }
+    }, 200);
+  }));
+}
+
+/**
+ * Defines a test admin user.
+ * @type {ValidatedMethod}
+ */
+export const defineTestAdminUser = new ValidatedMethod({
+  name: 'Test.defineAdminUser',
+  mixins: [CallPromiseMixin],
+  validate: null,
+  run() {
+    // Only do this if in test or test-app.
+    if (Meteor.isTest || Meteor.isAppTest) {
+      const username = faker.internet.userName();
+      const email = faker.internet.email();
+      const password = faker.internet.password();
+      const users = Accounts.createUser({
+        username,
+        email,
+        password,
+      });
+      Roles.createRole('admin', { unlessExists: true });
+      Roles.addUsersToRoles([users], ['admin']);
+      return { username, email, password };
+    }
+    throw new Meteor.Error('Need to be in test mode to call this method.');
+  },
+});
+
+/**
+ * Defines a test user.
+ * @type {ValidatedMethod}
+ */
+export const defineTestUser = new ValidatedMethod({
+  name: 'Test.defineUser',
+  mixins: [CallPromiseMixin],
+  validate: null,
+  run() {
+    // Only do this if in test or test-app.
+    if (Meteor.isTest || Meteor.isAppTest) {
+      const username = faker.internet.userName();
+      const email = faker.internet.email();
+      const password = faker.internet.password();
+      // console.log('defineTestUser', username, password);
+      Accounts.createUser({
+        username,
+        email,
+        password,
+      });
+      return { username, email, password };
+    }
+    throw new Meteor.Error('Need to be in test mode to call this method.');
+  },
+});
+/**
+ * Returns a Promise that resolves if one can successfully login with the passed credentials.
+ * Credentials default to the standard admin username and password.
+ * @memberOf api/test
+ */
+export function withLoggedInUser({ username = 'admin@foo.com', password = 'changeme' } = {}) {
+  return new Promise((resolve, reject) => {
+    Meteor.loginWithPassword(username, password, (error) => {
+      if (error) {
+        console.log('Error: withLoggedInUser', error);
+        reject();
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+
+/**
+ * Returns a Promise that resolves if one can successfully login with the passed credentials.
+ * Credentials default to the standard admin username and password.
+ * @memberOf api/test
+ */
+export function logOutUser() {
+  return new Promise((resolve, reject) => {
+    Meteor.logout((error) => {
+      if (error) {
+        console.log('Error: logOutUser', error);
+        reject();
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_Skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li><li><a href="BaseCollection.html">BaseCollection</a></li><li><a href="ChallengeCollection.html">ChallengeCollection</a></li><li><a href="ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="StuffCollection.html">StuffCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ChallengeInterests">ChallengeInterests</a></li><li><a href="global.html#Challenges">Challenges</a></li><li><a href="global.html#defineMethod">defineMethod</a></li><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#dumpDatabaseMethod">dumpDatabaseMethod</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleInterestArray">makeSampleInterestArray</a></li><li><a href="global.html#makeSampleInterestSlugArray">makeSampleInterestSlugArray</a></li><li><a href="global.html#makeSampleSkillArray">makeSampleSkillArray</a></li><li><a href="global.html#makeSampleSkillSlugArray">makeSampleSkillSlugArray</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#removeItMethod">removeItMethod</a></li><li><a href="global.html#ROLE">ROLE</a></li><li><a href="global.html#sendDM2AdministratorsMethod">sendDM2AdministratorsMethod</a></li><li><a href="global.html#sendDM2DeveloperMethod">sendDM2DeveloperMethod</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Aug 11 2020 11:27:12 GMT-1000 (Hawaii-Aleutian Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

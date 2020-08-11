@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: api/base/BaseCollection.methods.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: api/base/BaseCollection.methods.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Meteor } from 'meteor/meteor';
+import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { _ } from 'lodash';
+import { HACCHui } from '../hacc-hui/HACCHui';
+import { Users } from '../user/UserCollection';
+import { ROLE } from '../role/Role';
+
+/**
+ * Allows admins to create and return a JSON object to the client representing a snapshot of the HACC-Hui database.
+ */
+export const dumpDatabaseMethod = new ValidatedMethod({
+  name: 'base.dumpDatabase',
+  validate: null,
+  run() {
+    if (!this.userId) {
+      throw new Meteor.Error('unauthorized', 'You must be logged in to dump the database..');
+    } else {
+      const profile = Users.getProfile(this.userId);
+      if (profile.role !== ROLE.ADMIN) {
+        throw new Meteor.Error('unauthorized', 'You must be an admin to dump the database.');
+      }
+    }
+    // Don't do the dump except on server side (disable client-side simulation).
+    // Return an object with fields timestamp and collections.
+    if (Meteor.isServer) {
+      const collections = _.sortBy(HACCHui.collectionLoadSequence.map((collection) => collection.dumpAll()),
+          (entry) => entry.name);
+      const timestamp = new Date();
+      return { timestamp, collections };
+    }
+    return null;
+  },
+});
+
+/**
+ * Meteor method used to define new instances of the given collection name.
+ * @param collectionName the name of the collection.
+ * @param definitionDate the object used in the collection.define method.
+ * @type {ValidatedMethod}
+ */
+export const defineMethod = new ValidatedMethod({
+  name: 'BaseCollection.define',
+  mixins: [CallPromiseMixin],
+  validate: null,
+  run({ collectionName, definitionData }) {
+    // console.log(collectionName, this.userId, definitionData);
+    const collection = HACCHui.getCollection(collectionName);
+    collection.assertValidRoleForMethod(this.userId);
+    return collection.define(definitionData);
+  },
+});
+
+/**
+ * Meteor method used to update a document in the given collection.
+ * @param collectionName the name of the collection to update.
+ * @param updateData an object containing the document ID and the update data.
+ * @type {ValidatedMethod}
+ */
+export const updateMethod = new ValidatedMethod({
+  name: 'BaseCollection.update',
+  mixins: [CallPromiseMixin],
+  validate: null,
+  run({ collectionName, updateData }) {
+    // console.log('updateMethod(%o, %o)', collectionName, updateData);
+    const collection = HACCHui.getCollection(collectionName);
+    collection.assertValidRoleForMethod(this.userId);
+    collection.update(updateData.id, updateData);
+    return true;
+  },
+});
+
+/**
+ * Meteor method used to remove a document from a collection.
+ * @param collectionName the name of the collection.
+ * @param instance the document ID to remove.
+ * @type {ValidatedMethod}
+ */
+export const removeItMethod = new ValidatedMethod({
+  name: 'BaseCollection.removeIt',
+  mixins: [CallPromiseMixin],
+  validate: null,
+  run({ collectionName, instance }) {
+    const collection = HACCHui.getCollection(collectionName);
+    collection.assertValidRoleForMethod(this.userId);
+    collection.removeIt(instance);
+    return true;
+  },
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_Skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li><li><a href="BaseCollection.html">BaseCollection</a></li><li><a href="ChallengeCollection.html">ChallengeCollection</a></li><li><a href="ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="StuffCollection.html">StuffCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ChallengeInterests">ChallengeInterests</a></li><li><a href="global.html#Challenges">Challenges</a></li><li><a href="global.html#defineMethod">defineMethod</a></li><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#dumpDatabaseMethod">dumpDatabaseMethod</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleInterestArray">makeSampleInterestArray</a></li><li><a href="global.html#makeSampleInterestSlugArray">makeSampleInterestSlugArray</a></li><li><a href="global.html#makeSampleSkillArray">makeSampleSkillArray</a></li><li><a href="global.html#makeSampleSkillSlugArray">makeSampleSkillSlugArray</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#removeItMethod">removeItMethod</a></li><li><a href="global.html#ROLE">ROLE</a></li><li><a href="global.html#sendDM2AdministratorsMethod">sendDM2AdministratorsMethod</a></li><li><a href="global.html#sendDM2DeveloperMethod">sendDM2DeveloperMethod</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Aug 11 2020 11:27:12 GMT-1000 (Hawaii-Aleutian Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -7,8 +7,7 @@ import { Users } from '../user/UserCollection';
 import { ROLE } from '../role/Role';
 
 /**
- * Allows admins to create and return a JSON object to the client representing a snapshot of the HACCHui database.
- * @memberOf api/base
+ * Allows admins to create and return a JSON object to the client representing a snapshot of the HACC-Hui database.
  */
 export const dumpDatabaseMethod = new ValidatedMethod({
   name: 'base.dumpDatabase',

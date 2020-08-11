@@ -15,7 +15,7 @@ function totalDocuments() {
 
 /**
  * The load/fixture file date format.
- * Used when dumping and restoring the HACCHui database.
+ * Used when dumping and restoring the HACC-Hui database.
  * @type {string}
  */
 const loadFileDateFormat = 'YYYY-MM-DD-HH-mm-ss';

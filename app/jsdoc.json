@@ -1,0 +1,37 @@
+{
+  "tags": {
+    "allowUnknownTags": false
+  },
+  "source": {
+    "include": "./imports",
+    "includePattern": "\\.js$",
+    "excludePattern": "(node_modules/|docs)"
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "opts": {
+    "encoding": "utf8",
+    "destination": "../docs/",
+    "recurse": true,
+    "verbose": true
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "docdash": {
+    "static": true,
+    "sort": true,
+    "collapse": true,
+    "search": true,
+    "menu": {
+      "HACC-Hui Website": {
+        "href": "https://hacc-hui.github.io/",
+        "target": "_blank",
+        "class": "menu-item",
+        "id": "website_link"
+      }
+    }
+  }
+}

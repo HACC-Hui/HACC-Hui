@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: api/slackbot/Slack.methods.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: api/slackbot/Slack.methods.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { _ } from 'lodash';
+import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { Administrators } from '../user/AdministratorCollection';
+import { slackBot } from '../../startup/server/Slack';
+import { SlackUsers } from './SlackUserCollection';
+
+let pathToDotEnv = `${process.cwd()}`;
+pathToDotEnv = pathToDotEnv.substring(0, pathToDotEnv.indexOf('.meteor'));
+pathToDotEnv = `${pathToDotEnv}.env`;
+// console.log(pathToDotEnv);
+// const result = require('dotenv').config({ path: pathToDotEnv });
+require('dotenv').config({ path: pathToDotEnv });
+// console.log(result);
+
+/**
+ * Meteor method used to send direct messages to Administrators.
+ * @param message the message to send.
+ * @type {ValidatedMethod}
+ */
+export const sendDM2AdministratorsMethod = new ValidatedMethod({
+  name: 'slack.sendToAdmins',
+  mixins: [CallPromiseMixin],
+  validate: null,
+  run({ message }) {
+    const administrators = _.map(Administrators.find({}).fetch(), (admin) => admin.username);
+    _.each(administrators, (username) => {
+      const { slackUser, dmChannel } = SlackUsers.findDoc({ username });
+      const text = `&lt;@${slackUser}> ${message}`;
+      (async () => {
+        await slackBot.client.chat.postMessage({
+          token: process.env.SLACK_BOT_TOKEN,
+          text,
+          channel: dmChannel,
+        });
+      })();
+    });
+  },
+});
+
+/**
+ * Meteor method used to send direct messages to an individual developer.
+ * @param developer the developer's Slack userID.
+ * @param message the message to send.
+ * @type {ValidatedMethod}
+ */
+export const sendDM2DeveloperMethod = new ValidatedMethod({
+  name: 'slack.sendToDeveloper',
+  mixins: [CallPromiseMixin],
+  validate: null,
+  run({ developer, message }) {
+    const { slackUser, dmChannel } = SlackUsers.findDoc({ username: developer });
+    const text = `&lt;@${slackUser}> ${message}`;
+    (async () => {
+      await slackBot.client.chat.postMessage({
+        token: process.env.SLACK_BOT_TOKEN,
+        text,
+        channel: dmChannel,
+      });
+    })();
+  },
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_Skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li><li><a href="BaseCollection.html">BaseCollection</a></li><li><a href="ChallengeCollection.html">ChallengeCollection</a></li><li><a href="ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="StuffCollection.html">StuffCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ChallengeInterests">ChallengeInterests</a></li><li><a href="global.html#Challenges">Challenges</a></li><li><a href="global.html#defineMethod">defineMethod</a></li><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#dumpDatabaseMethod">dumpDatabaseMethod</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleInterestArray">makeSampleInterestArray</a></li><li><a href="global.html#makeSampleInterestSlugArray">makeSampleInterestSlugArray</a></li><li><a href="global.html#makeSampleSkillArray">makeSampleSkillArray</a></li><li><a href="global.html#makeSampleSkillSlugArray">makeSampleSkillSlugArray</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#removeItMethod">removeItMethod</a></li><li><a href="global.html#ROLE">ROLE</a></li><li><a href="global.html#sendDM2AdministratorsMethod">sendDM2AdministratorsMethod</a></li><li><a href="global.html#sendDM2DeveloperMethod">sendDM2DeveloperMethod</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Aug 11 2020 11:27:12 GMT-1000 (Hawaii-Aleutian Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

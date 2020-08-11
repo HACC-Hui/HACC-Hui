@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: api/user/AdministratorCollection.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: api/user/AdministratorCollection.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Meteor } from 'meteor/meteor';
+import SimpleSchema from 'simpl-schema';
+import BaseSlugCollection from '../base/BaseSlugCollection';
+import { Slugs } from '../slug/SlugCollection';
+import { ROLE } from '../role/Role';
+import { Users } from './UserCollection';
+
+class AdministratorCollection extends BaseSlugCollection {
+  constructor() {
+    super('Administrator', new SimpleSchema({
+      username: { type: String },
+      slugID: { type: String },
+      firstName: { type: String },
+      lastName: { type: String },
+      userID: { type: SimpleSchema.RegEx.Id, optional: true },
+    }));
+  }
+
+  define({ username, firstName, lastName }) {
+    if (Meteor.isServer) {
+      const role = ROLE.ADMIN;
+      const slugID = Slugs.define({ name: username }); // ensure the usernames are unique
+      const profileID = this._collection.insert({ username, slugID, firstName, lastName });
+      Slugs.updateEntityID(slugID, profileID);
+      const { userID, password } = Users.define({ username, role });
+      this._collection.update(profileID, { $set: { userID } });
+      return { profileID, password };
+    }
+    return undefined;
+  }
+
+  update(docID, { firstName, lastName }) {
+    this.assertDefined(docID);
+    const updateData = {};
+    if (firstName) {
+      updateData.firstName = firstName;
+    }
+    if (lastName) {
+      updateData.lastName = lastName;
+    }
+    this._collection.update(docID, { $set: updateData });
+  }
+
+  removeIt(docID) {
+    super.removeIt(docID);
+  }
+
+  dumpOne(docID) {
+    this.assertDefined(docID);
+    const { username, firstName, lastName } = this.findDoc(docID);
+    return { username, firstName, lastName };
+  }
+
+  /**
+   * Returns non-null if the user has a profile in this collection.
+   * @param user The user (either their username (email) or their userID).
+   * @return The profile document if the profile exists, or null if not found.
+   * @throws { Meteor.Error } If user is not a valid user.
+   */
+  hasProfile(user) {
+    const userID = Users.getID(user);
+    return this.collection.findOne({ userID });
+  }
+
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN]);
+  }
+
+}
+
+export const Administrators = new AdministratorCollection();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_Skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li><li><a href="BaseCollection.html">BaseCollection</a></li><li><a href="ChallengeCollection.html">ChallengeCollection</a></li><li><a href="ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="StuffCollection.html">StuffCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ChallengeInterests">ChallengeInterests</a></li><li><a href="global.html#Challenges">Challenges</a></li><li><a href="global.html#defineMethod">defineMethod</a></li><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#dumpDatabaseMethod">dumpDatabaseMethod</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleInterestArray">makeSampleInterestArray</a></li><li><a href="global.html#makeSampleInterestSlugArray">makeSampleInterestSlugArray</a></li><li><a href="global.html#makeSampleSkillArray">makeSampleSkillArray</a></li><li><a href="global.html#makeSampleSkillSlugArray">makeSampleSkillSlugArray</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#removeItMethod">removeItMethod</a></li><li><a href="global.html#ROLE">ROLE</a></li><li><a href="global.html#sendDM2AdministratorsMethod">sendDM2AdministratorsMethod</a></li><li><a href="global.html#sendDM2DeveloperMethod">sendDM2DeveloperMethod</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Aug 11 2020 11:27:12 GMT-1000 (Hawaii-Aleutian Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

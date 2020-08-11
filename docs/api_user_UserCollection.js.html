@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: api/user/UserCollection.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: api/user/UserCollection.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Accounts } from 'meteor/accounts-base';
+import { Roles } from 'meteor/alanning:roles';
+import { Meteor } from 'meteor/meteor';
+import { _ } from 'lodash';
+import { Developers } from './DeveloperCollection';
+import { Administrators } from './AdministratorCollection';
+
+const xkpasswd = require('xkpasswd');
+
+const generatePassword = () => xkpasswd();
+
+class UserCollection {
+  constructor() {
+    this._collectionName = 'UserCollection';
+  }
+
+  define({ username, role }) {
+    const password = generatePassword();
+    console.log(`Defining user ${username} with password ${password}`);
+    const userID = Accounts.createUser({ username, email: username, password });
+    Roles.createRole(role, { unlessExists: true });
+    Roles.addUsersToRoles(userID, [role]);
+    return { userID, password };
+  }
+
+  /**
+   * Returns the userID associated with user, or throws an error if not defined.
+   * @param user The user (username or userID).
+   * @returns { String } The userID
+   * @throws { Meteor.Error } If user is not a defined username or userID.
+   */
+  getID(user) {
+    const userDoc = (Meteor.users.findOne({ _id: user })) || (Meteor.users.findOne({ username: user }));
+    if (!userDoc) {
+      console.error('Error: user is not defined: ', user);
+      // console.trace(`Error: user is not defined: ${user}`);
+      throw new Meteor.Error(`Error: user ${user} is not defined.`);
+    }
+    return userDoc._id;
+  }
+
+  /**
+   * Returns the profile document associated with user, or null if not found.
+   * Assumes that the user is defined. If not, throws an error.
+   * @param user The username or userID.
+   * @returns { Object | Null } The profile document or null if not found.
+   */
+  hasProfile(user) {
+    const userID = this.getID(user);
+    return Developers.hasProfile(userID) || Administrators.hasProfile(userID);
+  }
+
+  getProfile(user) {
+    // First, let's check to see if user is actually a profile (or looks like one). If so, just return it.
+    if (_.isObject(user) &amp;&amp; _.has(user, 'firstName') &amp;&amp; _.has(user, 'lastName') &amp;&amp; _.has(user, 'role')) {
+      return user;
+    }
+    const profile = this.hasProfile(user);
+    if (!profile) {
+      console.log(`No profile found for user ${user}`);
+      throw new Meteor.Error(`No profile found for user ${user}`);
+    }
+    return profile;
+
+  }
+}
+
+export const Users = new UserCollection();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_Skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li><li><a href="BaseCollection.html">BaseCollection</a></li><li><a href="ChallengeCollection.html">ChallengeCollection</a></li><li><a href="ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="StuffCollection.html">StuffCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ChallengeInterests">ChallengeInterests</a></li><li><a href="global.html#Challenges">Challenges</a></li><li><a href="global.html#defineMethod">defineMethod</a></li><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#dumpDatabaseMethod">dumpDatabaseMethod</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleInterestArray">makeSampleInterestArray</a></li><li><a href="global.html#makeSampleInterestSlugArray">makeSampleInterestSlugArray</a></li><li><a href="global.html#makeSampleSkillArray">makeSampleSkillArray</a></li><li><a href="global.html#makeSampleSkillSlugArray">makeSampleSkillSlugArray</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#removeItMethod">removeItMethod</a></li><li><a href="global.html#ROLE">ROLE</a></li><li><a href="global.html#sendDM2AdministratorsMethod">sendDM2AdministratorsMethod</a></li><li><a href="global.html#sendDM2DeveloperMethod">sendDM2DeveloperMethod</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Aug 11 2020 11:27:12 GMT-1000 (Hawaii-Aleutian Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

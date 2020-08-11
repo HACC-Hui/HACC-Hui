@@ -144,6 +144,6 @@ class BaseSlugCollection extends BaseCollection {
 }
 
 /**
- * Provide this class for use by instance collections such as Interest.
+ * Base class for collections with slugs.
  */
 export default BaseSlugCollection;

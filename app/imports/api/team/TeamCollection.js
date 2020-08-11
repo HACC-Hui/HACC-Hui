@@ -17,15 +17,32 @@ class TeamCollection extends BaseSlugCollection {
       name: { type: String },
       slugID: { type: String },
       description: { type: String },
+      gitHubRepo: { type: String },
+      devPostPage: { type: String },
       owner: { type: SimpleSchema.RegEx.Id },
       open: { type: Boolean },
     }));
   }
 
-  define({ name, description = '', owner, open = true, challenges, skills, tools, developers = [] }) {
+  /**
+   * Defines a new Team.
+   * @param name The name of the Team.
+   * @param description The team's description, optional.
+   * @param gitHubRepo The team's GitHub Repository, optional.
+   * @param devPostPage The team's devpost page, optional.
+   * @param owner The team owner.
+   * @param open is the team open for developers?
+   * @param challenges the challenges this team wants to work on.
+   * @param skills the skills this team is looking for.
+   * @param tools the tools this team wants to use.
+   * @param developers the developers on the team.
+   * @return {string} the id of the team.
+   */
+  define({ name, description = '', gitHubRepo = '', devPostPage = '',
+           owner, open = true, challenges, skills, tools, developers = [] }) {
     const team = slugify(name);
     const slugID = Slugs.define({ name: team });
-    const teamID = this._collection.insert({ name, slugID, description, owner, open });
+    const teamID = this._collection.insert({ name, slugID, description, gitHubRepo, devPostPage, owner, open });
     // Connect the Slug to this Interest
     Slugs.updateEntityID(slugID, teamID);
     _.each(challenges, (challenge) => TeamChallenges.define({ team, challenge }));

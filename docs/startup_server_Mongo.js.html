@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: startup/server/Mongo.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: startup/server/Mongo.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Meteor } from 'meteor/meteor';
+import { _ } from 'lodash';
+import moment from 'moment';
+import { HACCHui } from '../../api/hacc-hui/HACCHui';
+
+/** global Assets */
+
+function documentCounts() {
+  return _.map(HACCHui.collectionLoadSequence, (collection) => collection.count());
+}
+
+function totalDocuments() {
+  return _.reduce(documentCounts(), (sum, count) => sum + count, 0);
+}
+
+/**
+ * The load/fixture file date format.
+ * Used when dumping and restoring the HACC-Hui database.
+ * @type {string}
+ */
+const loadFileDateFormat = 'YYYY-MM-DD-HH-mm-ss';
+
+/**
+ * Returns a string indicating how long ago the load file was created. Parses the file name string.
+ * @param loadFileName The file name.
+ * @returns { String } A string indicating how long ago the file was created.
+ * @memberOf startup/server
+ */
+function getRestoreFileAge(loadFileName) {
+  const terms = _.words(loadFileName, /[^/. ]+/g);
+  const dateString = terms[terms.length - 2];
+  return moment(dateString, loadFileDateFormat).fromNow();
+}
+
+/**
+ * Returns the definition array associated with collectionName in the loadJSON structure,
+ * or an empty array if none was found.
+ * @param loadJSON The load file contents.
+ * @param collection The collection of interest.
+ * @memberOf api/test
+ */
+export function getDefinitions(loadJSON, collection) {
+  const definitionObj = _.find(loadJSON.collections, (obj) => obj.name === collection);
+  return definitionObj ? definitionObj.contents : [];
+}
+
+/**
+ * Given a collection and the loadJSON structure, looks up the definitions and invokes define() on them.
+ * @param collection The collection to be loadd.
+ * @param loadJSON The structure containing all of the definitions.
+ * @param consolep output console.log message if truey.
+ * @memberOf api/test
+ */
+export function loadCollection(collection, loadJSON, consolep) {
+  const definitions = getDefinitions(loadJSON, collection._collectionName);
+  if (consolep) {
+    console.log(`Defining ${definitions.length} ${collection._collectionName} documents.`);
+  }
+  _.each(definitions, (definition) => collection.define(definition));
+  if (consolep) {
+    console.log(`Have ${collection.find().count()} documents.`);
+  }
+}
+
+/**
+ * If the database is empty, this function looks up the name of the load file in the settings file,
+ * and if it is specified, then it reads it in and calls define() on its contents in order to load the database.
+ * Console messages are generated when the contents of the load file does not include collections that
+ * this function assumes are present. Conversely, if the load file contains collections not processed with
+ * this file, a string is also printed out.
+ * @memberOf startup/server
+ */
+function loadDatabase() {
+  const loadFileName = Meteor.settings.databaseRestoreFileName;
+  if (loadFileName &amp;&amp; totalDocuments() === 0) {
+    const loadFileAge = getRestoreFileAge(loadFileName);
+    console.log(`Loading database from file ${loadFileName}, dumped ${loadFileAge}.`);
+    const loadJSON = JSON.parse(Assets.getText(loadFileName));
+    // The list of collections, ordered so that they can be sequentially restored.
+    const collectionList = HACCHui.collectionLoadSequence;
+    const loadNames = _.map(loadJSON.collections, (obj) => obj.name);
+    const collectionNames = _.map(collectionList, (collection) => collection.getCollectionName());
+    const extraRestoreNames = _.difference(loadNames, collectionNames);
+    const extraCollectionNames = _.difference(collectionNames, loadNames);
+    if (extraRestoreNames.length) {
+      console.log(`Error: Expected collections are missing from collection list: ${extraRestoreNames}`);
+    }
+    if (extraCollectionNames.length) {
+      console.log(`Error: Expected collections are missing from restore JSON file: ${extraCollectionNames}`);
+    }
+    if (!extraRestoreNames.length &amp;&amp; !extraCollectionNames.length) {
+      _.each(collectionList, (collection) => loadCollection(collection, loadJSON, true));
+    }
+    console.log('Finished loading database.');
+  }
+}
+
+Meteor.startup(() => {
+  loadDatabase();
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_Skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li><li><a href="BaseCollection.html">BaseCollection</a></li><li><a href="ChallengeCollection.html">ChallengeCollection</a></li><li><a href="ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="StuffCollection.html">StuffCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ChallengeInterests">ChallengeInterests</a></li><li><a href="global.html#Challenges">Challenges</a></li><li><a href="global.html#defineMethod">defineMethod</a></li><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#dumpDatabaseMethod">dumpDatabaseMethod</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleInterestArray">makeSampleInterestArray</a></li><li><a href="global.html#makeSampleInterestSlugArray">makeSampleInterestSlugArray</a></li><li><a href="global.html#makeSampleSkillArray">makeSampleSkillArray</a></li><li><a href="global.html#makeSampleSkillSlugArray">makeSampleSkillSlugArray</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#removeItMethod">removeItMethod</a></li><li><a href="global.html#ROLE">ROLE</a></li><li><a href="global.html#sendDM2AdministratorsMethod">sendDM2AdministratorsMethod</a></li><li><a href="global.html#sendDM2DeveloperMethod">sendDM2DeveloperMethod</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Aug 11 2020 11:27:12 GMT-1000 (Hawaii-Aleutian Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

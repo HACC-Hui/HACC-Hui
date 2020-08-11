@@ -7,7 +7,7 @@ import { ROLE } from '../role/Role';
 
 class BaseCollection {
   /**
-   * Superclass constructor for all HACC Hui entities.
+   * Superclass constructor for all HACC-Hui entities.
    * Defines internal fields needed by all entities: _type, _collectionName, _collection, and _schema.
    * @param {String} type The name of the entity defined by the subclass.
    * @param {SimpleSchema} schema The schema for validating fields on insertion to the DB.
@@ -251,6 +251,6 @@ class BaseCollection {
 }
 
 /**
- * The BaseCollection used by all HACC Hui entities.
+ * The BaseCollection used by all HACC-Hui collections.
  */
 export default BaseCollection;

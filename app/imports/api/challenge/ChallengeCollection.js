@@ -5,7 +5,13 @@ import { Interests } from '../interest/InterestCollection';
 import BaseSlugCollection from '../base/BaseSlugCollection';
 import slugify, { Slugs } from '../slug/SlugCollection';
 
+/**
+ * ChallengeCollection holds all the HACC-Hui challenges.
+ */
 class ChallengeCollection extends BaseSlugCollection {
+  /**
+   * @constructor
+   */
   constructor() {
     super('Challenge', new SimpleSchema({
       title: { type: String },
@@ -16,6 +22,15 @@ class ChallengeCollection extends BaseSlugCollection {
     }));
   }
 
+  /**
+   * Defines a new challenge.
+   * @param title {string} the challenge's title.
+   * @param description {string} the challenge's description.
+   * @param interests {string[]} the interest slugs associated with the challenge.
+   * @param submissionDetail {string} the submission details.
+   * @param pitch {string} the URL to the pitch.
+   * @return {string} the id of the new challenge.
+   */
   define({ title, description, interests, submissionDetail, pitch }) {
     const docs = this.find({ title, description, submissionDetail, pitch }).fetch();
     if (docs && docs.length > 0) {
@@ -44,6 +59,14 @@ class ChallengeCollection extends BaseSlugCollection {
     return challengeID;
   }
 
+  /**
+   * Updates the given challenge.
+   * @param docID {string} the docID of the challenge to update.
+   * @param description {string} the new description, optional.
+   * @param interestIDs {string[]} the new interest slugs, optional.
+   * @param submissionDetail {string} the new submission details, optional.
+   * @param pitch {string} the new pitch URL, optional.
+   */
   update(docID, { description, interestIDs, submissionDetail, pitch }) {
     this.assertDefined(docID);
     const updateData = {};
@@ -87,4 +110,5 @@ class ChallengeCollection extends BaseSlugCollection {
   }
 }
 
+/** Singleton instance of the ChallengeCollection */
 export const Challenges = new ChallengeCollection();

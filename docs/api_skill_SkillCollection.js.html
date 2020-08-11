@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: api/skill/SkillCollection.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: api/skill/SkillCollection.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import SimpleSchema from 'simpl-schema';
+import slugify, { Slugs } from '../slug/SlugCollection';
+import BaseSlugCollection from '../base/BaseSlugCollection';
+
+/**
+ * Represents a specific Skill, such as "Software Engineering".
+ * @extends api/base.BaseSlugCollection
+ * @memberOf api/Skill
+ */
+class SkillCollection extends BaseSlugCollection {
+  /**
+   * Creates the Skill collection.
+   */
+  constructor() {
+    super('Skill', new SimpleSchema({
+      name: { type: String },
+      slugID: { type: SimpleSchema.RegEx.Id },
+      description: { type: String },
+    }));
+  }
+
+  /**
+   * Defines a new Skill and its associated Slug.
+   * @example
+   * Skills.define({ name: 'Software Engineering',
+   *                    description: 'Methods for group development of large, high quality software systems',
+   * });
+   * @param { Object } description Object with keys name, slug, description.
+   * Slug must be previously undefined.
+   * @throws {Meteor.Error} If the Skill definition includes a defined slug.
+   * @returns The newly created docID.
+   */
+  define({
+           name,
+           description,
+         }) {
+    const slug = slugify(name); // we automatically build the slug from the name.
+    // Get SlugID, throw error if found.
+    const slugID = Slugs.define({ name: slug });
+    // Define the Skill and get its ID
+    const SkillID = this._collection.insert({
+      name, description, slugID,
+    });
+    // Connect the Slug to this Skill
+    Slugs.updateEntityID(slugID, SkillID);
+    return SkillID;
+  }
+
+  /**
+   * Update an Skill.
+   * @param docID The docID to be updated.
+   * @param name The new name (optional).
+   * @param description The new description (optional).
+   * @throws { Meteor.Error } If docID is not defined.
+   */
+  update(docID, {
+    name, description,
+  }) {
+    this.assertDefined(docID);
+    const updateData = {};
+    if (name) {
+      updateData.name = name;
+    }
+    if (description) {
+      updateData.description = description;
+    }
+    this._collection.update(docID, { $set: updateData });
+  }
+
+  /**
+   * Remove the Skill.
+   * @param instance The docID or slug of the entity to be removed.
+   * @throws { Meteor.Error } If Skill is associated with any Challenge.
+   */
+  removeIt(instance) {
+    const docID = this.getID(instance);
+    // Check that this Skill is not referenced by any Team, Developer, or Challenge.
+
+    // OK, clear to delete.
+    super.removeIt(docID);
+  }
+
+  dumpOne(docID) {
+    const doc = this.findDoc(docID);
+    const { name, description } = doc;
+    return { name, description };
+  }
+}
+
+export const Skills = new SkillCollection();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_Skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li><li><a href="BaseCollection.html">BaseCollection</a></li><li><a href="ChallengeCollection.html">ChallengeCollection</a></li><li><a href="ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="StuffCollection.html">StuffCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ChallengeInterests">ChallengeInterests</a></li><li><a href="global.html#Challenges">Challenges</a></li><li><a href="global.html#defineMethod">defineMethod</a></li><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#dumpDatabaseMethod">dumpDatabaseMethod</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleInterestArray">makeSampleInterestArray</a></li><li><a href="global.html#makeSampleInterestSlugArray">makeSampleInterestSlugArray</a></li><li><a href="global.html#makeSampleSkillArray">makeSampleSkillArray</a></li><li><a href="global.html#makeSampleSkillSlugArray">makeSampleSkillSlugArray</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#removeItMethod">removeItMethod</a></li><li><a href="global.html#ROLE">ROLE</a></li><li><a href="global.html#sendDM2AdministratorsMethod">sendDM2AdministratorsMethod</a></li><li><a href="global.html#sendDM2DeveloperMethod">sendDM2DeveloperMethod</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Aug 11 2020 11:27:12 GMT-1000 (Hawaii-Aleutian Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -11,6 +11,9 @@ export const stuffPublications = {
   stuffAdmin: 'StuffAdmin',
 };
 
+/**
+ * The StuffCollection **deprecated**.
+ */
 class StuffCollection extends BaseCollection {
   constructor() {
     super('Stuffs', new SimpleSchema({
@@ -128,6 +131,6 @@ class StuffCollection extends BaseCollection {
 }
 
 /**
- * Provides the singleton instance of this class to all other entities.
+ * Provides the singleton instance of this class to all other entities, **deprecated**.
  */
 export const Stuffs = new StuffCollection();

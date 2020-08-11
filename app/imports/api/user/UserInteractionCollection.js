@@ -41,7 +41,6 @@ class UserInteractionCollection extends BaseCollection {
     this.assertRole(userId, [ROLE.ADMIN]);
   }
 
-
   assertValidRoleForMethod(userId) {
     this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
   }
