@@ -68,7 +68,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_Skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li><li><a href="BaseCollection.html">BaseCollection</a></li><li><a href="ChallengeCollection.html">ChallengeCollection</a></li><li><a href="ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="StuffCollection.html">StuffCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ChallengeInterests">ChallengeInterests</a></li><li><a href="global.html#Challenges">Challenges</a></li><li><a href="global.html#defineMethod">defineMethod</a></li><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#dumpDatabaseMethod">dumpDatabaseMethod</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleInterestArray">makeSampleInterestArray</a></li><li><a href="global.html#makeSampleInterestSlugArray">makeSampleInterestSlugArray</a></li><li><a href="global.html#makeSampleSkillArray">makeSampleSkillArray</a></li><li><a href="global.html#makeSampleSkillSlugArray">makeSampleSkillSlugArray</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#removeItMethod">removeItMethod</a></li><li><a href="global.html#ROLE">ROLE</a></li><li><a href="global.html#sendDM2AdministratorsMethod">sendDM2AdministratorsMethod</a></li><li><a href="global.html#sendDM2DeveloperMethod">sendDM2DeveloperMethod</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="api_base.html">api/base</a></li><li><a href="api_challenge.html">api/challenge</a></li><li><a href="api_stuff.html">api/stuff</a></li><li><a href="test-utilities.html">test-utilities</a></li></ul><h3>Classes</h3><ul><li><a href="api_base.BaseCollection.html">BaseCollection</a></li><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_challenge.ChallengeCollection.html">ChallengeCollection</a></li><li><a href="api_challenge.ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_Skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_stuff.StuffCollection.html">StuffCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ChallengeInterests">ChallengeInterests</a></li><li><a href="global.html#Challenges">Challenges</a></li><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleInterestArray">makeSampleInterestArray</a></li><li><a href="global.html#makeSampleInterestSlugArray">makeSampleInterestSlugArray</a></li><li><a href="global.html#makeSampleSkillArray">makeSampleSkillArray</a></li><li><a href="global.html#makeSampleSkillSlugArray">makeSampleSkillSlugArray</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#ROLE">ROLE</a></li><li><a href="global.html#sendDM2AdministratorsMethod">sendDM2AdministratorsMethod</a></li><li><a href="global.html#sendDM2DeveloperMethod">sendDM2DeveloperMethod</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul></div>
                 
             </nav>
         </div>
@@ -90,6 +90,11 @@ import BaseCollection from '../base/BaseCollection';
 import { Challenges } from './ChallengeCollection';
 import { Interests } from '../interest/InterestCollection';
 
+/**
+ * ChallengeInterestsCollections maps the Interests to the Challenges.
+ * @memberOf api/challenge
+ * @extends api/base.BaseCollection
+ */
 class ChallengeInterestCollection extends BaseCollection {
   /**
    * Creates the ChallengeInterest collection.
@@ -101,6 +106,12 @@ class ChallengeInterestCollection extends BaseCollection {
     }));
   }
 
+  /**
+   * Defines a link between the challenge and the interest.
+   * @param challenge {string} the challenge slug or id.
+   * @param interest {string} the interest slug or id.
+   * @return {string} The id of the record.
+   */
   define({ challenge, interest }) {
     const challengeID = Challenges.getID(challenge);
     const interestID = Interests.findIdBySlug(interest);
@@ -110,9 +121,9 @@ class ChallengeInterestCollection extends BaseCollection {
 
   /**
    * Updates the Challenge-Interest pair.
-   * @param docID the id of the record.
-   * @param challenge the challenge slug or ID.
-   * @param interest the interest slug or ID.
+   * @param docID {string} the id of the record.
+   * @param challenge {string} the challenge slug or ID, optional.
+   * @param interest {string} the interest slug or ID, optional.
    */
   update(docID, { challenge, interest }) {
     this.assertDefined(docID);
@@ -126,15 +137,28 @@ class ChallengeInterestCollection extends BaseCollection {
     this._collection.update(docID, { $set: updateData });
   }
 
+  /**
+   * Removes the Challenge-Interest pair.
+   * @param docID {string} the id of the pair.
+   * @throws {Meteor.Exception} if the docID is not defined.
+   */
   removeIt(docID) {
     super.removeIt(docID);
   }
 
+  /**
+   * Removes all the Challenge-Interest pairs for the given challenge.
+   * @param challenge {string} the challenge slug or ID.
+   */
   removeChallenge(challenge) {
     const challengeID = Challenges.getID(challenge);
     this._collection.remove({ challengeID });
   }
 
+  /**
+   * Removes all the Challenge-Interest pairs for the given interest.
+   * @param interest {string} the interest slug or ID.
+   */
   removeInterest(interest) {
     const interestID = Interests.getID(interest);
     this._collection.remove({ interestID });

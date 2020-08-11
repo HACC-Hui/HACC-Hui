@@ -4,7 +4,15 @@ import { _ } from 'lodash';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../role/Role';
+/** @namespace api/base */
 
+/**
+ * BaseCollection is an abstract superclass of all HACC-Hui collections.
+ * It is the direct superclass for SlugCollection and others.
+ * Other collection classes are derived from BaseSlugCollection which is an abstract
+ * class that inherit from this one.
+ * @memberOf api/base
+ */
 class BaseCollection {
   /**
    * Superclass constructor for all HACC-Hui entities.

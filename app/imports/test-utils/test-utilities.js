@@ -7,6 +7,8 @@ import { Roles } from 'meteor/alanning:roles';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 import { Stuffs } from '../api/stuff/StuffCollection';
 
+/** @namespace test-utilities */
+
 export function withSubscriptions() {
   return new Promise((resolve => {
     // Add the collections to subscribe to.

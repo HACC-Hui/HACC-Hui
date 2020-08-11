@@ -5,6 +5,8 @@ import { _ } from 'lodash';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 
+/** @namespace api/stuff */
+
 export const stuffConditions = ['excellent', 'good', 'fair', 'poor'];
 export const stuffPublications = {
   stuff: 'Stuff',
@@ -13,6 +15,8 @@ export const stuffPublications = {
 
 /**
  * The StuffCollection **deprecated**.
+ * @memberOf api/stuff
+ * @extends api/base.BaseCollection
  */
 class StuffCollection extends BaseCollection {
   constructor() {

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> api/interest/InterestCollection.js</title>
+  <title> api/challenge</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -75,109 +73,109 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Source</p>
-                    <h1>api/interest/InterestCollection.js</h1>
+                    <p>Namespace</p>
+                    <h1>api/challenge</h1>
                 </header>
                 
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import SimpleSchema from 'simpl-schema';
-import slugify, { Slugs } from '../slug/SlugCollection';
-import BaseSlugCollection from '../base/BaseSlugCollection';
+        <h2>api/challenge</h2>
+        
+    
+</header>
 
-/**
- * Represents a specific interest, such as "Software Engineering".
- * @extends api/base.BaseSlugCollection
- * @memberOf api/interest
- */
-class InterestCollection extends BaseSlugCollection {
-  /**
-   * Creates the Interest collection.
-   */
-  constructor() {
-    super('Interest', new SimpleSchema({
-      name: { type: String },
-      slugID: { type: SimpleSchema.RegEx.Id },
-      description: { type: String },
-    }));
-  }
+<article>
+    <div class="container-overview">
+    
+        
 
-  /**
-   * Defines a new Interest and its associated Slug.
-   * @example
-   * Interests.define({ name: 'Software Engineering',
-   *                    description: 'Methods for group development of large, high quality software systems',
-   * });
-   * @param { Object } description Object with keys name, slug, description.
-   * Slug must be previously undefined.
-   * @throws {Meteor.Error} If the interest definition includes a defined slug.
-   * @returns The newly created docID.
-   */
-  define({
-           name,
-           description,
-         }) {
-    const slug = slugify(name); // we automatically build the slug from the name.
-    // Get SlugID, throw error if found.
-    const slugID = Slugs.define({ name: slug });
-    // Define the Interest and get its ID
-    const interestID = this._collection.insert({
-      name, description, slugID,
-    });
-    // Connect the Slug to this Interest
-    Slugs.updateEntityID(slugID, interestID);
-    return interestID;
-  }
+        
 
-  /**
-   * Update an Interest.
-   * @param docID The docID to be updated.
-   * @param name The new name (optional).
-   * @param description The new description (optional).
-   * @throws { Meteor.Error } If docID is not defined.
-   */
-  update(docID, {
-    name, description,
-  }) {
-    this.assertDefined(docID);
-    const updateData = {};
-    if (name) {
-      updateData.name = name;
-    }
-    if (description) {
-      updateData.description = description;
-    }
-    this._collection.update(docID, { $set: updateData });
-  }
 
-  /**
-   * Remove the Interest.
-   * @param instance The docID or slug of the entity to be removed.
-   * @throws { Meteor.Error } If Interest is associated with any Challenge.
-   */
-  removeIt(instance) {
-    const docID = this.getID(instance);
-    // Check that this interest is not referenced by any Team, Developer, or Challenge.
+<dl class="details">
 
-    // OK, clear to delete.
-    super.removeIt(docID);
-  }
+    
 
-  dumpOne(docID) {
-    const doc = this.findDoc(docID);
-    const { name, description } = doc;
-    return { name, description };
-  }
-}
+    
 
-export const Interests = new InterestCollection();
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="api_challenge_ChallengeCollection.js.html" class="button">View Source</a>
+            <span>
+                <a href="api_challenge_ChallengeCollection.js.html">api/challenge/ChallengeCollection.js</a>, <a href="api_challenge_ChallengeCollection.js.html#line8">line 8</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="api_challenge.ChallengeCollection.html">ChallengeCollection</a></dt>
+            <dd></dd>
+        
+            <dt><a href="api_challenge.ChallengeInterestCollection.html">ChallengeInterestCollection</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

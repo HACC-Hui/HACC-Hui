@@ -5,13 +5,14 @@ import { Interests } from '../interest/InterestCollection';
 import BaseSlugCollection from '../base/BaseSlugCollection';
 import slugify, { Slugs } from '../slug/SlugCollection';
 
+/** @namespace api/challenge */
+
 /**
  * ChallengeCollection holds all the HACC-Hui challenges.
+ * @extends api/base.BaseSlugCollection
+ * @memberOf api/challenge
  */
 class ChallengeCollection extends BaseSlugCollection {
-  /**
-   * @constructor
-   */
   constructor() {
     super('Challenge', new SimpleSchema({
       title: { type: String },

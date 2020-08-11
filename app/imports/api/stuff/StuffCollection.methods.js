@@ -7,7 +7,7 @@ import { Stuffs } from './StuffCollection';
  * Meteor method used to define new instances of the given collection name.
  * @param collectionName the name of the collection.
  * @param definitionDate the object used in the collection.define method.
- * @memberOf api/base
+ * @memberOf api/stuff
  */
 export const stuffDefineMethod = new ValidatedMethod({
   name: 'StuffCollection.define',
