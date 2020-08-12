@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> api/interest/InterestCollection.js</title>
+  <title> api/team</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -75,121 +73,199 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Source</p>
-                    <h1>api/interest/InterestCollection.js</h1>
+                    <p>Namespace</p>
+                    <h1>api/team</h1>
                 </header>
                 
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import SimpleSchema from 'simpl-schema';
-import slugify, { Slugs } from '../slug/SlugCollection';
-import BaseSlugCollection from '../base/BaseSlugCollection';
+        <h2>api/team</h2>
+        
+    
+</header>
 
-/** @namespace api/interest */
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * Represents a specific interest, such as "Sustainability".
- * @extends api/base.BaseSlugCollection
- * @memberOf api/interest
- */
-class InterestCollection extends BaseSlugCollection {
-  /**
-   * Creates the Interest collection.
-   */
-  constructor() {
-    super('Interest', new SimpleSchema({
-      name: { type: String },
-      slugID: { type: SimpleSchema.RegEx.Id },
-      description: { type: String },
-    }));
-  }
+        
 
-  /**
-   * Defines a new Interest and its associated Slug.
-   * @example
-   * Interests.define({ name: 'Software Engineering',
-   *                    description: 'Methods for group development of large, high quality software systems',
-   * });
-   * @param { Object } description Object with keys name, slug, description.
-   * Slug must be previously undefined.
-   * @throws {Meteor.Error} If the interest definition includes a defined slug.
-   * @returns {string} The newly created docID.
-   */
-  define({
-           name,
-           description,
-         }) {
-    const slug = slugify(name); // we automatically build the slug from the name.
-    // Get SlugID, throw error if found.
-    const slugID = Slugs.define({ name: slug });
-    // Define the Interest and get its ID
-    const interestID = this._collection.insert({
-      name, description, slugID,
-    });
-    // Connect the Slug to this Interest
-    Slugs.updateEntityID(slugID, interestID);
-    return interestID;
-  }
 
-  /**
-   * Update an Interest.
-   * @param docID {string} The docID to be updated.
-   * @param name {string} The new name (optional).
-   * @param description {string} The new description (optional).
-   * @throws { Meteor.Error } If docID is not defined.
-   */
-  update(docID, {
-    name, description,
-  }) {
-    this.assertDefined(docID);
-    const updateData = {};
-    if (name) {
-      updateData.name = name;
-    }
-    if (description) {
-      updateData.description = description;
-    }
-    this._collection.update(docID, { $set: updateData });
-  }
+<dl class="details">
 
-  /**
-   * Remove the Interest.
-   * @param instance {string} The docID or slug of the entity to be removed.
-   * @throws { Meteor.Error } If Interest is associated with any Challenge.
-   */
-  removeIt(instance) {
-    const docID = this.getID(instance);
-    // Check that this interest is not referenced by any Team, Developer, or Challenge.
+    
 
-    // OK, clear to delete.
-    super.removeIt(docID);
-  }
+    
 
-  /**
-   * Returns an object representing the given interest.
-   * @param docID {string} the ID to get.
-   * @return {{name: *, description: *}}
-   */
-  dumpOne(docID) {
-    const doc = this.findDoc(docID);
-    const { name, description } = doc;
-    return { name, description };
-  }
-}
+    
 
-/**
- * Singleton instance of the InterestCollection.
- * @type {api/interest.InterestCollection}
- * @memberOf api/interest
- */
-export const Interests = new InterestCollection();
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="api_team_TeamCollection.js.html" class="button">View Source</a>
+            <span>
+                <a href="api_team_TeamCollection.js.html">api/team/TeamCollection.js</a>, <a href="api_team_TeamCollection.js.html#line14">line 14</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="api_team.TeamChallengeCollection.html">TeamChallengeCollection</a></dt>
+            <dd></dd>
+        
+            <dt><a href="api_team.TeamCollection.html">TeamCollection</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Members</h1>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="api_team.TeamChallengeCollection.html">api/team.TeamChallengeCollection</a></span>
+
+
+    </span>
+
+<h4 class="name" id=".exports.TeamChallenges">
+    <a class="href-link" href="#.exports.TeamChallenges">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        exports.TeamChallenges
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Singleton instance of the TeamChallengeCollection.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="api_team_TeamChallengeCollection.js.html" class="button">View Source</a>
+            <span>
+                <a href="api_team_TeamChallengeCollection.js.html">api/team/TeamChallengeCollection.js</a>, <a href="api_team_TeamChallengeCollection.js.html#line92">line 92</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

@@ -1,7 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 import { _ } from 'lodash';
 import BaseSlugCollection from '../base/BaseSlugCollection';
-import slugify, { Slugs } from '../slug/SlugCollection';
+import { slugify, Slugs } from '../slug/SlugCollection';
 import { TeamChallenges } from './TeamChallengeCollection';
 import { TeamSkills } from './TeamSkillCollection';
 import { TeamTools } from './TeamToolCollection';
@@ -11,6 +11,13 @@ import { Developers } from '../user/DeveloperCollection';
 import { Skills } from '../skill/SkillCollection';
 import { Tools } from '../tool/ToolCollection';
 
+/** @namespace api/team */
+
+/**
+ * TeamCollection holds the information for each of the HACC-Hui teams.
+ * @extends api/base.BaseSlugCollection
+ * @memberOf api/team
+ */
 class TeamCollection extends BaseSlugCollection {
   constructor() {
     super('Team', new SimpleSchema({
@@ -26,16 +33,16 @@ class TeamCollection extends BaseSlugCollection {
 
   /**
    * Defines a new Team.
-   * @param name The name of the Team.
-   * @param description The team's description, optional.
-   * @param gitHubRepo The team's GitHub Repository, optional.
-   * @param devPostPage The team's devpost page, optional.
-   * @param owner The team owner.
-   * @param open is the team open for developers?
-   * @param challenges the challenges this team wants to work on.
-   * @param skills the skills this team is looking for.
-   * @param tools the tools this team wants to use.
-   * @param developers the developers on the team.
+   * @param name {String} The name of the Team.
+   * @param description {String} The team's description, optional.
+   * @param gitHubRepo {String} The team's GitHub Repository, optional.
+   * @param devPostPage {String} The team's devpost page, optional.
+   * @param owner {String} The team owner.
+   * @param open {boolean} is the team open for developers?
+   * @param challenges {string[]} the challenges this team wants to work on.
+   * @param skills {string[]} the skills this team is looking for.
+   * @param tools {string[]} the tools this team wants to use.
+   * @param developers {string[]} the developers on the team.
    * @return {string} the id of the team.
    */
   define({ name, description = '', gitHubRepo = '', devPostPage = '',
@@ -53,6 +60,17 @@ class TeamCollection extends BaseSlugCollection {
     return teamID;
   }
 
+  /**
+   * Updates the given team.
+   * @param docID {String} the ID or slug of the team.
+   * @param name {String} the new team name (optional).
+   * @param description {String} the new team description (optional).
+   * @param open {boolean} the new open value (optional).
+   * @param challenges {String[]} the new set of challenges (optional).
+   * @param skills {String[]} the new set of skills (optional).
+   * @param tools {String[]} the new set of tools (optional).
+   * @param developers {String[]} the new set of developers (optional).
+   */
   update(docID, { name, description, open, challenges, skills, tools, developers }) {
     this.assertDefined(docID);
     const updateData = {};
@@ -91,6 +109,11 @@ class TeamCollection extends BaseSlugCollection {
     }
   }
 
+  /**
+   * Removes the given team.
+   * @param docID {String} the ID of the team to remove.
+   * @throws {Meteor.Error} if the team isn't defined.
+   */
   removeIt(docID) {
     this.assertDefined(docID);
     const team = this.findSlugByID(docID);
@@ -101,6 +124,13 @@ class TeamCollection extends BaseSlugCollection {
     this._collection.remove({ _id: docID });
   }
 
+  /**
+   * Returns an object representing the given team.
+   * @param docID {string} the ID of the team.
+   * @return {{owner: *, skills: Array, challenges: Array, developers: Array, name: *,
+   *   description: *, tools: Array, open: *}}
+   * @throws {Meteor.Error} if the team isn't defined.
+   */
   dumpOne(docID) {
     this.assertDefined(docID);
     const { name, description, owner, open } = this.findDoc(docID);

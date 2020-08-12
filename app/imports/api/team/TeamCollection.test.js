@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { expect } from 'chai';
 import moment from 'moment';
 import fc from 'fast-check';
-// import faker from 'faker';
+import faker from 'faker';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Teams } from './TeamCollection';
 import { makeSampleChallengeSlugArray } from '../challenge/SampleChallenges';
@@ -36,7 +36,10 @@ if (Meteor.isServer) {
             const challenges = makeSampleChallengeSlugArray();
             const tools = makeSampleToolSlugArray();
             const skills = makeSampleSkillSlugArray();
-            const docID = Teams.define({ name, description, open, owner, challenges, tools, skills });
+            const gitHubRepo = faker.internet.url();
+            const devPostPage = faker.internet.url();
+            const docID = Teams.define({ name, description, open, owner, gitHubRepo,
+              devPostPage, challenges, tools, skills });
             expect(Teams.isDefined(docID)).to.be.true;
             const doc = Teams.findDoc(docID);
             expect(doc.name).to.equal(name);

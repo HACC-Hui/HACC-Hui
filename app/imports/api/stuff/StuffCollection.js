@@ -5,9 +5,23 @@ import { _ } from 'lodash';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 
-/** @namespace api/stuff */
+/**
+ * **deprecated**
+ *  @namespace api/stuff
+ */
 
+/**
+ * The different conditions for stuff.
+ * @type {string[]}
+ * @memberOf api/stuff
+ */
 export const stuffConditions = ['excellent', 'good', 'fair', 'poor'];
+
+/**
+ * The publication names for the StuffCollection.
+ * @type {{stuffAdmin: string, stuff: string}}
+ * @memberOf api/stuff
+ */
 export const stuffPublications = {
   stuff: 'Stuff',
   stuffAdmin: 'StuffAdmin',
@@ -135,6 +149,7 @@ class StuffCollection extends BaseCollection {
 }
 
 /**
- * Provides the singleton instance of this class to all other entities, **deprecated**.
+ * Singleton instance of the StuffCollection, **deprecated**.
+ * @type {api/stuff.StuffCollection}
  */
 export const Stuffs = new StuffCollection();

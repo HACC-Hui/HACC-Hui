@@ -68,7 +68,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="api_base.html">api/base</a></li><li><a href="api_challenge.html">api/challenge</a></li><li><a href="api_stuff.html">api/stuff</a></li><li><a href="test-utilities.html">test-utilities</a></li></ul><h3>Classes</h3><ul><li><a href="api_base.BaseCollection.html">BaseCollection</a></li><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_challenge.ChallengeCollection.html">ChallengeCollection</a></li><li><a href="api_challenge.ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_Skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_stuff.StuffCollection.html">StuffCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ChallengeInterests">ChallengeInterests</a></li><li><a href="global.html#Challenges">Challenges</a></li><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleInterestArray">makeSampleInterestArray</a></li><li><a href="global.html#makeSampleInterestSlugArray">makeSampleInterestSlugArray</a></li><li><a href="global.html#makeSampleSkillArray">makeSampleSkillArray</a></li><li><a href="global.html#makeSampleSkillSlugArray">makeSampleSkillSlugArray</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#ROLE">ROLE</a></li><li><a href="global.html#sendDM2AdministratorsMethod">sendDM2AdministratorsMethod</a></li><li><a href="global.html#sendDM2DeveloperMethod">sendDM2DeveloperMethod</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="api_base.html">api/base</a></li><li><a href="api_challenge.html">api/challenge</a></li><li><a href="api_hacc-hui.html">api/hacc-hui</a></li><li><a href="api_interest.html">api/interest</a></li><li><a href="api_level.html">api/level</a></li><li><a href="api_role.html">api/role</a></li><li><a href="api_skill.html">api/skill</a></li><li><a href="api_slackbot.html">api/slackbot</a></li><li><a href="api_slug.html">api/slug</a></li><li><a href="api_stuff.html">api/stuff</a></li><li><a href="api_team.html">api/team</a></li><li><a href="test-utilities.html">test-utilities</a></li></ul><h3>Classes</h3><ul><li><a href="api_base.BaseCollection.html">BaseCollection</a></li><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_challenge.ChallengeCollection.html">ChallengeCollection</a></li><li><a href="api_challenge.ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="api_hacc-hui.HACCHuiClass.html">HACCHuiClass</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slackbot.SlackUserCollection.html">SlackUserCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_stuff.StuffCollection.html">StuffCollection</a></li><li><a href="api_team.TeamChallengeCollection.html">TeamChallengeCollection</a></li><li><a href="api_team.TeamCollection.html">TeamCollection</a></li><li><a href="api_Tool.ToolCollection.html">ToolCollection</a></li></ul><h3>Global</h3><ul><li><a href="global.html#defineTestAdminUser">defineTestAdminUser</a></li><li><a href="global.html#defineTestUser">defineTestUser</a></li><li><a href="global.html#documentCounts">documentCounts</a></li><li><a href="global.html#HACCHui">HACCHui</a></li><li><a href="global.html#loadFileDateFormat">loadFileDateFormat</a></li><li><a href="global.html#makeSampleToolArray">makeSampleToolArray</a></li><li><a href="global.html#makeSampleToolSlugArray">makeSampleToolSlugArray</a></li><li><a href="global.html#slackBot">slackBot</a></li><li><a href="global.html#SlackUsers">SlackUsers</a></li><li><a href="global.html#Stuffs">Stuffs</a></li><li><a href="global.html#updateMethod">updateMethod</a></li><li><a href="global.html#userInteractionDefineMethod">userInteractionDefineMethod</a></li><li><a href="global.html#userInteractionFindMethod">userInteractionFindMethod</a></li><li><a href="global.html#userInteractionRemoveUserMethod">userInteractionRemoveUserMethod</a></li></ul></div>
                 
             </nav>
         </div>
@@ -95,7 +95,7 @@ import { Slugs } from '../slug/SlugCollection';
  * Creates an Interest with a unique slug and returns its docID.
  * Also creates a new InterestType.
  * @returns { String } The docID for the newly generated Interest.
- * @memberOf api/interest
+ * @memberOf test-utilities
  */
 export function makeSampleInterest() {
   const name = `${faker.lorem.word()}${moment().format('YYYYMMDDHHmmssSSS')}`;
@@ -108,6 +108,7 @@ export function makeSampleInterest() {
  * Returns an array of interestIDs.
  * @param {number} numInterests the number of interestIDs. Defaults to 1.
  * @returns {string[]}
+ * @memberOf test-utilities
  */
 export function makeSampleInterestArray(numInterests = 1) {
   const retVal = [];
@@ -120,6 +121,7 @@ export function makeSampleInterestArray(numInterests = 1) {
  * Returns an array of defined Interest slugs.
  * @param numInterests the number of Interests to define. Defaults to 1.
  * @return {string[]} An array of defined Interest Slugs.
+ * @memberOf test-utilities
  */
 export function makeSampleInterestSlugArray(numInterests = 1) {
   const ids = makeSampleInterestArray(numInterests);

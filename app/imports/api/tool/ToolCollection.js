@@ -1,5 +1,5 @@
 import SimpleSchema from 'simpl-schema';
-import slugify, { Slugs } from '../slug/SlugCollection';
+import { slugify, Slugs } from '../slug/SlugCollection';
 import BaseSlugCollection from '../base/BaseSlugCollection';
 
 /**

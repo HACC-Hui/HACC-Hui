@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> api/interest/InterestCollection.js</title>
+  <title> api/team/TeamChallengeCollection.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -76,7 +76,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>api/interest/InterestCollection.js</h1>
+                    <h1>api/team/TeamChallengeCollection.js</h1>
                 </header>
                 
 
@@ -86,107 +86,97 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import SimpleSchema from 'simpl-schema';
-import slugify, { Slugs } from '../slug/SlugCollection';
-import BaseSlugCollection from '../base/BaseSlugCollection';
-
-/** @namespace api/interest */
+import BaseCollection from '../base/BaseCollection';
+import { Challenges } from '../challenge/ChallengeCollection';
+import { Teams } from './TeamCollection';
+import { ROLE } from '../role/Role';
 
 /**
- * Represents a specific interest, such as "Sustainability".
- * @extends api/base.BaseSlugCollection
- * @memberOf api/interest
+ * TeamChallengeCollection holds team challenge pairs.
+ * @memberOf api/team
+ * @extends api/base.BaseCollection
  */
-class InterestCollection extends BaseSlugCollection {
-  /**
-   * Creates the Interest collection.
-   */
+class TeamChallengeCollection extends BaseCollection {
   constructor() {
-    super('Interest', new SimpleSchema({
-      name: { type: String },
-      slugID: { type: SimpleSchema.RegEx.Id },
-      description: { type: String },
+    super('TeamChallenge', new SimpleSchema({
+      teamID: { type: SimpleSchema.RegEx.Id },
+      challengeID: { type: SimpleSchema.RegEx.Id },
     }));
   }
 
   /**
-   * Defines a new Interest and its associated Slug.
-   * @example
-   * Interests.define({ name: 'Software Engineering',
-   *                    description: 'Methods for group development of large, high quality software systems',
-   * });
-   * @param { Object } description Object with keys name, slug, description.
-   * Slug must be previously undefined.
-   * @throws {Meteor.Error} If the interest definition includes a defined slug.
-   * @returns {string} The newly created docID.
+   * Defines a new pair.
+   * @param team {String} the team slug or ID.
+   * @param challenge {String} the challenge slug or ID.
+   * @return {String} the ID of the new pair.
    */
-  define({
-           name,
-           description,
-         }) {
-    const slug = slugify(name); // we automatically build the slug from the name.
-    // Get SlugID, throw error if found.
-    const slugID = Slugs.define({ name: slug });
-    // Define the Interest and get its ID
-    const interestID = this._collection.insert({
-      name, description, slugID,
-    });
-    // Connect the Slug to this Interest
-    Slugs.updateEntityID(slugID, interestID);
-    return interestID;
+  define({ team, challenge }) {
+    const teamID = Teams.findIdBySlug(team);
+    const challengeID = Challenges.findIdBySlug(challenge);
+    return this._collection.insert({ teamID, challengeID });
   }
 
   /**
-   * Update an Interest.
-   * @param docID {string} The docID to be updated.
-   * @param name {string} The new name (optional).
-   * @param description {string} The new description (optional).
-   * @throws { Meteor.Error } If docID is not defined.
+   * Updates the given team-challenge pair.
+   * @param docID {String} the ID of the pair.
+   * @param team {String} the slug or ID of the new team (optional).
+   * @param challenge {String} the slug or ID of the new challenge (optional).
+   * @throws {Meteor.Error} if docID is not defined.
    */
-  update(docID, {
-    name, description,
-  }) {
+  update(docID, { team, challenge }) {
     this.assertDefined(docID);
     const updateData = {};
-    if (name) {
-      updateData.name = name;
+    if (challenge) {
+      updateData.challengeID = Challenges.getID(challenge);
     }
-    if (description) {
-      updateData.description = description;
+    if (team) {
+      updateData.teamID = Teams.getID(team);
     }
     this._collection.update(docID, { $set: updateData });
   }
 
   /**
-   * Remove the Interest.
-   * @param instance {string} The docID or slug of the entity to be removed.
-   * @throws { Meteor.Error } If Interest is associated with any Challenge.
+   * Removes the pair.
+   * @param docID {String} the ID of the pair.
    */
-  removeIt(instance) {
-    const docID = this.getID(instance);
-    // Check that this interest is not referenced by any Team, Developer, or Challenge.
-
-    // OK, clear to delete.
+  removeIt(docID) {
     super.removeIt(docID);
   }
 
   /**
-   * Returns an object representing the given interest.
-   * @param docID {string} the ID to get.
-   * @return {{name: *, description: *}}
+   * Removes all the pairs with the given challenge.
+   * @param challenge {String} challenge slug or ID.
    */
-  dumpOne(docID) {
-    const doc = this.findDoc(docID);
-    const { name, description } = doc;
-    return { name, description };
+  removeChallenge(challenge) {
+    const challengeID = Challenges.getID(challenge);
+    this._collection.remove({ challengeID });
   }
+
+  /**
+   * Removes all the pairs with the given team.
+   * @param team {String} the team slug or ID.
+   */
+  removeTeam(team) {
+    const teamID = Teams.getID(team);
+    this._collection.remove({ teamID });
+  }
+
+  /**
+   * Checks to see if the user is in the valid role to execute the ValidatedMethods.
+   * @param userId {String} the user ID.
+   */
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+  }
+
 }
 
 /**
- * Singleton instance of the InterestCollection.
- * @type {api/interest.InterestCollection}
- * @memberOf api/interest
+ * Singleton instance of the TeamChallengeCollection.
+ * @type {api/team.TeamChallengeCollection}
+ * @memberOf api/team
  */
-export const Interests = new InterestCollection();
+export const TeamChallenges = new TeamChallengeCollection();
 </code></pre>
         </article>
     </section>

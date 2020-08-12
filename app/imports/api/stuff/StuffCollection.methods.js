@@ -4,10 +4,10 @@ import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 import { Stuffs } from './StuffCollection';
 
 /**
- * Meteor method used to define new instances of the given collection name.
- * @param collectionName the name of the collection.
- * @param definitionDate the object used in the collection.define method.
+ * Meteor method used to define new instances of Stuff.
+ * @param definitionData {Object} the object used in the Stuffs.define method.
  * @memberOf api/stuff
+ * @type {ValidatedMethod}
  */
 export const stuffDefineMethod = new ValidatedMethod({
   name: 'StuffCollection.define',
@@ -24,6 +24,12 @@ export const stuffDefineMethod = new ValidatedMethod({
   },
 });
 
+/**
+ * Meteor method for updating a given stuff instance.
+ * @param updateData {Object} an Object with .id and the update data.
+ * @type {ValidatedMethod}
+ * @memberOf api/stuff
+ */
 export const stuffUpdateMethod = new ValidatedMethod({
   name: 'StuffCollection.update',
   mixins: [CallPromiseMixin],
@@ -34,6 +40,11 @@ export const stuffUpdateMethod = new ValidatedMethod({
   },
 });
 
+/**
+ * Meteor method to remove an instance of Stuff.
+ * @type {ValidatedMethod}
+ * @memberOf api/stuff
+ */
 export const stuffRemoveItMethod = new ValidatedMethod({
   name: 'StuffCollection.removeIt',
   mixins: [CallPromiseMixin],

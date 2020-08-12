@@ -3,7 +3,7 @@ import { _ } from 'lodash';
 import { ChallengeInterests } from './ChallengeInterestCollection';
 import { Interests } from '../interest/InterestCollection';
 import BaseSlugCollection from '../base/BaseSlugCollection';
-import slugify, { Slugs } from '../slug/SlugCollection';
+import { slugify, Slugs } from '../slug/SlugCollection';
 
 /** @namespace api/challenge */
 
@@ -111,5 +111,9 @@ class ChallengeCollection extends BaseSlugCollection {
   }
 }
 
-/** Singleton instance of the ChallengeCollection */
+/**
+ * Singleton instance of the ChallengeCollection.
+ * @type {api/challenge.ChallengeCollection}
+ * @memberOf api/challenge
+ */
 export const Challenges = new ChallengeCollection();

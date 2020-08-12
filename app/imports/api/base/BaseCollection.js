@@ -216,7 +216,7 @@ class BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne function.
    * Must be overridden by each collection.
-   * @param docID A docID from this collection.
+   * @param docID {String} A docID from this collection.
    * @returns { Object } An object representing this document.
    */
   dumpOne(docID) { // eslint-disable-line

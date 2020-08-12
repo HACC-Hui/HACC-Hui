@@ -79,7 +79,8 @@ class ChallengeInterestCollection extends BaseCollection {
 }
 
 /**
- * Provides the singleton instance of the ChallengeInterestCollection.
+ * Singleton instance of the ChallengeInterestCollection.
  * @type {ChallengeInterestCollection}
+ * @memberOf api/challenge
  */
 export const ChallengeInterests = new ChallengeInterestCollection();
