@@ -13,10 +13,13 @@ pathToDotEnv = `${pathToDotEnv}.env`;
 require('dotenv').config({ path: pathToDotEnv });
 // console.log(result);
 
+/** @namespace api/slackbot */
+
 /**
  * Meteor method used to send direct messages to Administrators.
- * @param message the message to send.
+ * @param message {string} the message to send.
  * @type {ValidatedMethod}
+ * @memberOf api/slackbot
  */
 export const sendDM2AdministratorsMethod = new ValidatedMethod({
   name: 'slack.sendToAdmins',
@@ -40,9 +43,10 @@ export const sendDM2AdministratorsMethod = new ValidatedMethod({
 
 /**
  * Meteor method used to send direct messages to an individual developer.
- * @param developer the developer's Slack userID.
- * @param message the message to send.
+ * @param developer {string} the developer's Slack userID.
+ * @param message {string} the message to send.
  * @type {ValidatedMethod}
+ * @memberOf api/slackbot
  */
 export const sendDM2DeveloperMethod = new ValidatedMethod({
   name: 'slack.sendToDeveloper',

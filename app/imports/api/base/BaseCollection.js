@@ -4,10 +4,18 @@ import { _ } from 'lodash';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../role/Role';
+/** @namespace api/base */
 
+/**
+ * BaseCollection is an abstract superclass of all HACC-Hui collections.
+ * It is the direct superclass for SlugCollection and others.
+ * Other collection classes are derived from BaseSlugCollection which is an abstract
+ * class that inherit from this one.
+ * @memberOf api/base
+ */
 class BaseCollection {
   /**
-   * Superclass constructor for all HACC Hui entities.
+   * Superclass constructor for all HACC-Hui entities.
    * Defines internal fields needed by all entities: _type, _collectionName, _collection, and _schema.
    * @param {String} type The name of the entity defined by the subclass.
    * @param {SimpleSchema} schema The schema for validating fields on insertion to the DB.
@@ -208,7 +216,7 @@ class BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne function.
    * Must be overridden by each collection.
-   * @param docID A docID from this collection.
+   * @param docID {String} A docID from this collection.
    * @returns { Object } An object representing this document.
    */
   dumpOne(docID) { // eslint-disable-line
@@ -251,6 +259,6 @@ class BaseCollection {
 }
 
 /**
- * The BaseCollection used by all HACC Hui entities.
+ * The BaseCollection used by all HACC-Hui collections.
  */
 export default BaseCollection;

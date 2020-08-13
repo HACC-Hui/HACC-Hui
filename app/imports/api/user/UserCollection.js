@@ -65,4 +65,9 @@ class UserCollection {
   }
 }
 
+/**
+ * Singleton instance of the UserCollection.
+ * @type {UserCollection}
+ * @memberOf api/user
+ */
 export const Users = new UserCollection();

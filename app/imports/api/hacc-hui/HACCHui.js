@@ -19,8 +19,15 @@ import { DeveloperTools } from '../user/DeveloperToolCollection';
 import { Administrators } from '../user/AdministratorCollection';
 import { SlackUsers } from '../slackbot/SlackUserCollection';
 
+/** @namespace api/hacc-hui */
+
+/**
+ * Wrapper class for all the HACC-Hui collections.
+ * @memberOf api/hacc-hui
+ */
 class HACCHuiClass {
   constructor() {
+    /** Holds all the collections. */
     this.collections = [
         Administrators,
         Challenges,
@@ -41,6 +48,7 @@ class HACCHuiClass {
         TeamTools,
         Tools,
     ];
+    /** The load sequence for loading fixtures. */
     this.collectionLoadSequence = [
         Administrators,
         Interests,
@@ -51,12 +59,19 @@ class HACCHuiClass {
         Teams,
         SlackUsers,
     ];
+    /** Maps collection name to the collection. */
     this.collectionAssociation = {};
     _.each(this.collections, (collection) => {
       this.collectionAssociation[collection.getCollectionName()] = collection;
     });
   }
 
+  /**
+   * Returns the collection for the given collectionName.
+   * @param collectionName {string} the name of the collection.
+   * @throws {Meteor.Error} if the collectionName is not a HACC-Hui collection name.
+   * @return {*}
+   */
   getCollection(collectionName) {
     const collection = this.collectionAssociation[collectionName];
     if (!collection) {
@@ -66,4 +81,9 @@ class HACCHuiClass {
   }
 }
 
+/**
+ * Singleton instance of the HACCHuiClass.
+ * @type {api/hacc-hui.HACCHuiClass}
+ * @memberOf api/hacc-hui
+ */
 export const HACCHui = new HACCHuiClass();

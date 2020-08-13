@@ -5,12 +5,33 @@ import { _ } from 'lodash';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 
+/**
+ * **deprecated**
+ *  @namespace api/stuff
+ */
+
+/**
+ * The different conditions for stuff.
+ * @type {string[]}
+ * @memberOf api/stuff
+ */
 export const stuffConditions = ['excellent', 'good', 'fair', 'poor'];
+
+/**
+ * The publication names for the StuffCollection.
+ * @type {{stuffAdmin: string, stuff: string}}
+ * @memberOf api/stuff
+ */
 export const stuffPublications = {
   stuff: 'Stuff',
   stuffAdmin: 'StuffAdmin',
 };
 
+/**
+ * The StuffCollection **deprecated**.
+ * @memberOf api/stuff
+ * @extends api/base.BaseCollection
+ */
 class StuffCollection extends BaseCollection {
   constructor() {
     super('Stuffs', new SimpleSchema({
@@ -128,6 +149,8 @@ class StuffCollection extends BaseCollection {
 }
 
 /**
- * Provides the singleton instance of this class to all other entities.
+ * Singleton instance of the StuffCollection, **deprecated**.
+ * @type {api/stuff.StuffCollection}
+ * @memberOf api/stuff
  */
 export const Stuffs = new StuffCollection();

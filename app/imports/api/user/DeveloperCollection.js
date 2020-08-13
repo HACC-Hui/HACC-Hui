@@ -15,6 +15,11 @@ import { Interests } from '../interest/InterestCollection';
 import { Skills } from '../skill/SkillCollection';
 import { Tools } from '../tool/ToolCollection';
 
+/**
+ * DeveloperCollection, collection of HACC-Hui developers.
+ * @extends api/base.BaseSlugCollection
+ * @memberOf api/user
+ */
 class DeveloperCollection extends BaseSlugCollection {
   constructor() {
     super('Developer', new SimpleSchema({
@@ -33,6 +38,24 @@ class DeveloperCollection extends BaseSlugCollection {
     }));
   }
 
+  /**
+   * Creates a new developer.
+   * @param username {String} the developer's username.
+   * @param firstName {String} the developer's first name.
+   * @param lastName {String} the developer's last name.
+   * @param demographicLevel {String} the developer's demographic level.
+   * @param lookingForTeam {Boolean} if the developer is looking for a team.
+   * @param challenges {String[]} the challenges the developer is interested in.
+   * @param interests {String[]} the developer's interests.
+   * @param skills {String[]} the developer's skills.
+   * @param tools {String[]} the tools the developer is interested in.
+   * @param linkedIn {String} the developer's LinkedIn page (optional).
+   * @param gitHub {String} the developer's GitHub page (optional).
+   * @param website {String} the developer's website (optional).
+   * @param aboutMe {String} a short description.
+   * @param isCompliant {Boolean} is the developer compliant.
+   * @return {{password: *, profileID: any}|undefined}
+   */
   define({
            username, firstName, lastName, demographicLevel, lookingForTeam,
            challenges = [], interests = [], skills = [], tools = [],
@@ -58,6 +81,23 @@ class DeveloperCollection extends BaseSlugCollection {
     return undefined;
   }
 
+  /**
+   * Updates the developer.
+   * @param docID {String} the ID of the developer to update.
+   * @param firstName {String} the new first name (optional).
+   * @param lastName {String} the new last name (optional).
+   * @param demographicLevel {String} the new demographic level (optional).
+   * @param lookingForTeam {Boolean} the new looking for team value (optional).
+   * @param challenges {String[]} the new challenges (optional).
+   * @param interests {String[]} the new interests (optional).
+   * @param skills {String[]} the new skills (optional).
+   * @param tools {String[]} the new tools (optional).
+   * @param linkedIn {String} the new LinkedIn page (optional).
+   * @param gitHub {String} the new GitHub page (optional).
+   * @param website {String} the new website (optional).
+   * @param aboutMe {String} the new short description (optional).
+   * @param isCompliant {Boolean} the new is compliant value (optional).
+   */
   update(docID, {
     firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
     skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant,
@@ -111,6 +151,11 @@ class DeveloperCollection extends BaseSlugCollection {
     }
   }
 
+  /**
+   * Removes the developer.
+   * @param docID {String} the ID of the developer.
+   * @throws {Meteor.Error} if the docID is not defined.
+   */
   removeIt(docID) {
     this.assertDefined(docID);
     const developer = this.findSlugByID(docID);
@@ -121,6 +166,13 @@ class DeveloperCollection extends BaseSlugCollection {
     super.removeIt(docID);
   }
 
+  /**
+   * Returns an object representing the developer.
+   * @param docID {String} the ID of the developer.
+   * @return {{lastName: *, website: *, gitHub: *, challenges: Array, demographicLevel: *,
+   * lookingForTeam: *, linkedIn: *, tools: Array, isCompliant: *, aboutMe: *, skills: Array,
+   * firstName: *, interests: Array, username: *}}
+   */
   dumpOne(docID) {
     this.assertDefined(docID);
     const {
@@ -159,4 +211,9 @@ class DeveloperCollection extends BaseSlugCollection {
 
 }
 
+/**
+ * Singleton instance of the DeveloperCollection.
+ * @type {api/user.DeveloperCollection}
+ * @memberOf api/user
+ */
 export const Developers = new DeveloperCollection();

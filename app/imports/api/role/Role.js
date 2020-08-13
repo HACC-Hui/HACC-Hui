@@ -2,15 +2,23 @@ import { Roles } from 'meteor/alanning:roles';
 import { _ } from 'lodash';
 import { Meteor } from 'meteor/meteor';
 
+/** @namespace api/role */
+
 /**
  * ROLE Provides ROLE.ADMIN and ROLE.DEVELOPER.
  * @type {{DEVELOPER: string, ADMIN: string}}
+ * @memberOf api/role
  */
 export const ROLE = {
   ADMIN: 'ADMIN',
   DEVELOPER: 'DEVELOPER',
 };
 
+/**
+ * The roles in HACC-Hui.
+ * @type {Array}
+ * @memberOf api/role
+ */
 export const ROLES = _.values(ROLE);
 
 /**

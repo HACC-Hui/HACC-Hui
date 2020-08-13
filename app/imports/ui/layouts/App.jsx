@@ -16,7 +16,10 @@ import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 
-/** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
+/**
+ * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
+ * @memberOf ui/layouts
+ */
 class App extends React.Component {
   render() {
     return (
@@ -44,6 +47,7 @@ class App extends React.Component {
  * ProtectedRoute (see React Router v4 sample)
  * Checks for Meteor login before routing to the requested page, otherwise goes to signin page.
  * @param {any} { component: Component, ...rest }
+ * @memberOf ui/layouts
  */
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const WrappedComponent = withAllSubscriptions(Component);
@@ -65,6 +69,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
  * AdminProtectedRoute (see React Router v4 sample)
  * Checks for Meteor login and admin role before routing to the requested page, otherwise goes to signin page.
  * @param {any} { component: Component, ...rest }
+ * @memberOf ui/layouts
  */
 const AdminProtectedRoute = ({ component: Component, ...rest }) => {
   const WrappedComponent = withAllSubscriptions(Component);
@@ -83,7 +88,7 @@ const AdminProtectedRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-/** Require a component and location to be passed to each ProtectedRoute. */
+// Require a component and location to be passed to each ProtectedRoute.
 ProtectedRoute.propTypes = {
   component: PropTypes.oneOfType([
     PropTypes.func.isRequired,
@@ -92,7 +97,7 @@ ProtectedRoute.propTypes = {
   location: PropTypes.object,
 };
 
-/** Require a component and location to be passed to each AdminProtectedRoute. */
+// Require a component and location to be passed to each AdminProtectedRoute.
 AdminProtectedRoute.propTypes = {
   component: PropTypes.oneOfType([
     PropTypes.func.isRequired,

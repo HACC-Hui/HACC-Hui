@@ -1,11 +1,13 @@
 import SimpleSchema from 'simpl-schema';
-import slugify, { Slugs } from '../slug/SlugCollection';
+import { slugify, Slugs } from '../slug/SlugCollection';
 import BaseSlugCollection from '../base/BaseSlugCollection';
+
+/** @namespace api/tool */
 
 /**
  * Represents a specific Tool, such as Java, Postgres, etc.
  * @extends api/base.BaseSlugCollection
- * @memberOf api/Tool
+ * @memberOf api/tool
  */
 class ToolCollection extends BaseSlugCollection {
   /**
@@ -48,9 +50,9 @@ class ToolCollection extends BaseSlugCollection {
 
   /**
    * Update an Tool.
-   * @param docID The docID to be updated.
-   * @param name The new name (optional).
-   * @param description The new description (optional).
+   * @param docID {String} The docID to be updated.
+   * @param name {String} The new name (optional).
+   * @param description {String} The new description (optional).
    * @throws { Meteor.Error } If docID is not defined.
    */
   update(docID, {
@@ -69,7 +71,7 @@ class ToolCollection extends BaseSlugCollection {
 
   /**
    * Remove the Tool.
-   * @param instance The docID or slug of the entity to be removed.
+   * @param instance {String} The docID or slug of the entity to be removed.
    * @throws { Meteor.Error } If Tool is associated with any Challenge.
    */
   removeIt(instance) {
@@ -80,6 +82,11 @@ class ToolCollection extends BaseSlugCollection {
     super.removeIt(docID);
   }
 
+  /**
+   * Returns an object representing the Tool.
+   * @param docID {String} the ID of the tool.
+   * @return {{name: *, description: *}}
+   */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
     const { name, description } = doc;
@@ -87,4 +94,9 @@ class ToolCollection extends BaseSlugCollection {
   }
 }
 
+/**
+ * Singleton instance of the ToolCollection.
+ * @type {api/tool.ToolCollection}
+ * @memberOf api/tool
+ */
 export const Tools = new ToolCollection();

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import fc from 'fast-check';
 import faker from 'faker';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
-import slugify, { Slugs } from './SlugCollection';
+import { slugify, Slugs } from './SlugCollection';
 
 /* eslint prefer-arrow-callback: "off", no-unused-expressions: "off" */
 /* eslint-env mocha */

@@ -1,11 +1,13 @@
 import SimpleSchema from 'simpl-schema';
-import slugify, { Slugs } from '../slug/SlugCollection';
+import { slugify, Slugs } from '../slug/SlugCollection';
 import BaseSlugCollection from '../base/BaseSlugCollection';
+
+/** @namespace api/skill */
 
 /**
  * Represents a specific Skill, such as "Software Engineering".
  * @extends api/base.BaseSlugCollection
- * @memberOf api/Skill
+ * @memberOf api/skill
  */
 class SkillCollection extends BaseSlugCollection {
   /**
@@ -80,6 +82,11 @@ class SkillCollection extends BaseSlugCollection {
     super.removeIt(docID);
   }
 
+  /**
+   * Returns an object representing the given Skill.
+   * @param docID {string} the ID of the Skill.
+   * @return {{name: *, description: *}}
+   */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
     const { name, description } = doc;
@@ -87,4 +94,9 @@ class SkillCollection extends BaseSlugCollection {
   }
 }
 
+/**
+ * Singleton instance of the SkillCollection.
+ * @type {api/skill.SkillCollection}
+ * @memberOf api/skill
+ */
 export const Skills = new SkillCollection();

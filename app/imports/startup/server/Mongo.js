@@ -3,7 +3,7 @@ import { _ } from 'lodash';
 import moment from 'moment';
 import { HACCHui } from '../../api/hacc-hui/HACCHui';
 
-/** global Assets */
+// global Assets
 
 function documentCounts() {
   return _.map(HACCHui.collectionLoadSequence, (collection) => collection.count());
@@ -15,8 +15,9 @@ function totalDocuments() {
 
 /**
  * The load/fixture file date format.
- * Used when dumping and restoring the HACCHui database.
+ * Used when dumping and restoring the HACC-Hui database.
  * @type {string}
+ * @memberOf startup/server
  */
 const loadFileDateFormat = 'YYYY-MM-DD-HH-mm-ss';
 
@@ -37,7 +38,7 @@ function getRestoreFileAge(loadFileName) {
  * or an empty array if none was found.
  * @param loadJSON The load file contents.
  * @param collection The collection of interest.
- * @memberOf api/test
+ * @memberOf startup/server
  */
 export function getDefinitions(loadJSON, collection) {
   const definitionObj = _.find(loadJSON.collections, (obj) => obj.name === collection);
@@ -49,7 +50,7 @@ export function getDefinitions(loadJSON, collection) {
  * @param collection The collection to be loadd.
  * @param loadJSON The structure containing all of the definitions.
  * @param consolep output console.log message if truey.
- * @memberOf api/test
+ * @memberOf startup/server
  */
 export function loadCollection(collection, loadJSON, consolep) {
   const definitions = getDefinitions(loadJSON, collection._collectionName);

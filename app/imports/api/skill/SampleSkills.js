@@ -8,7 +8,7 @@ import { Slugs } from '../slug/SlugCollection';
  * Creates an Skill with a unique slug and returns its docID.
  * Also creates a new SkillType.
  * @returns { String } The docID for the newly generated Skill.
- * @memberOf api/Skill
+ * @memberOf test-utilities
  */
 export function makeSampleSkill() {
   const name = `${faker.lorem.word()}${moment().format('YYYYMMDDHHmmssSSS')}`;
@@ -21,6 +21,7 @@ export function makeSampleSkill() {
  * Returns an array of SkillIDs.
  * @param {number} numSkills the number of SkillIDs. Defaults to 1.
  * @returns {string[]}
+ * @memberOf test-utilities
  */
 export function makeSampleSkillArray(numSkills = 1) {
   const retVal = [];
@@ -33,6 +34,7 @@ export function makeSampleSkillArray(numSkills = 1) {
  * Returns an array of defined Skill slugs.
  * @param numSkills the number of Skills to define. Defaults to 1.
  * @return {string[]} An array of defined Skill Slugs.
+ * @memberOf test-utilities
  */
 export function makeSampleSkillSlugArray(numSkills = 1) {
   const ids = makeSampleSkillArray(numSkills);

@@ -3,21 +3,7 @@ import { check } from 'meteor/check';
 import SimpleSchema from 'simpl-schema';
 import BaseCollection from '../base/BaseCollection';
 
-/**
- * Slugifies the given text.
- * @param text
- * @return {string}
- * @memberOf api/slug
- */
-export default function slugify(text) {
-  return text.toString()
-      .toLowerCase()
-      .replace(/\s+/g, '-') // Replace spaces with -
-      .replace(/[^\w-]+/g, '') // Remove all non-word chars
-      .replace(/--+/g, '-') // Replace multiple - with single -
-      .replace(/^-+/, '') // Trim - from start of text
-      .replace(/-+$/, ''); // Trim - from end of text
-}
+/** @namespace api/slug */
 
 /**
  * Slugs are unique strings that can be used to identify entities and can be used in URLs.
@@ -57,10 +43,10 @@ class SlugCollection extends BaseCollection {
 
   /**
    * Returns true if slugName is syntactically valid (i.e. consists of a-zA-Z0-9 or dash or underscore.)
-   * @param slugName The slug name.
+   * @param slugName {string} The slug name.
    * @returns {boolean} True if it's OK.
    */
-  isValidSlugName(slugName) {  // eslint-disable-line
+  isValidSlugName(slugName) {
     const slugRegEx = new RegExp('^[a-zA-Z0-9@.]+(?:[_-][a-zA-Z0-9@.]+)*$');
     return (typeof slugName === 'string') && slugName.length > 0 && slugRegEx.test(slugName);
   }
@@ -148,4 +134,25 @@ class SlugCollection extends BaseCollection {
   }
 }
 
+/**
+ * Singleton instance of the SlugCollection.
+ * @type {api/slug.SlugCollection}
+ * @memberOf api/slug
+ */
 export const Slugs = new SlugCollection();
+
+/**
+ * Slugifies the given text. Slugs can be used in URLs.
+ * @param text {string} the text to slugify.
+ * @return {string} a slugified string.
+ * @memberOf api/slug
+ */
+export function slugify(text) {
+  return text.toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(/[^\w-]+/g, '') // Remove all non-word chars
+      .replace(/--+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, ''); // Trim - from end of text
+}

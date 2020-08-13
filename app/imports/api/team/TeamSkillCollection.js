@@ -5,6 +5,11 @@ import { Teams } from './TeamCollection';
 import { skillAndToolLevels } from '../level/Levels';
 import { ROLE } from '../role/Role';
 
+/**
+ * TeamSkillCollection is a collection of team, skill, and skill level tuples.
+ * @extends api/base.BaseCollection
+ * @memberOf api/team
+ */
 class TeamSkillCollection extends BaseCollection {
   constructor() {
     super('TeamSkill', new SimpleSchema({
@@ -14,12 +19,26 @@ class TeamSkillCollection extends BaseCollection {
     }));
   }
 
+  /**
+   * Defines a new tuple.
+   * @param team {String} the team slug or ID.
+   * @param skill {String} the skill slug or ID.
+   * @return {String} the ID of the new pair.
+   */
   define({ team, skill }) {
     const teamID = Teams.findIdBySlug(team);
     const skillID = Skills.findIdBySlug(skill);
     return this._collection.insert({ teamID, skillID });
   }
 
+  /**
+   * Updates the given tuple.
+   * @param docID {String} the ID of the pair to update.
+   * @param team {String} the new team slug or ID (optional).
+   * @param skill {String} the new skill slug or ID (optional).
+   * @param skillLevel {String} the new sKillLevel (optional).
+   * @throws {Meteor.Error} if docID is not defined.
+   */
   update(docID, { team, skill, skillLevel }) {
     this.assertDefined(docID);
     const updateData = {};
@@ -35,15 +54,29 @@ class TeamSkillCollection extends BaseCollection {
     this._collection.update(docID, { $set: updateData });
   }
 
+  /**
+   * Removes the tuple.
+   * @param docID {String} the ID of the tuple.
+   */
   removeIt(docID) {
     super.removeIt(docID);
   }
 
+  /**
+   * Removes all the tuples with the given team.
+   * @param team {String} the team's slug or ID.
+   * @throws {Meteor.Error} if the team is not defined.
+   */
   removeTeam(team) {
     const teamID = Teams.getID(team);
     this._collection.remove({ teamID });
   }
 
+  /**
+   * Removes all the tuples with the given skill.
+   * @param skill {String} the skill's slug or ID.
+   * @throws {Meteor.Error} if the skill is not defined.
+   */
   removeSkill(skill) {
     const skillID = Skills.getID(skill);
     this._collection.remove({ skillID });
@@ -55,4 +88,9 @@ class TeamSkillCollection extends BaseCollection {
 
 }
 
+/**
+ * Singleton instance of the TeamSkillCollection.
+ * @type {api/team.TeamSkillCollection}
+ * @memberOf api/team
+ */
 export const TeamSkills = new TeamSkillCollection();

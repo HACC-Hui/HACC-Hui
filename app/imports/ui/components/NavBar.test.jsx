@@ -16,7 +16,7 @@ if (Meteor.isClient) {
   describe('NavBar', function testSuite() {
     it('should render logged out', function test1() {
       const wrapper = mount(<Router><NavBar/></Router>);
-      expect(wrapper.find('a').at(0).text()).to.equal('HACC Hui');
+      expect(wrapper.find('a').at(0).text()).to.equal('HACC-Hui');
       expect(wrapper.find('a').at(1).text()).to.equal('Sign In');
     });
 
@@ -28,7 +28,7 @@ if (Meteor.isClient) {
       });
       const wrapper = mount(<Router><NavBar/></Router>);
       expect(wrapper.find('a')).to.have.lengthOf(4);
-      expect(wrapper.find('a').at(0).text()).to.equal('HACC Hui');
+      expect(wrapper.find('a').at(0).text()).to.equal('HACC-Hui');
       expect(wrapper.find('a').at(1).text()).to.equal('Add Stuff');
       expect(wrapper.find('a').at(2).text()).to.equal('List Stuff');
       expect(wrapper.find('a').at(3).text()).to.equal('Sign Out');

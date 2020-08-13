@@ -1,9 +1,11 @@
 import SimpleSchema from 'simpl-schema';
-import slugify, { Slugs } from '../slug/SlugCollection';
+import { slugify, Slugs } from '../slug/SlugCollection';
 import BaseSlugCollection from '../base/BaseSlugCollection';
 
+/** @namespace api/interest */
+
 /**
- * Represents a specific interest, such as "Software Engineering".
+ * Represents a specific interest, such as "Sustainability".
  * @extends api/base.BaseSlugCollection
  * @memberOf api/interest
  */
@@ -28,7 +30,7 @@ class InterestCollection extends BaseSlugCollection {
    * @param { Object } description Object with keys name, slug, description.
    * Slug must be previously undefined.
    * @throws {Meteor.Error} If the interest definition includes a defined slug.
-   * @returns The newly created docID.
+   * @returns {string} The newly created docID.
    */
   define({
            name,
@@ -48,9 +50,9 @@ class InterestCollection extends BaseSlugCollection {
 
   /**
    * Update an Interest.
-   * @param docID The docID to be updated.
-   * @param name The new name (optional).
-   * @param description The new description (optional).
+   * @param docID {string} The docID to be updated.
+   * @param name {string} The new name (optional).
+   * @param description {string} The new description (optional).
    * @throws { Meteor.Error } If docID is not defined.
    */
   update(docID, {
@@ -69,7 +71,7 @@ class InterestCollection extends BaseSlugCollection {
 
   /**
    * Remove the Interest.
-   * @param instance The docID or slug of the entity to be removed.
+   * @param instance {string} The docID or slug of the entity to be removed.
    * @throws { Meteor.Error } If Interest is associated with any Challenge.
    */
   removeIt(instance) {
@@ -80,6 +82,11 @@ class InterestCollection extends BaseSlugCollection {
     super.removeIt(docID);
   }
 
+  /**
+   * Returns an object representing the given interest.
+   * @param docID {string} the ID to get.
+   * @return {{name: *, description: *}}
+   */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
     const { name, description } = doc;
@@ -87,4 +94,9 @@ class InterestCollection extends BaseSlugCollection {
   }
 }
 
+/**
+ * Singleton instance of the InterestCollection.
+ * @type {api/interest.InterestCollection}
+ * @memberOf api/interest
+ */
 export const Interests = new InterestCollection();

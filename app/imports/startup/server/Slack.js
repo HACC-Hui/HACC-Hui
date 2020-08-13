@@ -13,7 +13,7 @@ if (!Meteor.isAppTest) {
 // console.log(pathToDotEnv);
 // const result = require('dotenv').config({ path: pathToDotEnv });
 // eslint-disable-next-line global-require
-require('dotenv').config({ path: pathToDotEnv });
+  require('dotenv').config({ path: pathToDotEnv });
 // console.log(result);
 
   app = new App({
@@ -40,14 +40,15 @@ require('dotenv').config({ path: pathToDotEnv });
           // record this user
           SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
           await say(`
-      Welcome to HACC Hui! Here are your credentials
+      Welcome to HACC-Hui! Here are your credentials
       Host: https//hackhui.com
       Username: ${username}
       Password: ${password}`);
         } else {
-          await say(`<@${event.user}> You've already registered. You can login to HACC Hui.`);
+          await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.`);
         }
-      } else if (!Administrators.isDefined(email)) {
+      } else
+        if (!Administrators.isDefined(email)) {
           const firstName = first_name;
           const lastName = last_name;
           const username = email;
@@ -55,12 +56,12 @@ require('dotenv').config({ path: pathToDotEnv });
           // record this user
           SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
           await say(`
-      Welcome to HACC Hui! Here are your credentials
+      Welcome to HACC-Hui! Here are your credentials
       Host: https//hackhui.com
       Username: ${username}
       Password: ${password}`);
         } else {
-          await say(`<@${event.user}> You've already registered. You can login to HACC Hui.`);
+          await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.`);
         }
     } else {
       await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me.`);
@@ -77,7 +78,8 @@ require('dotenv').config({ path: pathToDotEnv });
 }
 
 /**
- * Exports the singleton slackBot for use in HACC Hui.
- * @type {App}
+ * Exports the singleton slackBot for use in HACC-Hui.
+ * @type {BoltApp}
+ * @memberOf startup/server
  */
 export const slackBot = app;

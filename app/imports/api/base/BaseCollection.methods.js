@@ -7,8 +7,9 @@ import { Users } from '../user/UserCollection';
 import { ROLE } from '../role/Role';
 
 /**
- * Allows admins to create and return a JSON object to the client representing a snapshot of the HACCHui database.
+ * Allows admins to create and return a JSON object to the client representing a snapshot of the HACC-Hui database.
  * @memberOf api/base
+ * @type {ValidatedMethod}
  */
 export const dumpDatabaseMethod = new ValidatedMethod({
   name: 'base.dumpDatabase',
@@ -38,6 +39,7 @@ export const dumpDatabaseMethod = new ValidatedMethod({
  * Meteor method used to define new instances of the given collection name.
  * @param collectionName the name of the collection.
  * @param definitionDate the object used in the collection.define method.
+ * @memberOf api/base
  * @type {ValidatedMethod}
  */
 export const defineMethod = new ValidatedMethod({
@@ -57,6 +59,7 @@ export const defineMethod = new ValidatedMethod({
  * @param collectionName the name of the collection to update.
  * @param updateData an object containing the document ID and the update data.
  * @type {ValidatedMethod}
+ * @memberOf api/base
  */
 export const updateMethod = new ValidatedMethod({
   name: 'BaseCollection.update',
@@ -75,6 +78,7 @@ export const updateMethod = new ValidatedMethod({
  * Meteor method used to remove a document from a collection.
  * @param collectionName the name of the collection.
  * @param instance the document ID to remove.
+ * @memberOf api/base
  * @type {ValidatedMethod}
  */
 export const removeItMethod = new ValidatedMethod({

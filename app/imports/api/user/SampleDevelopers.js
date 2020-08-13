@@ -6,7 +6,11 @@ import { makeSampleToolSlugArray } from '../tool/SampleTools';
 import { makeSampleChallengeSlugArray } from '../challenge/SampleChallenges';
 import { makeSampleSkillSlugArray } from '../skill/SampleSkills';
 
-
+/**
+ * Creates a sample developer.
+ * @return {*}
+ * @memberOf test-utilities
+ */
 export const makeSampleDeveloper = () => {
   const username = faker.internet.email();
   const firstName = faker.name.firstName();
