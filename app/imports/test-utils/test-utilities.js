@@ -25,6 +25,7 @@ export function withSubscriptions() {
 /**
  * Defines a test admin user.
  * @type {ValidatedMethod}
+ * @memberOf test-utilities
  */
 export const defineTestAdminUser = new ValidatedMethod({
   name: 'Test.defineAdminUser',
@@ -52,6 +53,7 @@ export const defineTestAdminUser = new ValidatedMethod({
 /**
  * Defines a test user.
  * @type {ValidatedMethod}
+ * @memberOf test-utilities
  */
 export const defineTestUser = new ValidatedMethod({
   name: 'Test.defineUser',
@@ -77,7 +79,7 @@ export const defineTestUser = new ValidatedMethod({
 /**
  * Returns a Promise that resolves if one can successfully login with the passed credentials.
  * Credentials default to the standard admin username and password.
- * @memberOf api/test
+ * @memberOf test-utilities
  */
 export function withLoggedInUser({ username = 'admin@foo.com', password = 'changeme' } = {}) {
   return new Promise((resolve, reject) => {

@@ -59,6 +59,7 @@ export const defineMethod = new ValidatedMethod({
  * @param collectionName the name of the collection to update.
  * @param updateData an object containing the document ID and the update data.
  * @type {ValidatedMethod}
+ * @memberOf api/base
  */
 export const updateMethod = new ValidatedMethod({
   name: 'BaseCollection.update',

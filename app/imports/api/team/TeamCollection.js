@@ -24,8 +24,8 @@ class TeamCollection extends BaseSlugCollection {
       name: { type: String },
       slugID: { type: String },
       description: { type: String },
-      gitHubRepo: { type: String },
-      devPostPage: { type: String },
+      gitHubRepo: { type: String, optional: true },
+      devPostPage: { type: String, optional: true },
       owner: { type: SimpleSchema.RegEx.Id },
       open: { type: Boolean },
     }));
@@ -147,4 +147,9 @@ class TeamCollection extends BaseSlugCollection {
   }
 }
 
+/**
+ * Singleton instance of the TeamCollection.
+ * @type {api/team.TeamCollection}
+ * @memberOf api/team
+ */
 export const Teams = new TeamCollection();

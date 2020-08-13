@@ -8,10 +8,16 @@ import PropTypes from 'prop-types';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import { stuffUpdateMethod } from '../../api/stuff/StuffCollection.methods';
 
-/** Renders the Page for editing a single document. */
+/**
+ * Renders the Page for editing a single document.
+ * @memberOf ui/pages
+ */
 class EditStuff extends React.Component {
 
-  /** On successful submit, insert the data. */
+  /**
+   * On successful submit, insert the data.
+   * @param data {Object} the result from the form.
+   */
   submit(data) {
     // console.log(data);
     const { name, quantity, condition, _id } = data;

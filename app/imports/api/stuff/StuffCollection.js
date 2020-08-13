@@ -151,5 +151,6 @@ class StuffCollection extends BaseCollection {
 /**
  * Singleton instance of the StuffCollection, **deprecated**.
  * @type {api/stuff.StuffCollection}
+ * @memberOf api/stuff
  */
 export const Stuffs = new StuffCollection();

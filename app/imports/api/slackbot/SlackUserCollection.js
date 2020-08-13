@@ -55,5 +55,6 @@ class SlackUserCollection extends BaseCollection {
 /**
  * Singleton instance of the SlackUserCollection.
  * @type {api/slackbot.SlackUserCollection}
+ * @memberOf api/slackbot
  */
 export const SlackUsers = new SlackUserCollection();

@@ -25,6 +25,12 @@ import { Developers } from '../../api/user/DeveloperCollection';
 // expireLimit set to 30 minutes because: why not.
 const allSubs = new SubsManager({ cacheLimit: 20, expireIn: 30 });
 
+/**
+ * Higher order component that waits for the subscriptions.
+ * @param WrappedComponent {React.Component} the wrapped component.
+ * @return {*}
+ * @memberOf ui/layouts
+ */
 function withAllSubscriptions(WrappedComponent) {
   const AllSubscriptionsHOC = (props) => ((props.loading) ? (
               <Loader active>Getting data.</Loader>

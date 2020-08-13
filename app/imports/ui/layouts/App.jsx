@@ -16,7 +16,10 @@ import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 
-/** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
+/**
+ * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
+ * @memberOf ui/layouts
+ */
 class App extends React.Component {
   render() {
     return (

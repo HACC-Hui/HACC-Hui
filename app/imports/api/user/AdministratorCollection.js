@@ -5,6 +5,13 @@ import { Slugs } from '../slug/SlugCollection';
 import { ROLE } from '../role/Role';
 import { Users } from './UserCollection';
 
+/** @namespace api/user */
+
+/**
+ * AdministratorCollection, collection of the HACC-Hui administrators.
+ * @extends api/base.BaseSlugCollection
+ * @memberOf api/user
+ */
 class AdministratorCollection extends BaseSlugCollection {
   constructor() {
     super('Administrator', new SimpleSchema({
@@ -16,6 +23,13 @@ class AdministratorCollection extends BaseSlugCollection {
     }));
   }
 
+  /**
+   * Defines a new administrator.
+   * @param username {String} the administrator's username.
+   * @param firstName {String} the administrator's first name.
+   * @param lastName {String} the administrator's last name.
+   * @return {{password: *, profileID: any}|undefined}
+   */
   define({ username, firstName, lastName }) {
     if (Meteor.isServer) {
       const role = ROLE.ADMIN;
@@ -29,6 +43,12 @@ class AdministratorCollection extends BaseSlugCollection {
     return undefined;
   }
 
+  /**
+   * Updates the administrator's information.
+   * @param docID {String} the ID to update.
+   * @param firstName {String} the new first name (optional).
+   * @param lastName {String} the new last name (optional).
+   */
   update(docID, { firstName, lastName }) {
     this.assertDefined(docID);
     const updateData = {};
@@ -41,10 +61,19 @@ class AdministratorCollection extends BaseSlugCollection {
     this._collection.update(docID, { $set: updateData });
   }
 
+  /**
+   * Removes the give administrator.
+   * @param docID {String} the ID.
+   */
   removeIt(docID) {
     super.removeIt(docID);
   }
 
+  /**
+   * Returns an object representing the administrator.
+   * @param docID {String} the ID.
+   * @return {{firstName: *, lastName: *, username: *}}
+   */
   dumpOne(docID) {
     this.assertDefined(docID);
     const { username, firstName, lastName } = this.findDoc(docID);
@@ -68,4 +97,9 @@ class AdministratorCollection extends BaseSlugCollection {
 
 }
 
+/**
+ * Singleton instance of the AdministratorCollection.
+ * @type {api/user.AdministratorCollection}
+ * @memberOf api/user
+ */
 export const Administrators = new AdministratorCollection();

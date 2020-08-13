@@ -18,10 +18,16 @@ const schema = new SimpleSchema({
   },
 });
 
-/** Renders the Page for adding stuff. */
+/**
+ * Renders the Page for adding stuff. **deprecated**
+ * @memberOf ui/pages
+ */
 class AddStuff extends React.Component {
 
-  /** On submit, insert the data. */
+  /** On submit, insert the data.
+   * @param data {Object} the results from the form.
+   * @param formRef {FormRef} reference to the form.
+   */
   submit(data, formRef) {
     // console.log('AddStuff.submit', data);
     const { name, quantity, condition } = data;

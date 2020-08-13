@@ -6,7 +6,10 @@ import { withRouter, NavLink } from 'react-router-dom';
 import { Menu, Dropdown, Header } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 
-/** The NavBar appears at the top of every page. Rendered by the App Layout component. */
+/**
+ * The NavBar appears at the top of every page. Rendered by the App Layout component.
+ * @memberOf ui/components
+ */
 class NavBar extends React.Component {
   render() {
     const menuStyle = { marginBottom: '10px' };
