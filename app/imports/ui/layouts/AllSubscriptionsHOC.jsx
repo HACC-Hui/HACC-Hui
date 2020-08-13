@@ -28,7 +28,7 @@ const allSubs = new SubsManager({ cacheLimit: 20, expireIn: 30 });
 /**
  * Higher order component that waits for the subscriptions.
  * @param WrappedComponent {React.Component} the wrapped component.
- * @return {*}
+ * @return {React.Component} The WrappedComponent with subscriptions.
  * @memberOf ui/layouts
  */
 function withAllSubscriptions(WrappedComponent) {

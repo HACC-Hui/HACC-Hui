@@ -3,7 +3,12 @@ import { Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 
-/** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
+/**
+ * **Deprecated**
+ *
+ * Renders a single row in the List Stuff table. See pages/ListStuff.jsx.
+ * @memberOf ui/components
+ */
 class StuffItem extends React.Component {
   render() {
     return (
@@ -19,10 +24,10 @@ class StuffItem extends React.Component {
   }
 }
 
-/** Require a document to be passed to this component. */
+// Require a document to be passed to this component.
 StuffItem.propTypes = {
   stuff: PropTypes.object.isRequired,
 };
 
-/** Wrap this component in withRouter since we use the <Link> React Router element. */
+// Wrap this component in withRouter since we use the <Link> React Router element.
 export default withRouter(StuffItem);

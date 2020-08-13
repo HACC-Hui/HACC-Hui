@@ -13,7 +13,7 @@ if (!Meteor.isAppTest) {
 // console.log(pathToDotEnv);
 // const result = require('dotenv').config({ path: pathToDotEnv });
 // eslint-disable-next-line global-require
-require('dotenv').config({ path: pathToDotEnv });
+  require('dotenv').config({ path: pathToDotEnv });
 // console.log(result);
 
   app = new App({
@@ -47,7 +47,8 @@ require('dotenv').config({ path: pathToDotEnv });
         } else {
           await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.`);
         }
-      } else if (!Administrators.isDefined(email)) {
+      } else
+        if (!Administrators.isDefined(email)) {
           const firstName = first_name;
           const lastName = last_name;
           const username = email;
@@ -78,6 +79,7 @@ require('dotenv').config({ path: pathToDotEnv });
 
 /**
  * Exports the singleton slackBot for use in HACC-Hui.
- * @type {App}
+ * @type {BoltApp}
+ * @memberOf startup/server
  */
 export const slackBot = app;

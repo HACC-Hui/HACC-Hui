@@ -2,7 +2,12 @@ import React from 'react';
 import { Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-/** Renders a single row in the List Stuff (Admin) table. See pages/ListStuffAdmin.jsx. */
+/**
+ * **Deprecated**
+ *
+ *  Renders a single row in the List Stuff (Admin) table. See pages/ListStuffAdmin.jsx.
+ *  @memberOf ui/components
+ */
 class StuffItemAdmin extends React.Component {
   render() {
     return (
@@ -16,7 +21,7 @@ class StuffItemAdmin extends React.Component {
   }
 }
 
-/** Require a document to be passed to this component. */
+// Require a document to be passed to this component.
 StuffItemAdmin.propTypes = {
   stuff: PropTypes.object.isRequired,
 };
