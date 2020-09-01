@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { _ } from 'lodash';
+import _ from 'lodash';
 import { HACCHui } from '../hacc-hui/HACCHui';
 import { Users } from '../user/UserCollection';
 import { ROLE } from '../role/Role';
