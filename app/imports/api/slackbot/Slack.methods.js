@@ -1,4 +1,4 @@
-import { _ } from 'lodash';
+import _ from 'lodash';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { Administrators } from '../user/AdministratorCollection';
