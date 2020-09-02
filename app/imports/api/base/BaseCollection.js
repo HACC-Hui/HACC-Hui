@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { _ } from 'lodash';
+import _ from 'lodash';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../role/Role';

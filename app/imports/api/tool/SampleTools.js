@@ -1,6 +1,6 @@
 import moment from 'moment';
 import faker from 'faker';
-import { _ } from 'lodash';
+import _ from 'lodash';
 import { Tools } from './ToolCollection';
 import { Slugs } from '../slug/SlugCollection';
 

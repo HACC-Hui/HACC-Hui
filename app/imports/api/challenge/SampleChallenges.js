@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { _ } from 'lodash';
+import _ from 'lodash';
 import { makeSampleInterestSlugArray } from '../interest/SampleInterests';
 import { Challenges } from './ChallengeCollection';
 

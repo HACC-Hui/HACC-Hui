@@ -1,5 +1,5 @@
 import SimpleSchema from 'simpl-schema';
-import { _ } from 'lodash';
+import _ from 'lodash';
 import BaseSlugCollection from '../base/BaseSlugCollection';
 import { slugify, Slugs } from '../slug/SlugCollection';
 import { TeamChallenges } from './TeamChallengeCollection';
