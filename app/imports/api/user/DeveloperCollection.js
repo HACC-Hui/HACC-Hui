@@ -98,10 +98,8 @@ class DeveloperCollection extends BaseSlugCollection {
    * @param aboutMe {String} the new short description (optional).
    * @param isCompliant {Boolean} the new is compliant value (optional).
    */
-  update(docID, {
-    firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
-    skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant,
-  }) {
+  update(docID, firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
+    skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant) {
     this.assertDefined(docID);
     const updateData = {};
     if (firstName) {
