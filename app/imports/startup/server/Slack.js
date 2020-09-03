@@ -32,10 +32,10 @@ if (!Meteor.isAppTest) {
 
       const { email, real_name } = profile;
       const names = real_name.split(' ');
-      console.log(names);
+     // console.log(names);
       const first_name = names[0];
       const last_name = names[1];
-      console.log(email, first_name, last_name);
+      // console.log(email, first_name, last_name);
       if (!isAdminEmail(email)) { // they are a developer
         if (!Developers.isDefined(email)) {
           const firstName = first_name;
