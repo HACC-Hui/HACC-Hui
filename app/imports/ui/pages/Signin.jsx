@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
-import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
+import { Container, Form, Grid, Header, Message, Divider, Image } from 'semantic-ui-react';
 
 /**
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().
@@ -38,25 +38,27 @@ class Signin extends React.Component {
 
   // Render the signin form.
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { from } = this.props.location.state || { from: { pathname: '/ageconsent' } };
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
       return <Redirect to={from}/>;
     }
     // Otherwise return the Login form.
     return (
-      <Container>
+      <Container className={'signin'}>
         <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
           <Grid.Column>
+            <Image src="/images/hacc-logo.png"/>
+          </Grid.Column>
+          <Divider hidden vertical/>
+          <Grid.Column>
             <Header as="h2" textAlign="center">
-              Login to your account
+              LOGIN TO CONNECT NOW!
             </Header>
             <Form onSubmit={this.submit}>
-              <Segment stacked>
+              <Container attached style={{ backgroundColor: '#C4C4C4' }} className={'signinbox'}>
                 <Form.Input
                   label="Email"
-                  icon="user"
-                  iconPosition="left"
                   name="email"
                   type="email"
                   placeholder="E-mail address"
@@ -64,15 +66,13 @@ class Signin extends React.Component {
                 />
                 <Form.Input
                   label="Password"
-                  icon="lock"
-                  iconPosition="left"
                   name="password"
                   placeholder="Password"
                   type="password"
                   onChange={this.handleChange}
                 />
-                <Form.Button content="Submit"/>
-              </Segment>
+                <Form.Button style={{ color: 'white', backgroundColor: '#393B44' }} content="Submit" fluid/>
+              </Container>
             </Form>
             {this.state.error === '' ? (
               ''

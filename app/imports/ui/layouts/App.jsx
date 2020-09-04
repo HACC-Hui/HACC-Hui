@@ -14,6 +14,9 @@ import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
+import AgePage from '../pages/AgePage';
+import ParticipationForm from '../pages/ParticipationForm';
+import UnderParticipationForm from '../pages/UnderParticipationForm';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
 
@@ -30,6 +33,9 @@ class App extends React.Component {
             <Switch>
               <Route exact path="/" component={Landing}/>
               <Route path="/signin" component={Signin}/>
+              <ProtectedRoute exact path="/ageconsent" component={AgePage}/>
+              <Route exact path="/PF" component={ParticipationForm}/>
+              <Route exact path="/UPF" component={UnderParticipationForm}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
