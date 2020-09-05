@@ -67,19 +67,17 @@ class Dprofile extends React.Component {
       console.log(this.skill);
     };
     const SkillArray = this.props.skills;
-    //console.log(SkillArray);
+    // console.log(SkillArray);
     const Skillname = [];
     for (let i = 0; i < SkillArray.length; i++) {
       const sn = { key: SkillArray[i]._id, text: SkillArray[i].name, value: SkillArray[i].name };
       Skillname.push(sn);
     }
-    //console.log(Skillname);
+    // console.log(Skillname);
     // eslint-disable-next-line max-len
    // return Skillname.map((skill, i) => <Dropdown.Item key={i} onClick={() => this.selectSkill(skill)} >{skill}</Dropdown.Item>);
    return <Dropdown placeholder="please pick a skill" selection options={Skillname} onChange={handleOnChange} />;
   }
-
-
 
   renderLevel() {
     const handleOnChange = (e, data) => {
@@ -94,24 +92,37 @@ class Dprofile extends React.Component {
     return <Dropdown placeholder="please pick a Level for the skill" fluid selection options={Levels} onChange={handleOnChange} />;
   }
 
-  renderSkill_level() {
 
+
+  renderSkill_level() {
+    const deleteSkill = (removeskill) => {
+      // eslint-disable-next-line eqeqeq
+      this.skillSet = _.filter(this.skillSet, function (skill) { return skill.name != removeskill.name; });
+      //console.log(removeSkill);
+      const newState = { Skilladded: true };
+      this.setState(newState);
+    };
     if (this.skillSet.length > 0) {
       console.log(this.skillSet.length);
-      for (let i = 0; i < this.skillSet.length; i++) {
-
+      return _.map(this.skillSet, function (skill, key) {
         return <Grid.Row>
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}>
             <Header as='h3'>Skill:</Header> </Grid.Column>
-          <Grid.Column width={4}>{this.skillSet[i].name}</Grid.Column>
+          <Grid.Column width={4} style={{ marginTop: `${10}px` }}>{skill.name}</Grid.Column>
           {/* eslint-disable-next-line max-len */}
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h3'>Level:</Header> </Grid.Column>
-          <Grid.Column width={5}>{this.skillSet[i].level}</Grid.Column>
+          <Grid.Column width={5} style={{ marginTop: `${10}px` }}>{skill.level}</Grid.Column>
+          {/* eslint-disable-next-line max-len */}
+          <Grid.Column width={3}><Button type='button' onClick={() => deleteSkill(skill)}>delete the skill</Button></Grid.Column>
         </Grid.Row>;
-      }
+      });
+
+      const newState = { Skilladded: false };
+      this.setState(newState);
     }
+
     // eslint-disable-next-line eqeqeq
-    else { return ''; }
+     return '';
 
 }
 
@@ -127,7 +138,7 @@ class Dprofile extends React.Component {
       this.skillSet.push(SkillObject);
       console.log(this.skillSet);
       for (let i = 0; i < this.skillSet.length; i++) console.log(`skill${this.skillSet[i].name}`);
-      const newState = {Skilladded: true};
+      const newState = { Skilladded: true };
       this.setState(newState);
 
   }
