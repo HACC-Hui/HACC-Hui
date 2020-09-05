@@ -45,6 +45,7 @@ class Signin extends React.Component {
     }
     // Otherwise return the Login form.
     return (
+        <div style={{ backgroundColor: '#C4C4C4' }}>
       <Container className={'signin'}>
         <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
           <Grid.Column>
@@ -86,6 +87,7 @@ class Signin extends React.Component {
           </Grid.Column>
         </Grid>
       </Container>
+        </div>
     );
   }
 }

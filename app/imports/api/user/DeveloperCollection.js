@@ -35,6 +35,7 @@ class DeveloperCollection extends BaseSlugCollection {
       userID: { type: SimpleSchema.RegEx.Id, optional: true },
       lookingForTeam: { type: Boolean, optional: true },
       isCompliant: { type: Boolean, optional: true },
+      image: { type: String, defaultValue: '' },
     }));
   }
 
