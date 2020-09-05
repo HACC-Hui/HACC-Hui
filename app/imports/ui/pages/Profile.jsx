@@ -1,55 +1,101 @@
 import React from 'react';
-import { Image, Header, Button, Icon } from 'semantic-ui-react';
+import { Header, Grid, Button } from 'semantic-ui-react';
+// eslint-disable-next-line no-unused-vars
+import { ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-semantic';
 
 /**
  * A simple static component to render some text for the landing page.
  * @memberOf ui/pages
  */
-class Landing extends React.Component {
+class profile extends React.Component {
   render() {
     return (
         <div style={{ backgroundColor: '#C4C4C4' }}>
-          <div align={'center'}>
-            <Image src='images/hacc-logo.png'/>
-          </div>
-          <div align={'center'} style={{ backgroundColor: '#24252B' }}>
-            <Header inverted style={{ padding: '5rem 10rem 5rem 10rem' }} as={'h2'}>
-              The HACC Hui system provides an easy-to-use system that simplifies and improves the
-              team formation process for the Hawaii Annual Code Challenge.
-            </Header>
-          </div>
-
-          <div align={'center'} style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
-            <Header as='h1' inverted>
-              <Icon name='address card outline' style={{ color: 'white', fontSize: '5.5em' }}/>
-              <Header.Content>
-                CREATE A PROFILE
-                <Header.Subheader>Let others know who you are and what you know</Header.Subheader>
-              </Header.Content>
-            </Header>
-
-            <Header as='h1' inverted>
-              <Icon name='users' style={{ color: 'white', fontSize: '5.5em' }}/>
-              <Header.Content>
-                CREATE OR FIND A TEAM
-                <Header.Subheader>Link up with others around the state</Header.Subheader>
-              </Header.Content>
-            </Header>
-
-            <Header as='h1' inverted>
-              <Icon name='slack' style={{ color: 'white', fontSize: '5.5em' }}/>
-              <Header.Content>
-                SLACK
-                <Header.Subheader>Usage of a Slack bot to improve team formation &
-                  communication</Header.Subheader>
-              </Header.Content>
-            </Header>
-            <Button style={{ color: 'white', backgroundColor: '#24252B' }}>Sign Up</Button>
-
-          </div>
+          <Grid container centered>
+            <Grid.Column>
+              <div className='profileBox' style={{ padding: '1rem 5rem', margin: '2rem 0rem' }}>
+                <Grid columns={2} relaxed='very' stackable>
+                  <Grid.Column width={6}>
+                    <div className='innerProfileBox' style={{ padding: '1rem 5rem', margin: '2rem 0rem',
+                      borderRadius: '2Rem' }}>
+                      <Grid columns={8} divided>
+                      <Grid.Row centered>
+                        <Header inverted as="h3" textAlign="center">Team</Header>
+                      </Grid.Row>
+                      <Grid.Row centered>
+                        <Header inverted as="h3" textAlign="center">Profile Image</Header>
+                      </Grid.Row>
+                      <Grid.Row centered>
+                        <Header inverted as="h3" textAlign="center">Name</Header>
+                      </Grid.Row>
+                      <Grid.Row centered>
+                        <Header inverted as="h3" textAlign="center">Status</Header>
+                      </Grid.Row>
+                      <Grid.Row centered>
+                        <Header inverted as="h3" textAlign="center">Links</Header>
+                      </Grid.Row>
+                      <Grid.Row centered>
+                        <Header inverted as="h3" textAlign="center">Challenges</Header>
+                      </Grid.Row>
+                      <Grid.Row centered>
+                        <Header inverted as="h3" textAlign="center">Challenge1</Header>
+                      </Grid.Row>
+                      <Grid.Row centered>
+                        <Header inverted as="h3" textAlign="center">Challenge2</Header>
+                      </Grid.Row>
+                      </Grid>
+                    </div>
+                  </Grid.Column>
+                  <Grid.Column width={10}>
+                    <Button color='grey' floated='right'>EDIT</Button>
+                    <Grid className="info">
+                      <Grid.Row>
+                        <Header inverted as="h3">About ME</Header>
+                        <p>mi ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam
+                          eget felis eget nunc lobortis mattis aliquam faucibus purus in massa tempor
+                          nec feugiat nisl pretium fusce id velit ut tortor pretium viverra suspendisse
+                          potenti nullam ac tortor vitae purus faucibus ornare suspendisse sed nisi lacus
+                          sed viverra tellus in hac habitasse platea dictumst vestibulum rhoncus est</p>
+                      </Grid.Row>
+                      <Grid divided="vertically">
+                        <Grid.Column columns={2}>
+                        <Grid.Column>
+                        <Header inverted as="h3" textAlign="center">Tools</Header>
+                          <p>Experienced:
+                            Video Editing
+                            Graphic Design
+                            Novice:
+                            Video Editing
+                            Graphic Design
+                            Dont know, but would like to learn:
+                            Video Editing
+                            Graphic Design
+                          </p>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header inverted as="h3" textAlign="center">Skills</Header>
+                          <p>Experienced:
+                            Video Editing
+                            Graphic Design
+                            Novice:
+                            Video Editing
+                            Graphic Design
+                            Dont know, but would like to learn:
+                            Video Editing
+                            Graphic Design
+                          </p>
+                        </Grid.Column>
+                      </Grid.Column>
+                      </Grid>
+                    </Grid>
+                  </Grid.Column>
+                </Grid>
+              </div>
+            </Grid.Column>
+          </Grid>
         </div>
     );
   }
 }
 
-export default Landing;
+export default profile;

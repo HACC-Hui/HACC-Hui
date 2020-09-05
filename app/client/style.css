@@ -15,3 +15,20 @@ h3, h1, h2 {
   letter-spacing: 2px;
   text-transform: uppercase!important;
 }
+
+.profileBox{
+  width: 1261px;
+  height: 714px;
+  background: #393B44;
+  border-radius: 25px;
+}
+
+.innerProfileBox{
+  width: 376px;
+  height: 646px;
+  background: #24252B;
+}
+
+.info{
+  padding-top: 100px!important;
+}
