@@ -39,21 +39,6 @@ class AddSkill extends React.Component {
     const docID = Skills.define({
       name, description,
     });
-
-    // const docID = Teams.define({
-    //     teamName, description, gitHubRepo, devPostPage,
-    //     owner, open, challenges, skills, tools, developers,
-    //   },
-    //     (error) => {
-    //       if (error) {
-    //         swal('Error', error.message, 'error');
-    //          console.error(error.message);
-    //       } else {
-    //         swal('Success', 'Item added successfully', 'success');
-    //         formRef.reset();
-    //          console.log('Success');
-    //       }
-    //     });
     console.log(docID);
   }
 
