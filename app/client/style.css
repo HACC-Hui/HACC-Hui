@@ -1,0 +1,19 @@
+#cover-photo {
+  background: url("/images/circuit_cover.png");
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  background-size: contain;
+  height: 150%;
+  width: 110%;
+  margin-top: 13px;
+  padding-right: 80px;
+}
+
+#profile-pic {
+  border: 7px solid #fff;
+}
+
+.info-style {
+  font-weight: 300;
+  font-size: 18px;
+}
