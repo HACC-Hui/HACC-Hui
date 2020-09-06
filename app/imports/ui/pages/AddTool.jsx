@@ -10,7 +10,7 @@ import {
 import { Meteor } from 'meteor/meteor';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
-import { Skills } from '../../api/skill/SkillCollection';
+import { Tools } from '../../api/tool/ToolCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
@@ -22,7 +22,7 @@ const schema = new SimpleSchema({
  * Renders the Page for adding stuff. **deprecated**
  * @memberOf ui/pages
  */
-class AddSkill extends React.Component {
+class AddTool extends React.Component {
 
   /** On submit, insert the data.
    * @param data {Object} the results from the form.
@@ -36,7 +36,7 @@ class AddSkill extends React.Component {
       name, description,
     } = data;
 
-    const docID = Skills.define({
+    const docID = Tools.define({
       name, description,
     });
 
@@ -69,7 +69,7 @@ class AddSkill extends React.Component {
                 backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
                 borderRadius: '2rem',
               }}>
-                <Header as="h2" textAlign="center" inverted>Add Skill</Header>
+                <Header as="h2" textAlign="center" inverted>Add Tool</Header>
               </div>
               <AutoForm ref={ref => {
                 fRef = ref;
@@ -104,4 +104,4 @@ class AddSkill extends React.Component {
   }
 }
 
-export default AddSkill;
+export default AddTool;

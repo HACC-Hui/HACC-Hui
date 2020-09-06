@@ -70,7 +70,7 @@ class ManageHACC extends React.Component {
                 <Button style={{
                   color: 'white', backgroundColor: '#24252B',
                   margin: '2rem 0rem',
-                }}>Add Tool</Button>
+                }}><Link to={'/add-tool/'} style={{ color: 'white' }}>Add Tool</Link></Button>
                 </div>
               </Segment>
             </Grid.Column>
