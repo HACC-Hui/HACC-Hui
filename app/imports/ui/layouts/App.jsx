@@ -16,6 +16,7 @@ import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
 import CreateTeam from '../pages/CreateTeam';
 import ManageHACC from '../pages/ManageHACC';
+import AddChallenge from '../pages/AddChallenge';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 // import { ROLE } from '../../api/role/Role';
 
@@ -37,6 +38,7 @@ class App extends React.Component {
               <ProtectedRoute path="/create" component={CreateTeam}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
+              <AdminProtectedRoute path="/add-challenge" component={AddChallenge}/>
               <AdminProtectedRoute path="/manage" component={ManageHACC}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>

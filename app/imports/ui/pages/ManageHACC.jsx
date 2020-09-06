@@ -1,17 +1,14 @@
 import React from 'react';
 import { Grid, Segment, Header, Table, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 /**
- * Renders the Page for adding stuff. **deprecated**
+ * Renders the Page for Managing HACC. **deprecated**
  * @memberOf ui/pages
  */
 class ManageHACC extends React.Component {
 
-  /** On submit, insert the data.
-   * @param data {Object} the results from the form.
-   * @param formRef {FormRef} reference to the form.
-   */
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
     return (
         <div style={{ backgroundColor: '#C4C4C4', paddingBottom: '50px' }}>
@@ -43,7 +40,7 @@ class ManageHACC extends React.Component {
                 <Button style={{
                   color: 'white', backgroundColor: '#24252B',
                   margin: '2rem 0rem',
-                }}>Add Challenge</Button>
+                }}><Link to={'/add-challenge/'} style={{ color: 'white' }}>Add Challenge</Link></Button>
                 </div>
                 <Header as="h2" textAlign="center" inverted>Skills</Header>
                 <Table>
