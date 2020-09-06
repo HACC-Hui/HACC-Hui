@@ -14,10 +14,7 @@ import { Challenges } from '../../api/challenge/ChallengeCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
-  title: String,
-  interests: String,
-  submissionDetail: String,
-  pitch: String,
+  name: String,
   description: String,
 });
 
@@ -25,7 +22,7 @@ const schema = new SimpleSchema({
  * Renders the Page for adding stuff. **deprecated**
  * @memberOf ui/pages
  */
-class AddChallenge extends React.Component {
+class AddSkill extends React.Component {
 
   /** On submit, insert the data.
    * @param data {Object} the results from the form.
@@ -33,14 +30,14 @@ class AddChallenge extends React.Component {
    */
   submit(data, formRef) {
 
-    console.log('AddChallenge.submit', data);
+    console.log('AddSkill.submit', data);
 
     const {
-      title, description, interests, submissionDetail, pitch,
+      name, description,
     } = data;
 
     const docID = Challenges.define({
-      title, description, interests, submissionDetail, pitch,
+      name, description,
     });
 
     // const docID = Teams.define({
@@ -72,7 +69,7 @@ class AddChallenge extends React.Component {
                 backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
                 borderRadius: '2rem',
               }}>
-                <Header as="h2" textAlign="center" inverted>Add Challenge</Header>
+                <Header as="h2" textAlign="center" inverted>Add Skill</Header>
               </div>
               <AutoForm ref={ref => {
                 fRef = ref;
@@ -86,11 +83,8 @@ class AddChallenge extends React.Component {
                 }} className={'teamCreate'}>
                   <Grid container centered>
                     <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
-                      <TextField name='title' required/>
+                      <TextField name='name' required/>
                       <LongTextField name='description' required/>
-                      <TextField name='interests' required/>
-                      <TextField name='submissionDetail' required/>
-                      <TextField name='pitch' required/>
                     </Grid.Column>
                   </Grid>
                   <div align='center'>
@@ -110,4 +104,4 @@ class AddChallenge extends React.Component {
   }
 }
 
-export default AddChallenge;
+export default AddSkill;
