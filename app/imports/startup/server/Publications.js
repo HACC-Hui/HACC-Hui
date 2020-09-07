@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { HACCHui } from '../../api/hacc-hui/HACCHui';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Skills } from '../../api/skill/SkillCollection';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
 
 // Publish all the collections you need.
 _.forEach(HACCHui.collections, (collection) => collection.publish());
@@ -19,5 +20,9 @@ Meteor.publish(null, function () {
 });
 Meteor.publish('allSkills', function publish() {
   return Skills.find({});
+  return this.ready();
+});
+Meteor.publish('allChallenges', function publish() {
+  return Challenges.find({});
   return this.ready();
 });
