@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Header, Segment, Dropdown, Button } from 'semantic-ui-react';
+import { Grid, Header, Segment, Dropdown, Button, Loader, Checkbox } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import {
   AutoForm,
@@ -16,6 +16,7 @@ import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import MultiSelect from '../../form/MultiSelect';
 import { Developers } from '../../../api/user/DeveloperCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
@@ -24,6 +25,8 @@ import { Challenges } from '../../../api/challenge/ChallengeCollection';
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
 
+ // challenges: { type: Array, label: 'Challenge', optional: true },
+//  'challenges.$': { type: String, allowedValues: allChallenges },
   linkedIn: { type: String, optional: true },
   gitHub: { type: String, optional: true },
   website: { type: String, optional: true },
@@ -49,14 +52,36 @@ class Dprofile extends React.Component {
 
   level;
 
+  challenges;
+
   constructor(props) {
     super(props);
     this.numskill = 0;
     this.skillSet = [];
     this.levelSet = [];
     this.skills_level = [];
+    this.challenges = [];
     this.state = { Skilladded: false };
 
+  }
+
+  renderChallenge() {
+    const handleOnChange = (e, data) => {
+     if (data.checked === true) {
+       const challenge = _.findWhere(this.props.challenges, { title: data.label });
+       this.challenges.push(challenge);
+
+     } else {
+        // eslint-disable-next-line eqeqeq
+       this.challenges = _.filter(this.challenges, function (challenge) { return challenge.title != data.label; });
+     }
+      console.log(data);
+    };
+    const ChallengesOptions = this.props.challenges;
+    return _.map(ChallengesOptions, function (challenge, key) {
+      //  const name = `${challenge.title}   ( ${challenge.description} )`;
+        return <Grid.Row><Checkbox label={challenge.title} onChange={handleOnChange}/></Grid.Row>;
+    });
   }
 
   renderSkill() {
@@ -112,9 +137,6 @@ class Dprofile extends React.Component {
           <Grid.Column width={3}><Button type='button' onClick={() => deleteSkill(skill)}>delete the skill</Button></Grid.Column>
         </Grid.Row>;
       });
-
-      const newState = { Skilladded: false };
-      this.setState(newState);
     }
 
     // eslint-disable-next-line eqeqeq
@@ -158,8 +180,15 @@ class Dprofile extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+      return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+    }
+
+    renderPage() {
+    const ChallengesOptions = this.props.challenges;
+    console.log(ChallengesOptions);
     let fRef = null;
-    const formSchema = new SimpleSchema2Bridge(schema);
+   const formSchema = new SimpleSchema2Bridge(schema);
+   // const formSchema = schema(ChallengesOptions);
     return (
         <Grid container centered>
           <Grid.Column>
@@ -168,6 +197,10 @@ class Dprofile extends React.Component {
 
             <AutoForm ref={ref => { fRef = ref; }} schema={formSchema} onSubmit={data => this.submit(data, fRef)} >
               <Segment>
+                <Header as='h3'>Challenge: (please select at least one)</Header>
+                <Grid style={{ marginLeft: `${10}px` }}>
+                {this.renderChallenge()}
+                </Grid>
                 <Grid>
                   {this.state.Skilladded ? (this.renderSkill_level()) : ''}
                   <Grid.Row>
@@ -182,7 +215,6 @@ class Dprofile extends React.Component {
 
                   </Grid.Row>
                 </Grid>
-
                 <TextField name='linkedIn'/>
                 <TextField name='gitHub'/>
                 <TextField name='website'/>
@@ -201,6 +233,7 @@ class Dprofile extends React.Component {
 Dprofile.propTypes = {
   skills: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
+  ready: PropTypes.bool.isRequired,
 
 };
 export default withTracker(() => {
