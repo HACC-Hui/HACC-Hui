@@ -50,7 +50,7 @@ class ProfileAdd extends React.Component {
     const { username, firstName, lastName, demographicLevel, lookingForTeam,
       challenges, interests, skills, tools,
       linkedIn, gitHub, website, aboutMe } = data;
-    const slugID = Meteor.user().username;
+    const userID = Meteor.user().username;
     // console.log(`{ ${name}, ${quantity}, ${condition}, ${owner} }`);
     defineMethod.call({ username, firstName, lastName, demographicLevel, lookingForTeam,
           challenges, interests, skills, tools,
