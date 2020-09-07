@@ -8,7 +8,7 @@ import {
   SubmitField,
   SelectField,
   TextField,
-  RadioField,
+  BoolField,
 } from 'uniforms-semantic';
 import _ from 'underscore';
 import swal from 'sweetalert';
@@ -19,19 +19,17 @@ import SimpleSchema from 'simpl-schema';
 import { Developers } from '../../../api/user/DeveloperCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
+import { Challenges } from '../../../api/challenge/ChallengeCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
 
-  linkedIn: String,
-  gitHub: String,
-  website: String,
-  aboutMe: String,
-  condition: {
-    type: String,
-    allowedValues: ['excellent', 'good', 'fair', 'poor'],
-    defaultValue: 'good',
-  },
+  linkedIn: { type: String, optional: true },
+  gitHub: { type: String, optional: true },
+  website: { type: String, optional: true },
+  aboutMe: { type: String, optional: true },
+  Agree: { type: Boolean, defaultValue: false },
+
 });
 
 /**
@@ -92,13 +90,11 @@ class Dprofile extends React.Component {
     return <Dropdown placeholder="please pick a Level for the skill" fluid selection options={Levels} onChange={handleOnChange} />;
   }
 
-
-
   renderSkill_level() {
     const deleteSkill = (removeskill) => {
       // eslint-disable-next-line eqeqeq
       this.skillSet = _.filter(this.skillSet, function (skill) { return skill.name != removeskill.name; });
-      //console.log(removeSkill);
+      // console.log(removeSkill);
       const newState = { Skilladded: true };
       this.setState(newState);
     };
@@ -146,10 +142,10 @@ class Dprofile extends React.Component {
   submit(data, formRef) {
     const docID = 0;
     // const docID = Meteor.userId();
-    const { demeogra, lookingForTeam, challenges, interests, skills,
-      tools, linkedIn, gitHub, website, aboutMe, isCompliant } = data;
+    const { demeogra, lookingForTeam, challenges, interests,
+      linkedIn, gitHub, website, aboutMe, isCompliant } = data;
     Developers.update(docID, { demographicLevel: demeogra, lookingForTeam, challenges, interests,
-          skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant },
+          linkedIn, gitHub, website, aboutMe, isCompliant },
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
@@ -191,7 +187,7 @@ class Dprofile extends React.Component {
                 <TextField name='gitHub'/>
                 <TextField name='website'/>
                 <LongTextField name='aboutMe'/>
-                <SelectField name='condition'/>
+                <BoolField apperance='checkbox' name='Agree'>I agree the statement</BoolField>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
               </Segment>
@@ -204,16 +200,18 @@ class Dprofile extends React.Component {
 
 Dprofile.propTypes = {
   skills: PropTypes.array.isRequired,
+  challenges: PropTypes.array.isRequired,
 
 };
 export default withTracker(() => {
 
   const subscription = Meteor.subscribe('allSkills');
-
+  const subscription2 = Meteor.subscribe('allChallenges');
   return {
 
     skills: Skills.find({}).fetch(),
-    ready: subscription.ready(),
+    challenges: Challenges.find({}).fetch(),
+    ready: subscription.ready() && subscription2.ready(),
 
   };
 })(Dprofile);
