@@ -14,6 +14,7 @@ class ChallengesAdmin extends React.Component {
         <Table.Row>
           <Table.Cell>{this.props.challenge.title}</Table.Cell>
           <Table.Cell>{this.props.challenge.description}</Table.Cell>
+          <Table.Cell>{this.props.challenge.interests}</Table.Cell>
           <Table.Cell>{this.props.challenge.submissionDetail}</Table.Cell>
           <Table.Cell>{this.props.challenge.pitch}</Table.Cell>
         </Table.Row>
