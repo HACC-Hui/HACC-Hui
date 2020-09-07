@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from 'semantic-ui-react';
+import { Header, Image } from 'semantic-ui-react';
 
 /**
  * A simple static component to render some text for the landing page.
@@ -13,6 +13,7 @@ class underpartf extends React.Component {
             <Header inverted style={{ padding: '5rem 10rem 5rem 10rem' }} as={'h2'}>
               UnderParticipationForm
             </Header>
+            <Image style={{ padding: '5rem 10rem 5rem 10rem' }} src='images/part.png'/>
           </div>
         </div>
     );
