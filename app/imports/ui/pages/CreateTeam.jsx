@@ -6,7 +6,7 @@ import {
   SubmitField,
   TextField,
   LongTextField,
-  HiddenField
+  HiddenField,
 } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
@@ -15,15 +15,15 @@ import SimpleSchema from 'simpl-schema';
 import MultiSelectField from '../controllers/MultiSelectField';
 import RadioField from '../controllers/RadioField';
 import { Teams } from '../../api/team/TeamCollection';
-
+import { defineMethod } from '../../api/base/BaseCollection.methods';
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
-  availability: {
-    type: String,
-    allowedValues: ['Open', 'Close'],
+  open: {
+    type: Boolean,
+    allowedValues: [true, false],
   },
-  teamName: String,
-  image: String,
+  name: String,
+  // image: String,
   challenges: { type: Array, label: 'Challenges' },
   'challenges.$': { type: String, allowedValues: ['Sustainability', 'Green Energy'] },
   skills: { type: Array, label: 'Skills' },
@@ -35,7 +35,7 @@ const schema = new SimpleSchema({
 });
 
 /**
- * Renders the Page for adding stuff. **deprecated**
+ * Renders the Page for adding teams.
  * @memberOf ui/pages
  */
 class CreateTeam extends React.Component {
@@ -44,32 +44,35 @@ class CreateTeam extends React.Component {
    * @param data {Object} the results from the form.
    * @param formRef {FormRef} reference to the form.
    */
-  submit(data, formRef) {
+  submit(definitionData, formRef) {
 
-    console.log('CreateTeam.submit', data);
+    console.log('CreateTeam.submit', definitionData);
 
     const {
-      teamName, description, gitHubRepo = '', devPostPage = '',
-      owner, open = true, challenges, skills, tools, developers = []
-    } = data;
+      name, description, owner, open, challenges, skills, tools,
+    } = definitionData;
 
-    const docID = Teams.define({
-      teamName, description, open, owner, gitHubRepo,
-      devPostPage, challenges, tools, skills
-    });
+    // console.log(name);
+    // console.log(description);
+    // console.log(owner);
+    // console.log(open);
+    // console.log(challenges);
+    // console.log(skills);
+    // console.log(tools);
+    console.log(Teams.getCollectionName());
+    const collectionName = Teams.getCollectionName();
+    const docID = defineMethod.call({ collectionName }, { definitionData });
 
-    // const docID = Teams.define({
-    //     teamName, description, gitHubRepo, devPostPage,
-    //     owner, open, challenges, skills, tools, developers,
-    //   },
+    // const docID = defineMethod(Teams.getCollectionName(), {
+    //       name, description, owner, open, challenges, skills, tools},
     //     (error) => {
     //       if (error) {
     //         swal('Error', error.message, 'error');
-    //          console.error(error.message);
+    //         console.error(error.message);
     //       } else {
     //         swal('Success', 'Item added successfully', 'success');
     //         formRef.reset();
-    //          console.log('Success');
+    //         console.log('Success');
     //       }
     //     });
     console.log(docID);
@@ -101,18 +104,18 @@ class CreateTeam extends React.Component {
                 }} className={'teamCreate'}>
                   <Grid columns={2} style={{ paddingTop: '2rem' }}>
                     <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
-                      <TextField name='teamName'/>
+                      <TextField name='name'/>
                       <MultiSelectField name='challenges' placeholder={'Challenges'} required/>
                       <MultiSelectField name='skills' placeholder={'Skills'} required/>
                       <MultiSelectField name='tools' placeholder={'Toolsets'} required/>
                     </Grid.Column>
                     <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
                       <RadioField
-                          name='availability'
+                          name='open'
                           inline
                       >
                       </RadioField>
-                      <TextField name='image' placeholder={'Team Image URL'}/>
+                      {/* <TextField name='image' placeholder={'Team Image URL'}/> */}
                       <LongTextField name='description'/>
                     </Grid.Column>
                   </Grid>
