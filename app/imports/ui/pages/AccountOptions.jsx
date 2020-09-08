@@ -1,68 +1,51 @@
 import React from 'react';
-import { Grid, Segment, Header } from 'semantic-ui-react';
-import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
-import swal from 'sweetalert';
+import { Grid, Button, Header, Card, Icon, Image, Modal } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
-import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
-import SimpleSchema from 'simpl-schema';
-import { stuffDefineMethod } from '../../api/stuff/StuffCollection.methods';
-
-// Create a schema to specify the structure of the data to appear in the form.
-const schema = new SimpleSchema({
-  name: String,
-  quantity: Number,
-  condition: {
-    type: String,
-    allowedValues: ['excellent', 'good', 'fair', 'poor'],
-    defaultValue: 'good',
-  },
-});
-
+import { usersDeleteMethod } from '../../api/user/AccountOptions.methods';
 /**
- * Renders the Page for adding stuff. **deprecated**
+ * Renders the Page for Account Options. **deprecated**
  * @memberOf ui/pages
  */
-class AccountOptions extends React.Component {
 
-  /** On submit, insert the data.
-   * @param data {Object} the results from the form.
-   * @param formRef {FormRef} reference to the form.
-   */
-  submit(data, formRef) {
-    // console.log('AddStuff.submit', data);
-    const { name, quantity, condition } = data;
-    const owner = Meteor.user().username;
-    // console.log(`{ ${name}, ${quantity}, ${condition}, ${owner} }`);
-    stuffDefineMethod.call({ name, quantity, condition, owner },
-      (error) => {
-        if (error) {
-          swal('Error', error.message, 'error');
-          // console.error(error.message);
-        } else {
-          swal('Success', 'Item added successfully', 'success');
-          formRef.reset();
-          // console.log('Success');
-        }
-      });
+class AccountOptions extends React.Component {
+    submit = () => {
+      usersDeleteMethod.call(Meteor.user().username);
   }
 
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    let fRef = null;
-    const formSchema = new SimpleSchema2Bridge(schema);
     return (
         <Grid container centered>
           <Grid.Column>
             <Header as="h2" textAlign="center">Account Options</Header>
-            <AutoForm ref={ref => { fRef = ref; }} schema={formSchema} onSubmit={data => this.submit(data, fRef)} >
-              <Segment>
-                <TextField name='name'/>
-                <NumField name='quantity' decimal={false}/>
-                <SelectField name='condition'/>
-                <SubmitField value='Submit'/>
-                <ErrorsField/>
-              </Segment>
-            </AutoForm>
+              <Card fluid>
+                  <Image src='https://thepowerofthedream.org/wp-content/uploads/2015/09/generic-profile-picture.jpg'
+                         floated='left' size='small' wrapped ui={true} />
+                  <Card.Content>
+                      <Card.Header>{Meteor.user().username}</Card.Header>
+                      <Card.Meta>
+                          <span className='date'>Joined (date)</span>
+                      </Card.Meta>
+                      <Card.Description>
+                          User Bio Info
+                      </Card.Description>
+                  </Card.Content>
+                  <Card.Content extra>
+                      <a>
+                          <Icon name='users' />
+                          (Team Name Goes Here)
+                      </a>
+                  </Card.Content>
+                  <Card.Content extra>
+                      <a>
+                          <Icon name='setting' />
+                          <Modal
+                              trigger={<Button color='red'>Delete Account</Button>}
+                              header='Account Removal Form'
+                              content='Before you go please fill out this questionnaire so we can improve the HACC experience in the future.'
+                              actions={['Cancel', { key: 'submit', content: 'Submit & Delete', positive: true, onClick: this.submit }]}/>
+                      </a>
+                  </Card.Content>
+              </Card>
           </Grid.Column>
         </Grid>
     );

@@ -50,6 +50,14 @@ class UserCollection {
     return Developers.hasProfile(userID) || Administrators.hasProfile(userID);
   }
 
+  deleteProfile(user) {
+    const userID = this.getID(user);
+    console.log(`User: ${user}is being deleted`);
+    Meteor.users.remove(userID);
+    console.log(`User: ${user} has been deleted`);
+    return '';
+  }
+
   getProfile(user) {
     // First, let's check to see if user is actually a profile (or looks like one). If so, just return it.
     if (_.isObject(user) && _.has(user, 'firstName') && _.has(user, 'lastName') && _.has(user, 'role')) {
