@@ -5,6 +5,8 @@ import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } 
 import swal from 'sweetalert';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
+import { Tools } from '../../api/tool/ToolCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
@@ -13,7 +15,7 @@ const schema = new SimpleSchema({
 });
 
 /**
- * Renders the Page for adding Challenge. **deprecated**
+ * Renders the Page for adding Tool. **deprecated**
  * @memberOf ui/pages
  */
 class AddTool extends React.Component {
@@ -23,9 +25,13 @@ class AddTool extends React.Component {
    * @param formRef {FormRef} reference to the form.
    */
   submit(data, formRef) {
-    // console.log('AddChallenge.submit', data);
+    // console.log('AddTools.submit', data);
     const { name, description } = data;
-    Meteor.call('toolAdd', name, description, (error) => {
+    const definitionData = {
+      name,
+      description,
+    };
+    defineMethod.call({ collectionName: Tools.getCollectionName(), definitionData: definitionData }, (error) => {
       if (error) {
         swal('Error', error.message, 'error');
         // console.error(error.message);

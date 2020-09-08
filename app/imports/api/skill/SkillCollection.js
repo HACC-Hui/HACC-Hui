@@ -56,7 +56,7 @@ class SkillCollection extends BaseSlugCollection {
    * @throws { Meteor.Error } If docID is not defined.
    */
   update(docID,
-    name, description) {
+         { name, description }) {
     this.assertDefined(docID);
     const updateData = {};
     if (name) {

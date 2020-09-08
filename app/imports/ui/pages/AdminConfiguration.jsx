@@ -33,7 +33,7 @@ class AdminConfiguration extends React.Component {
     return (
         <Container>
           <Grid style={{ flexDirection: 'row', margin: 15, justifyContent: 'center', alignItems: 'center' }}>
-            <b style={{ fontSize: 25 }}>Challenges</b>
+            <b style={{ fontSize: 25 }}>Challenge</b>
             <AddChallengeButton/>
           </Grid>
           <Table celled>

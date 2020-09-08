@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
 import swal from 'sweetalert';
@@ -7,6 +6,7 @@ import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { updateMethod } from '../../api/base/BaseCollection.methods';
 
 /**
  * Renders the Page for editing a single document.
@@ -19,10 +19,18 @@ class EditChallenges extends React.Component {
    */
   submit(data) {
     // console.log(data);
-    const { title, description, interestIDs, submissionDetail, pitch } = data;
-    Meteor.call('challengeAdd', title, description, interestIDs, submissionDetail, pitch, (error) => (error ?
-      swal('Error', error.message, 'error') :
-      swal('Success', 'Challenge updated successfully', 'success')));
+    const { title, description, interestIDs, submissionDetail, pitch, _id } = data;
+    const updateData = {
+      _id,
+      title,
+      description,
+      interestIDs,
+      submissionDetail,
+      pitch,
+    };
+    updateMethod.call({ collectionName: Challenges.getCollectionName(), updateData: updateData }, (error) => (error ?
+        swal('Error', error.message, 'error') :
+        swal('Success', 'Challenge updated successfully', 'success')));
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */

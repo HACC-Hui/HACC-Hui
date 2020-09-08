@@ -7,6 +7,8 @@ import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Skills } from '../../api/skill/SkillCollection';
+import { updateMethod } from '../../api/base/BaseCollection.methods';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
 
 /**
  * Renders the Page for editing a single document.
@@ -21,7 +23,12 @@ class EditSkills extends React.Component {
   submit(data) {
     // console.log(data);
     const { name, description, _id } = data;
-    Meteor.call('skillUpdate', _id, name, description, (error) => (error ?
+    const updateData = {
+      _id,
+      name,
+      description,
+    };
+    updateMethod.call({ collectionName: Skills.getCollectionName(), updateData: updateData }, (error) => (error ?
         swal('Error', error.message, 'error') :
         swal('Success', 'Challenge updated successfully', 'success')));
   }

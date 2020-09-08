@@ -5,6 +5,8 @@ import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } 
 import swal from 'sweetalert';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
+import { Skills } from '../../api/skill/SkillCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
@@ -25,7 +27,11 @@ class AddSkill extends React.Component {
   submit(data, formRef) {
     // console.log('AddSkills.submit', data);
     const { name, description } = data;
-    Meteor.call('skillAdd', name, description, (error) => {
+    const definitionData = {
+      name,
+      description,
+    };
+    defineMethod.call({ collectionName: Skills.getCollectionName(), definitionData: definitionData }, (error) => {
       if (error) {
         swal('Error', error.message, 'error');
         // console.error(error.message);

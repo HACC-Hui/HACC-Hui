@@ -77,6 +77,8 @@ class HACCHuiClass {
     if (!collection) {
       throw new Meteor.Error(`Called HACCHui.getCollection with unknown collection name: ${collectionName}`);
     }
+    console.log('what collection');
+    console.log(collection);
     return collection;
   }
 }

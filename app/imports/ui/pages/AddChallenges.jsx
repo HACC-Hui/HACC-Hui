@@ -5,6 +5,8 @@ import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } 
 import swal from 'sweetalert';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
@@ -26,14 +28,21 @@ class AddChallenge extends React.Component {
    */
   submit(data, formRef) {
     // console.log('AddChallenge.submit', data);
-    const { title, description, submissionDetail, pitch } = data;
-    const interests = ['FX5f4Rsuf2rrQHj2X'];
-    Meteor.call('challengeAdd', title, description, interests, submissionDetail, pitch, (error) => {
+    const { title, description, interestIDs, submissionDetail, pitch, _id } = data;
+    const definitionData = {
+      _id,
+      title,
+      description,
+      interestIDs,
+      submissionDetail,
+      pitch,
+    };
+    defineMethod.call({ collectionName: Challenges.getCollectionName(), definitionData: definitionData }, (error) => {
       if (error) {
         swal('Error', error.message, 'error');
         // console.error(error.message);
       } else {
-        swal('Success', 'Item added successfully', 'success');
+        swal('Success', 'Challenge added successfully', 'success');
         formRef.reset();
         // console.log('Success');
       }

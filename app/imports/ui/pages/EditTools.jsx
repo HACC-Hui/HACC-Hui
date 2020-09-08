@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
 import swal from 'sweetalert';
@@ -6,6 +5,7 @@ import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } 
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import { updateMethod } from '../../api/base/BaseCollection.methods';
 import { Tools } from '../../api/tool/ToolCollection';
 
 /**
@@ -21,7 +21,12 @@ class EditTools extends React.Component {
   submit(data) {
     // console.log(data);
     const { name, description, _id } = data;
-    Meteor.call('toolUpdate', _id, name, description, (error) => (error ?
+    const updateData = {
+      _id,
+      name,
+      description,
+    };
+    updateMethod.call({ collectionName: Tools.getCollectionName(), updateData: updateData }, (error) => (error ?
         swal('Error', error.message, 'error') :
         swal('Success', 'Challenge updated successfully', 'success')));
   }
@@ -34,6 +39,7 @@ class EditTools extends React.Component {
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   renderPage() {
     const formSchema = new SimpleSchema2Bridge(Tools.getSchema());
+    console.log(formSchema);
     return (
         <Grid container centered>
           <Grid.Column>
