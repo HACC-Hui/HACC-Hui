@@ -20,7 +20,7 @@ import AddChallenge from '../pages/AddChallenge';
 import AddSkill from '../pages/AddSkill';
 import AddTool from '../pages/AddTool';
 import withAllSubscriptions from './AllSubscriptionsHOC';
-// import { ROLE } from '../../api/role/Role';
+import { ROLE } from '../../api/role/Role';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -89,7 +89,7 @@ const AdminProtectedRoute = ({ component: Component, ...rest }) => {
           {...rest}
           render={(props) => {
             const isLogged = Meteor.userId() !== null;
-            const isAdmin = Roles.userIsInRole(Meteor.userId(), 'admin');
+            const isAdmin = Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
             return (isLogged && isAdmin) ?
                 (<WrappedComponent {...props} />) :
                 (<Redirect to={{ pathname: '/signin', state: { from: props.location } }}/>

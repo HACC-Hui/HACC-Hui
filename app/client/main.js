@@ -12,4 +12,3 @@ import '../imports/api/slug';
 import '../imports/api/team';
 import '../imports/api/tool';
 import '../imports/api/user';
-
