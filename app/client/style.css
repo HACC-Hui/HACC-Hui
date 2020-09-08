@@ -1,0 +1,37 @@
+/* Styling for phones */
+@media (max-width: 767px) {
+  div.ui.segment.landing-banner-segment {
+    padding: 5em 0em;
+  }
+  h1.ui.header.landing-banner-title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+  h2.ui.header.landing-banner-subtitle {
+    font-size: 1.5em;
+    font-weight: normal;
+    margin-top: 0.5em;
+  }
+}
+
+@media (min-width: 768px) {
+  div.ui.segment.landing-banner-segment {
+    padding: 10em 0em;
+  }
+  h1.ui.header.landing-banner-title {
+    font-size: 4em;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+  h2.ui.header.landing-banner-subtitle {
+    font-size: 1.7em;
+    font-weight: normal;
+    margin-top: 1.5em;
+  }
+}
+
+.ui.button.button-v1 {
+  background-color: #25C2A0;
+  color: white;
+}

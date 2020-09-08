@@ -1,5 +1,6 @@
 import React from 'react';
 import { Responsive, Grid, Image, Container, Header, Button, Icon, Segment } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 
 /**
  * A simple static component to render some text for the landing page.
@@ -25,74 +26,71 @@ class Landing extends React.Component {
 
   }
 
+
+
   render() {
+
+    const gridh3Style = {
+      marginTop: 5,
+    }
+    const gridDivImgStyle = {
+      display: 'flex',
+      // padding: '2rem 0',
+      // width: '100%',
+      height: 150,
+    }
+
     return (
-        <Responsive
-            as={Segment}
-            onUpdate={this.handleOnUpdate}
+      <div>
+        <Segment
             textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em' }}
+            className='landing-banner-segment'
             vertical
         >
-          <Container text>
+          <Container>
             <Header
-                as='h1'
-                content='Imagine-a-Company'
-                style={{
-                  fontSize: (window.innerwidth > 750) ? '4em' : '2em',
-                  fontWeight: 'normal',
-                  marginBottom: 0,
-                  marginTop: (window.innerwidth > 750) ? '4em' : '2em',
-                }}
+              as='h1'
+              content="Hawai'i Annual Coding Challenge"
+              className="landing-banner-title"
             />
             <Header
                 as='h2'
-                content='Do whatever you want when you want to.'
-                style={{
-                  fontSize: '1.7em',
-                  fontWeight: 'normal',
-                  marginTop: '1.5em',
-                }}
+                content='Where Innovation Starts'
+                className='landing-banner-subtitle'
             />
-            <Button primary size='huge'>
-              Get Started
-              <Icon name='right arrow' />
+            <Button className='button-v1' size='huge' as={NavLink} exact to="/signin">
+              Register
             </Button>
           </Container>
-        </Responsive>
-        // <Grid stackable centered >
-        //     <Grid.Column>blash
-        //       <Image size='medium' circular src="/images/meteor-logo.png"/>weqrqwe
-        //     </Grid.Column>
-        //
-        //   <Grid.Row centered columns={3}>
-        //     <Grid.Column>
-        //       <Image size='small' circular src="/images/meteor-logo.png"/>
-        //       adfasdfasd
-        //     </Grid.Column>
-        //     <Grid.Column>
-        //       <Image size='small' circular src="/images/meteor-logo.png"/>yteherhyehrt
-        //     </Grid.Column>
-        //     <Grid.Column>
-        //       <Image size='small' circular src="/images/meteor-logo.png"/>ertyeyt
-        //     </Grid.Column>
-        //   </Grid.Row>
-        // </Grid>
-
-
-
-        // <Grid verticalAlign='middle' textAlign='center' container>
-        //
-        //   <Grid.Column width={4}>
-        //     <Image size='small' circular src="/images/meteor-logo.png"/>
-        //   </Grid.Column>
-        //
-        //   <Grid.Column width={8}>
-        //     <h1>Welcome to this template</h1>
-        //     <p>Now get </p>
-        //   </Grid.Column>
-        //
-        // </Grid>
+        </Segment>
+        <Segment style={{ padding: '2em 0em', backgroundColor: '#25C2A0', }} vertical>
+          <Grid stackable container >     
+            <Grid.Row textAlign='center' columns={3}>
+              <Grid.Column>
+                <div style={gridDivImgStyle}>
+                  <Image size='small' src="/images/hacc.png" centered/>
+                </div>
+                <h3 style={gridh3Style}>Supporting HACC 2020</h3>
+                <p>Simplifying team formation and ongoing team management.</p>
+              </Grid.Column>
+              <Grid.Column>
+                <div style={gridDivImgStyle}>
+                  <Image size='small' src="/images/meteor-logo-v1.svg" centered/>
+                </div>
+                <h3 style={gridh3Style}>Powered by Meteor</h3>
+                <p>HACC Hui a Meteor-based web application with a MongoDB backend. The UI will be mobile first.</p>              
+              </Grid.Column>
+              <Grid.Column>
+                <div style={gridDivImgStyle}>
+                  <Image size='small' src="/images/slack-logo.svg" centered/>
+                </div>                
+                <h3 style={gridh3Style}>Communicate with Slack</h3>
+                <p>A Slackbot that provides a communication channel between the HACC Slack Workspace and the HACC Hui application.</p>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+      </div>
     );
   }
 }
