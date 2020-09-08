@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { withRouter, Link } from 'react-router-dom';
 
 /**
  * **Deprecated**
@@ -14,6 +15,9 @@ class SkillsAdmin extends React.Component {
         <Table.Row>
           <Table.Cell>{this.props.skill.name}</Table.Cell>
           <Table.Cell>{this.props.skill.description}</Table.Cell>
+          <Table.Cell>
+            <Link to={`/editSkills/${this.props.skill._id}`}>Edit</Link>
+          </Table.Cell>
         </Table.Row>
     );
   }
@@ -24,4 +28,4 @@ SkillsAdmin.propTypes = {
   skill: PropTypes.object.isRequired,
 };
 
-export default SkillsAdmin;
+export default withRouter(SkillsAdmin);

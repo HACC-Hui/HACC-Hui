@@ -3,6 +3,8 @@ import { Container, Table, Loader, Button, Grid } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
+import { Interests } from '../../api/interest/InterestCollection';
 import { Skills } from '../../api/skill/SkillCollection';
 import { Tools } from '../../api/tool/ToolCollection';
 import ChallengesAdmin from '../components/ChallengesAdmin';
@@ -28,7 +30,6 @@ class AdminConfiguration extends React.Component {
         <Container>
           <Grid style={{ flexDirection: 'row', margin: 15, justifyContent: 'center', alignItems: 'center' }}>
             <b style={{ fontSize: 25 }}>Challenges</b>
-            <Button>Edit</Button>
           </Grid>
           <Table celled>
             <Table.Header>
@@ -38,21 +39,28 @@ class AdminConfiguration extends React.Component {
                 <Table.HeaderCell>Interests</Table.HeaderCell>
                 <Table.HeaderCell>Submission Detail</Table.HeaderCell>
                 <Table.HeaderCell>Pitch</Table.HeaderCell>
+                <Table.HeaderCell>Edit</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {this.props.challenges.map((challenge) => <ChallengesAdmin key={challenge._id} challenge={challenge} />)}
+              {this.props.challenges.map((challenge) => {
+                const interestsArray = this.props.challengeInterests;
+                console.log(this.props.challenges);
+                const chosenInterestArray = interestsArray.filter((item) => item.challengeID === Challenges.getID(challenge.slugID));
+                const challengeInterest = this.props.interests.filter((item) => item._id === chosenInterestArray[0].interestID)[0].name;
+                return <ChallengesAdmin key={challenge._id} challenge={challenge} interest={ challengeInterest }/>;
+              })}
             </Table.Body>
           </Table>
           <Grid style={{ flexDirection: 'row', margin: 15, justifyContent: 'center', alignItems: 'center' }}>
             <b style={{ fontSize: 25 }}>Skills</b>
-            <Button>Edit</Button>
           </Grid>
           <Table celled>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>Name</Table.HeaderCell>
                 <Table.HeaderCell>Description</Table.HeaderCell>
+                <Table.HeaderCell>Edit</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -61,13 +69,13 @@ class AdminConfiguration extends React.Component {
           </Table>
           <Grid style={{ flexDirection: 'row', margin: 15, justifyContent: 'center', alignItems: 'center' }}>
             <b style={{ fontSize: 25 }}>Tools</b>
-            <Button>Edit</Button>
           </Grid>
           <Table celled>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>Name</Table.HeaderCell>
                 <Table.HeaderCell>Description</Table.HeaderCell>
+                <Table.HeaderCell>Edit</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -82,6 +90,8 @@ class AdminConfiguration extends React.Component {
 // Require an array of Stuff documents in the props.
 AdminConfiguration.propTypes = {
   challenges: PropTypes.array.isRequired,
+  challengeInterests: PropTypes.array.isRequired,
+  interests: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
@@ -93,6 +103,8 @@ export default withTracker(() => {
   const subscription = Challenges.subscribe();
   return {
     challenges: Challenges.find({}).fetch(),
+    challengeInterests: ChallengeInterests.find({}).fetch(),
+    interests: Interests.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
     ready: subscription.ready(),

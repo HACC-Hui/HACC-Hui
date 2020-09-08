@@ -8,10 +8,11 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import ListStuff from '../pages/ListStuff';
-import ListStuffAdmin from '../pages/ListStuffAdmin';
 import AdminConfiguration from '../pages/AdminConfiguration';
 import AddStuff from '../pages/AddStuff';
-import EditStuff from '../pages/EditStuff';
+import EditChallenges from '../pages/EditChallenges';
+import EditSkills from '../pages/EditSkills';
+import EditTools from '../pages/EditTools';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
@@ -33,7 +34,9 @@ class App extends React.Component {
               <Route path="/signin" component={Signin}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
-              <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
+              <ProtectedRoute path="/editChallenges/:_id" component={EditChallenges}/>
+              <ProtectedRoute path="/editSkills/:_id" component={EditSkills}/>
+              <ProtectedRoute path="/editTools/:_id" component={EditTools}/>
               <AdminProtectedRoute path="/admin" component={AdminConfiguration}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>

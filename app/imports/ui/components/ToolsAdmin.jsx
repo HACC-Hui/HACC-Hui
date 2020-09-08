@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { withRouter, Link } from 'react-router-dom';
 
 /**
  * **Deprecated**
@@ -14,6 +15,9 @@ class ToolsAdmin extends React.Component {
         <Table.Row>
           <Table.Cell>{this.props.tool.name}</Table.Cell>
           <Table.Cell>{this.props.tool.description}</Table.Cell>
+          <Table.Cell>
+            <Link to={`/editTools/${this.props.tool._id}`}>Edit</Link>
+          </Table.Cell>
         </Table.Row>
     );
   }
@@ -24,4 +28,4 @@ ToolsAdmin.propTypes = {
   tool: PropTypes.object.isRequired,
 };
 
-export default ToolsAdmin;
+export default withRouter(ToolsAdmin);

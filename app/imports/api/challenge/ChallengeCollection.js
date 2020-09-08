@@ -63,14 +63,18 @@ class ChallengeCollection extends BaseSlugCollection {
   /**
    * Updates the given challenge.
    * @param docID {string} the docID of the challenge to update.
+   * @param title {string} the docID of the challenge to update.
    * @param description {string} the new description, optional.
    * @param interestIDs {string[]} the new interest slugs, optional.
    * @param submissionDetail {string} the new submission details, optional.
    * @param pitch {string} the new pitch URL, optional.
    */
-  update(docID, { description, interestIDs, submissionDetail, pitch }) {
+  update(docID, title, description, interestIDs, submissionDetail, pitch) {
     this.assertDefined(docID);
     const updateData = {};
+    if (title) {
+      updateData.title = title;
+    }
     if (description) {
       updateData.description = description;
     }
