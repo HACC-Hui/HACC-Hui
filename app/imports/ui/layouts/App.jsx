@@ -18,6 +18,8 @@ import AgePage from '../pages/AgePage';
 import ParticipationForm from '../pages/ParticipationForm';
 import UnderParticipationForm from '../pages/UnderParticipationForm';
 import Profile from '../pages/Profile';
+import Profiletest from '../pages/Profiletest';
+import ProfileAdd from '../pages/ProfileAdd';
 import ProfileEdit from '../pages/ProfileEdit';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
@@ -39,6 +41,8 @@ class App extends React.Component {
               <ProtectedRoute exact path="/PF" component={ParticipationForm}/>
               <ProtectedRoute exact path="/UPF" component={UnderParticipationForm}/>
               <ProtectedRoute exact path="/profile" component={Profile}/>
+              <ProtectedRoute exact path="/profilet" component={Profiletest}/>
+              <ProtectedRoute exact path="/profilea" component={ProfileAdd}/>
               <ProtectedRoute exact path="/editprofile" component={ProfileEdit}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Segment, Header } from 'semantic-ui-react';
 import { AutoForm, ErrorsField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
 import swal from 'sweetalert';
+// eslint-disable-next-line no-unused-vars
 import { Meteor } from 'meteor/meteor';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
@@ -45,14 +46,13 @@ class ProfileAdd extends React.Component {
    * @param data {Object} the results from the form.
    * @param formRef {FormRef} reference to the form.
    */
-  submit(data, formRef) {
+  submit(data) {
     // console.log('AddStuff.submit', data);
     const { username, firstName, lastName, demographicLevel, lookingForTeam,
       challenges, interests, skills, tools,
       linkedIn, gitHub, website, aboutMe } = data;
-    const userID = Meteor.user().username;
     // console.log(`{ ${name}, ${quantity}, ${condition}, ${owner} }`);
-    defineMethod.call({ username, firstName, lastName, demographicLevel, lookingForTeam,
+    defineMethod.update({ $set: username, firstName, lastName, demographicLevel, lookingForTeam,
           challenges, interests, skills, tools,
           linkedIn, gitHub, website, aboutMe },
       (error) => {
@@ -60,9 +60,7 @@ class ProfileAdd extends React.Component {
           swal('Error', error.message, 'error');
           // console.error(error.message);
         } else {
-          swal('Success', 'Item added successfully', 'success');
-          formRef.reset();
-          // console.log('Success');
+          this.setState({ error: '', redirectToReferer: true });
         }
       });
   }
