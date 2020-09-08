@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Segment, Header } from 'semantic-ui-react';
-import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
+import { AutoForm, ErrorsField, NumField, SelectField,
+  SubmitField, TextField, BoolField, LongTextField } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
@@ -9,13 +10,16 @@ import { stuffDefineMethod } from '../../api/stuff/StuffCollection.methods';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
-  name: String,
-  quantity: Number,
-  condition: {
+  skills: { type: String },
+  tools: { type: String },
+  challenges: {
     type: String,
-    allowedValues: ['excellent', 'good', 'fair', 'poor'],
     defaultValue: 'good',
   },
+  linkedin: { type: String, optional: true },
+  gitHub: { type: String, optional: true },
+  website: { type: String, optional: true },
+  aboutMe: { type: String, optional: true, max: 200 },
 });
 
 /**
@@ -30,10 +34,11 @@ class PostSignUp extends React.Component {
    */
   submit(data, formRef) {
     // console.log('AddStuff.submit', data);
-    const { name, quantity, condition } = data;
+    const { skills, tools, challenges, linkedin, gitHub, website, aboutMe } = data;
     const owner = Meteor.user().username;
     // console.log(`{ ${name}, ${quantity}, ${condition}, ${owner} }`);
-    stuffDefineMethod.call({ name, quantity, condition, owner },
+    // profile inserts of this information above
+    stuffDefineMethod.call({ skills, tools, challenges, owner },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -56,9 +61,19 @@ class PostSignUp extends React.Component {
             <Header as="h2" textAlign="center">Few More details!</Header>
             <AutoForm ref={ref => { fRef = ref; }} schema={formSchema} onSubmit={data => this.submit(data, fRef)} >
               <Segment>
-                <TextField name='name'/>
-                <NumField name='quantity' decimal={false}/>
-                <SelectField name='condition'/>
+                <TextField name='skills'/>
+              </Segment>
+              <Segment>
+                <TextField name='tools' icon="wrench"/>
+              </Segment>
+              <Segment>
+                <BoolField name='challenges'/>
+              </Segment>
+              <Segment>
+                <TextField name='linkedin' icon="linkedin blue"/>
+                <TextField name='gitHub' icon="github"/>
+                <TextField name='website'/>
+                <LongTextField name='aboutMe'/>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
               </Segment>
