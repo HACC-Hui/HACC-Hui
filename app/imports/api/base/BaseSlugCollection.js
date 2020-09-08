@@ -138,6 +138,7 @@ class BaseSlugCollection extends BaseCollection {
    * @throws { Meteor.Error } If docID is not associated with this entity.
    */
   findSlugByID(docID) {
+    console.log(docID, this._collectionName);
     this.assertDefined(docID);
     return Slugs.findDoc(this.findDoc(docID).slugID).name;
   }
