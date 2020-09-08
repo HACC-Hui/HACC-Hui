@@ -21,7 +21,9 @@ import { Developers } from '../../../api/user/DeveloperCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
-
+import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
+import { updateMethod } from '../../../api/base/BaseCollection.methods';
+import { DeveloperChallenges } from '../../../api/user/DeveloperChallengeCollection';
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
 
@@ -86,7 +88,7 @@ class Dprofile extends React.Component {
       console.log(this.challenges);
     };
     const ChallengesOptions = this.props.challenges;
-    return _.map(ChallengesOptions, function (challenge, key) {
+    return _.map(ChallengesOptions, function (challenge) {
       //  const name = `${challenge.title}   ( ${challenge.description} )`;
         return <Grid.Row><Checkbox label={challenge.title} onChange={handleOnChange}/></Grid.Row>;
     });
@@ -101,7 +103,7 @@ class Dprofile extends React.Component {
     // console.log(SkillArray);
     const Skillname = [];
     for (let i = 0; i < SkillArray.length; i++) {
-      const sn = { key: SkillArray[i]._id, text: SkillArray[i].name, value: SkillArray[i].name };
+      const sn = { key: SkillArray[i].slugID, text: SkillArray[i].name, value: SkillArray[i].name };
       Skillname.push(sn);
     }
    return <Dropdown placeholder="please pick a skill" selection options={Skillname} onChange={handleOnChange} />;
@@ -145,7 +147,7 @@ class Dprofile extends React.Component {
     };
     if (this.skillSet.length > 0) {
      // console.log(this.skillSet.length);
-      return _.map(this.skillSet, function (skill, key) {
+      return _.map(this.skillSet, function (skill) {
         return <Grid.Row>
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}>
             <Header as='h3'>Skill:</Header> </Grid.Column>
@@ -174,7 +176,7 @@ class Dprofile extends React.Component {
     };
     if (this.toolset.length > 0) {
      // console.log(this.skillSet.length);
-      return _.map(this.toolset, function (tool, key) {
+      return _.map(this.toolset, function (tool) {
         return <Grid.Row>
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}>
             <Header as='h3'>Tool:</Header> </Grid.Column>
@@ -233,18 +235,47 @@ class Dprofile extends React.Component {
     const docID = developer._id;
     console.log(docID);
     // const docID = Meteor.userId();
-    const { demeogra, lookingForTeam, challenges, interests,
-      linkedIn, gitHub, website, aboutMe, isCompliant } = data;
-    Developers.update(docID, { demographicLevel: demeogra, lookingForTeam, challenges, interests,
-          linkedIn, gitHub, website, aboutMe, isCompliant },
-        (error) => {
-          if (error) {
-            swal('Error', error.message, 'error');
-          } else {
-            swal('Success', 'Item added successfully', 'success');
-            formRef.reset();
-          }
-        });
+    const {
+      linkedIn, gitHub, website, aboutMe, Agree } = data;
+    console.log(linkedIn);
+    console.log(gitHub);
+    console.log(website);
+    console.log(aboutMe);
+    console.log(this.skillSet);
+    const skillsID = _.pluck(this.skillSet, 'key');
+    console.log(skillsID);
+    console.log(this.challenges);
+    const challengesID = _.pluck(this.challenges, '_id');
+    console.log(this.toolset);
+    const toolsID = _.pluck(this.toolset, 'name');
+    const updateData = {};
+    updateData.id = docID;
+    updateData.challenges = challengesID;
+    updateData.skills = skillsID;
+    updateData.tools = toolsID;
+    updateData.linkedIn = linkedIn;
+    updateData.gitHub = gitHub;
+    updateData.website = website;
+    updateData.aboutMe = aboutMe;
+    updateData.isCompliant = Agree;
+
+    console.log(updateData);
+    if (updateMethod.call({ collectionName: 'DeveloperCollection', updateData })) { console.log('sucess'); } else { console.log('fail'); }
+
+    /* Developers.update(docID, { challenges: challengesID, skills: skillsID, tools: toolsID,
+           linkedIn, gitHub, website, aboutMe, isCompliant: Agree },
+         (error) => {
+           if (error) {
+             swal('Error', error.message, 'error');
+           } else {
+             swal('Success', 'profile added successfully', 'success');
+             formRef.reset();
+           }
+         }); */
+    // eslint-disable-next-line max-len
+
+  // const test = DeveloperSkills._collection.find({ developerID: docID }).fetch();
+  // console.log(test);
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -260,6 +291,8 @@ class Dprofile extends React.Component {
    const formSchema = new SimpleSchema2Bridge(schema);
 
    const firstname = developer.firstName;
+      const deskill = DeveloperSkills._collection.find({}).fetch();
+      console.log(deskill);
     return (
         <Grid container centered>
           <Grid.Column>

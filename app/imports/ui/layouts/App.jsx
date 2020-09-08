@@ -30,7 +30,7 @@ class App extends React.Component {
             <NavBar/>
             <Switch>
               <Route exact path="/" component={Landing}/>
-              <Route exact path="/Dpro" component={Dprofile}/>
+              <ProtectedRoute exact path="/Dpro" component={Dprofile}/>
               <Route path="/signin" component={Signin}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>

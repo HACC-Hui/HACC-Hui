@@ -26,8 +26,12 @@ class DeveloperSkillCollection extends BaseCollection {
    * @return {String} the ID of the tuple.
    */
   define({ skill, developer }) {
+    console.log(skill);
+    console.log(developer);
     const skillID = Skills.findIdBySlug(skill);
     const developerID = Developers.findIdBySlug(developer);
+    console.log(skillID);
+    console.log(developerID);
     return this._collection.insert({ skillID, developerID });
   }
 
