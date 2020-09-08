@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
 import swal from 'sweetalert';
@@ -5,13 +6,13 @@ import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } 
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { Tools } from '../../api/tool/ToolCollection';
 
 /**
  * Renders the Page for editing a single document.
  * @memberOf ui/pages
  */
-class EditChallenges extends React.Component {
+class EditTools extends React.Component {
 
   /**
    * On successful submit, insert the data.
@@ -19,16 +20,10 @@ class EditChallenges extends React.Component {
    */
   submit(data) {
     // console.log(data);
-    const { docID, description, interestIDs, submissionDetail, pitch } = data;
-    const updateData = {
-      description,
-      interestIDs,
-      submissionDetail,
-      pitch,
-    };
-    Challenges.update(docID, updateData, (error) => (error ?
-      swal('Error', error.message, 'error') :
-      swal('Success', 'Challenge updated successfully', 'success')));
+    const { name, description, _id } = data;
+    Meteor.call('toolUpdate', _id, name, description, (error) => (error ?
+        swal('Error', error.message, 'error') :
+        swal('Success', 'Challenge updated successfully', 'success')));
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -38,8 +33,7 @@ class EditChallenges extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   renderPage() {
-    const formSchema = new SimpleSchema2Bridge(Challenges.getSchema());
-    console.log(formSchema);
+    const formSchema = new SimpleSchema2Bridge(Tools.getSchema());
     return (
         <Grid container centered>
           <Grid.Column>
@@ -59,7 +53,7 @@ class EditChallenges extends React.Component {
 }
 
 /** Require the presence of a Stuff document in the props object. Uniforms adds 'model' to the props, which we use. */
-EditChallenges.propTypes = {
+EditTools.propTypes = {
   doc: PropTypes.object,
   model: PropTypes.object,
   ready: PropTypes.bool.isRequired,
@@ -70,9 +64,9 @@ export default withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
   // Get access to Stuff documents.
-  const subscription = Challenges.subscribe();
+  const subscription = Tools.subscribe();
   return {
-    doc: Challenges.findOne(documentId),
+    doc: Tools.findOne(documentId),
     ready: subscription.ready(),
   };
-})(EditChallenges);
+})(EditTools);

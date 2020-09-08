@@ -8,27 +8,24 @@ import SimpleSchema from 'simpl-schema';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
-  title: String,
+  name: String,
   description: String,
-  submissionDetail: String,
-  pitch: String,
 });
 
 /**
- * Renders the Page for adding Challenge. **deprecated**
+ * Renders the Page for adding skill. **deprecated**
  * @memberOf ui/pages
  */
-class AddChallenge extends React.Component {
+class AddSkill extends React.Component {
 
   /** On submit, insert the data.
    * @param data {Object} the results from the form.
    * @param formRef {FormRef} reference to the form.
    */
   submit(data, formRef) {
-    // console.log('AddChallenge.submit', data);
-    const { title, description, submissionDetail, pitch } = data;
-    const interests = ['FX5f4Rsuf2rrQHj2X'];
-    Meteor.call('challengeAdd', title, description, interests, submissionDetail, pitch, (error) => {
+    // console.log('AddSkills.submit', data);
+    const { name, description } = data;
+    Meteor.call('skillAdd', name, description, (error) => {
       if (error) {
         swal('Error', error.message, 'error');
         // console.error(error.message);
@@ -47,13 +44,11 @@ class AddChallenge extends React.Component {
     return (
         <Grid container centered>
           <Grid.Column>
-            <Header as="h2" textAlign="center">Add Challenge</Header>
+            <Header as="h2" textAlign="center">Add Skill</Header>
             <AutoForm ref={ref => { fRef = ref; }} schema={formSchema} onSubmit={data => this.submit(data, fRef)} >
               <Segment>
-                <TextField name='title'/>
+                <TextField name='name'/>
                 <TextField name='description'/>
-                <TextField name='submissionDetail'/>
-                <TextField name='pitch'/>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
               </Segment>
@@ -64,4 +59,4 @@ class AddChallenge extends React.Component {
   }
 }
 
-export default AddChallenge;
+export default AddSkill;

@@ -3,6 +3,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import { HACCHui } from '../../api/hacc-hui/HACCHui';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { Tools } from '../../api/tool/ToolCollection';
+import { Skills } from '../../api/skill/SkillCollection';
 
 // global Assets
 
@@ -102,6 +104,21 @@ Meteor.startup(() => {
     'challengeUpdate'(docID, title, description, interestIDs, submissionDetail, pitch) {
       Challenges.update(docID, title, description, interestIDs, submissionDetail, pitch);
       },
+    'skillUpdate'(docID, name, description) {
+      Skills.update(docID, name, description);
+    },
+    'toolUpdate'(docID, name, description) {
+      Tools.update(docID, name, description);
+    },
+    'challengeAdd'(title, description, interests, submissionDetail, pitch) {
+      Challenges.define({ title, description, interests, submissionDetail, pitch });
+    },
+    'skillAdd'(name, description) {
+      Skills.define({ name, description });
+    },
+    'toolAdd'(name, description) {
+      Tools.define({ name, description });
+    },
     });
   loadDatabase();
 });

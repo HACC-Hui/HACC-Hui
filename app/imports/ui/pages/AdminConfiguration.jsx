@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Table, Loader, Button, Grid } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
 import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
 import { Interests } from '../../api/interest/InterestCollection';
@@ -10,6 +11,9 @@ import { Tools } from '../../api/tool/ToolCollection';
 import ChallengesAdmin from '../components/ChallengesAdmin';
 import SkillsAdmin from '../components/SkillsAdmin';
 import ToolsAdmin from '../components/ToolsAdmin';
+import AddChallengeButton from '../components/AddChallengeButton';
+import AddSkillButton from '../components/AddSkillButton';
+import AddToolButton from '../components/AddToolButton';
 
 /**
  * **Deprecated**
@@ -30,6 +34,7 @@ class AdminConfiguration extends React.Component {
         <Container>
           <Grid style={{ flexDirection: 'row', margin: 15, justifyContent: 'center', alignItems: 'center' }}>
             <b style={{ fontSize: 25 }}>Challenges</b>
+            <AddChallengeButton/>
           </Grid>
           <Table celled>
             <Table.Header>
@@ -45,7 +50,8 @@ class AdminConfiguration extends React.Component {
             <Table.Body>
               {this.props.challenges.map((challenge) => {
                 const interestsArray = this.props.challengeInterests;
-                console.log(this.props.challenges);
+                const allInterests = this.props.interests;
+                console.log(allInterests);
                 const chosenInterestArray = interestsArray.filter((item) => item.challengeID === Challenges.getID(challenge.slugID));
                 const challengeInterest = this.props.interests.filter((item) => item._id === chosenInterestArray[0].interestID)[0].name;
                 return <ChallengesAdmin key={challenge._id} challenge={challenge} interest={ challengeInterest }/>;
@@ -54,6 +60,7 @@ class AdminConfiguration extends React.Component {
           </Table>
           <Grid style={{ flexDirection: 'row', margin: 15, justifyContent: 'center', alignItems: 'center' }}>
             <b style={{ fontSize: 25 }}>Skills</b>
+            <AddSkillButton/>
           </Grid>
           <Table celled>
             <Table.Header>
@@ -69,6 +76,7 @@ class AdminConfiguration extends React.Component {
           </Table>
           <Grid style={{ flexDirection: 'row', margin: 15, justifyContent: 'center', alignItems: 'center' }}>
             <b style={{ fontSize: 25 }}>Tools</b>
+            <AddToolButton/>
           </Grid>
           <Table celled>
             <Table.Header>

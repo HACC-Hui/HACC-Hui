@@ -9,7 +9,9 @@ import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import ListStuff from '../pages/ListStuff';
 import AdminConfiguration from '../pages/AdminConfiguration';
-import AddStuff from '../pages/AddStuff';
+import AddChallenge from '../pages/AddChallenges';
+import AddSkill from '../pages/AddSkills';
+import AddTool from '../pages/AddTools';
 import EditChallenges from '../pages/EditChallenges';
 import EditSkills from '../pages/EditSkills';
 import EditTools from '../pages/EditTools';
@@ -33,7 +35,9 @@ class App extends React.Component {
               <Route exact path="/" component={Landing}/>
               <Route path="/signin" component={Signin}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
-              <ProtectedRoute path="/add" component={AddStuff}/>
+              <ProtectedRoute path="/addChallenge" component={AddChallenge}/>
+              <ProtectedRoute path="/addSkill" component={AddSkill}/>
+              <ProtectedRoute path="/addTool" component={AddTool}/>
               <ProtectedRoute path="/editChallenges/:_id" component={EditChallenges}/>
               <ProtectedRoute path="/editSkills/:_id" component={EditSkills}/>
               <ProtectedRoute path="/editTools/:_id" component={EditTools}/>

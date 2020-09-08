@@ -19,8 +19,8 @@ class EditChallenges extends React.Component {
    */
   submit(data) {
     // console.log(data);
-    const { title, description, interestIDs, submissionDetail, pitch, _id } = data;
-    Meteor.call('challengeUpdate', _id, title, description, interestIDs, submissionDetail, pitch, (error) => (error ?
+    const { title, description, interestIDs, submissionDetail, pitch } = data;
+    Meteor.call('challengeAdd', title, description, interestIDs, submissionDetail, pitch, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Challenge updated successfully', 'success')));
   }

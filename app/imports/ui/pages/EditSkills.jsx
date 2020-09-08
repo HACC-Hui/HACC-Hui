@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
 import swal from 'sweetalert';
@@ -19,14 +20,10 @@ class EditSkills extends React.Component {
    */
   submit(data) {
     // console.log(data);
-    const { docID, name, description } = data;
-    const updateData = {
-      name,
-      description,
-    };
-    Skills.update(docID, updateData, (error) => (error ?
-      swal('Error', error.message, 'error') :
-      swal('Success', 'Challenge updated successfully', 'success')));
+    const { name, description, _id } = data;
+    Meteor.call('skillUpdate', _id, name, description, (error) => (error ?
+        swal('Error', error.message, 'error') :
+        swal('Success', 'Challenge updated successfully', 'success')));
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
