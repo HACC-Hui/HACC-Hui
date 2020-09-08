@@ -27,7 +27,7 @@
   h2.ui.header.landing-banner-subtitle {
     font-size: 1.7em;
     font-weight: normal;
-    margin-top: 1.5em;
+    margin-top: 1em;
   }
 }
 
@@ -53,4 +53,13 @@
 .info-style {
   font-weight: 300;
   font-size: 18px;
+}
+
+.ui.menu .item {
+  color:#25C2A0 !important;
+}
+
+/* This changes the color of the dropdown menu items but it might not the best way. */
+.ui.menu .ui.dropdown .menu > .item.dropdown-item {
+  color:#25C2A0 !important;
 }

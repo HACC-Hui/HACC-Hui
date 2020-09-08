@@ -58,9 +58,6 @@ class Landing extends React.Component {
                 content='Where Innovation Starts'
                 className='landing-banner-subtitle'
             />
-            <Button className='button-v1' size='huge' as={NavLink} exact to="/signin">
-              Register
-            </Button>
           </Container>
         </Segment>
         <Segment style={{ padding: '2em 0em', backgroundColor: '#25C2A0', }} vertical>
