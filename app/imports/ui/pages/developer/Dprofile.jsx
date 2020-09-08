@@ -149,10 +149,10 @@ class Dprofile extends React.Component {
         return <Grid.Row>
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}>
             <Header as='h3'>Skill:</Header> </Grid.Column>
-          <Grid.Column width={4} style={{ marginTop: `${10}px`, front:20+'px' }}>{skill.name}</Grid.Column>
+          <Grid.Column width={4} style={{ marginTop: `${10}px` }}><Header as='h3'>{skill.name}</Header></Grid.Column>
           {/* eslint-disable-next-line max-len */}
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h3'>Level:</Header> </Grid.Column>
-          <Grid.Column width={5} style={{ marginTop: `${10}px`, front:20+'px' }}>{skill.level}</Grid.Column>
+          <Grid.Column width={5} style={{ marginTop: `${10}px` }}><Header as='h3'>{skill.level}</Header></Grid.Column>
           {/* eslint-disable-next-line max-len */}
           <Grid.Column width={3}><Button type='button' onClick={() => deleteSkill(skill)}>delete the skill</Button></Grid.Column>
         </Grid.Row>;
@@ -178,10 +178,10 @@ class Dprofile extends React.Component {
         return <Grid.Row>
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}>
             <Header as='h3'>Tool:</Header> </Grid.Column>
-          <Grid.Column width={4} style={{ marginTop: `${10}px` }}>{tool.name}</Grid.Column>
+          <Grid.Column width={4} style={{ marginTop: `${10}px` }}><Header as='h3'>{tool.name}</Header></Grid.Column>
           {/* eslint-disable-next-line max-len */}
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h3'>Level:</Header> </Grid.Column>
-          <Grid.Column width={5} style={{ marginTop: `${10}px` }}>{tool.level}</Grid.Column>
+          <Grid.Column width={5} style={{ marginTop: `${10}px` }}><Header as='h3'>{tool.level}</Header></Grid.Column>
           {/* eslint-disable-next-line max-len */}
           <Grid.Column width={3}><Button type='button' onClick={() => deleteTool(tool)}>delete the tool</Button></Grid.Column>
         </Grid.Row>;
@@ -281,7 +281,7 @@ class Dprofile extends React.Component {
                     {/* eslint-disable-next-line max-len */}
                     <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h4'>Level:</Header> </Grid.Column>
                     <Grid.Column width={5}>{this.renderLevel()}</Grid.Column>
-                    <Grid.Column width={3}><Button type='button' onClick={() => this.addSkill()}>Add a skill</Button>
+                    <Grid.Column width={3}><Button type='button' onClick={() => this.addSkill()}>Add the skill</Button>
                     </Grid.Column>
                   </Grid.Row>
                   {this.state.Skilladded ? (this.renderSkill_level()) : ''}
@@ -292,7 +292,7 @@ class Dprofile extends React.Component {
                     {/* eslint-disable-next-line max-len */}
                     <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h4'>Level:</Header> </Grid.Column>
                     <Grid.Column width={5}>{this.renderLevel()}</Grid.Column>
-                    <Grid.Column width={3}><Button type='button' onClick={() => this.addTool()}>Add a tool</Button>
+                    <Grid.Column width={3}><Button type='button' onClick={() => this.addTool()}>Add the tool</Button>
                     </Grid.Column>
                   </Grid.Row>
                   {this.state.Skilladded ? (this.renderTool_level()) : ''}
