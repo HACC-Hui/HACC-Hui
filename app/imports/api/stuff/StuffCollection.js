@@ -59,7 +59,7 @@ class StuffCollection extends BaseCollection {
     const docID = this._collection.insert({
       name,
       quantity,
-      owner,
+      owner,I
       condition,
     });
     return docID;
