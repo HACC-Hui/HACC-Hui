@@ -23,3 +23,29 @@ hr { display: block; height: 1px;
 .teamCreate .ui.checkbox label, .teamCreate .ui.checkbox + label {
   color: white !important;
 }
+
+.teamFinder .ui.cards > .card, .ui.card {
+  background: #393B44 !important;
+  color: white !important;
+}
+
+.teamFinder .ui.cards > .card > .content > .header, .ui.card > .content > .header, .teamFinder .ui.cards > .card > .content > .description, .ui.card > .content > .description, .teamFinder .ui.cards > .card > .extra, .ui.card > .extra {
+  color: white !important;
+}
+
+.teamFinder .ui.cards > .card > .image:not(.ui) > img, .ui.card > .image:not(.ui) > img {
+  border: none;
+  border-radius: 20%;
+  margin-top: 2rem;
+}
+
+.teamFinder .ui.cards > .card > .image > img, .ui.card > .image > img {
+  display: block;
+  width: 80% !important;
+  height: auto;
+  border-radius: 20% !important;
+}
+
+.teamFinder .ui.cards > .card > .image, .ui.card > .image {
+  background: 0 !important;
+}
