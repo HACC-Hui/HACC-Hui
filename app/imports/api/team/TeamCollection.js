@@ -48,9 +48,13 @@ class TeamCollection extends BaseSlugCollection {
    */
   define({ name, description = '', gitHubRepo = '', devPostPage = '',
            owner, open = true, challenges, skills, tools, developers = [] }) {
+    console.log('here?');
     const team = slugify(name);
+    console.log(team);
     const slugID = Slugs.define({ name: team });
+    console.log(slugID);
     const teamID = this._collection.insert({ name, slugID, description, gitHubRepo, devPostPage, owner, open });
+    console.log(teamID);
     // Connect the Slug to this Interest
     Slugs.updateEntityID(slugID, teamID);
     _.each(challenges, (challenge) => TeamChallenges.define({ team, challenge }));

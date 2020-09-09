@@ -49,7 +49,10 @@ export const defineMethod = new ValidatedMethod({
   run({ collectionName, definitionData }) {
     console.log(collectionName, this.userId, definitionData);
     const collection = HACCHui.getCollection(collectionName);
+    // console.log(collection);
+    console.log(collection.assertValidRoleForMethod(this.userId));
     collection.assertValidRoleForMethod(this.userId);
+    console.log('gets past validation');
     return collection.define(definitionData);
   },
 });

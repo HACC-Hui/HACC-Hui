@@ -48,9 +48,9 @@ class CreateTeam extends React.Component {
 
     console.log('CreateTeam.submit', definitionData);
 
-    const {
-      name, description, owner, open, challenges, skills, tools,
-    } = definitionData;
+    // const {
+    //   name, description, owner, open, challenges, skills, tools,
+    // } = definitionData;
 
     // console.log(name);
     // console.log(description);
@@ -59,9 +59,8 @@ class CreateTeam extends React.Component {
     // console.log(challenges);
     // console.log(skills);
     // console.log(tools);
-    console.log(Teams.getCollectionName());
-    const collectionName = Teams.getCollectionName();
-    const docID = defineMethod.call({ collectionName }, { definitionData });
+    // const collectionName = Teams.getCollectionName();
+    const docID = defineMethod.call({ collectionName: Teams.getCollectionName(), definitionData: definitionData });
 
     // const docID = defineMethod(Teams.getCollectionName(), {
     //       name, description, owner, open, challenges, skills, tools},
