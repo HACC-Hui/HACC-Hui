@@ -1,12 +1,22 @@
 import React from 'react';
-import { Header, Grid, Segment } from 'semantic-ui-react';
+import { Header, Grid, Segment, Button } from 'semantic-ui-react';
 import { LongTextField, TextField, AutoForm } from 'uniforms-semantic';
+import { withTracker } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import MultiSelectField from '../forms/MultiSelectField';
-import { stuffDefineMethod } from '../../api/stuff/StuffCollection.methods';
+import { updateMethod } from '../../api/base/BaseCollection.methods';
+import { NavLink } from 'react-router-dom';
+/*
+import { Developers} from '../../api/user/DeveloperCollection';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { Interests } from '../../api/interest/InterestCollection';
+import { Skills } from '../../api/skill/SkillCollection';
+import { Tools } from '../../api/tool/ToolCollection';
+ */
 
 const editSchema = new SimpleSchema({
   team: String,
@@ -53,16 +63,20 @@ class editProfile extends React.Component {
   submit(data) {
     // console.log(data);
     const { challenges, skills, tools, interests, aboutMe, demographicLevel, firstName, lastName } = data;
-    const owner = Meteor.user().username;
-    stuffDefineMethod.call({ firstName, lastName, demographicLevel,
+    const owner = Meteor.user().userID;
+    updateMethod.call({ firstName, lastName, demographicLevel,
         challenges, interests, skills, tools, aboutMe },
         (error) => (error ?
         swal('Error', error.message, 'error') :
         swal('Success', 'Item updated successfully', 'success')));
   }
 
+  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
     const eSchema = new SimpleSchema2Bridge(editSchema);
+    /*
+    const eSchema = new SimpleSchema2Bridge(Develops.getSchema());
+    */
     let fRef = null;
     return (
         <div style={{ backgroundColor: '#24252B' }}>
@@ -121,6 +135,8 @@ class editProfile extends React.Component {
                       <MultiSelectField name='challenges'/>
                     </Grid.Row>
                     <br/>
+                    <Button as={NavLink} activeClassName="active" exact to="/UPF"
+                            style={{ color: 'white', backgroundColor: '#24252B' }} content="Submit" />
                   </Grid.Column>
                 </Grid>
               </Segment>
@@ -132,5 +148,33 @@ class editProfile extends React.Component {
     );
   }
 }
+
+/*
+editProfile.propTypes = {
+  username: PropTypes.array.isRequired,
+  lastName: PropTypes.array.isRequired,
+  firstName: PropTypes.array.isRequired,
+  image: PropTypes.array.isRequired,
+  aboutMe: PropTypes.array.isRequired,
+  demographicLevel: PropTypes.array.isRequired,
+  interests: PropTypes.array.isRequired,
+  skills: PropTypes.array.isRequired,
+  tools: PropTypes.array.isRequired,
+  challenges: PropTypes.array.isRequired,
+  ready: PropTypes.bool.isRequired,
+};
+*/
+/*
+export default withTracker(() => {
+  const subscription = Challenges.subscribe();
+  return {
+    interests: Interests.find({}).fetch(),
+    skills: Skills.find({}).fetch(),
+    tools: Tools.find({}).fetch(),
+    challenges: Challenges.find({}).fetch(),
+    ready: subscription.ready(),
+  };
+})(editProfile);
+*/
 
 export default editProfile;
