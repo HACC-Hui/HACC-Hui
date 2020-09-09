@@ -103,7 +103,7 @@ class Dprofile extends React.Component {
     // console.log(SkillArray);
     const Skillname = [];
     for (let i = 0; i < SkillArray.length; i++) {
-      const sn = { key: SkillArray[i].slugID, text: SkillArray[i].name, value: SkillArray[i].name };
+      const sn = { key: SkillArray[i].slugID, docid: SkillArray[i]._id, text: SkillArray[i].name, value: SkillArray[i].name };
       Skillname.push(sn);
     }
    return <Dropdown placeholder="please pick a skill" selection options={Skillname} onChange={handleOnChange} />;
@@ -118,7 +118,7 @@ class Dprofile extends React.Component {
     // console.log(SkillArray);
     const Toolname = [];
     for (let i = 0; i < ToolsArray.length; i++) {
-      const sn = { key: ToolsArray[i]._id, text: ToolsArray[i].name, value: ToolsArray[i].name };
+      const sn = { key: ToolsArray[i].slugID, text: ToolsArray[i].name, value: ToolsArray[i].name };
       Toolname.push(sn);
     }
     return <Dropdown placeholder="please pick a skill" selection options={Toolname} onChange={handleOnChange} />;
@@ -199,8 +199,11 @@ class Dprofile extends React.Component {
         const SkillObject = {};
       if (this.skill != null) {
             SkillObject.key = this.skill.key;
-             SkillObject.name = this.skill.text;
-           SkillObject.level = this.level.value;
+        SkillObject.docID = this.skill.docid;
+        SkillObject.name = this.skill.text;
+             if (this.level != null) {
+               SkillObject.level = this.level.value;
+             } else SkillObject.level = '';
             console.log(SkillObject);
         }
       console.log(SkillObject);
@@ -209,6 +212,13 @@ class Dprofile extends React.Component {
       for (let i = 0; i < this.skillSet.length; i++) console.log(`skill${this.skillSet[i].name}`);
       const newState = { Skilladded: true };
       this.setState(newState);
+    const developer = this.getDeveloper();
+    const deskill = DeveloperSkills._collection.find({ developerID: developer._id }).fetch();
+    console.log(deskill);
+    // eslint-disable-next-line eqeqeq
+    //work on this part to update level
+    const updateLevel = _.filter(this.skillSet, function (skill) { return skill.skillID == deskill[0].docID; });
+    console.log(updateLevel);
 
   }
 
@@ -245,9 +255,9 @@ class Dprofile extends React.Component {
     const skillsID = _.pluck(this.skillSet, 'key');
     console.log(skillsID);
     console.log(this.challenges);
-    const challengesID = _.pluck(this.challenges, '_id');
+    const challengesID = _.pluck(this.challenges, 'slugID');
     console.log(this.toolset);
-    const toolsID = _.pluck(this.toolset, 'name');
+    const toolsID = _.pluck(this.toolset, 'key');
     const updateData = {};
     updateData.id = docID;
     updateData.challenges = challengesID;
@@ -285,14 +295,13 @@ class Dprofile extends React.Component {
 
     renderPage() {
    // const ChallengesOptions = this.props.challenges;
-    console.log(this.getDeveloper());
+   // console.log(this.getDeveloper());
     const developer = this.getDeveloper();
     let fRef = null;
    const formSchema = new SimpleSchema2Bridge(schema);
 
    const firstname = developer.firstName;
-      const deskill = DeveloperSkills._collection.find({}).fetch();
-      console.log(deskill);
+
     return (
         <Grid container centered>
           <Grid.Column>

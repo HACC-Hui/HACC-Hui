@@ -27,6 +27,7 @@ class DeveloperToolCollection extends BaseCollection {
    */
   define({ tool, developer }) {
     const toolID = Tools.findIdBySlug(tool);
+    console.log('tool', toolID);
     const developerID = Developers.findIdBySlug(developer);
     return this._collection.insert({ toolID, developerID });
   }
