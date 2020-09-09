@@ -28,7 +28,7 @@ class EditTools extends React.Component {
     };
     updateMethod.call({ collectionName: Tools.getCollectionName(), updateData: updateData }, (error) => (error ?
         swal('Error', error.message, 'error') :
-        swal('Success', 'Challenge updated successfully', 'success')));
+        swal('Success', 'Tool updated successfully', 'success')));
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -39,7 +39,6 @@ class EditTools extends React.Component {
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   renderPage() {
     const formSchema = new SimpleSchema2Bridge(Tools.getSchema());
-    console.log(formSchema);
     return (
         <Grid container centered>
           <Grid.Column>

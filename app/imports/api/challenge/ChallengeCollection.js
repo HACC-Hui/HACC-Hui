@@ -70,8 +70,6 @@ class ChallengeCollection extends BaseSlugCollection {
    * @param pitch {string} the new pitch URL, optional.
    */
   update(docID, { title, description, interestIDs, submissionDetail, pitch }) {
-    console.log(docID);
-    console.log(title);
     this.assertDefined(docID);
     const updateData = {};
     if (title) {

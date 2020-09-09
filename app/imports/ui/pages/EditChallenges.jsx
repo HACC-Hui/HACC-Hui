@@ -5,8 +5,23 @@ import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } 
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import SimpleSchema from 'simpl-schema';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { Interests } from '../../api/interest/InterestCollection';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
+
+const editChallengeSchema = new SimpleSchema({
+  title: { type: String },
+  slugID: { type: SimpleSchema.RegEx.Id },
+  interests: {
+    type: String,
+    allowedValues: ['Community Engagement', 'Sustainability', 'Education'],
+    defaultValue: 'Community Engagement',
+  },
+  description: { type: String },
+  submissionDetail: { type: String },
+  pitch: { type: String },
+});
 
 /**
  * Renders the Page for editing a single document.
@@ -19,7 +34,9 @@ class EditChallenges extends React.Component {
    */
   submit(data) {
     // console.log(data);
-    const { title, description, interestIDs, submissionDetail, pitch, _id } = data;
+    const { title, description, interests, submissionDetail, pitch, _id } = data;
+    const chosenInterest = Interests.findDoc(interests);
+    const interestIDs = [chosenInterest._id];
     const updateData = {
       _id,
       title,
@@ -40,7 +57,8 @@ class EditChallenges extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   renderPage() {
-    const formSchema = new SimpleSchema2Bridge(Challenges.getSchema());
+
+    const formSchema = new SimpleSchema2Bridge(editChallengeSchema);
     return (
         <Grid container centered>
           <Grid.Column>
@@ -49,6 +67,7 @@ class EditChallenges extends React.Component {
               <Segment>
                 <TextField name='title'/>
                 <TextField name='description'/>
+                <SelectField name='interests'/>
                 <TextField name='submissionDetail'/>
                 <TextField name='pitch'/>
                 <SubmitField value='Submit'/>

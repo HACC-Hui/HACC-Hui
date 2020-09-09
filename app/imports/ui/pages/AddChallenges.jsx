@@ -7,13 +7,19 @@ import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
+import { Interests } from '../../api/interest/InterestCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
-const schema = new SimpleSchema({
-  title: String,
-  description: String,
-  submissionDetail: String,
-  pitch: String,
+const addChallengeSchema = new SimpleSchema({
+  title: { type: String },
+  interest: {
+    type: String,
+    allowedValues: ['Community Engagement', 'Sustainability', 'Education'],
+    defaultValue: 'Community Engagement',
+  },
+  description: { type: String },
+  submissionDetail: { type: String },
+  pitch: { type: String },
 });
 
 /**
@@ -28,12 +34,13 @@ class AddChallenge extends React.Component {
    */
   submit(data, formRef) {
     // console.log('AddChallenge.submit', data);
-    const { title, description, interestIDs, submissionDetail, pitch, _id } = data;
+    const { title, description, interest, submissionDetail, pitch } = data;
+    const chosenInterest = Interests.findDoc(interest);
+    const interests = [chosenInterest.slugID];
     const definitionData = {
-      _id,
       title,
       description,
-      interestIDs,
+      interests,
       submissionDetail,
       pitch,
     };
@@ -52,7 +59,7 @@ class AddChallenge extends React.Component {
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
     let fRef = null;
-    const formSchema = new SimpleSchema2Bridge(schema);
+    const formSchema = new SimpleSchema2Bridge(addChallengeSchema);
     return (
         <Grid container centered>
           <Grid.Column>
@@ -61,6 +68,7 @@ class AddChallenge extends React.Component {
               <Segment>
                 <TextField name='title'/>
                 <TextField name='description'/>
+                <SelectField name='interest'/>
                 <TextField name='submissionDetail'/>
                 <TextField name='pitch'/>
                 <SubmitField value='Submit'/>

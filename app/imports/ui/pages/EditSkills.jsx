@@ -30,7 +30,7 @@ class EditSkills extends React.Component {
     };
     updateMethod.call({ collectionName: Skills.getCollectionName(), updateData: updateData }, (error) => (error ?
         swal('Error', error.message, 'error') :
-        swal('Success', 'Challenge updated successfully', 'success')));
+        swal('Success', 'Skill updated successfully', 'success')));
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */

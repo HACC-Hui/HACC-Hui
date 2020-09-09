@@ -66,15 +66,10 @@ export const updateMethod = new ValidatedMethod({
   mixins: [CallPromiseMixin],
   validate: null,
   run({ collectionName, updateData }) {
-    console.log('updateMethod2');
     // console.log('updateMethod(%o, %o)', collectionName, updateData);
     const collection = HACCHui.getCollection(collectionName);
-    console.log('collection is');
-    console.log(collection);
     collection.assertValidRoleForMethod(this.userId);
-    console.log('updateMethod3');
     collection.update(updateData._id, updateData);
-    console.log('updateMethod');
     return true;
   },
 });
@@ -91,6 +86,7 @@ export const removeItMethod = new ValidatedMethod({
   mixins: [CallPromiseMixin],
   validate: null,
   run({ collectionName, instance }) {
+    console.log('deleting');
     const collection = HACCHui.getCollection(collectionName);
     collection.assertValidRoleForMethod(this.userId);
     collection.removeIt(instance);

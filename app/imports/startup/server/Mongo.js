@@ -2,9 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
 import moment from 'moment';
 import { HACCHui } from '../../api/hacc-hui/HACCHui';
-import { Challenges } from '../../api/challenge/ChallengeCollection';
-import { Tools } from '../../api/tool/ToolCollection';
-import { Skills } from '../../api/skill/SkillCollection';
 
 // global Assets
 

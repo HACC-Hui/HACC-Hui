@@ -33,7 +33,7 @@ class AdminConfiguration extends React.Component {
     return (
         <Container>
           <Grid style={{ flexDirection: 'row', margin: 15, justifyContent: 'center', alignItems: 'center' }}>
-            <b style={{ fontSize: 25 }}>Challenge</b>
+            <b style={{ fontSize: 25 }}>Challenges</b>
             <AddChallengeButton/>
           </Grid>
           <Table celled>
@@ -45,15 +45,14 @@ class AdminConfiguration extends React.Component {
                 <Table.HeaderCell>Submission Detail</Table.HeaderCell>
                 <Table.HeaderCell>Pitch</Table.HeaderCell>
                 <Table.HeaderCell>Edit</Table.HeaderCell>
+                <Table.HeaderCell>Delete</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {this.props.challenges.map((challenge) => {
                 const interestsArray = this.props.challengeInterests;
-                const allInterests = this.props.interests;
-                console.log(allInterests);
-                const chosenInterestArray = interestsArray.filter((item) => item.challengeID === Challenges.getID(challenge.slugID));
-                const challengeInterest = this.props.interests.filter((item) => item._id === chosenInterestArray[0].interestID)[0].name;
+                const chosenInterestArray = interestsArray.slice().filter((item) => item.challengeID === Challenges.getID(challenge.slugID));
+                const challengeInterest = this.props.interests.slice().filter((item) => item._id === chosenInterestArray[0].interestID)[0].name;
                 return <ChallengesAdmin key={challenge._id} challenge={challenge} interest={ challengeInterest }/>;
               })}
             </Table.Body>
@@ -68,6 +67,7 @@ class AdminConfiguration extends React.Component {
                 <Table.HeaderCell>Name</Table.HeaderCell>
                 <Table.HeaderCell>Description</Table.HeaderCell>
                 <Table.HeaderCell>Edit</Table.HeaderCell>
+                <Table.HeaderCell>Delete</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -84,6 +84,7 @@ class AdminConfiguration extends React.Component {
                 <Table.HeaderCell>Name</Table.HeaderCell>
                 <Table.HeaderCell>Description</Table.HeaderCell>
                 <Table.HeaderCell>Edit</Table.HeaderCell>
+                <Table.HeaderCell>Delete</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
