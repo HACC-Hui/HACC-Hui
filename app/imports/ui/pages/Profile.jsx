@@ -124,7 +124,7 @@ Profile.propTypes = {
 };
 
 // this is required to make the name show up
-/** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
+/** withTracker connects Meteor data to Reactx components. https://guide.meteor.com/react.html#using-withTracker */
 const ProfileContainer = withTracker(() => ({
   currentUser: Meteor.user() ? Meteor.user().username : '',
   currentEmail: Meteor.user() ? Meteor.user().email : '',
