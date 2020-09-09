@@ -1,23 +1,17 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Image, Grid, Container, Icon, Checkbox, List, Segment,
+import { Image, Grid, Container, Icon, Segment,
   Form, Button, Item, Loader } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Skills } from '../../api/skill/SkillCollection';
 import { Tools } from '../../api/tool/ToolCollection';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
 import Skill from '../components/Skill';
 import Tool from '../components/Tool';
-
-const challenges = ['HGIA Green Loan Portal', 'ETS/HGG Community Engagement & Digital Storytelling',
-  'Energy/HECO Electric Vehicle Charging Analysis', 'DOE Aloha+ Curricular Database'];
+import Challenge from '../components/Challenge';
 
 class Profile extends React.Component {
-
-  state = { checked: false }
-
-  toggle = () => this.setState((prevState) => ({ checked: !prevState.checked }))
-
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
@@ -94,14 +88,9 @@ class Profile extends React.Component {
                       CHALLENGES
                     </p>
                     <hr id='line-style'/>
-                    {challenges.map((c) => (
-                        // eslint-disable-next-line react/jsx-key
-                        <List>
-                          <List.Item id='radio-style'>
-                            <Checkbox label={c}/>
-                          </List.Item>
-                        </List>
-                    ))}
+                    <Item.Group>
+                      {this.props.challenges.map((challenge, index) => <Challenge key={index} challenge={challenge}/>)}
+                    </Item.Group>
                     <Button type='submit' style={{ marginLeft: '150px' }}>Submit</Button>
                   </Form>
                 </Segment>
@@ -121,6 +110,7 @@ Profile.propTypes = {
   ready: PropTypes.bool.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
+  challenges: PropTypes.array.isRequired,
 };
 
 // this is required to make the name show up
@@ -133,9 +123,11 @@ const ProfileContainer = withTracker(() => ({
 export default withTracker(() => {
   const subSkill = Meteor.subscribe('SkillCollection');
   const subTool = Meteor.subscribe('ToolCollection');
+  const subChal = Meteor.subscribe('ChallengeCollection');
   return {
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
-    ready: subSkill.ready() && subTool.ready(),
+    challenges: Challenges.find({}).fetch(),
+    ready: subSkill.ready() && subTool.ready() && subChal.ready(),
   };
 })(ProfileContainer);
