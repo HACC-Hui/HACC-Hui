@@ -7,11 +7,11 @@ import {
   TextField,
   LongTextField,
 } from 'uniforms-semantic';
-import { Meteor } from 'meteor/meteor';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import swal from 'sweetalert';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { Skills } from '../../api/skill/SkillCollection';
-
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
   name: String,
@@ -36,10 +36,23 @@ class AddSkill extends React.Component {
       name, description,
     } = data;
 
-    const docID = Skills.define({
+    const definitionData = {
       name, description,
-    });
-    console.log(docID);
+    };
+
+    const collectionName = Skills.getCollectionName();
+    console.log(collectionName);
+    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+        (error) => {
+          if (error) {
+            swal('Error', error.message, 'error');
+            // console.error(error.message);
+          } else {
+            swal('Success', 'Item added successfully', 'success');
+            formRef.reset();
+            // console.log('Success');
+          }
+        });
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
