@@ -22,10 +22,7 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
-<<<<<<< HEAD
 import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
-=======
->>>>>>> 85b16b7c8f7c8337e67242edf32424c398768436
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { DeveloperChallenges } from '../../../api/user/DeveloperChallengeCollection';
 // Create a schema to specify the structure of the data to appear in the form.
@@ -107,11 +104,7 @@ class Dprofile extends React.Component {
     // console.log(SkillArray);
     const Skillname = [];
     for (let i = 0; i < SkillArray.length; i++) {
-<<<<<<< HEAD
       const sn = { key: SkillArray[i].slugID, docid: SkillArray[i]._id, text: SkillArray[i].name, value: SkillArray[i].name };
-=======
-      const sn = { key: SkillArray[i].slugID, text: SkillArray[i].name, value: SkillArray[i].name };
->>>>>>> 85b16b7c8f7c8337e67242edf32424c398768436
       Skillname.push(sn);
     }
    return <Dropdown placeholder="please pick a skill" selection options={Skillname} onChange={handleOnChange} />;
@@ -126,11 +119,7 @@ class Dprofile extends React.Component {
     // console.log(SkillArray);
     const Toolname = [];
     for (let i = 0; i < ToolsArray.length; i++) {
-<<<<<<< HEAD
       const sn = { key: ToolsArray[i].slugID, docid: ToolsArray[i]._id, text: ToolsArray[i].name, value: ToolsArray[i].name };
-=======
-      const sn = { key: ToolsArray[i]._id, text: ToolsArray[i].name, value: ToolsArray[i].name };
->>>>>>> 85b16b7c8f7c8337e67242edf32424c398768436
       Toolname.push(sn);
     }
     return <Dropdown placeholder="please pick a skill" selection options={Toolname} onChange={handleOnChange} />;
@@ -211,16 +200,11 @@ class Dprofile extends React.Component {
         const SkillObject = {};
       if (this.skill != null) {
             SkillObject.key = this.skill.key;
-<<<<<<< HEAD
         SkillObject.docID = this.skill.docid;
         SkillObject.name = this.skill.text;
              if (this.level != null) {
                SkillObject.level = this.level.value;
              } else SkillObject.level = '';
-=======
-             SkillObject.name = this.skill.text;
-           SkillObject.level = this.level.value;
->>>>>>> 85b16b7c8f7c8337e67242edf32424c398768436
             console.log(SkillObject);
         }
       console.log(SkillObject);
@@ -229,24 +213,16 @@ class Dprofile extends React.Component {
       for (let i = 0; i < this.skillSet.length; i++) console.log(`skill${this.skillSet[i].name}`);
       const newState = { Skilladded: true };
       this.setState(newState);
-
-<<<<<<< HEAD
     // eslint-disable-next-line eqeqeq
     // work on this part to update level
 
     }
-=======
-  }
->>>>>>> 85b16b7c8f7c8337e67242edf32424c398768436
 
   addTool() {
     const ToolObject = {};
     if (this.tool != null) {
       ToolObject.key = this.tool.key;
-<<<<<<< HEAD
       ToolObject.docID = this.tool.docid;
-=======
->>>>>>> 85b16b7c8f7c8337e67242edf32424c398768436
       ToolObject.name = this.tool.text;
       ToolObject.level = this.level.value;
       console.log(ToolObject);
@@ -276,15 +252,10 @@ class Dprofile extends React.Component {
     const skillsID = _.pluck(this.skillSet, 'key');
     console.log(skillsID);
     console.log(this.challenges);
-<<<<<<< HEAD
+
     const challengesID = _.pluck(this.challenges, 'slugID');
     console.log(this.toolset);
     const toolsID = _.pluck(this.toolset, 'key');
-=======
-    const challengesID = _.pluck(this.challenges, '_id');
-    console.log(this.toolset);
-    const toolsID = _.pluck(this.toolset, 'name');
->>>>>>> 85b16b7c8f7c8337e67242edf32424c398768436
     const updateData = {};
     updateData.id = docID;
     updateData.challenges = challengesID;
@@ -298,7 +269,6 @@ class Dprofile extends React.Component {
 
     console.log(updateData);
     if (updateMethod.call({ collectionName: 'DeveloperCollection', updateData })) { console.log('sucess'); } else { console.log('fail'); }
-<<<<<<< HEAD
     const deskill = DeveloperSkills._collection.find({ developerID: docID }).fetch();
     _.each(deskill, function (skill_level) {
  const updateskillLevel = _.filter(this.skillSet, function (skill) { return skill_level.skillID == skill.docID; }); console.log(skill_level._id, updateskillLevel[0]); updateMethod.call({ collectionName: 'DeveloperSkillCollection', updateData: { id: skill_level._id,
@@ -309,8 +279,6 @@ class Dprofile extends React.Component {
       const updatetoolLevel = _.filter(this.toolset, function (tool) { return tool_level.toolID == tool.docID; });  updateMethod.call({ collectionName: 'DeveloperToolCollection', updateData: { id: tool_level._id,
           toolLevel: updatetoolLevel[0].level } });
     }, this);
-=======
->>>>>>> 85b16b7c8f7c8337e67242edf32424c398768436
 
     /* Developers.update(docID, { challenges: challengesID, skills: skillsID, tools: toolsID,
            linkedIn, gitHub, website, aboutMe, isCompliant: Agree },
@@ -335,22 +303,12 @@ class Dprofile extends React.Component {
 
     renderPage() {
    // const ChallengesOptions = this.props.challenges;
-<<<<<<< HEAD
-   // console.log(this.getDeveloper());
-=======
-    console.log(this.getDeveloper());
->>>>>>> 85b16b7c8f7c8337e67242edf32424c398768436
     const developer = this.getDeveloper();
     let fRef = null;
    const formSchema = new SimpleSchema2Bridge(schema);
 
    const firstname = developer.firstName;
-<<<<<<< HEAD
 
-=======
-      const deskill = DeveloperSkills._collection.find({}).fetch();
-      console.log(deskill);
->>>>>>> 85b16b7c8f7c8337e67242edf32424c398768436
     return (
         <Grid container centered>
           <Grid.Column>
