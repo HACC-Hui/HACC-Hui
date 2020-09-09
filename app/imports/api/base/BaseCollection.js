@@ -245,19 +245,18 @@ class BaseCollection {
   }
 
   assertRole(userId, roles) {
-    console.log('calling from assertRole: ', userId, roles);
+    // console.log('calling from assertRole: ', userId, roles);
     if (!userId) {
-      console.log('unauthorized, not logged in');
+      // console.log('unauthorized, not logged in');
       throw new Meteor.Error('unauthorized', 'You must be logged in.');
     } else if (!Roles.userIsInRole(userId, roles)) {
-      console.log('not right role');
+      // console.log('not right role');
       throw new Meteor.Error('unauthorized', `You must be one of the following roles: ${roles}`);
     }
     return true;
   }
 
   assertValidRoleForMethod(userId) {
-    console.log('Calling from assertValidRoleForMethod:', userId);
     this.assertRole(userId, [ROLE.ADMIN]);
   }
 }
