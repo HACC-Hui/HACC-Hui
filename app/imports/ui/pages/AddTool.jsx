@@ -10,7 +10,8 @@ import {
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import swal from 'sweetalert';
-import { toolDefineMethod } from '../../api/tool/ToolCollection.methods';
+import { Tools } from '../../api/tool/ToolCollection';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
@@ -30,13 +31,21 @@ class AddTool extends React.Component {
    */
   submit(data, formRef) {
 
+    // eslint-disable-next-line no-console
     console.log('AddTool.submit', data);
 
     const {
       name, description,
     } = data;
 
-    toolDefineMethod.call({ name, description },
+    const definitionData = {
+      name, description,
+    };
+
+    const collectionName = Tools.getCollectionName();
+    // eslint-disable-next-line no-console
+    console.log(collectionName);
+    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
