@@ -29,7 +29,7 @@ const schema = new SimpleSchema({
     allowedValues: ['Yes', 'No'],
   },
   name: String,
-  // image: String,
+  image: String,
   challenges: { type: Array, label: 'Challenges' },
   'challenges.$': { type: String },
   skills: { type: Array, label: 'Skills' },
@@ -64,7 +64,7 @@ class CreateTeam extends React.Component {
     const owner = this.props.developer[0].slugID;
 
     let {
-      name, description, open, challenges, skills, tools,
+      name, description, open, challenges, skills, tools, image,
     } = definitionData;
 
     if (open === 'Yes') {
@@ -98,16 +98,6 @@ class CreateTeam extends React.Component {
       }
     }
 
-    // console.log(name);
-    // console.log(description);
-    // console.log(owner);
-    // console.log(open);
-    // console.log(challenges);
-    // console.log(skills);
-    // console.log(tools);
-    // const collectionName = Teams.getCollectionName();
-    // const docID = defineMethod.call({ collectionName: Teams.getCollectionName(), definitionData: definitionData });
-
     defineMethod.call({
           collectionName: Teams.getCollectionName(),
           definitionData: {
@@ -115,6 +105,7 @@ class CreateTeam extends React.Component {
             description,
             owner,
             open,
+            image,
             challengesObject,
             skillsObject,
             toolsObject,
@@ -183,7 +174,7 @@ class CreateTeam extends React.Component {
                           inline
                       >
                       </RadioField>
-                      {/* <TextField name='image' placeholder={'Team Image URL'}/> */}
+                       <TextField name='image' placeholder={'Team Image URL'}/>
                       <LongTextField name='description'/>
                     </Grid.Column>
                   </Grid>

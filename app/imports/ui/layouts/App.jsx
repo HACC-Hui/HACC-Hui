@@ -19,6 +19,7 @@ import ManageHACC from '../pages/ManageHACC';
 import AddChallenge from '../pages/AddChallenge';
 import AddSkill from '../pages/AddSkill';
 import AddTool from '../pages/AddTool';
+import TeamFinder from '../pages/TeamFinder';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
 
@@ -39,6 +40,7 @@ class App extends React.Component {
               <ProtectedRoute path="/add" component={AddStuff}/>
               <ProtectedRoute path="/create" component={CreateTeam}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
+              <ProtectedRoute path="/teamfinder" component={TeamFinder}/>
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
               <AdminProtectedRoute path="/add-challenge" component={AddChallenge}/>
               <AdminProtectedRoute path="/add-skill" component={AddSkill}/>
