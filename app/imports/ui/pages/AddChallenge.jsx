@@ -7,9 +7,10 @@ import {
   TextField,
   LongTextField,
 } from 'uniforms-semantic';
-import { Meteor } from 'meteor/meteor';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import swal from 'sweetalert';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
@@ -39,11 +40,27 @@ class AddChallenge extends React.Component {
       title, description, interests, submissionDetail, pitch,
     } = data;
 
-    const docID = Challenges.define({
+    const definitionData = {
       title, description, interests, submissionDetail, pitch,
-    });
+    };
 
+    const collectionName = Challenges.getCollectionName();
+    console.log(collectionName);
+    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+        (error) => {
+          if (error) {
+            swal('Error', error.message, 'error');
+            // console.error(error.message);
+          } else {
+            swal('Success', 'Item added successfully', 'success');
+            formRef.reset();
+            // console.log('Success');
+          }
+        });
+    /*
+    const docID = defineMethod.call({ collectionName: collectionName, definitionData: definitionData });
     console.log(docID);
+     */
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */

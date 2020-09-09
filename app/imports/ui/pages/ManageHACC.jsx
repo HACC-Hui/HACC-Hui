@@ -1,7 +1,14 @@
 import React from 'react';
-import { Grid, Segment, Header, Table, Button } from 'semantic-ui-react';
+import { Grid, Segment, Header, Table, Button, Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { Skills } from '../../api/skill/SkillCollection';
+import { Tools } from '../../api/tool/ToolCollection';
+import ChallengeAdminTable from '../components/ChallengeAdminTable';
+import SkillAdminTable from '../components/SkillAdminTable';
+import ToolAdminTable from '../components/ToolAdminTable';
 
 /**
  * Renders the Page for Managing HACC. **deprecated**
@@ -10,6 +17,10 @@ import _ from 'lodash';
 class ManageHACC extends React.Component {
 
   render() {
+    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+  }
+
+  renderPage() {
     return (
         <div style={{ backgroundColor: '#C4C4C4', paddingBottom: '50px' }}>
           <Grid container centered>
@@ -35,6 +46,9 @@ class ManageHACC extends React.Component {
                     <Table.HeaderCell>Pitch</Table.HeaderCell>
                   </Table.Row>
                   </Table.Header>
+                  {/* eslint-disable-next-line max-len */}
+                  <Table.Body>{this.props.challenges.map((challenges => <ChallengeAdminTable key={challenges._id} challenges={challenges} />))}
+                      </Table.Body>
                 </Table>
                 <div align='center'>
                 <Button style={{
@@ -50,6 +64,9 @@ class ManageHACC extends React.Component {
                       <Table.HeaderCell>Description</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
+                  {/* eslint-disable-next-line max-len */}
+                  <Table.Body>{this.props.skills.map((skills => <SkillAdminTable key={skills._id} skills={skills} />))}
+                  </Table.Body>
                 </Table>
                 <div align='center'>
                 <Button style={{
@@ -65,6 +82,8 @@ class ManageHACC extends React.Component {
                       <Table.HeaderCell>Description</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
+                  <Table.Body>{this.props.tools.map((tools => <ToolAdminTable key={tools._id} tools={tools} />))}
+                  </Table.Body>
                 </Table>
                 <div align='center'>
                 <Button style={{
@@ -80,4 +99,23 @@ class ManageHACC extends React.Component {
   }
 }
 
-export default ManageHACC;
+ManageHACC.propTypes = {
+  challenges: PropTypes.array.isRequired,
+  skills: PropTypes.array.isRequired,
+  tools: PropTypes.array.isRequired,
+  ready: PropTypes.bool.isRequired,
+};
+
+// withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
+export default withTracker(() => {
+  // Get access to Stuff documents.
+  const subscription = Challenges.subscribe();
+  const subscription2 = Skills.subscribe();
+  const subscription3 = Tools.subscribe();
+  return {
+    challenges: Challenges.find({}).fetch(),
+    skills: Skills.find({}).fetch(),
+    tools: Tools.find({}).fetch(),
+    ready: subscription.ready() && subscription2.ready() && subscription3.ready(),
+  };
+})(ManageHACC);
