@@ -98,6 +98,12 @@ class CreateTeam extends React.Component {
       }
     }
 
+    // If the name has special character or space, throw a swal error and return early.
+    if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
+      swal('Error', 'Sorry, no special characters or space allowed.', 'error');
+      return;
+    }
+
     defineMethod.call({
           collectionName: Teams.getCollectionName(),
           definitionData: {
