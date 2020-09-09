@@ -268,28 +268,33 @@ class Dprofile extends React.Component {
     updateData.isCompliant = Agree;
 
     console.log(updateData);
-    if (updateMethod.call({ collectionName: 'DeveloperCollection', updateData })) { console.log('sucess'); } else { console.log('fail'); }
+    let success_base = false;
+    let success_skill_level = false;
+    let success_tool_level = false;
+    if (updateMethod.call({ collectionName: 'DeveloperCollection', updateData })) { console.log('sucess'); success_base = true } else { console.log('fail'); }
     const deskill = DeveloperSkills._collection.find({ developerID: docID }).fetch();
     _.each(deskill, function (skill_level) {
  const updateskillLevel = _.filter(this.skillSet, function (skill) { return skill_level.skillID == skill.docID; }); console.log(skill_level._id, updateskillLevel[0]); updateMethod.call({ collectionName: 'DeveloperSkillCollection', updateData: { id: skill_level._id,
         skillLevel: updateskillLevel[0].level } });
 }, this);
+    success_skill_level = true;
     const detool = DeveloperTools._collection.find({ developerID: docID }).fetch();
     _.each(detool, function (tool_level) {
-      const updatetoolLevel = _.filter(this.toolset, function (tool) { return tool_level.toolID == tool.docID; });  updateMethod.call({ collectionName: 'DeveloperToolCollection', updateData: { id: tool_level._id,
+      const updatetoolLevel = _.filter(this.toolset, function (tool) { return tool_level.toolID == tool.docID; }); updateMethod.call({ collectionName: 'DeveloperToolCollection', updateData: { id: tool_level._id,
           toolLevel: updatetoolLevel[0].level } });
     }, this);
+    success_tool_level =true;
 
     /* Developers.update(docID, { challenges: challengesID, skills: skillsID, tools: toolsID,
            linkedIn, gitHub, website, aboutMe, isCompliant: Agree },
-         (error) => {
-           if (error) {
-             swal('Error', error.message, 'error');
+         (error) => { */
+           if (!success_base) {
+             swal('Error', 'fail', 'error');
            } else {
              swal('Success', 'profile added successfully', 'success');
              formRef.reset();
            }
-         }); */
+
     // eslint-disable-next-line max-len
 
   // const test = DeveloperSkills._collection.find({ developerID: docID }).fetch();
