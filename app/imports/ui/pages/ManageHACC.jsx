@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
+import { Interests } from '../../api/interest/InterestCollection';
 import { Skills } from '../../api/skill/SkillCollection';
 import { Tools } from '../../api/tool/ToolCollection';
 import ChallengeAdminTable from '../components/ChallengeAdminTable';
@@ -47,7 +49,8 @@ class ManageHACC extends React.Component {
                   </Table.Row>
                   </Table.Header>
                   {/* eslint-disable-next-line max-len */}
-                  <Table.Body>{this.props.challenges.map((challenges => <ChallengeAdminTable key={challenges._id} challenges={challenges} />))}
+                  <Table.Body>{this.props.challenges.map((challenges => <ChallengeAdminTable key={challenges._id} challenges={challenges} />
+                    ))}
                       </Table.Body>
                 </Table>
                 <div align='center'>
@@ -101,6 +104,8 @@ class ManageHACC extends React.Component {
 
 ManageHACC.propTypes = {
   challenges: PropTypes.array.isRequired,
+  challengeInterests: PropTypes.array.isRequired,
+  interests: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
@@ -114,6 +119,8 @@ export default withTracker(() => {
   const subscription3 = Tools.subscribe();
   return {
     challenges: Challenges.find({}).fetch(),
+    challengeInterests: ChallengeInterests.find({}).fetch(),
+    interests: Interests.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
     ready: subscription.ready() && subscription2.ready() && subscription3.ready(),

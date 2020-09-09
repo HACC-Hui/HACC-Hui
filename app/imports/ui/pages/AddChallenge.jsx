@@ -10,13 +10,20 @@ import {
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import swal from 'sweetalert';
+import PropTypes from 'prop-types';
+import { withTracker } from 'meteor/react-meteor-data';
+import { _ } from 'lodash';
+import MultiSelectField from '../controllers/MultiSelectField';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { Interests } from '../../api/interest/InterestCollection';
+// import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
   title: String,
-  interests: String,
+  interests: { type: Array, label: 'interests' },
+  'interests.$': { type: String },
   submissionDetail: String,
   pitch: String,
   description: String,
@@ -39,11 +46,18 @@ class AddChallenge extends React.Component {
     const {
       title, description, interests, submissionDetail, pitch,
     } = data;
-
+    const interestsObject = [];
+    const interestsArray = this.props.interests;
+    for (let i = 0; i < interestsArray.length; i++) {
+      for (let j = 0; j < interests.length; j++) {
+        if (interestsArray[i].name === interests[j]) {
+          interestsObject.push(interestsArray[i].slugID);
+        }
+      }
+    }
     const definitionData = {
-      title, description, interests, submissionDetail, pitch,
+      title, description, interestsObject, submissionDetail, pitch,
     };
-
     const collectionName = Challenges.getCollectionName();
     console.log(collectionName);
     defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
@@ -58,8 +72,17 @@ class AddChallenge extends React.Component {
           }
         });
     /*
-    const docID = defineMethod.call({ collectionName: collectionName, definitionData: definitionData });
-    console.log(docID);
+    const interestsArray = this.props.interests;
+    const interestCollectionName = ChallengeInterests.getCollectionName();
+    console.log(interests);
+    for (let i = 0; i < interestsArray.length; i++) {
+      for (let j = 0; j < interests.length; j++) {
+        if (interestsArray[i].name === interests[j]) {
+          const interestID = interestsArray[i]._id;
+          defineMethod.call({ collectionName: interestCollectionName, definitionData: { challengeID, interestID } });
+        }
+      }
+    }
      */
   }
 
@@ -67,6 +90,7 @@ class AddChallenge extends React.Component {
   render() {
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(schema);
+    const interestsArray = _.map(this.props.interests, 'name');
     return (
         <div style={{ backgroundColor: '#C4C4C4' }}>
           <Grid container centered>
@@ -91,7 +115,8 @@ class AddChallenge extends React.Component {
                     <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
                       <TextField name='title' required/>
                       <LongTextField name='description' required/>
-                      <TextField name='interests' required/>
+                      <MultiSelectField name='interests' placeholder={'Interests'}
+                                        allowedValues={interestsArray} required/>
                       <TextField name='submissionDetail' required/>
                       <TextField name='pitch' required/>
                     </Grid.Column>
@@ -113,4 +138,16 @@ class AddChallenge extends React.Component {
   }
 }
 
-export default AddChallenge;
+AddChallenge.propTypes = {
+  interests: PropTypes.array.isRequired,
+  ready: PropTypes.bool.isRequired,
+};
+
+// export default CreateTeam;
+export default withTracker(() => {
+  const subscription = Interests.subscribe();
+  return {
+    interests: Interests.find({}).fetch(),
+    ready: subscription.ready(),
+  };
+})(AddChallenge);
