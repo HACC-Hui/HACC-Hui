@@ -23,7 +23,7 @@ class BaseSlugCollection extends BaseCollection {
    * @throws { Meteor.Error } If instance is not a docID or a slug.
    */
   getID(instance) {
-    // console.log('BaseSlugCollection.getID(%o)', instance);
+     // console.log('BaseSlugCollection.getID(%o)', instance);
     let id;
     // If we've been passed a document, check to see if it has an _id field and make instance the value of _id.
     if (_.isObject(instance) && instance._id) {

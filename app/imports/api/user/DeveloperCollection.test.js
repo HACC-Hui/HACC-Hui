@@ -22,5 +22,15 @@ if (Meteor.isServer) {
       expect(Developers.isDefined(profileID)).to.be.true;
       expect(DeveloperSkills.find({ developerID: profileID }).fetch()).to.have.lengthOf(2);
     });
+
+    it('update', function test() {
+      const developer = Developers.findOne();
+      // console.log(developer);
+      const skills = makeSampleSkillSlugArray(3);
+      const docID = developer._id;
+      expect(Developers.isDefined(developer._id)).to.be.true;
+      Developers.update(docID, { skills });
+      expect(DeveloperSkills.find({ developerID: docID }).fetch()).to.have.lengthOf(3);
+    });
   });
 }
