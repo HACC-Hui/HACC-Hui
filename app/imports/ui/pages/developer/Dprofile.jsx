@@ -22,6 +22,7 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
+import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { DeveloperChallenges } from '../../../api/user/DeveloperChallengeCollection';
 // Create a schema to specify the structure of the data to appear in the form.
@@ -118,7 +119,7 @@ class Dprofile extends React.Component {
     // console.log(SkillArray);
     const Toolname = [];
     for (let i = 0; i < ToolsArray.length; i++) {
-      const sn = { key: ToolsArray[i].slugID, text: ToolsArray[i].name, value: ToolsArray[i].name };
+      const sn = { key: ToolsArray[i].slugID, docid: ToolsArray[i]._id, text: ToolsArray[i].name, value: ToolsArray[i].name };
       Toolname.push(sn);
     }
     return <Dropdown placeholder="please pick a skill" selection options={Toolname} onChange={handleOnChange} />;
@@ -212,20 +213,17 @@ class Dprofile extends React.Component {
       for (let i = 0; i < this.skillSet.length; i++) console.log(`skill${this.skillSet[i].name}`);
       const newState = { Skilladded: true };
       this.setState(newState);
-    const developer = this.getDeveloper();
-    const deskill = DeveloperSkills._collection.find({ developerID: developer._id }).fetch();
-    console.log(deskill);
-    // eslint-disable-next-line eqeqeq
-    //work on this part to update level
-    const updateLevel = _.filter(this.skillSet, function (skill) { return skill.skillID == deskill[0].docID; });
-    console.log(updateLevel);
 
-  }
+    // eslint-disable-next-line eqeqeq
+    // work on this part to update level
+
+    }
 
   addTool() {
     const ToolObject = {};
     if (this.tool != null) {
       ToolObject.key = this.tool.key;
+      ToolObject.docID = this.tool.docid;
       ToolObject.name = this.tool.text;
       ToolObject.level = this.level.value;
       console.log(ToolObject);
@@ -271,6 +269,16 @@ class Dprofile extends React.Component {
 
     console.log(updateData);
     if (updateMethod.call({ collectionName: 'DeveloperCollection', updateData })) { console.log('sucess'); } else { console.log('fail'); }
+    const deskill = DeveloperSkills._collection.find({ developerID: docID }).fetch();
+    _.each(deskill, function (skill_level) {
+ const updateskillLevel = _.filter(this.skillSet, function (skill) { return skill_level.skillID == skill.docID; }); console.log(skill_level._id, updateskillLevel[0]); updateMethod.call({ collectionName: 'DeveloperSkillCollection', updateData: { id: skill_level._id,
+        skillLevel: updateskillLevel[0].level } });
+}, this);
+    const detool = DeveloperTools._collection.find({ developerID: docID }).fetch();
+    _.each(detool, function (tool_level) {
+      const updatetoolLevel = _.filter(this.toolset, function (tool) { return tool_level.toolID == tool.docID; });  updateMethod.call({ collectionName: 'DeveloperToolCollection', updateData: { id: tool_level._id,
+          toolLevel: updatetoolLevel[0].level } });
+    }, this);
 
     /* Developers.update(docID, { challenges: challengesID, skills: skillsID, tools: toolsID,
            linkedIn, gitHub, website, aboutMe, isCompliant: Agree },

@@ -44,7 +44,9 @@ class DeveloperSkillCollection extends BaseCollection {
    * @throws {Meteor.Error} if docID is not defined.
    */
   update(docID, { skill, developer, skillLevel }) {
+    console.log(docID);
     this.assertDefined(docID);
+    console.log(skillLevel);
     const updateData = {};
     if (developer) {
       updateData.developerID = Developers.getID(developer);
@@ -53,6 +55,7 @@ class DeveloperSkillCollection extends BaseCollection {
       updateData.skillID = Skills.getID(skill);
     }
     if (skillLevel) {
+      console.log(skillLevel);
       updateData.skillLevel = skillLevel;
     }
     this._collection.update(docID, { $set: updateData });
