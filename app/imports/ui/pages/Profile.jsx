@@ -1,15 +1,16 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Image, Grid, Container, Icon, Segment,
-  Form, Button, Item, Loader } from 'semantic-ui-react';
+import { Grid, Container, Icon, Segment, Form, Button, Item, Loader, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Skills } from '../../api/skill/SkillCollection';
 import { Tools } from '../../api/tool/ToolCollection';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { Interests } from '../../api/interest/InterestCollection';
 import Skill from '../components/Skill';
 import Tool from '../components/Tool';
 import Challenge from '../components/Challenge';
+import Interest from '../components/Interest';
 
 class Profile extends React.Component {
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -23,14 +24,20 @@ class Profile extends React.Component {
           <div id='cover-photo'>
             <Grid id='grid-style'>
               <Grid.Column width={7} style={{ paddingLeft: '7em' }}>
-                <Grid.Row length={3}>
-                  <div>
+                <Grid.Row>
+                  <Item>
                     {/* eslint-disable-next-line max-len */}
-                    <Image src='/images/basic_pic.png' size='small' circular id='profile-pic' style={{ display: 'inline' }}/>
-                    <span id='name-style'>{this.props.currentUser}</span>
-                  </div>
+                    <Item.Image src='/images/basic_pic.png' size='small' circular id='profile-pic' style={{ float: 'left' }}/>
+                    <Item.Content>
+                      <Item.Header style={{ float: 'right' }} id='name-style'>{this.props.currentUser}</Item.Header>
+                      <Label.Group size='small' id='interest-style'>
+                        {this.props.interests.map((interest, index) => <Interest
+                          key={index} interest={interest}/>)}
+                      </Label.Group>
+                    </Item.Content>
+                  </Item>
                 </Grid.Row>
-                <Grid.Row style={{ paddingTop: '15px' }}>
+                <Grid.Row style={{ paddingTop: '20px' }}>
                   <p id='header-style'>
                     About me
                   </p>
@@ -91,7 +98,7 @@ class Profile extends React.Component {
                     <Item.Group>
                       {this.props.challenges.map((challenge, index) => <Challenge key={index} challenge={challenge}/>)}
                     </Item.Group>
-                    <Button type='submit' style={{ marginLeft: '150px' }}>Submit</Button>
+                    <Button type='submit' color='teal' style={{ marginLeft: '150px' }}>Submit</Button>
                   </Form>
                 </Segment>
               </Grid.Column>
@@ -111,6 +118,7 @@ Profile.propTypes = {
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
+  interests: PropTypes.array.isRequired,
 };
 
 // this is required to make the name show up
@@ -124,10 +132,12 @@ export default withTracker(() => {
   const subSkill = Meteor.subscribe('SkillCollection');
   const subTool = Meteor.subscribe('ToolCollection');
   const subChal = Meteor.subscribe('ChallengeCollection');
+  const subInt = Meteor.subscribe('InterestCollection');
   return {
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
-    ready: subSkill.ready() && subTool.ready() && subChal.ready(),
+    interests: Interests.find({}).fetch(),
+    ready: subSkill.ready() && subTool.ready() && subChal.ready() && subInt.ready(),
   };
 })(ProfileContainer);

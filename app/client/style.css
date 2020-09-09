@@ -23,6 +23,7 @@
 }
 
 #name-style {
+  padding-top: 55px;
   padding-left: 20px;
   font: 'Monsterrat';
   font-size: 36px;
@@ -62,6 +63,11 @@
 #segment-form-style {
   border-radius: .75rem;
   padding: 0px 30px 30px 30px;
+}
+
+#interest-style {
+  padding-top: 110px;
+  padding-left: 175px;
 }
 
 /* PROFILE PAGE SECTION */
