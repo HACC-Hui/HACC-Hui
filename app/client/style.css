@@ -3,6 +3,34 @@ hr { display: block; height: 1px;
   border: 0; border-top: 2px solid white;
   margin: 1em 0; padding: 0;
 }
+.signin{
+  background: #C4C4C4;
+  padding-top: 150px;
+  padding-bottom: 150px;
+}
+
+h3, h1, h2 {
+  font-family: 'Quicksand', sans-serif!important;
+  letter-spacing: 2px;
+  text-transform: uppercase!important;
+}
+
+.profileBox{
+  width: 1261px;
+  height: 714px;
+  background: #393B44;
+  border-radius: 25px;
+}
+
+.innerProfileBox{
+  width: 376px;
+  height: 646px;
+  background: #24252B;
+}
+
+.info {
+  padding-top: 100px !important;
+}
 
 .teamCreate label {
   color: white !important;
