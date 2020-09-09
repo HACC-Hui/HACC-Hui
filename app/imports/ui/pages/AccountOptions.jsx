@@ -1,15 +1,72 @@
 import React from 'react';
 import { Grid, Button, Header, Card, Icon, Image, Modal } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
-import { usersDeleteMethod } from '../../api/user/AccountOptions.methods';
+import { Roles } from 'meteor/alanning:roles';
+import swal from 'sweetalert';
+import {
+    AutoForm,
+    ErrorsField,
+    SubmitField,
+    TextField,
+    LongTextField,
+} from 'uniforms-semantic';
+import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
+import SimpleSchema from 'simpl-schema';
+import { createDeveloperMethod } from '../../api/user/AccountOptions.methods';
+import { Developers } from '../../api/user/DeveloperCollection';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
+
+import { userInteractionTypes } from '../../api/user/UserInteractionCollection';
+import { demographicLevels } from '../../api/level/Levels';
+import { makeSampleSkillSlugArray } from '../../api/skill/SampleSkills';
 /**
  * Renders the Page for Account Options. **deprecated**
  * @memberOf ui/pages
  */
 
+const schema = new SimpleSchema({
+    username: { type: String },
+    slugID: { type: String },
+    firstName: { type: String },
+    lastName: { type: String },
+    demographicLevel: { type: String, allowedValues: demographicLevels, optional: true },
+    linkedIn: { type: String, optional: true },
+    gitHub: { type: String, optional: true },
+    website: { type: String, optional: true },
+    aboutMe: { type: String, optional: true },
+    userID: { type: SimpleSchema.RegEx.Id, optional: true },
+    lookingForTeam: { type: Boolean, optional: true },
+    isCompliant: { type: Boolean, optional: true },
+});
+
 class AccountOptions extends React.Component {
-    submit = () => {
-      usersDeleteMethod.call(Meteor.user().username);
+
+    submit = (formRef) => {
+
+        const username = 'cmoore@hawaii.edu';
+        const firstName = 'Cam';
+        const lastName = 'Moore';
+        const demographicLevel = demographicLevels[0];
+        const lookingForTeam = true;
+        const skills = makeSampleSkillSlugArray(2);
+        const definitionData = { username, firstName, lastName, demographicLevel,
+            lookingForTeam, skills };
+
+        // const collectionName = Developers.getCollectionName();
+        // console.log(collectionName);
+
+        defineMethod.call({ collectionName: Developers.getCollectionName(), definitionData: definitionData },
+            (error) => {
+                if (error) {
+                    swal('Error', error.message, 'error');
+                    // console.error(error.message);
+                } else {
+                    swal('Success', 'Item added successfully', 'success');
+                    formRef.reset();
+                    // console.log('Success');
+                }
+            });
   }
 
   render() {
@@ -42,7 +99,7 @@ class AccountOptions extends React.Component {
                               trigger={<Button color='red'>Delete Account</Button>}
                               header='Account Removal Form'
                               content='Before you go please fill out this questionnaire so we can improve the HACC experience in the future.'
-                              actions={['Cancel', { key: 'submit', content: 'Submit & Delete', positive: true, onClick: this.submit }]}/>
+                              actions={['Cancel', { key: 'submit', content: 'Submit & Delete', positive: true, onClick: this.submit('') }]}/>
                       </a>
                   </Card.Content>
               </Card>

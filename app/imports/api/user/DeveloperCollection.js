@@ -62,15 +62,20 @@ class DeveloperCollection extends BaseSlugCollection {
            linkedIn = '', gitHub = '', website = '', aboutMe = '',
            isCompliant = false,
          }) {
+    console.log('We in here boys 2');
     if (Meteor.isServer) {
+      console.log('We in here boys 3');
       const role = ROLE.DEVELOPER;
       const slugID = Slugs.define({ name: username }); // ensure the usernames are unique
       const profileID = this._collection.insert({
         username, slugID, firstName, lastName, demographicLevel,
         lookingForTeam, linkedIn, gitHub, website, aboutMe, isCompliant,
       });
+      console.log('We in here boys 4');
       Slugs.updateEntityID(slugID, profileID);
+      console.log('We in here boys 5');
       const { userID, password } = Users.define({ username, role });
+      console.log('We in here boys 6');
       this._collection.update(profileID, { $set: { userID } });
       _.each(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer: username }));
       _.each(interests, (interest) => DeveloperInterests.define({ interest, developer: username }));
