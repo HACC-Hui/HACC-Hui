@@ -90,14 +90,14 @@ class ChallengeCollection extends BaseSlugCollection {
     }
     this._collection.update(docID, { $set: updateData });
     if (interestIDs && interestIDs.length > 0) {
-      const challengeName = this.findDoc(docID).title;
+      // const challengeName = this.findDoc(docID).title;
       // remove the old interests
       const oldInterests = ChallengeInterests.find({ challengeID: docID }).fetch();
       _.each(oldInterests, (old) => ChallengeInterests.removeIt(old._id));
       // add the new interests
       _.each(interestIDs, (interestID) => {
         const interest = Interests.findSlugByID(interestID);
-        ChallengeInterests.define({ challengeName, interest });
+        ChallengeInterests.define({ challenge: docID, interest });
       });
     }
   }
