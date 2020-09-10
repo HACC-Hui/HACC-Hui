@@ -1,3 +1,7 @@
+/* PROFILE PAGE SECTION */
+/* ~~~~~~~START~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~ */
+
 #cover-photo {
   background: url("/images/circuit_cover.png");
   background-repeat: no-repeat;
@@ -13,7 +17,64 @@
   border: 7px solid #fff;
 }
 
-.info-style {
+#info-style {
   font-weight: 300;
   font-size: 18px;
 }
+
+#name-style {
+  padding-top: 55px;
+  padding-left: 175px;
+  font: 'Monsterrat';
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+}
+
+#name-edit-icon {
+  float: right;
+  padding-right: 35px;
+  padding-top: 9px;
+}
+
+#choice-style {
+  margin-top: 15px;
+  font-weight: 500;
+  font-size: 17px;
+}
+
+#radio-style {
+  font-size: 15px;
+}
+
+#grid-style {
+  padding-top: 140px;
+  padding-bottom: 200px;
+}
+
+#header-style {
+  padding-top: 25px;
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+#line-style {
+  margin-left: 0px;
+  border: 2px solid;
+  color: black;
+}
+
+#segment-form-style {
+  border-radius: .75rem;
+  padding: 0px 30px 30px 30px;
+}
+
+#interest-style {
+  padding-top: 40px;
+  padding-left: 175px;
+}
+
+/* PROFILE PAGE SECTION */
+/* ~~~~~~~~~END~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~ */
