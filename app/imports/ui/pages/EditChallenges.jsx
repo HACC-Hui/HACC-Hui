@@ -14,10 +14,10 @@ import { updateMethod } from '../../api/base/BaseCollection.methods';
 const editChallengeSchema = new SimpleSchema({
   title: { type: String },
   slugID: { type: SimpleSchema.RegEx.Id },
-  interests: {
+  interest: {
     type: String,
   },
-  'interests.$': { type: String },
+  'interest.$': { type: String },
   description: { type: String },
   submissionDetail: { type: String },
   pitch: { type: String },
@@ -34,8 +34,8 @@ class EditChallenges extends React.Component {
    */
   submit(data) {
     // console.log(data);
-    const { title, description, interests, submissionDetail, pitch, _id } = data;
-    const chosenInterest = Interests.findDoc(interests);
+    const { title, description, interest, submissionDetail, pitch, _id } = data;
+    const chosenInterest = Interests.findDoc(interest);
     const interestIDs = [chosenInterest._id];
     const updateData = {
       _id,
@@ -67,7 +67,7 @@ class EditChallenges extends React.Component {
               <Segment>
                 <TextField name='title'/>
                 <TextField name='description'/>
-                <SelectField name='interests' placeholder={'Interests'}
+                <SelectField name='interest' placeholder={'Interests'}
                              allowedValues={interestsArr} required/>
                 <TextField name='submissionDetail'/>
                 <TextField name='pitch'/>

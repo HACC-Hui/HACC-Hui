@@ -15,10 +15,10 @@ import { Interests } from '../../api/interest/InterestCollection';
 // Create a schema to specify the structure of the data to appear in the form.
 const addChallengeSchema = new SimpleSchema({
   title: { type: String },
-  interests: {
+  interest: {
     type: String,
   },
-  'interests.$': { type: String },
+  'interest.$': { type: String },
   description: { type: String },
   submissionDetail: { type: String },
   pitch: { type: String },
@@ -71,7 +71,7 @@ class AddChallenge extends React.Component {
               <Segment>
                 <TextField name='title'/>
                 <TextField name='description'/>
-                <SelectField name='interests' placeholder={'Interests'}
+                <SelectField name='interest' placeholder={'Interests'}
                              allowedValues={interestsArr} required/>
                 <TextField name='submissionDetail'/>
                 <TextField name='pitch'/>
