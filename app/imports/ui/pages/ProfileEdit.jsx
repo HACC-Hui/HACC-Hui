@@ -16,7 +16,7 @@ import SimpleSchema from 'simpl-schema';
 import MultiSelectField from '../controllers/MultiSelectField';
 import { Teams } from '../../api/team/TeamCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
-// import { demographicLevel } from '../api/level/Levels';
+// import { demographicLevel } from '../../api/level/Levels';
 import { Skills } from '../../api/skill/SkillCollection';
 import { Tools } from '../../api/tool/ToolCollection';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
@@ -31,11 +31,10 @@ const editSchema = new SimpleSchema({
   linkedIn: String,
   gitHub: String,
   website: String,
-  demographicLevel: {
+  dLevel: {
     type: Array,
-    label: [' Demographic Level'],
   },
-  'demographicLevel.$': {
+  'dLevel.$': {
     type: String,
   },
   tools: {
@@ -68,8 +67,8 @@ class editProfile extends React.Component {
      console.log(data);
 
     const owner = this.props.developer[0].slugID;
-  //  const demographicLevelP = this.props.demographicLevel;
-   // const demographicLevelOb = [];
+    const dLevelP = this.props.dLevel;
+    const dLevelOb = [];
     const skillsP = this.props.skills;
     const skillsOb = [];
     const toolsP = this.props.tools;
@@ -78,9 +77,16 @@ class editProfile extends React.Component {
     const ChallengesOb = [];
 
     const {
-      challenges, skills, tools, aboutMe, website, demographicLevel, gitHub, linkedIn, firstName, lastName, image,
+      challenges, skills, tools, aboutMe, website, dLevel, gitHub, linkedIn, firstName, lastName, image,
     } = data;
-
+/*    for (let i = 0; i < dLevelP.length; i++) {
+      for (let j = 0; j < tools.length; j++) {
+        if (dLevelP[i].name === tools[j]) {
+          dLevelOb.push(dLevelP[i].slugID);
+        }
+      }
+    }
+ */
     for (let i = 0; i < toolsP.length; i++) {
       for (let j = 0; j < tools.length; j++) {
         if (toolsP[i].name === tools[j]) {
@@ -105,7 +111,7 @@ class editProfile extends React.Component {
     defineMethod.call({
           collectionName: Teams.getCollectionName(),
           definitionData: {
-            demographicLevel,
+            dLevel,
             aboutMe,
             owner,
             firstName,
@@ -114,7 +120,7 @@ class editProfile extends React.Component {
             website,
             gitHub,
             linkedIn,
-          //  demographicLevelOb,
+            dLevelOb,
             ChallengesOb,
             skillsOb,
             toolsOb,
@@ -137,7 +143,7 @@ class editProfile extends React.Component {
     const skillsP = _.map(this.props.skills, 'name');
     const toolsP = _.map(this.props.tools, 'name');
     const ChallengesP = _.map(this.props.challenges, 'title');
-  //  const demographicLevelP = _.map(this.props.demographicLevel, 'title');
+//    const dLevelP = _.map(this.props.dLevel, 'title');
     let fRef = null;
     return (
         <div style={{ backgroundColor: '#24252B' }}>
@@ -179,7 +185,7 @@ class editProfile extends React.Component {
                     <Grid.Row>
                       <Header inverted as="h3" textAlign="center">Demographic</Header>
                       <MultiSelectField name='demographicLevel' placeholder={'demographicLevel'}
-                                       // allowedValues={demographicLevelP}
+                                        allowedValues={dLevelP}
                                         required/>
                     </Grid.Row>
                     <br/>
@@ -235,7 +241,7 @@ class editProfile extends React.Component {
 }
 
 editProfile.propTypes = {
- // demographicLevel: PropTypes.array.isRequired,
+  dLevel: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
@@ -244,17 +250,18 @@ editProfile.propTypes = {
 };
 
 export default withTracker(() => {
- // const demographicLevel = demographicLevel.subscribe();
   const subscription1 = Tools.subscribe();
   const subscription = Skills.subscribe();
   const subscription2 = Challenges.subscribe();
   const subscription3 = Developers.subscribe();
+  const subscription4 = demographicLevel.subscribe();
   return {
-  //  demographicLevel: demographicLevel.find({}).fetch(),
+    demographicLevel: demographicLevel.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     developer: Developers.find({}).fetch(),
-    ready: subscription.ready() && subscription1.ready() && subscription2.ready() && subscription3.ready(),
+    ready: subscription.ready() && subscription1.ready() && subscription2.ready() && subscription3.ready()
+        && subscription4.ready(),
   };
 })(editProfile);
