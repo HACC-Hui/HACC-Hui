@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> api/base</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="api_base.html">api/base</a></li><li><a href="api_challenge.html">api/challenge</a></li><li><a href="api_hacc-hui.html">api/hacc-hui</a></li><li><a href="api_interest.html">api/interest</a></li><li><a href="api_level.html">api/level</a></li><li><a href="api_role.html">api/role</a></li><li><a href="api_skill.html">api/skill</a></li><li><a href="api_slackbot.html">api/slackbot</a></li><li><a href="api_slug.html">api/slug</a></li><li><a href="api_stuff.html">api/stuff</a></li><li><a href="api_team.html">api/team</a></li><li><a href="api_tool.html">api/tool</a></li><li><a href="api_user.html">api/user</a></li><li><a href="startup_server.html">startup/server</a></li><li><a href="test-utilities.html">test-utilities</a></li><li><a href="ui_components.html">ui/components</a></li><li><a href="ui_layouts.html">ui/layouts</a></li><li><a href="ui_pages.html">ui/pages</a></li></ul><h3>Classes</h3><ul><li><a href="api_base.BaseCollection.html">BaseCollection</a></li><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_challenge.ChallengeCollection.html">ChallengeCollection</a></li><li><a href="api_challenge.ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="api_hacc-hui.HACCHuiClass.html">HACCHuiClass</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slackbot.SlackUserCollection.html">SlackUserCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_stuff.StuffCollection.html">StuffCollection</a></li><li><a href="api_team.TeamChallengeCollection.html">TeamChallengeCollection</a></li><li><a href="api_team.TeamCollection.html">TeamCollection</a></li><li><a href="api_team.TeamDeveloperCollection.html">TeamDeveloperCollection</a></li><li><a href="api_team.TeamSkillCollection.html">TeamSkillCollection</a></li><li><a href="api_team.TeamToolCollection.html">TeamToolCollection</a></li><li><a href="api_tool.ToolCollection.html">ToolCollection</a></li><li><a href="api_user.AdministratorCollection.html">AdministratorCollection</a></li><li><a href="api_user.DeveloperChallengeCollection.html">DeveloperChallengeCollection</a></li><li><a href="api_user.DeveloperCollection.html">DeveloperCollection</a></li><li><a href="api_user.DeveloperInterestCollection.html">DeveloperInterestCollection</a></li><li><a href="api_user.DeveloperSkillCollection.html">DeveloperSkillCollection</a></li><li><a href="api_user.DeveloperToolCollection.html">DeveloperToolCollection</a></li><li><a href="api_user.UserInteractionCollection.html">UserInteractionCollection</a></li><li><a href="ui_components.Footer.html">Footer</a></li><li><a href="ui_components.NavBar.html">NavBar</a></li><li><a href="ui_components.StuffItem.html">StuffItem</a></li><li><a href="ui_components.StuffItemAdmin.html">StuffItemAdmin</a></li><li><a href="ui_layouts.App.html">App</a></li><li><a href="ui_pages.AddStuff.html">AddStuff</a></li><li><a href="ui_pages.EditStuff.html">EditStuff</a></li><li><a href="ui_pages.Landing.html">Landing</a></li><li><a href="ui_pages.ListStuff.html">ListStuff</a></li><li><a href="ui_pages.ListStuffAdmin.html">ListStuffAdmin</a></li><li><a href="ui_pages.NotFound.html">NotFound</a></li><li><a href="ui_pages.Signin.html">Signin</a></li><li><a href="ui_pages.Signout.html">Signout</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Namespace</p>
+                    <h1>api/base</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>api/base</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="api_base_BaseCollection.js.html" class="button">View Source</a>
+            <span>
+                <a href="api_base_BaseCollection.js.html">api/base/BaseCollection.js</a>, <a href="api_base_BaseCollection.js.html#line7">line 7</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="api_base.BaseCollection.html">BaseCollection</a></dt>
+            <dd></dd>
+        
+            <dt><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Members</h1>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">ValidatedMethod</span>
+
+
+    </span>
+
+<h4 class="name" id=".exports.defineMethod">
+    <a class="href-link" href="#.exports.defineMethod">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        exports.defineMethod
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Meteor method used to define new instances of the given collection name.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="api_base_BaseCollection.methods.js.html" class="button">View Source</a>
+            <span>
+                <a href="api_base_BaseCollection.methods.js.html">api/base/BaseCollection.methods.js</a>, <a href="api_base_BaseCollection.methods.js.html#line45">line 45</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">ValidatedMethod</span>
+
+
+    </span>
+
+<h4 class="name" id=".exports.dumpDatabaseMethod">
+    <a class="href-link" href="#.exports.dumpDatabaseMethod">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        exports.dumpDatabaseMethod
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Allows admins to create and return a JSON object to the client representing a snapshot of the HACC-Hui database.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="api_base_BaseCollection.methods.js.html" class="button">View Source</a>
+            <span>
+                <a href="api_base_BaseCollection.methods.js.html">api/base/BaseCollection.methods.js</a>, <a href="api_base_BaseCollection.methods.js.html#line14">line 14</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">ValidatedMethod</span>
+
+
+    </span>
+
+<h4 class="name" id=".exports.removeItMethod">
+    <a class="href-link" href="#.exports.removeItMethod">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        exports.removeItMethod
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Meteor method used to remove a document from a collection.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="api_base_BaseCollection.methods.js.html" class="button">View Source</a>
+            <span>
+                <a href="api_base_BaseCollection.methods.js.html">api/base/BaseCollection.methods.js</a>, <a href="api_base_BaseCollection.methods.js.html#line84">line 84</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">ValidatedMethod</span>
+
+
+    </span>
+
+<h4 class="name" id=".exports.updateMethod">
+    <a class="href-link" href="#.exports.updateMethod">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        exports.updateMethod
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Meteor method used to update a document in the given collection.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="api_base_BaseCollection.methods.js.html" class="button">View Source</a>
+            <span>
+                <a href="api_base_BaseCollection.methods.js.html">api/base/BaseCollection.methods.js</a>, <a href="api_base_BaseCollection.methods.js.html#line64">line 64</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

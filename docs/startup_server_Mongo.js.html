@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> startup/server/Mongo.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="api_base.html">api/base</a></li><li><a href="api_challenge.html">api/challenge</a></li><li><a href="api_hacc-hui.html">api/hacc-hui</a></li><li><a href="api_interest.html">api/interest</a></li><li><a href="api_level.html">api/level</a></li><li><a href="api_role.html">api/role</a></li><li><a href="api_skill.html">api/skill</a></li><li><a href="api_slackbot.html">api/slackbot</a></li><li><a href="api_slug.html">api/slug</a></li><li><a href="api_stuff.html">api/stuff</a></li><li><a href="api_team.html">api/team</a></li><li><a href="api_tool.html">api/tool</a></li><li><a href="api_user.html">api/user</a></li><li><a href="startup_server.html">startup/server</a></li><li><a href="test-utilities.html">test-utilities</a></li><li><a href="ui_components.html">ui/components</a></li><li><a href="ui_layouts.html">ui/layouts</a></li><li><a href="ui_pages.html">ui/pages</a></li></ul><h3>Classes</h3><ul><li><a href="api_base.BaseCollection.html">BaseCollection</a></li><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_challenge.ChallengeCollection.html">ChallengeCollection</a></li><li><a href="api_challenge.ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="api_hacc-hui.HACCHuiClass.html">HACCHuiClass</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slackbot.SlackUserCollection.html">SlackUserCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_stuff.StuffCollection.html">StuffCollection</a></li><li><a href="api_team.TeamChallengeCollection.html">TeamChallengeCollection</a></li><li><a href="api_team.TeamCollection.html">TeamCollection</a></li><li><a href="api_team.TeamDeveloperCollection.html">TeamDeveloperCollection</a></li><li><a href="api_team.TeamSkillCollection.html">TeamSkillCollection</a></li><li><a href="api_team.TeamToolCollection.html">TeamToolCollection</a></li><li><a href="api_tool.ToolCollection.html">ToolCollection</a></li><li><a href="api_user.AdministratorCollection.html">AdministratorCollection</a></li><li><a href="api_user.DeveloperChallengeCollection.html">DeveloperChallengeCollection</a></li><li><a href="api_user.DeveloperCollection.html">DeveloperCollection</a></li><li><a href="api_user.DeveloperInterestCollection.html">DeveloperInterestCollection</a></li><li><a href="api_user.DeveloperSkillCollection.html">DeveloperSkillCollection</a></li><li><a href="api_user.DeveloperToolCollection.html">DeveloperToolCollection</a></li><li><a href="api_user.UserInteractionCollection.html">UserInteractionCollection</a></li><li><a href="ui_components.Footer.html">Footer</a></li><li><a href="ui_components.NavBar.html">NavBar</a></li><li><a href="ui_components.StuffItem.html">StuffItem</a></li><li><a href="ui_components.StuffItemAdmin.html">StuffItemAdmin</a></li><li><a href="ui_layouts.App.html">App</a></li><li><a href="ui_pages.AddStuff.html">AddStuff</a></li><li><a href="ui_pages.EditStuff.html">EditStuff</a></li><li><a href="ui_pages.Landing.html">Landing</a></li><li><a href="ui_pages.ListStuff.html">ListStuff</a></li><li><a href="ui_pages.ListStuffAdmin.html">ListStuffAdmin</a></li><li><a href="ui_pages.NotFound.html">NotFound</a></li><li><a href="ui_pages.Signin.html">Signin</a></li><li><a href="ui_pages.Signout.html">Signout</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>startup/server/Mongo.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Meteor } from 'meteor/meteor';
+import { _ } from 'lodash';
+import moment from 'moment';
+import { HACCHui } from '../../api/hacc-hui/HACCHui';
+
+// global Assets
+
+function documentCounts() {
+  return _.map(HACCHui.collectionLoadSequence, (collection) => collection.count());
+}
+
+function totalDocuments() {
+  return _.reduce(documentCounts(), (sum, count) => sum + count, 0);
+}
+
+/**
+ * The load/fixture file date format.
+ * Used when dumping and restoring the HACC-Hui database.
+ * @type {string}
+ * @memberOf startup/server
+ */
+const loadFileDateFormat = 'YYYY-MM-DD-HH-mm-ss';
+
+/**
+ * Returns a string indicating how long ago the load file was created. Parses the file name string.
+ * @param loadFileName The file name.
+ * @returns { String } A string indicating how long ago the file was created.
+ * @memberOf startup/server
+ */
+function getRestoreFileAge(loadFileName) {
+  const terms = _.words(loadFileName, /[^/. ]+/g);
+  const dateString = terms[terms.length - 2];
+  return moment(dateString, loadFileDateFormat).fromNow();
+}
+
+/**
+ * Returns the definition array associated with collectionName in the loadJSON structure,
+ * or an empty array if none was found.
+ * @param loadJSON The load file contents.
+ * @param collection The collection of interest.
+ * @memberOf startup/server
+ */
+export function getDefinitions(loadJSON, collection) {
+  const definitionObj = _.find(loadJSON.collections, (obj) => obj.name === collection);
+  return definitionObj ? definitionObj.contents : [];
+}
+
+/**
+ * Given a collection and the loadJSON structure, looks up the definitions and invokes define() on them.
+ * @param collection The collection to be loadd.
+ * @param loadJSON The structure containing all of the definitions.
+ * @param consolep output console.log message if truey.
+ * @memberOf startup/server
+ */
+export function loadCollection(collection, loadJSON, consolep) {
+  const definitions = getDefinitions(loadJSON, collection._collectionName);
+  if (consolep) {
+    console.log(`Defining ${definitions.length} ${collection._collectionName} documents.`);
+  }
+  _.each(definitions, (definition) => collection.define(definition));
+  if (consolep) {
+    console.log(`Have ${collection.find().count()} documents.`);
+  }
+}
+
+/**
+ * If the database is empty, this function looks up the name of the load file in the settings file,
+ * and if it is specified, then it reads it in and calls define() on its contents in order to load the database.
+ * Console messages are generated when the contents of the load file does not include collections that
+ * this function assumes are present. Conversely, if the load file contains collections not processed with
+ * this file, a string is also printed out.
+ * @memberOf startup/server
+ */
+function loadDatabase() {
+  const loadFileName = Meteor.settings.databaseRestoreFileName;
+  if (loadFileName &amp;&amp; totalDocuments() === 0) {
+    const loadFileAge = getRestoreFileAge(loadFileName);
+    console.log(`Loading database from file ${loadFileName}, dumped ${loadFileAge}.`);
+    const loadJSON = JSON.parse(Assets.getText(loadFileName));
+    // The list of collections, ordered so that they can be sequentially restored.
+    const collectionList = HACCHui.collectionLoadSequence;
+    const loadNames = _.map(loadJSON.collections, (obj) => obj.name);
+    const collectionNames = _.map(collectionList, (collection) => collection.getCollectionName());
+    const extraRestoreNames = _.difference(loadNames, collectionNames);
+    const extraCollectionNames = _.difference(collectionNames, loadNames);
+    if (extraRestoreNames.length) {
+      console.log(`Error: Expected collections are missing from collection list: ${extraRestoreNames}`);
+    }
+    if (extraCollectionNames.length) {
+      console.log(`Error: Expected collections are missing from restore JSON file: ${extraCollectionNames}`);
+    }
+    if (!extraRestoreNames.length &amp;&amp; !extraCollectionNames.length) {
+      _.each(collectionList, (collection) => loadCollection(collection, loadJSON, true));
+    }
+    console.log('Finished loading database.');
+  }
+}
+
+Meteor.startup(() => {
+  loadDatabase();
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

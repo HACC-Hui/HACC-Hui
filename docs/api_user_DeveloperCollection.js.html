@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> api/user/DeveloperCollection.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="api_base.html">api/base</a></li><li><a href="api_challenge.html">api/challenge</a></li><li><a href="api_hacc-hui.html">api/hacc-hui</a></li><li><a href="api_interest.html">api/interest</a></li><li><a href="api_level.html">api/level</a></li><li><a href="api_role.html">api/role</a></li><li><a href="api_skill.html">api/skill</a></li><li><a href="api_slackbot.html">api/slackbot</a></li><li><a href="api_slug.html">api/slug</a></li><li><a href="api_stuff.html">api/stuff</a></li><li><a href="api_team.html">api/team</a></li><li><a href="api_tool.html">api/tool</a></li><li><a href="api_user.html">api/user</a></li><li><a href="startup_server.html">startup/server</a></li><li><a href="test-utilities.html">test-utilities</a></li><li><a href="ui_components.html">ui/components</a></li><li><a href="ui_layouts.html">ui/layouts</a></li><li><a href="ui_pages.html">ui/pages</a></li></ul><h3>Classes</h3><ul><li><a href="api_base.BaseCollection.html">BaseCollection</a></li><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_challenge.ChallengeCollection.html">ChallengeCollection</a></li><li><a href="api_challenge.ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="api_hacc-hui.HACCHuiClass.html">HACCHuiClass</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slackbot.SlackUserCollection.html">SlackUserCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_stuff.StuffCollection.html">StuffCollection</a></li><li><a href="api_team.TeamChallengeCollection.html">TeamChallengeCollection</a></li><li><a href="api_team.TeamCollection.html">TeamCollection</a></li><li><a href="api_team.TeamDeveloperCollection.html">TeamDeveloperCollection</a></li><li><a href="api_team.TeamSkillCollection.html">TeamSkillCollection</a></li><li><a href="api_team.TeamToolCollection.html">TeamToolCollection</a></li><li><a href="api_tool.ToolCollection.html">ToolCollection</a></li><li><a href="api_user.AdministratorCollection.html">AdministratorCollection</a></li><li><a href="api_user.DeveloperChallengeCollection.html">DeveloperChallengeCollection</a></li><li><a href="api_user.DeveloperCollection.html">DeveloperCollection</a></li><li><a href="api_user.DeveloperInterestCollection.html">DeveloperInterestCollection</a></li><li><a href="api_user.DeveloperSkillCollection.html">DeveloperSkillCollection</a></li><li><a href="api_user.DeveloperToolCollection.html">DeveloperToolCollection</a></li><li><a href="api_user.UserInteractionCollection.html">UserInteractionCollection</a></li><li><a href="ui_components.Footer.html">Footer</a></li><li><a href="ui_components.NavBar.html">NavBar</a></li><li><a href="ui_components.StuffItem.html">StuffItem</a></li><li><a href="ui_components.StuffItemAdmin.html">StuffItemAdmin</a></li><li><a href="ui_layouts.App.html">App</a></li><li><a href="ui_pages.AddStuff.html">AddStuff</a></li><li><a href="ui_pages.EditStuff.html">EditStuff</a></li><li><a href="ui_pages.Landing.html">Landing</a></li><li><a href="ui_pages.ListStuff.html">ListStuff</a></li><li><a href="ui_pages.ListStuffAdmin.html">ListStuffAdmin</a></li><li><a href="ui_pages.NotFound.html">NotFound</a></li><li><a href="ui_pages.Signin.html">Signin</a></li><li><a href="ui_pages.Signout.html">Signout</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>api/user/DeveloperCollection.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Meteor } from 'meteor/meteor';
+import SimpleSchema from 'simpl-schema';
+import { _ } from 'lodash';
+import BaseSlugCollection from '../base/BaseSlugCollection';
+import { demographicLevels } from '../level/Levels';
+import { Slugs } from '../slug/SlugCollection';
+import { ROLE } from '../role/Role';
+import { Users } from './UserCollection';
+import { DeveloperChallenges } from './DeveloperChallengeCollection';
+import { DeveloperInterests } from './DeveloperInterestCollection';
+import { DeveloperSkills } from './DeveloperSkillCollection';
+import { DeveloperTools } from './DeveloperToolCollection';
+import { Challenges } from '../challenge/ChallengeCollection';
+import { Interests } from '../interest/InterestCollection';
+import { Skills } from '../skill/SkillCollection';
+import { Tools } from '../tool/ToolCollection';
+
+/**
+ * DeveloperCollection, collection of HACC-Hui developers.
+ * @extends api/base.BaseSlugCollection
+ * @memberOf api/user
+ */
+class DeveloperCollection extends BaseSlugCollection {
+  constructor() {
+    super('Developer', new SimpleSchema({
+      username: { type: String },
+      slugID: { type: String },
+      firstName: { type: String },
+      lastName: { type: String },
+      demographicLevel: { type: String, allowedValues: demographicLevels, optional: true },
+      linkedIn: { type: String, optional: true },
+      gitHub: { type: String, optional: true },
+      website: { type: String, optional: true },
+      aboutMe: { type: String, optional: true },
+      userID: { type: SimpleSchema.RegEx.Id, optional: true },
+      lookingForTeam: { type: Boolean, optional: true },
+      isCompliant: { type: Boolean, optional: true },
+    }));
+  }
+
+  /**
+   * Creates a new developer.
+   * @param username {String} the developer's username.
+   * @param firstName {String} the developer's first name.
+   * @param lastName {String} the developer's last name.
+   * @param demographicLevel {String} the developer's demographic level.
+   * @param lookingForTeam {Boolean} if the developer is looking for a team.
+   * @param challenges {String[]} the challenges the developer is interested in.
+   * @param interests {String[]} the developer's interests.
+   * @param skills {String[]} the developer's skills.
+   * @param tools {String[]} the tools the developer is interested in.
+   * @param linkedIn {String} the developer's LinkedIn page (optional).
+   * @param gitHub {String} the developer's GitHub page (optional).
+   * @param website {String} the developer's website (optional).
+   * @param aboutMe {String} a short description.
+   * @param isCompliant {Boolean} is the developer compliant.
+   * @return {{password: *, profileID: any}|undefined}
+   */
+  define({
+           username, firstName, lastName, demographicLevel, lookingForTeam,
+           challenges = [], interests = [], skills = [], tools = [],
+           linkedIn = '', gitHub = '', website = '', aboutMe = '',
+           isCompliant = false,
+         }) {
+    if (Meteor.isServer) {
+      const role = ROLE.DEVELOPER;
+      const slugID = Slugs.define({ name: username }); // ensure the usernames are unique
+      const profileID = this._collection.insert({
+        username, slugID, firstName, lastName, demographicLevel,
+        lookingForTeam, linkedIn, gitHub, website, aboutMe, isCompliant,
+      });
+      Slugs.updateEntityID(slugID, profileID);
+      const { userID, password } = Users.define({ username, role });
+      this._collection.update(profileID, { $set: { userID } });
+      _.each(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer: username }));
+      _.each(interests, (interest) => DeveloperInterests.define({ interest, developer: username }));
+      _.each(skills, (skill) => DeveloperSkills.define({ skill, developer: username }));
+      _.each(tools, (tool) => DeveloperTools.define({ tool, developer: username }));
+      return { profileID, password };
+    }
+    return undefined;
+  }
+
+  /**
+   * Updates the developer.
+   * @param docID {String} the ID of the developer to update.
+   * @param firstName {String} the new first name (optional).
+   * @param lastName {String} the new last name (optional).
+   * @param demographicLevel {String} the new demographic level (optional).
+   * @param lookingForTeam {Boolean} the new looking for team value (optional).
+   * @param challenges {String[]} the new challenges (optional).
+   * @param interests {String[]} the new interests (optional).
+   * @param skills {String[]} the new skills (optional).
+   * @param tools {String[]} the new tools (optional).
+   * @param linkedIn {String} the new LinkedIn page (optional).
+   * @param gitHub {String} the new GitHub page (optional).
+   * @param website {String} the new website (optional).
+   * @param aboutMe {String} the new short description (optional).
+   * @param isCompliant {Boolean} the new is compliant value (optional).
+   */
+  update(docID, {
+    firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
+    skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant,
+  }) {
+    this.assertDefined(docID);
+    const updateData = {};
+    if (firstName) {
+      updateData.firstName = firstName;
+    }
+    if (lastName) {
+      updateData.lastName = lastName;
+    }
+    if (demographicLevel) {
+      updateData.demographicLevel = demographicLevel;
+    }
+    if (_.isBoolean(lookingForTeam)) {
+      updateData.lookingForTeam = lookingForTeam;
+    }
+    if (linkedIn) {
+      updateData.linkedIn = linkedIn;
+    }
+    if (gitHub) {
+      updateData.gitHub = gitHub;
+    }
+    if (website) {
+      updateData.website = website;
+    }
+    if (aboutMe) {
+      updateData.aboutMe = aboutMe;
+    }
+    if (_.isBoolean(isCompliant)) {
+      updateData.isCompliant = isCompliant;
+    }
+    this._collection.update(docID, { $set: updateData });
+    const developer = this.findSlugByID(docID);
+    if (challenges) {
+      DeveloperChallenges.removeDeveloper(developer);
+      _.each(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer }));
+    }
+    if (interests) {
+      DeveloperInterests.removeDeveloper(developer);
+      _.each(interests, (interest) => DeveloperInterests.define({ interest, developer }));
+    }
+    if (skills) {
+      DeveloperSkills.removeDeveloper(developer);
+      _.each(skills, (skill) => DeveloperSkills.define({ skill, developer }));
+    }
+    if (tools) {
+      DeveloperTools.removeDeveloper(developer);
+      _.each(tools, (tool) => DeveloperTools.define({ tool, developer }));
+    }
+  }
+
+  /**
+   * Removes the developer.
+   * @param docID {String} the ID of the developer.
+   * @throws {Meteor.Error} if the docID is not defined.
+   */
+  removeIt(docID) {
+    this.assertDefined(docID);
+    const developer = this.findSlugByID(docID);
+    DeveloperChallenges.removeDeveloper(developer);
+    DeveloperInterests.removeDeveloper(developer);
+    DeveloperSkills.removeDeveloper(developer);
+    DeveloperTools.removeDeveloper(developer);
+    super.removeIt(docID);
+  }
+
+  /**
+   * Returns an object representing the developer.
+   * @param docID {String} the ID of the developer.
+   * @return {{lastName: *, website: *, gitHub: *, challenges: Array, demographicLevel: *,
+   * lookingForTeam: *, linkedIn: *, tools: Array, isCompliant: *, aboutMe: *, skills: Array,
+   * firstName: *, interests: Array, username: *}}
+   */
+  dumpOne(docID) {
+    this.assertDefined(docID);
+    const {
+      username, firstName, lastName, demographicLevel, lookingForTeam,
+      linkedIn, gitHub, website, aboutMe, isCompliant,
+    } = this.findDoc(docID);
+    const selector = { developerID: docID };
+    const devChallenges = DeveloperChallenges.find(selector).fetch();
+    const challenges = _.map(devChallenges, (dC) => Challenges.findSlugByID(dC.challengeID));
+    const devInterests = DeveloperInterests.find(selector).fetch();
+    const interests = _.map(devInterests, (dI) => Interests.findSlugByID(dI.interestID));
+    const devSkills = DeveloperSkills.find(selector).fetch();
+    const skills = _.map(devSkills, (dS) => Skills.findSlugByID(dS.skillID));
+    const devTools = DeveloperTools.find(selector).fetch();
+    const tools = _.map(devTools, (dT) => Tools.findSlugByID(dT.toolID));
+    return {
+      username, firstName, lastName, demographicLevel, lookingForTeam, isCompliant,
+      linkedIn, gitHub, website, aboutMe, challenges, interests, skills, tools,
+    };
+  }
+
+  /**
+   * Returns non-null if the user has a profile in this collection.
+   * @param user The user (either their username (email) or their userID).
+   * @return The profile document if the profile exists, or null if not found.
+   * @throws { Meteor.Error } If user is not a valid user.
+   */
+  hasProfile(user) {
+    const userID = Users.getID(user);
+    return this.collection.findOne({ userID });
+  }
+
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+  }
+
+}
+
+/**
+ * Singleton instance of the DeveloperCollection.
+ * @type {api/user.DeveloperCollection}
+ * @memberOf api/user
+ */
+export const Developers = new DeveloperCollection();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> api/slug/SlugCollection.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="api_base.html">api/base</a></li><li><a href="api_challenge.html">api/challenge</a></li><li><a href="api_hacc-hui.html">api/hacc-hui</a></li><li><a href="api_interest.html">api/interest</a></li><li><a href="api_level.html">api/level</a></li><li><a href="api_role.html">api/role</a></li><li><a href="api_skill.html">api/skill</a></li><li><a href="api_slackbot.html">api/slackbot</a></li><li><a href="api_slug.html">api/slug</a></li><li><a href="api_stuff.html">api/stuff</a></li><li><a href="api_team.html">api/team</a></li><li><a href="api_tool.html">api/tool</a></li><li><a href="api_user.html">api/user</a></li><li><a href="startup_server.html">startup/server</a></li><li><a href="test-utilities.html">test-utilities</a></li><li><a href="ui_components.html">ui/components</a></li><li><a href="ui_layouts.html">ui/layouts</a></li><li><a href="ui_pages.html">ui/pages</a></li></ul><h3>Classes</h3><ul><li><a href="api_base.BaseCollection.html">BaseCollection</a></li><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_challenge.ChallengeCollection.html">ChallengeCollection</a></li><li><a href="api_challenge.ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="api_hacc-hui.HACCHuiClass.html">HACCHuiClass</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slackbot.SlackUserCollection.html">SlackUserCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_stuff.StuffCollection.html">StuffCollection</a></li><li><a href="api_team.TeamChallengeCollection.html">TeamChallengeCollection</a></li><li><a href="api_team.TeamCollection.html">TeamCollection</a></li><li><a href="api_team.TeamDeveloperCollection.html">TeamDeveloperCollection</a></li><li><a href="api_team.TeamSkillCollection.html">TeamSkillCollection</a></li><li><a href="api_team.TeamToolCollection.html">TeamToolCollection</a></li><li><a href="api_tool.ToolCollection.html">ToolCollection</a></li><li><a href="api_user.AdministratorCollection.html">AdministratorCollection</a></li><li><a href="api_user.DeveloperChallengeCollection.html">DeveloperChallengeCollection</a></li><li><a href="api_user.DeveloperCollection.html">DeveloperCollection</a></li><li><a href="api_user.DeveloperInterestCollection.html">DeveloperInterestCollection</a></li><li><a href="api_user.DeveloperSkillCollection.html">DeveloperSkillCollection</a></li><li><a href="api_user.DeveloperToolCollection.html">DeveloperToolCollection</a></li><li><a href="api_user.UserInteractionCollection.html">UserInteractionCollection</a></li><li><a href="ui_components.Footer.html">Footer</a></li><li><a href="ui_components.NavBar.html">NavBar</a></li><li><a href="ui_components.StuffItem.html">StuffItem</a></li><li><a href="ui_components.StuffItemAdmin.html">StuffItemAdmin</a></li><li><a href="ui_layouts.App.html">App</a></li><li><a href="ui_pages.AddStuff.html">AddStuff</a></li><li><a href="ui_pages.EditStuff.html">EditStuff</a></li><li><a href="ui_pages.Landing.html">Landing</a></li><li><a href="ui_pages.ListStuff.html">ListStuff</a></li><li><a href="ui_pages.ListStuffAdmin.html">ListStuffAdmin</a></li><li><a href="ui_pages.NotFound.html">NotFound</a></li><li><a href="ui_pages.Signin.html">Signin</a></li><li><a href="ui_pages.Signout.html">Signout</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>api/slug/SlugCollection.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+import SimpleSchema from 'simpl-schema';
+import BaseCollection from '../base/BaseCollection';
+
+/** @namespace api/slug */
+
+/**
+ * Slugs are unique strings that can be used to identify entities and can be used in URLs.
+ * @extends api/base.BaseCollection
+ * @memberOf api/slug
+ */
+class SlugCollection extends BaseCollection {
+  /**
+   * Creates the Slug collection.
+   */
+  constructor() {
+    super('Slug', new SimpleSchema({
+      name: { type: String },
+      entityID: { type: SimpleSchema.RegEx.Id, optional: true },
+    }));
+  }
+
+  /**
+   * Creates a new Slug instance and adds it to the collection.
+   * @example
+   * Slugs.define({ name: 'software-engineering' });
+   * @param { String } name The name of the slug. Must be globally unique across all entities.
+   * @returns { String } The docID of the created Slug.
+   * @throws { Meteor.Error } If the slug already exists.
+   */
+  define({ name }) {
+    check(name, String);
+    if (super.isDefined(name)) {
+      throw new Meteor.Error(`Attempt to redefine slug: ${name}`, '', Error().stack);
+    }
+    if (!this.isValidSlugName(name)) {
+      throw new Meteor.Error(`Slug is not a-zA-Z0-9 or dash, period, underscore, or @: ${name}`, '', Error().stack);
+    }
+    const docID = this._collection.insert({ name });
+    return docID;
+  }
+
+  /**
+   * Returns true if slugName is syntactically valid (i.e. consists of a-zA-Z0-9 or dash or underscore.)
+   * @param slugName {string} The slug name.
+   * @returns {boolean} True if it's OK.
+   */
+  isValidSlugName(slugName) {
+    const slugRegEx = new RegExp('^[a-zA-Z0-9@.]+(?:[_-][a-zA-Z0-9@.]+)*$');
+    return (typeof slugName === 'string') &amp;&amp; slugName.length > 0 &amp;&amp; slugRegEx.test(slugName);
+  }
+
+  /**
+   * Updates a Slug with the docID of the associated entity.
+   * @param { String } slugID The docID of this Slug.
+   * @param { String } entityID The docID of the entity to be associated with this Slug.
+   */
+  updateEntityID(slugID, entityID) {
+    this._collection.update(slugID, { $set: { entityID } });
+  }
+
+  /**
+   * Returns the docID of the entity associated with this Slug.
+   * @param { String } slugName The slug name or docID.
+   * @returns { String } The docID of the entity.
+   * @throws { Meteor.Error } If the slug or entity cannot be found or is the wrong type.
+   */
+  getEntityID(slugName) {
+    if (!this.isDefined(slugName)) {
+      throw new Meteor.Error(`Undefined slug ${slugName}.`, '', Error().stack);
+    }
+    const doc = this.findDoc(slugName);
+    return doc.entityID;
+  }
+
+  /**
+   * Returns true if the passed slugID is defined in this collection.
+   * In the case of SlugCollection, hasSlug is a synonym for isDefined, and you should use isDefined instead.
+   * @param { String } slugID A docID.
+   * @returns {boolean} True if the slugID is in this collection.
+   */
+  hasSlug(slugID) {
+    return this.isDefined(slugID);
+  }
+
+  /**
+   * Returns the slug name associated with this ID.
+   * @param slugID The slug ID.
+   * @returns The slug name.
+   * @throws { Meteor.Error } If the passed slugID is not valid.
+   */
+  getNameFromID(slugID) {
+    this.assertDefined(slugID);
+    return this.findDoc(slugID).name;
+  }
+
+  /**
+   * A stricter form of remove that throws an error if the document or docID could not be found in this collection.
+   * @param { String | Object } docOrID A document or docID in this collection.
+   */
+  removeIt(docOrID) {
+    super.removeIt(docOrID);
+  }
+
+  /**
+   * Throws an Error if the passed slugName is not a slugName.
+   * @param slugName The SlugName
+   * @throws { Meteor.Error } If the passed slugName is not a slug name.
+   */
+  assertSlug(slugName) {
+    if (!this._collection.findOne({ name: slugName })) {
+      throw new Meteor.Error(`Undefined slug ${slugName}.`, '', Error().stack);
+    }
+  }
+
+  /**
+   * Returns an empty array (no integrity checking done on Slugs.)
+   * @returns {Array} An empty array.
+   */
+  checkIntegrity() { // eslint-disable-line class-methods-use-this
+    return [];
+  }
+
+  /**
+   * Returns an object representing the passed slug docID in a format acceptable to define().
+   * @param docID The docID of a Slug.
+   * @returns { Object } An object representing the definition of docID.
+   */
+  dumpOne(docID) {
+    const doc = this.findDoc(docID);
+    const { name } = doc;
+    return { name };
+  }
+}
+
+/**
+ * Singleton instance of the SlugCollection.
+ * @type {api/slug.SlugCollection}
+ * @memberOf api/slug
+ */
+export const Slugs = new SlugCollection();
+
+/**
+ * Slugifies the given text. Slugs can be used in URLs.
+ * @param text {string} the text to slugify.
+ * @return {string} a slugified string.
+ * @memberOf api/slug
+ */
+export function slugify(text) {
+  return text.toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(/[^\w-]+/g, '') // Remove all non-word chars
+      .replace(/--+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, ''); // Trim - from end of text
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> api/challenge/ChallengeCollection.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="api_base.html">api/base</a></li><li><a href="api_challenge.html">api/challenge</a></li><li><a href="api_hacc-hui.html">api/hacc-hui</a></li><li><a href="api_interest.html">api/interest</a></li><li><a href="api_level.html">api/level</a></li><li><a href="api_role.html">api/role</a></li><li><a href="api_skill.html">api/skill</a></li><li><a href="api_slackbot.html">api/slackbot</a></li><li><a href="api_slug.html">api/slug</a></li><li><a href="api_stuff.html">api/stuff</a></li><li><a href="api_team.html">api/team</a></li><li><a href="api_tool.html">api/tool</a></li><li><a href="api_user.html">api/user</a></li><li><a href="startup_server.html">startup/server</a></li><li><a href="test-utilities.html">test-utilities</a></li><li><a href="ui_components.html">ui/components</a></li><li><a href="ui_layouts.html">ui/layouts</a></li><li><a href="ui_pages.html">ui/pages</a></li></ul><h3>Classes</h3><ul><li><a href="api_base.BaseCollection.html">BaseCollection</a></li><li><a href="api_base.BaseSlugCollection.html">BaseSlugCollection</a></li><li><a href="api_challenge.ChallengeCollection.html">ChallengeCollection</a></li><li><a href="api_challenge.ChallengeInterestCollection.html">ChallengeInterestCollection</a></li><li><a href="api_hacc-hui.HACCHuiClass.html">HACCHuiClass</a></li><li><a href="api_interest.InterestCollection.html">InterestCollection</a></li><li><a href="api_skill.SkillCollection.html">SkillCollection</a></li><li><a href="api_slackbot.SlackUserCollection.html">SlackUserCollection</a></li><li><a href="api_slug.SlugCollection.html">SlugCollection</a></li><li><a href="api_stuff.StuffCollection.html">StuffCollection</a></li><li><a href="api_team.TeamChallengeCollection.html">TeamChallengeCollection</a></li><li><a href="api_team.TeamCollection.html">TeamCollection</a></li><li><a href="api_team.TeamDeveloperCollection.html">TeamDeveloperCollection</a></li><li><a href="api_team.TeamSkillCollection.html">TeamSkillCollection</a></li><li><a href="api_team.TeamToolCollection.html">TeamToolCollection</a></li><li><a href="api_tool.ToolCollection.html">ToolCollection</a></li><li><a href="api_user.AdministratorCollection.html">AdministratorCollection</a></li><li><a href="api_user.DeveloperChallengeCollection.html">DeveloperChallengeCollection</a></li><li><a href="api_user.DeveloperCollection.html">DeveloperCollection</a></li><li><a href="api_user.DeveloperInterestCollection.html">DeveloperInterestCollection</a></li><li><a href="api_user.DeveloperSkillCollection.html">DeveloperSkillCollection</a></li><li><a href="api_user.DeveloperToolCollection.html">DeveloperToolCollection</a></li><li><a href="api_user.UserInteractionCollection.html">UserInteractionCollection</a></li><li><a href="ui_components.Footer.html">Footer</a></li><li><a href="ui_components.NavBar.html">NavBar</a></li><li><a href="ui_components.StuffItem.html">StuffItem</a></li><li><a href="ui_components.StuffItemAdmin.html">StuffItemAdmin</a></li><li><a href="ui_layouts.App.html">App</a></li><li><a href="ui_pages.AddStuff.html">AddStuff</a></li><li><a href="ui_pages.EditStuff.html">EditStuff</a></li><li><a href="ui_pages.Landing.html">Landing</a></li><li><a href="ui_pages.ListStuff.html">ListStuff</a></li><li><a href="ui_pages.ListStuffAdmin.html">ListStuffAdmin</a></li><li><a href="ui_pages.NotFound.html">NotFound</a></li><li><a href="ui_pages.Signin.html">Signin</a></li><li><a href="ui_pages.Signout.html">Signout</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>api/challenge/ChallengeCollection.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import SimpleSchema from 'simpl-schema';
+import { _ } from 'lodash';
+import { ChallengeInterests } from './ChallengeInterestCollection';
+import { Interests } from '../interest/InterestCollection';
+import BaseSlugCollection from '../base/BaseSlugCollection';
+import { slugify, Slugs } from '../slug/SlugCollection';
+
+/** @namespace api/challenge */
+
+/**
+ * ChallengeCollection holds all the HACC-Hui challenges.
+ * @extends api/base.BaseSlugCollection
+ * @memberOf api/challenge
+ */
+class ChallengeCollection extends BaseSlugCollection {
+  constructor() {
+    super('Challenge', new SimpleSchema({
+      title: { type: String },
+      slugID: { type: SimpleSchema.RegEx.Id },
+      description: { type: String },
+      submissionDetail: { type: String },
+      pitch: { type: String },
+    }));
+  }
+
+  /**
+   * Defines a new challenge.
+   * @param title {string} the challenge's title.
+   * @param description {string} the challenge's description.
+   * @param interests {string[]} the interest slugs associated with the challenge.
+   * @param submissionDetail {string} the submission details.
+   * @param pitch {string} the URL to the pitch.
+   * @return {string} the id of the new challenge.
+   */
+  define({ title, description, interests, submissionDetail, pitch }) {
+    const docs = this.find({ title, description, submissionDetail, pitch }).fetch();
+    if (docs &amp;&amp; docs.length > 0) {
+      const challengeID = docs[0]._id;
+      const cis = _.map(ChallengeInterests.find({ challengeID }).fetch(), (ci) => ci.interestID);
+      const interestIDs = Interests.getIDs(interests);
+      if (cis.length === interestIDs.length) {
+        let same = true;
+        _.each(cis, (ci) => {
+          if (!_.includes(interestIDs, ci)) {
+            same = false;
+          }
+        });
+        if (same) {
+          // console.log('the same');
+          return challengeID;
+        }
+      }
+    }
+    const challenge = slugify(title);
+    const slugID = Slugs.define({ name: challenge });
+    const challengeID = this._collection.insert({ title, slugID, description, submissionDetail, pitch });
+    // Connect the Slug to this Challenge
+    Slugs.updateEntityID(slugID, challengeID);
+    _.each(interests, (interest) => ChallengeInterests.define({ challenge, interest }));
+    return challengeID;
+  }
+
+  /**
+   * Updates the given challenge.
+   * @param docID {string} the docID of the challenge to update.
+   * @param description {string} the new description, optional.
+   * @param interestIDs {string[]} the new interest slugs, optional.
+   * @param submissionDetail {string} the new submission details, optional.
+   * @param pitch {string} the new pitch URL, optional.
+   */
+  update(docID, { description, interestIDs, submissionDetail, pitch }) {
+    this.assertDefined(docID);
+    const updateData = {};
+    if (description) {
+      updateData.description = description;
+    }
+    if (submissionDetail) {
+      updateData.submissionDetail = submissionDetail;
+    }
+    if (pitch) {
+      updateData.pitch = pitch;
+    }
+    this._collection.update(docID, { $set: updateData });
+    if (interestIDs &amp;&amp; interestIDs.length > 0) {
+      const challengeName = this.findDoc(docID).title;
+      // remove the old interests
+      const oldInterests = ChallengeInterests.find({ challengeID: docID }).fetch();
+      _.each(oldInterests, (old) => ChallengeInterests.removeIt(old._id));
+      // add the new interests
+      _.each(interestIDs, (interestID) => {
+        const interest = Interests.findSlugByID(interestID);
+        ChallengeInterests.define({ challengeName, interest });
+      });
+    }
+  }
+
+  removeIt(docID) {
+    const challengeInterests = ChallengeInterests.find({ challengeID: docID }).fetch();
+    _.each(challengeInterests, (ci) => {
+      ChallengeInterests.removeIt(ci._id);
+    });
+    super.removeIt(docID);
+  }
+
+  dumpOne(docID) {
+    const doc = this.findDoc(docID);
+    const { title, description, submissionDetails, pitch } = doc;
+    const challengeInterests = ChallengeInterests.find({ challengeID: docID }).fetch();
+    const interests = _.map(challengeInterests, (ci) => Interests.findSlugByID(ci.interestID));
+    return { title, description, interests, submissionDetails, pitch };
+  }
+}
+
+/**
+ * Singleton instance of the ChallengeCollection.
+ * @type {api/challenge.ChallengeCollection}
+ * @memberOf api/challenge
+ */
+export const Challenges = new ChallengeCollection();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

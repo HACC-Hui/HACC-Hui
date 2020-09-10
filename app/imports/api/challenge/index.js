@@ -1,0 +1,2 @@
+import './ChallengeCollection';
+import './ChallengeInterestCollection';
