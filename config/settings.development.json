@@ -1,6 +1,6 @@
 {
   "administrators": [
-    "carleton.moore@gmail.com"
+    "carleton.moore@gmail.com", "mhkim9@hawaii.edu"
   ],
   "slackbotPort": 3000,
   "databaseRestoreFileName": "database/2020-06-16-11-34-22.json",
