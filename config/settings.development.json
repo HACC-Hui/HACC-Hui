@@ -6,13 +6,17 @@
   "databaseRestoreFileName": "database/2020-06-16-11-34-22.json",
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN" },
-    { "email": "john@foo.com", "password": "changeme" }
+    { "email": "john@foo.com", "password": "changeme" },
+    { "email": "moselim@hawaii.edu", "password": "changeme", "role":"DEVELOPER"},
+    { "email": "u12061019@tuks.co.za", "password": "changeme", "role":"DEVELOPER"},
+    {"email": "u120610192@tuks.co.za", "password": "changeme", "role":"DEVELOPER"}
   ],
 
   "defaultData": [
     { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
+    { "name": "Drweeeeeenks", "quantity": 2, "owner": "moselim@hawaii.com", "condition": "excellent" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ]
 }

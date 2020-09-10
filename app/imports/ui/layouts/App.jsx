@@ -13,11 +13,14 @@ import ListStuffAdmin from '../pages/ListStuffAdmin';
 import ChallengeListAdmin from '../pages/ChallengeListAdmin';
 import AddStuff from '../pages/AddStuff';
 import AddChallenge from '../pages/AddChallenge';
+import PostSignUp from '../pages/PostSignUp';
+import CreateTeam from '../pages/CreateTeam';
 import EditStuff from '../pages/EditStuff';
 import EditChallenge from '../pages/EditChallenge';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
+import Settings from '../pages/Settings';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
 
@@ -46,6 +49,9 @@ class App extends React.Component {
               <AdminProtectedRoute path="/edit/:_id" component={EditChallenge}/>
               <AdminProtectedRoute path="/admin" component={ChallengeListAdmin}/>
               <AdminProtectedRoute path="/adminstuff" component={ListStuffAdmin}/>
+              <ProtectedRoute path="/PostSignUp" component={PostSignUp}/>
+              <ProtectedRoute path="/create" component={CreateTeam}/>
+              <ProtectedRoute path="/Settings" component={Settings}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
             </Switch>
