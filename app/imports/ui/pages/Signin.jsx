@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+import _ from 'underscore';
+import { Developers } from '../../api/user/DeveloperCollection';
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 
 /**
@@ -41,7 +43,16 @@ class Signin extends React.Component {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
-      return <Redirect to={from}/>;
+      console.log(Meteor.user().username);
+      const deve = Developers._collection.findOne({ username: Meteor.user().username });
+      console.log(deve);
+      //console.log(deve.isCompliant);
+      if (deve && !deve.isCompliant) {
+        console.log('hit');
+        return <Redirect to='/Dpro'/>;
+      }
+      console.log('hit2');
+       return <Redirect to='/'/>;
     }
     // Otherwise return the Login form.
     return (
