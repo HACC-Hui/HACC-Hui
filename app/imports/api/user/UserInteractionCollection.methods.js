@@ -13,7 +13,10 @@ export const userInteractionDefineMethod = new ValidatedMethod({
   validate: null,
   mixins: [CallPromiseMixin],
   run(interactionData) {
+    console.log('I have been defined 1.');
+    console.log(`userId: ${this.userId}`);
     UserInteractions.assertValidRoleForMethod(this.userId);
+    console.log('I have been defined 2.');
     return UserInteractions.define(interactionData);
   },
 });
