@@ -63,6 +63,7 @@ class CreateTeam extends React.Component {
     const toolsObject = [];
 
     const owner = this.props.developer[0].slugID;
+    // Pulls only the first developer from collection instead of the logged in developer who made the team.
 
     let {
       name, description, open, challenges, skills, tools,
@@ -109,6 +110,7 @@ class CreateTeam extends React.Component {
         challengesObject,
         skillsObject,
         toolsObject,
+        // challenges, skills, and tools don't seem to get added to teamChallenges, teamSkills, teamTools collections.
       },
     },
         (error) => {
@@ -125,6 +127,10 @@ class CreateTeam extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+  }
+
+  renderPage() {
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(schema);
 
@@ -142,10 +148,10 @@ class CreateTeam extends React.Component {
                   <MultiSelectField name='challenges' placeholder={'Challenges'}
                                     allowedValues={challengesArray} required/>
                   <MultiSelectField name='skills' placeholder={'Skills'}
-                                    allowedValues={skillsArray}required/>
+                                    allowedValues={skillsArray} required/>
                   <MultiSelectField name='tools' placeholder={'Tools'}
                                     allowedValues={toolsArray} required/>
-                  <RadioField name='open'></RadioField>
+                  <RadioField name='open'/>
                   <LongTextField name='description'/>
                   <SubmitField value='Submit'/>
                   <ErrorsField/>
@@ -164,7 +170,7 @@ CreateTeam.propTypes = {
   tools: PropTypes.array.isRequired,
   developer: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
-}
+};
 
 export default withTracker(() => {
   const sub1 = Challenges.subscribe();
