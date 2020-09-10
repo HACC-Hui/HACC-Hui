@@ -103,10 +103,9 @@ class DeveloperCollection extends BaseSlugCollection {
    * @param aboutMe {String} the new short description (optional).
    * @param isCompliant {Boolean} the new is compliant value (optional).
    */
-  update(docID, {
-    firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
-    skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant,
-  }) {
+  update(docID, { firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
+    skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant }) {
+    console.log({docID,challenges,skills,isCompliant });
     this.assertDefined(docID);
     const updateData = {};
     if (firstName) {
@@ -138,9 +137,12 @@ class DeveloperCollection extends BaseSlugCollection {
     }
     this._collection.update(docID, { $set: updateData });
     const developer = this.findSlugByID(docID);
+    console.log(developer);
     if (challenges) {
       DeveloperChallenges.removeDeveloper(developer);
+      console.log('good');
       _.each(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer }));
+      console.log('good');
     }
     if (interests) {
       DeveloperInterests.removeDeveloper(developer);
@@ -154,6 +156,7 @@ class DeveloperCollection extends BaseSlugCollection {
       DeveloperTools.removeDeveloper(developer);
       _.each(tools, (tool) => DeveloperTools.define({ tool, developer }));
     }
+    console.log('good');
   }
 
   /**

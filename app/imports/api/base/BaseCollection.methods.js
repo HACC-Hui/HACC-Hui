@@ -66,8 +66,10 @@ export const updateMethod = new ValidatedMethod({
   mixins: [CallPromiseMixin],
   validate: null,
   run({ collectionName, updateData }) {
-    // console.log('updateMethod(%o, %o)', collectionName, updateData);
+    console.log('updateMethod(%o, %o)', collectionName, updateData);
     const collection = HACCHui.getCollection(collectionName);
+    console.log(collection);
+    console.log(this.userId);
     collection.assertValidRoleForMethod(this.userId);
     collection.update(updateData.id, updateData);
     return true;

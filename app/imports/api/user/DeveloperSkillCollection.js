@@ -26,8 +26,12 @@ class DeveloperSkillCollection extends BaseCollection {
    * @return {String} the ID of the tuple.
    */
   define({ skill, developer }) {
+    console.log(skill);
+    console.log(developer);
     const skillID = Skills.findIdBySlug(skill);
     const developerID = Developers.findIdBySlug(developer);
+    console.log(skillID);
+    console.log(developerID);
     return this._collection.insert({ skillID, developerID });
   }
 
@@ -40,7 +44,9 @@ class DeveloperSkillCollection extends BaseCollection {
    * @throws {Meteor.Error} if docID is not defined.
    */
   update(docID, { skill, developer, skillLevel }) {
+    console.log(docID);
     this.assertDefined(docID);
+    console.log(skillLevel);
     const updateData = {};
     if (developer) {
       updateData.developerID = Developers.getID(developer);
@@ -49,6 +55,7 @@ class DeveloperSkillCollection extends BaseCollection {
       updateData.skillID = Skills.getID(skill);
     }
     if (skillLevel) {
+      console.log(skillLevel);
       updateData.skillLevel = skillLevel;
     }
     this._collection.update(docID, { $set: updateData });

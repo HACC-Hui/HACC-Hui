@@ -16,6 +16,8 @@ import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
 import DeleteForm from '../pages/DeleteForm';
 import AccountOptions from '../pages/AccountOptions';
+import Dprofile from '../pages/developer/Dprofile';
+
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
 
@@ -31,6 +33,7 @@ class App extends React.Component {
             <NavBar/>
             <Switch>
               <Route exact path="/" component={Landing}/>
+              <ProtectedRoute exact path="/Dpro" component={Dprofile}/>
               <Route path="/signin" component={Signin}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
