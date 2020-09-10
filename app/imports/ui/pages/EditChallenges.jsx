@@ -1,13 +1,28 @@
 
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
+import { _ } from 'lodash';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import SimpleSchema from 'simpl-schema';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { Interests } from '../../api/interest/InterestCollection';
+import { updateMethod } from '../../api/base/BaseCollection.methods';
+
+const editChallengeSchema = new SimpleSchema({
+  title: { type: String },
+  slugID: { type: SimpleSchema.RegEx.Id },
+  interest: {
+    type: String,
+  },
+  'interest.$': { type: String },
+  description: { type: String },
+  submissionDetail: { type: String },
+  pitch: { type: String },
+});
 
 /**
  * Renders the Page for editing a single document.
@@ -20,8 +35,18 @@ class EditChallenges extends React.Component {
    */
   submit(data) {
     // console.log(data);
-    const { title, description, interestIDs, submissionDetail, pitch, _id } = data;
-    Meteor.call('challengeUpdate', _id, title, description, interestIDs, submissionDetail, pitch, (error) => (error ?
+    const { title, description, interest, submissionDetail, pitch, _id } = data;
+    const chosenInterest = Interests.findDoc(interest);
+    const interestIDs = [chosenInterest._id];
+    const updateData = {
+      _id,
+      title,
+      description,
+      interestIDs,
+      submissionDetail,
+      pitch,
+    };
+    updateMethod.call({ collectionName: Challenges.getCollectionName(), updateData: updateData }, (error) => (error ?
         swal('Error', error.message, 'error') :
         swal('Success', 'Challenge updated successfully', 'success')));
   }
@@ -33,7 +58,8 @@ class EditChallenges extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   renderPage() {
-    const formSchema = new SimpleSchema2Bridge(Challenges.getSchema());
+    const interestsArr = _.map(this.props.interest, 'name');
+    const formSchema = new SimpleSchema2Bridge(editChallengeSchema);
     return (
         <Grid container centered>
           <Grid.Column>
@@ -42,6 +68,8 @@ class EditChallenges extends React.Component {
               <Segment>
                 <TextField name='title'/>
                 <TextField name='description'/>
+                <SelectField name='interest' placeholder={'Interests'}
+                             allowedValues={interestsArr} required/>
                 <TextField name='submissionDetail'/>
                 <TextField name='pitch'/>
                 <SubmitField value='Submit'/>
@@ -57,6 +85,7 @@ class EditChallenges extends React.Component {
 /** Require the presence of a Stuff document in the props object. Uniforms adds 'model' to the props, which we use. */
 EditChallenges.propTypes = {
   doc: PropTypes.object,
+  interest: PropTypes.object,
   model: PropTypes.object,
   ready: PropTypes.bool.isRequired,
 };
@@ -69,6 +98,7 @@ export default withTracker(({ match }) => {
   const subscription = Challenges.subscribe();
   return {
     doc: Challenges.findOne(documentId),
+    interest: Interests.find({}).fetch(),
     ready: subscription.ready(),
   };
 })(EditChallenges);

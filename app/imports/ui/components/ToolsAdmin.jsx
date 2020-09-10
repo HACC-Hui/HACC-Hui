@@ -1,8 +1,11 @@
-
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Button, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
+import swal from 'sweetalert';
+import { Tools } from '../../api/tool/ToolCollection';
+import { removeItMethod } from '../../api/base/BaseCollection.methods';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
 
 /**
  * **Deprecated**
@@ -12,15 +15,26 @@ import { withRouter, Link } from 'react-router-dom';
  */
 class ToolsAdmin extends React.Component {
   render() {
+    function deleteTool(id) {
+      /* eslint-disable-next-line */
+      if (confirm('Do you really want to remove this Challenge?')) {
+        removeItMethod.call({
+          collectionName: Tools.getCollectionName(),
+          instance: Tools.getID(id) }, (error) => (error ?
+            swal('Error', error.message, 'error') :
+            swal('Success', 'Challenge updated successfully', 'success')));
+      }
+    }
     return (
         <Table.Row>
-          <Table.Cell>
-            {this.props.tool.name}
-            <button className="ui button" style ={{margin: 10}}>
-              <Link to={`/editTools/${this.props.tool._id}`}>Edit</Link>
-            </button>
-          </Table.Cell>
+          <Table.Cell>{this.props.tool.name}</Table.Cell>
           <Table.Cell>{this.props.tool.description}</Table.Cell>
+          <Table.Cell>
+            <Link to={`/editTools/${this.props.tool._id}`}>Edit</Link>
+          </Table.Cell>
+          <Table.Cell>
+            <Button content='Delete' onClick={() => deleteTool(this.props.tool.slugID)} basic color='red'/>
+          </Table.Cell>
         </Table.Row>
     );
   }

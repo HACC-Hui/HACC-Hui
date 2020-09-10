@@ -1,9 +1,10 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
-import { Container, Header, Image, Menu, Icon, Dropdown, Grid, List } from 'semantic-ui-react';
-
+import swal from 'sweetalert';
+import { removeItMethod } from '../../api/base/BaseCollection.methods';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
 /**
  * **Deprecated**
  *
@@ -11,43 +12,35 @@ import { Container, Header, Image, Menu, Icon, Dropdown, Grid, List } from 'sema
  *  @memberOf ui/components
  */
 class ChallengesAdmin extends React.Component {
+
   render() {
-
-    const title={
-      marginLeft: '-1000px',
+    function deleteChallenge(id) {
+      /* eslint-disable-next-line */
+      if (confirm('Do you really want to remove this Challenge?')) {
+        removeItMethod.call({
+          collectionName: Challenges.getCollectionName(),
+          instance: Challenges.getID(id) }, (error) => (error ?
+            swal('Error', error.message, 'error') :
+            swal('Success', 'Challenge updated successfully', 'success')));
+      }
     }
-    const description={
-      width: '25%',
-    }
-    const interest={
-      width: '25%',
-    }
-    const submissionDetail={
-      width: '25%',
-    }
-    const pitch={
-      width: '25%',
-    }
-
-
     return (
         <Table.Row>
-          <Table.Cell>
-            {this.props.challenge.title}
-            <button className="ui button" style ={{margin: 10}}>
-              <Link to={`/editChallenges/${this.props.challenge._id}`}>Edit</Link>
-            </button>
-          </Table.Cell>
+          <Table.Cell>{this.props.challenge.title}</Table.Cell>
           <Table.Cell>{this.props.challenge.description}</Table.Cell>
           <Table.Cell>{this.props.interest}</Table.Cell>
-          <Table.Cell><a href={this.props.challenge.submissionDetail}>{this.props.challenge.submissionDetail}</a></Table.Cell>
-          <Table.Cell><a href={this.props.challenge.pitch}>{this.props.challenge.pitch}</a></Table.Cell>
+          <Table.Cell>{this.props.challenge.submissionDetail}</Table.Cell>
+          <Table.Cell>{this.props.challenge.pitch}</Table.Cell>
+          <Table.Cell>
+            <Link to={`/editChallenges/${this.props.challenge._id}`}>Edit</Link>
+          </Table.Cell>
+          <Table.Cell>
+            <Button content='Delete' onClick={() => deleteChallenge(this.props.challenge.slugID)} basic color='red'/>
+          </Table.Cell>
         </Table.Row>
     );
   }
 }
-
-
 
 // Require a document to be passed to this component.
 ChallengesAdmin.propTypes = {

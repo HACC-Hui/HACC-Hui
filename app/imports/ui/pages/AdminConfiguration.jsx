@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Table, Loader, Button, Grid } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
 import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
 import { Interests } from '../../api/interest/InterestCollection';
@@ -10,6 +11,9 @@ import { Tools } from '../../api/tool/ToolCollection';
 import ChallengesAdmin from '../components/ChallengesAdmin';
 import SkillsAdmin from '../components/SkillsAdmin';
 import ToolsAdmin from '../components/ToolsAdmin';
+import AddChallengeButton from '../components/AddChallengeButton';
+import AddSkillButton from '../components/AddSkillButton';
+import AddToolButton from '../components/AddToolButton';
 
 /**
  * **Deprecated**
@@ -26,6 +30,7 @@ class AdminConfiguration extends React.Component {
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
+
     const tableStyle = {
       position: 'sticky',
       borderType: 'solid',
@@ -49,6 +54,8 @@ class AdminConfiguration extends React.Component {
                 <Table.HeaderCell style={{backgroundColor: '#E5F0FE', position: 'sticky', top:'0', fontSize: 15,}}>Interests</Table.HeaderCell>
                 <Table.HeaderCell style={{backgroundColor: '#E5F0FE', position: 'sticky', top:'0', fontSize: 15,}}>Submission Detail</Table.HeaderCell>
                 <Table.HeaderCell style={{backgroundColor: '#E5F0FE', position: 'sticky', top:'0', fontSize: 15,}}>Pitch</Table.HeaderCell>
+
+ 
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -57,6 +64,7 @@ class AdminConfiguration extends React.Component {
                 console.log(this.props.challenges);
                 const chosenInterestArray = interestsArray.filter((item) => item.challengeID === Challenges.getID(challenge.slugID));
                 const challengeInterest = this.props.interests.filter((item) => item._id === chosenInterestArray[0].interestID)[0].name;
+
                 return <ChallengesAdmin key={challenge._id} challenge={challenge} interest={ challengeInterest }/>;
               })}
             </Table.Body>
@@ -72,6 +80,7 @@ class AdminConfiguration extends React.Component {
               <Table.Row>
                 <Table.HeaderCell style={{backgroundColor: '#E5F0FE', position: 'sticky', top:'0', fontSize: 15,}}>Name</Table.HeaderCell>
                 <Table.HeaderCell style={{backgroundColor: '#E5F0FE', position: 'sticky', top:'0', fontSize: 15,}}>Description</Table.HeaderCell>
+
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -89,18 +98,21 @@ class AdminConfiguration extends React.Component {
               <Table.Row>
                 <Table.HeaderCell style={{backgroundColor: '#E5F0FE', position: 'sticky', top:'0', fontSize: 15,}}>Name</Table.HeaderCell>
                 <Table.HeaderCell style={{backgroundColor: '#E5F0FE', position: 'sticky', top:'0', fontSize: 15,}}>Description</Table.HeaderCell>
+
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {this.props.tools.map((tool) => <ToolsAdmin key={tool._id} tool={tool} />)}
             </Table.Body>
           </Table>
+
           </div>
 
         </div>
     );
   }
 }
+
 // Require an array of Stuff documents in the props.
 AdminConfiguration.propTypes = {
   challenges: PropTypes.array.isRequired,
@@ -110,6 +122,8 @@ AdminConfiguration.propTypes = {
   tools: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
 };
+
+
 // withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
 export default withTracker(() => {
   // Get access to Stuff documents.
@@ -123,3 +137,4 @@ export default withTracker(() => {
     ready: subscription.ready(),
   };
 })(AdminConfiguration);
+

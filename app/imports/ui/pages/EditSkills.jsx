@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
 import swal from 'sweetalert';
@@ -6,6 +7,8 @@ import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Skills } from '../../api/skill/SkillCollection';
+import { updateMethod } from '../../api/base/BaseCollection.methods';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
 
 /**
  * Renders the Page for editing a single document.
@@ -19,14 +22,15 @@ class EditSkills extends React.Component {
    */
   submit(data) {
     // console.log(data);
-    const { docID, name, description } = data;
+    const { name, description, _id } = data;
     const updateData = {
+      _id,
       name,
       description,
     };
-    Skills.update(docID, updateData, (error) => (error ?
+    updateMethod.call({ collectionName: Skills.getCollectionName(), updateData: updateData }, (error) => (error ?
         swal('Error', error.message, 'error') :
-        swal('Success', 'Challenge updated successfully', 'success')));
+        swal('Success', 'Skill updated successfully', 'success')));
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
