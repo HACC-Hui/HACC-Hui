@@ -38,14 +38,16 @@ class ManageHACC extends React.Component {
                 backgroundColor: '#393B44',
               }} className={'teamCreate'}>
                 <Header as="h2" textAlign="center" inverted>Challenges</Header>
-                <Table>
+                <Table fixed columns={5}>
                   <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell>Title</Table.HeaderCell>
-                    <Table.HeaderCell>Description</Table.HeaderCell>
-                    <Table.HeaderCell>Interests</Table.HeaderCell>
-                    <Table.HeaderCell>Submission Detail</Table.HeaderCell>
-                    <Table.HeaderCell>Pitch</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Title</Table.HeaderCell>
+                    <Table.HeaderCell width={5}>Description</Table.HeaderCell>
+                    <Table.HeaderCell width={5}>Interests</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Submission Detail</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Pitch</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Edit</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Delete</Table.HeaderCell>
                   </Table.Row>
                   </Table.Header>
                   {/* eslint-disable-next-line max-len */}
