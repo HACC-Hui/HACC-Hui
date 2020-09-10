@@ -14,14 +14,12 @@ import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
-import CreateTeam from '../pages/CreateTeam';
-import ManageHACC from '../pages/ManageHACC';
-import AddChallenge from '../pages/AddChallenge';
-import AddSkill from '../pages/AddSkill';
-import AddTool from '../pages/AddTool';
-import TeamFinder from '../pages/TeamFinder';
+import Profile from '../pages/Profile'
+import DeletionReason from '../pages/DeletionReason';
+import myProfile from '../pages/myProfile'
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
+
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -38,14 +36,11 @@ class App extends React.Component {
               <Route path="/signin" component={Signin}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
-              <ProtectedRoute path="/create" component={CreateTeam}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
-              <ProtectedRoute path="/teamfinder" component={TeamFinder}/>
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
-              <AdminProtectedRoute path="/add-challenge" component={AddChallenge}/>
-              <AdminProtectedRoute path="/add-skill" component={AddSkill}/>
-              <AdminProtectedRoute path="/add-tool" component={AddTool}/>
-              <AdminProtectedRoute path="/manage" component={ManageHACC}/>
+              <ProtectedRoute path="/myProfile" component={Profile}/>
+              <ProtectedRoute path="/deleteAccount" component={myProfile}/>
+              <ProtectedRoute path="/Deletion" component={DeletionReason}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
             </Switch>
