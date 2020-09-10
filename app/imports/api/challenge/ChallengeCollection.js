@@ -68,9 +68,17 @@ class ChallengeCollection extends BaseSlugCollection {
    * @param submissionDetail {string} the new submission details, optional.
    * @param pitch {string} the new pitch URL, optional.
    */
-  update(docID, { description, interestIDs, submissionDetail, pitch }) {
+  update(docID, { title, description, interestIDs, submissionDetail, pitch }) {
+    console.log(docID);
+    console.log(description);
+    console.log(interestIDs);
+    console.log(submissionDetail);
+    console.log(pitch);
     this.assertDefined(docID);
     const updateData = {};
+    if (title) {
+      updateData.title = description;
+    }
     if (description) {
       updateData.description = description;
     }
@@ -82,14 +90,14 @@ class ChallengeCollection extends BaseSlugCollection {
     }
     this._collection.update(docID, { $set: updateData });
     if (interestIDs && interestIDs.length > 0) {
-      const challengeName = this.findDoc(docID).title;
+      // const challengeName = this.findDoc(docID).title;
       // remove the old interests
       const oldInterests = ChallengeInterests.find({ challengeID: docID }).fetch();
       _.each(oldInterests, (old) => ChallengeInterests.removeIt(old._id));
       // add the new interests
       _.each(interestIDs, (interestID) => {
         const interest = Interests.findSlugByID(interestID);
-        ChallengeInterests.define({ challengeName, interest });
+        ChallengeInterests.define({ challenge: docID, interest });
       });
     }
   }
