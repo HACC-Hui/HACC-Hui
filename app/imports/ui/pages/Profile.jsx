@@ -1,6 +1,5 @@
 import React from 'react';
 import { Header, Grid, Button, Loader, Image, Icon, Modal } from 'semantic-ui-react';
-// eslint-disable-next-line no-unused-vars
 import { ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-semantic';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
