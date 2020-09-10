@@ -39,27 +39,34 @@ class AddChallenge extends React.Component {
    * @param data {Object} the results from the form.
    * @param formRef {FormRef} reference to the form.
    */
+
   submit(data, formRef) {
 
-    console.log('AddChallenge.submit', data);
+    // console.log('AddChallenge.submit', data);
 
     const {
       title, description, interests, submissionDetail, pitch,
     } = data;
-    const interestsObject = [];
-    const interestsArray = this.props.interests;
-    for (let i = 0; i < interestsArray.length; i++) {
-      for (let j = 0; j < interests.length; j++) {
-        if (interestsArray[i].name === interests[j]) {
-          interestsObject.push(interestsArray[i].slugID);
+
+    const interestFilter = (interest) => {
+      for (let i = 0; i < interests.length; i++) {
+        if (interests[i] === interest.name) {
+          return true;
         }
       }
-    }
+      return false;
+    };
+
+    const interestNames = this.props.interests.filter(interestFilter);
+    // console.log(interestNames);
+    // console.log(_.map(interestNames, 'slugID'));
+    const interestSlugs = _.map(interestNames, 'slugID');
+    // console.log(interestSlugs);
     const definitionData = {
-      title, description, interestsObject, submissionDetail, pitch,
+      title, description, interests: interestSlugs, submissionDetail, pitch,
     };
     const collectionName = Challenges.getCollectionName();
-    console.log(collectionName);
+    // console.log(collectionName);
     defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
         (error) => {
           if (error) {
