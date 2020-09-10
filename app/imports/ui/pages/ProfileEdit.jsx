@@ -16,7 +16,7 @@ import SimpleSchema from 'simpl-schema';
 import MultiSelectField from '../controllers/MultiSelectField';
 import { Teams } from '../../api/team/TeamCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
-import { demographicLevels } from '../../api/level/Levels';
+// import { demographicLevels, skillAndToolLevels } from '../../api/level/Levels';
 import { Skills } from '../../api/skill/SkillCollection';
 import { Tools } from '../../api/tool/ToolCollection';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
@@ -31,25 +31,35 @@ const editSchema = new SimpleSchema({
   gitHub: { type: String, optional: true },
   website: { type: String, optional: true },
   tools: {
-    type: Array, label: 'Toolsets' },
+    type: Array,
+  },
   'tools.$': {
     type: String,
   },
   skills: {
     type: Array,
-    label: 'Skills' },
+  },
   'skills.$': {
     type: String,
   },
   challenges: {
     type: Array,
-    label: 'Challenges',
   },
   'challenges.$': {
     type: String,
   },
-  demographicLevel: { type: Array },
-  'demographicLevel.$': { type: String },
+  demographicLevel: {
+    type: Array,
+  },
+  'demographicLevel.$': {
+    type: String,
+  },
+  skillAndToolLevels: {
+    type: Array,
+  },
+  'skillAndToolLevels.$': {
+    type: String,
+  },
 });
 
 class editProfile extends React.Component {
@@ -70,7 +80,8 @@ class editProfile extends React.Component {
     const ChallengesOb = [];
 
     let {
-      challenges, skills, tools, aboutMe, website, gitHub, linkedIn, firstName, lastName, image,
+      challenges, skills, tools, aboutMe,
+      website, gitHub, linkedIn, firstName, lastName, image,
     } = data;
 
     for (let i = 0; i < toolsP.length; i++) {
@@ -159,12 +170,12 @@ class editProfile extends React.Component {
                     <br/>
                     <Grid.Row>
                       <Header inverted as="h3" textAlign="center">About Me</Header>
-                      <LongTextField name='aboutMe' required/>
+                      <LongTextField name='aboutMe'/>
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
                       <Header inverted as="h3" textAlign="center">Demographic</Header>
-                      <MultiSelectField name='demographicLevel' placeholder={'demographicLevel'}
+                      <MultiSelectField name='demographicLevel'
                                         allowedValues={demographicLevels}
                                         required/>
                     </Grid.Row>
@@ -172,13 +183,13 @@ class editProfile extends React.Component {
                     <Grid.Row>
                       <Header inverted as="h3" textAlign="center">Tools</Header>
                       <MultiSelectField name='tools' placeholder={'Toolsets'}
-                                        allowedValues={toolsP} required/>
+                                        allowedValues={toolsP} />
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
                       <Header inverted as="h3" textAlign="center">Skills</Header>
                       <MultiSelectField name='skills' placeholder={'Skills'}
-                                        allowedValues={skillsP} required/>
+                                        allowedValues={skillsP} />
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
@@ -203,7 +214,7 @@ class editProfile extends React.Component {
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
-                    <SubmitField value='Submit' style={{ color: 'white', backgroundColor: '#24252B', }}/>
+                    <SubmitField value='Submit' style={{ color: 'white', backgroundColor: '#24252B' }}/>
                     </Grid.Row>
                   </Grid.Column>
                 </Grid>
