@@ -19,9 +19,10 @@ class Skill extends React.Component {
             <p id='choice-style'>{this.props.skill.name}</p>
           }/>
             <Menu secondary pointing fluid widths={3}>
-              {skillAndToolLevels.map((c) => (
+              {skillAndToolLevels.map((c, index) => (
                   // eslint-disable-next-line react/jsx-key
                   <Menu.Item
+                      key={index}
                       name={c}
                       active={activeSkill === c}
                       onClick={this.handleSkillClick}

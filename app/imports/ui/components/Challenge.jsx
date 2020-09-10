@@ -13,13 +13,13 @@ class Challenge extends React.Component {
     return (
         <Item>
           <Item.Content><Popup content={this.props.challenge.description} trigger={
-            <p id='choice-style'>{
+            <div id='choice-style'>{
               <List>
                 <List.Item id='radio-style'>
                   <Checkbox label={this.props.challenge.title}/>
                 </List.Item>
               </List>
-            }</p>
+            }</div>
           }/>
             </Item.Content>
         </Item>
