@@ -12,13 +12,13 @@ import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
-import { Skills } from '../../api/skill/SkillCollection';
+import { Tools } from '../../api/tool/ToolCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
  * @memberOf ui/pages
  */
-class EditSkill extends React.Component {
+class EditTool extends React.Component {
 
   /** On submit, insert the data.
    * @param data {Object} the results from the form.
@@ -26,7 +26,7 @@ class EditSkill extends React.Component {
    */
   submit(data) {
 
-    // console.log('EditSkill.submit', data);
+    // console.log('EditTool.submit', data);
 
     const {
       name, description,
@@ -38,7 +38,7 @@ class EditSkill extends React.Component {
       id, name, description,
     };
 
-    const collectionName = Skills.getCollectionName();
+    const collectionName = Tools.getCollectionName();
     // console.log(collectionName);
     updateMethod.call({ collectionName: collectionName, updateData: updateData },
         (error) => {
@@ -54,7 +54,7 @@ class EditSkill extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    const formSchema = new SimpleSchema2Bridge(Skills.getSchema());
+    const formSchema = new SimpleSchema2Bridge(Tools.getSchema());
     return (
         <div style={{ backgroundColor: '#C4C4C4' }}>
           <Grid container centered>
@@ -63,7 +63,7 @@ class EditSkill extends React.Component {
                 backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
                 borderRadius: '2rem',
               }}>
-                <Header as="h2" textAlign="center" inverted>Edit Skill</Header>
+                <Header as="h2" textAlign="center" inverted>Edit Tool</Header>
               </div>
               <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.doc}
                         style={{
@@ -96,7 +96,7 @@ class EditSkill extends React.Component {
   }
 }
 
-EditSkill.propTypes = {
+EditTool.propTypes = {
   doc: PropTypes.object,
   model: PropTypes.object,
   ready: PropTypes.bool.isRequired,
@@ -106,9 +106,9 @@ export default withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
   // Get access to Stuff documents.
-  const subscription = Skills.subscribe();
+  const subscription = Tools.subscribe();
   return {
-    doc: Skills.findOne(documentId),
+    doc: Tools.findOne(documentId),
     ready: subscription.ready(),
   };
-})(EditSkill);
+})(EditTool);

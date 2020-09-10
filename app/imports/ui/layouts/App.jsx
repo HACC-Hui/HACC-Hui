@@ -26,6 +26,7 @@ import AddSkill from '../pages/AddSkill';
 import AddTool from '../pages/AddTool';
 import TeamFinder from '../pages/TeamFinder';
 import EditSkill from '../pages/EditSkill';
+import EditTool from '../pages/EditTool';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
 
@@ -56,6 +57,7 @@ class App extends React.Component {
               <AdminProtectedRoute path="/add-challenge" component={AddChallenge}/>
               <AdminProtectedRoute path="/add-skill" component={AddSkill}/>
               <AdminProtectedRoute path="/edit-skill/:_id" component={EditSkill}/>
+              <AdminProtectedRoute path="/edit-tool/:_id" component={EditTool}/>
               <AdminProtectedRoute path="/add-tool" component={AddTool}/>
               <AdminProtectedRoute path="/manage" component={ManageHACC}/>
               <ProtectedRoute path="/signout" component={Signout}/>

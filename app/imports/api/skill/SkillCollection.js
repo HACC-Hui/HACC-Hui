@@ -58,9 +58,9 @@ class SkillCollection extends BaseSlugCollection {
   update(docID, {
     name, description,
   }) {
-    console.log(docID);
-    console.log(name);
-    console.log(description);
+    // console.log(docID);
+    // console.log(name);
+    // console.log(description);
     this.assertDefined(docID);
     const updateData = {};
     if (name) {
