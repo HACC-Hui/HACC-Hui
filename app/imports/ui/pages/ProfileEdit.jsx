@@ -62,8 +62,6 @@ class editProfile extends React.Component {
      console.log(data);
 
     const owner = this.props.developer[0].slugID;
-    // const dLevelP = demographicLevels;
-    const dLevelOb = [];
     const skillsP = this.props.skills;
     const skillsOb = [];
     const toolsP = this.props.tools;
@@ -72,10 +70,8 @@ class editProfile extends React.Component {
     const ChallengesOb = [];
 
     let {
-      challenges, skills, tools, aboutMe, website, dLevel, gitHub, linkedIn, firstName, lastName, image,
+      challenges, skills, tools, aboutMe, website, gitHub, linkedIn, firstName, lastName, image,
     } = data;
-
-    dLevel = dLevel.slugID;
 
     for (let i = 0; i < toolsP.length; i++) {
       for (let j = 0; j < tools.length; j++) {
@@ -101,7 +97,6 @@ class editProfile extends React.Component {
     defineMethod.call({
           collectionName: Teams.getCollectionName(),
           definitionData: {
-            dLevel,
             aboutMe,
             owner,
             firstName,
@@ -110,7 +105,6 @@ class editProfile extends React.Component {
             website,
             gitHub,
             linkedIn,
-            dLevelOb,
             ChallengesOb,
             skillsOb,
             toolsOb,
@@ -134,7 +128,6 @@ class editProfile extends React.Component {
     const skillsP = _.map(this.props.skills, 'name');
     const toolsP = _.map(this.props.tools, 'name');
     const ChallengesP = _.map(this.props.challenges, 'title');
-//    const dLevelP = _.map(this.props.dLevel, 'title');
     let fRef = null;
     return (
         <div style={{ backgroundColor: '#24252B' }}>
@@ -210,11 +203,7 @@ class editProfile extends React.Component {
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
-                    <SubmitField value='Submit'
-                                 style={{
-                                   color: 'white', backgroundColor: '#24252B',
-                                   margin: '2rem 0rem',
-                                 }}/>
+                    <SubmitField value='Submit' style={{ color: 'white', backgroundColor: '#24252B', }}/>
                     </Grid.Row>
                   </Grid.Column>
                 </Grid>
@@ -242,9 +231,7 @@ export default withTracker(() => {
   const subscription = Skills.subscribe();
   const subscription2 = Challenges.subscribe();
   const subscription3 = Developers.subscribe();
-  // const subscription4 = demographicLevels.subscribe();
   return {
-    // demographicLevel: demographicLevels.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
