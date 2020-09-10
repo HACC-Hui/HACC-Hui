@@ -25,6 +25,7 @@ import AddChallenge from '../pages/AddChallenge';
 import AddSkill from '../pages/AddSkill';
 import AddTool from '../pages/AddTool';
 import TeamFinder from '../pages/TeamFinder';
+import DeletionReason from '../pages/DeletionReason';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
 
@@ -45,6 +46,7 @@ class App extends React.Component {
               <ProtectedRoute exact path="/PF" component={ParticipationForm}/>
               <ProtectedRoute exact path="/UPF" component={UnderParticipationForm}/>
               <ProtectedRoute exact path="/profile" component={Profile}/>
+              <ProtectedRoute exact path="/deleteAccount" component={DeletionReason}/>
               <ProtectedRoute exact path="/editprofile" component={ProfileEdit}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Grid, Button, Loader, Image, Icon } from 'semantic-ui-react';
+import { Header, Grid, Button, Loader, Image, Icon, Modal } from 'semantic-ui-react';
 // eslint-disable-next-line no-unused-vars
 import { ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-semantic';
 import PropTypes from 'prop-types';
@@ -9,12 +9,19 @@ import { Developers } from '../../api/user/DeveloperCollection';
 import { DeveloperSkills } from '../../api/user/DeveloperSkillCollection';
 import { DeveloperChallenges } from '../../api/user/DeveloperChallengeCollection';
 import { DeveloperTools } from '../../api/user/DeveloperToolCollection';
+import { NavLink } from 'react-router-dom';
 
 /**
  * Profile page
  * @memberOf ui/pages
  */
 class profile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+    };
+  }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
 
@@ -23,8 +30,8 @@ class profile extends React.Component {
   }
 
   renderPage() {
-    // console.log(this.props.developer);
-    // console.log(this.props.developer.firstName);
+    const open = this.state.open;
+
     return (
         <div style={{ backgroundColor: '#C4C4C4', padding: '4rem 0rem' }}>
           <Grid container centered stackable
@@ -76,18 +83,45 @@ class profile extends React.Component {
                   </Grid>
                 </Grid.Column>
                 <Grid.Column width={10}>
-                  <Button floated='right' style={{
-                    backgroundColor: 'rgb(145 30 30)',
-                    color: 'white',
-                    margin: '1rem 0rem 0rem, 0rem',
-                  }}>
-                    DELETE
-                  </Button>
+                  <Modal
+                      open={open}
+                      trigger={
+                        <Button floated='right' style={{
+                          backgroundColor: 'rgb(145 30 30)',
+                          color: 'white',
+                          margin: '1rem 0rem 0rem, 0rem',
+                        }}>
+                          DELETE
+                        </Button>
+                      }
+                      onClose={() => this.setState({ open: false })}
+                      onOpen={() => this.setState({ open: true })}
+                  >
+                    <Modal.Header>Account Removal Form</Modal.Header>
+                    <Modal.Content>
+                      <p>
+                        {/* eslint-disable-next-line max-len */}
+                        Before you go please fill out this questionnaire so we can improve the HACC
+                        experience in the future.
+                      </p>
+                    </Modal.Content>
+                    <Modal.Actions>
+                      <Button color='red' onClick={() => this.setState({ open: false })}>
+                        <Icon name='remove'/> Cancel
+                      </Button>
+                      <Button color='green' onClick={() => this.setState({ open: false })}
+                              as={NavLink} exact
+                              to="/deleteAccount">
+                        <Icon name='checkmark'/> Form & Delete
+                      </Button>
+                    </Modal.Actions>
+                  </Modal>
                   <Button floated='right' style={{
                     backgroundColor: '#272727',
                     color: 'white',
                     margin: '1rem 0rem 0rem, 0rem',
-                  }}>
+                  }}
+                  as={NavLink} exact to='/editprofile'>
                     EDIT
                   </Button>
                   <Grid className="info">

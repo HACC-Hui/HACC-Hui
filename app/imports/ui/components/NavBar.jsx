@@ -31,8 +31,6 @@ class NavBar extends React.Component {
                 Team Finder</Menu.Item>,
               <Menu.Item as={NavLink} activeClassName="active" exact to="/create" key='create'>
                 Create a Team</Menu.Item>,
-              <Menu.Item as={NavLink} activeClassName="active" exact to="/profile" key='profile'>
-                My Profile</Menu.Item>,
             ]
         ) : ''}
         {Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN) ? (
