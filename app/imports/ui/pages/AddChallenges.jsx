@@ -3,8 +3,11 @@ import React from 'react';
 import { Grid, Segment, Header } from 'semantic-ui-react';
 import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
 import swal from 'sweetalert';
+import { _ } from 'lodash';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import { withTracker } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { Interests } from '../../api/interest/InterestCollection';
@@ -12,11 +15,10 @@ import { Interests } from '../../api/interest/InterestCollection';
 // Create a schema to specify the structure of the data to appear in the form.
 const addChallengeSchema = new SimpleSchema({
   title: { type: String },
-  interest: {
+  interests: {
     type: String,
-    allowedValues: ['Community Engagement', 'Sustainability', 'Education'],
-    defaultValue: 'Community Engagement',
   },
+  'interests.$': { type: String },
   description: { type: String },
   submissionDetail: { type: String },
   pitch: { type: String },
@@ -59,6 +61,7 @@ class AddChallenge extends React.Component {
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
     let fRef = null;
+    const interestsArr = _.map(this.props.interest, 'name');
     const formSchema = new SimpleSchema2Bridge(addChallengeSchema);
     return (
         <Grid container centered>
@@ -68,7 +71,8 @@ class AddChallenge extends React.Component {
               <Segment>
                 <TextField name='title'/>
                 <TextField name='description'/>
-                <SelectField name='interest'/>
+                <SelectField name='interests' placeholder={'Interests'}
+                             allowedValues={interestsArr} required/>
                 <TextField name='submissionDetail'/>
                 <TextField name='pitch'/>
                 <SubmitField value='Submit'/>
@@ -81,4 +85,14 @@ class AddChallenge extends React.Component {
   }
 }
 
-export default AddChallenge;
+AddChallenge.propTypes = {
+  interest: PropTypes.object,
+};
+
+export default withTracker(({ match }) => {
+  // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
+  const documentId = match.params._id;
+  return {
+    interest: Interests.find({}).fetch(),
+  };
+})(AddChallenge);

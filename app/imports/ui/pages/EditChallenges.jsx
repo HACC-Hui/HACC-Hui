@@ -3,6 +3,7 @@ import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
+import { _ } from 'lodash';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import SimpleSchema from 'simpl-schema';
@@ -15,9 +16,8 @@ const editChallengeSchema = new SimpleSchema({
   slugID: { type: SimpleSchema.RegEx.Id },
   interests: {
     type: String,
-    allowedValues: ['Community Engagement', 'Sustainability', 'Education'],
-    defaultValue: 'Community Engagement',
   },
+  'interests.$': { type: String },
   description: { type: String },
   submissionDetail: { type: String },
   pitch: { type: String },
@@ -57,7 +57,7 @@ class EditChallenges extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   renderPage() {
-
+    const interestsArr = _.map(this.props.interest, 'name');
     const formSchema = new SimpleSchema2Bridge(editChallengeSchema);
     return (
         <Grid container centered>
@@ -67,7 +67,8 @@ class EditChallenges extends React.Component {
               <Segment>
                 <TextField name='title'/>
                 <TextField name='description'/>
-                <SelectField name='interests'/>
+                <SelectField name='interests' placeholder={'Interests'}
+                             allowedValues={interestsArr} required/>
                 <TextField name='submissionDetail'/>
                 <TextField name='pitch'/>
                 <SubmitField value='Submit'/>
@@ -83,6 +84,7 @@ class EditChallenges extends React.Component {
 /** Require the presence of a Stuff document in the props object. Uniforms adds 'model' to the props, which we use. */
 EditChallenges.propTypes = {
   doc: PropTypes.object,
+  interest: PropTypes.object,
   model: PropTypes.object,
   ready: PropTypes.bool.isRequired,
 };
@@ -95,6 +97,7 @@ export default withTracker(({ match }) => {
   const subscription = Challenges.subscribe();
   return {
     doc: Challenges.findOne(documentId),
+    interest: Interests.find({}).fetch(),
     ready: subscription.ready(),
   };
 })(EditChallenges);
