@@ -1,7 +1,14 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Header, Grid, Button } from 'semantic-ui-react';
 // eslint-disable-next-line no-unused-vars
 import { ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-semantic';
+=======
+import { Header, Grid, Button, Dropdown } from 'semantic-ui-react';
+// eslint-disable-next-line no-unused-vars
+import { ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-semantic';
+import { NavLink } from 'react-router-dom';
+>>>>>>> iss4secret
 
 /**
  * A simple static component to render some text for the landing page.
@@ -47,7 +54,11 @@ class profile extends React.Component {
                     </div>
                   </Grid.Column>
                   <Grid.Column width={10}>
+<<<<<<< HEAD
                     <Button color='grey' floated='right'>EDIT</Button>
+=======
+                    <Button color='grey' floated='right' as={NavLink} exact to="/deleteAccount">EDIT</Button>
+>>>>>>> iss4secret
                     <Grid className="info">
                       <Grid.Row>
                         <Header inverted as="h3">About ME</Header>
