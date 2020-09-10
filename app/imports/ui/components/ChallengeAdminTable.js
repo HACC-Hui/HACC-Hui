@@ -2,11 +2,35 @@ import React from 'react';
 import { Button, Table, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
+import swal from 'sweetalert';
+import { removeItMethod } from '../../api/base/BaseCollection.methods';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
 import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
 import { Interests } from '../../api/interest/InterestCollection';
 
 /** Renders a single row in the table. See pages/Listmenuitemss.jsx. */
 class ChallengeAdminTable extends React.Component {
+  removeItem(docID) {
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this challenge!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    })
+        .then((willDelete) => {
+          if (willDelete) {
+            removeItMethod.call({
+              collectionName: Challenges.getCollectionName(),
+              instance: Challenges.getID(docID),
+            }, (error) => (error ?
+                swal('Error', error.message, 'error') :
+                swal('Success', 'Challenge removed', 'success')));
+          } else {
+            swal('You canceled the deletion!');
+          }
+        });
+  }
 
   filterInterests = (interest) => {
     const interestArray = this.props.interests.slice().filter((item) => item.challengeID === this.props.challenges._id);
@@ -44,7 +68,8 @@ class ChallengeAdminTable extends React.Component {
           <Table.Cell width={2}>{this.props.challenges.submissionDetail}</Table.Cell>
           <Table.Cell width={2}>{this.props.challenges.pitch}</Table.Cell>
           <Table.Cell width={2}><Button>Edit</Button></Table.Cell>
-          <Table.Cell width={2}><Button negative>Delete</Button></Table.Cell>
+          {/* eslint-disable-next-line max-len */}
+          <Table.Cell width={2}><Button negative onClick={() => this.removeItem(this.props.challenges._id)}>Delete</Button></Table.Cell>
         </Table.Row>
     );
   }
