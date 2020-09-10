@@ -55,6 +55,7 @@ class NavBar extends React.Component {
               <Dropdown style={{color: '#25C2A0'}} text={this.props.currentUser} pointing="top right" icon={'user'}>
                 <Dropdown.Menu >
                   <Dropdown.Item  className='dropdown-item' icon="sign out" text="Sign Out" as={NavLink} exact to="/signout"/>
+                  <Dropdown.Item icon="setting" text="Settings" as={NavLink} exact to="/settings"/>
                 </Dropdown.Menu>
               </Dropdown>
             )}
