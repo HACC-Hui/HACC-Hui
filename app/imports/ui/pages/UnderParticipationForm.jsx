@@ -1,5 +1,6 @@
 import React from 'react';
-import { Header, Image } from 'semantic-ui-react';
+import { Button, Header, Image } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 
 /**
  * A simple static component to render some text for the landing page.
@@ -42,7 +43,9 @@ class underpartf extends React.Component {
                   <label>I agree to the terms and conditions</label>
                 </div>
               </div>
-              <div className="ui submit button">Submit</div>
+              <Button as={NavLink} exact to='/profile'>
+                SUBMIT
+              </Button>
             </div>
           </div>
           </div>
