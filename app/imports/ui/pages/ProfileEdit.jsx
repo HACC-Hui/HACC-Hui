@@ -23,20 +23,13 @@ import { Challenges } from '../../api/challenge/ChallengeCollection';
 import { Developers } from '../../api/user/DeveloperCollection';
 
 const editSchema = new SimpleSchema({
-  team: String,
   fName: String,
   lName: String,
   image: String,
   aboutMe: String,
-  linkedIn: String,
-  gitHub: String,
-  website: String,
-  dLevel: {
-    type: Array,
-  },
-  'dLevel.$': {
-    type: String,
-  },
+  linkedIn: { type: String, optional: true },
+  gitHub: { type: String, optional: true },
+  website: { type: String, optional: true },
   tools: {
     type: Array, label: 'Toolsets' },
   'tools.$': {
@@ -55,7 +48,7 @@ const editSchema = new SimpleSchema({
   'challenges.$': {
     type: String,
   },
-  demographicLevel: { type: Array, label: 'Demographic Level' },
+  demographicLevel: { type: Array },
   'demographicLevel.$': { type: String },
 });
 
@@ -155,10 +148,6 @@ class editProfile extends React.Component {
                 }}>
                 <Grid>
                   <Grid.Column>
-                    <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">Team</Header>
-                      <TextField name='team' required/>
-                    </Grid.Row>
                     <br/>
                     <Grid.Row>
                       <Header inverted as="h3" textAlign="center">First Name</Header>
@@ -220,11 +209,13 @@ class editProfile extends React.Component {
                       <TextField name='website'/>
                     </Grid.Row>
                     <br/>
+                    <Grid.Row>
                     <SubmitField value='Submit'
                                  style={{
                                    color: 'white', backgroundColor: '#24252B',
                                    margin: '2rem 0rem',
                                  }}/>
+                    </Grid.Row>
                   </Grid.Column>
                 </Grid>
                   <ErrorsField/>
