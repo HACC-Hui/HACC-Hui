@@ -4,7 +4,7 @@ import swal from 'sweetalert';
 import { Redirect } from 'react-router-dom';
 import { Header, Button, Container, Segment, Divider,
   Popup, Checkbox, Form, TextArea } from 'semantic-ui-react';
-import { accountDeleteMethod } from '../../startup/both/Methods';
+import { accountDeleteMethod, developerDeleteMethod } from '../../startup/both/Methods';
 
 /**
  * After the user clicks the "Signout" link in the NavBar, log them out and display this page.
@@ -27,6 +27,8 @@ class Settings extends React.Component {
     // const { team, challange, other } = data;
     // const owner = Meteor.user().username;
     // console.log(`{ ${team}, ${challange}, ${other}, ${owner} }`);
+    // to delete whole account accountDeleteMethod
+    // to delete developer account developerDeleteMethod
     Meteor.call(accountDeleteMethod,
       (error) => {
         if (error) {
