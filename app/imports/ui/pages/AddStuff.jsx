@@ -9,12 +9,15 @@ import { stuffDefineMethod } from '../../api/stuff/StuffCollection.methods';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
-  name: String,
-  quantity: Number,
-  condition: {
+  teamName: String,
+  challenges: String,
+  skills: String,
+  tools: String,
+  aboutUs: String,
+  availability: {
     type: String,
-    allowedValues: ['excellent', 'good', 'fair', 'poor'],
-    defaultValue: 'good',
+    allowedValues: ['open', 'closed'],
+    defaultValue: 'open',
   },
 });
 
@@ -30,10 +33,10 @@ class AddStuff extends React.Component {
    */
   submit(data, formRef) {
     // console.log('AddStuff.submit', data);
-    const { name, quantity, condition } = data;
+    const { teamName, challenges, skills, tools, aboutUs, availability } = data;
     const owner = Meteor.user().username;
     // console.log(`{ ${name}, ${quantity}, ${condition}, ${owner} }`);
-    stuffDefineMethod.call({ name, quantity, condition, owner },
+    stuffDefineMethod.call({ teamName, challenges, skills, tools, aboutUs, availability, owner },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -53,12 +56,15 @@ class AddStuff extends React.Component {
     return (
         <Grid container centered>
           <Grid.Column>
-            <Header as="h2" textAlign="center">Add Stuff</Header>
+            <Header as="h2" textAlign="center">Create Team</Header>
             <AutoForm ref={ref => { fRef = ref; }} schema={formSchema} onSubmit={data => this.submit(data, fRef)} >
               <Segment>
-                <TextField name='name'/>
-                <NumField name='quantity' decimal={false}/>
-                <SelectField name='condition'/>
+                <TextField name='teamName'/>
+                <TextField name='challenges'/>
+                <TextField name='skills'/>
+                <TextField name='tools'/>
+                <TextField name='aboutUs'/>
+                <SelectField name='availability'/>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
               </Segment>

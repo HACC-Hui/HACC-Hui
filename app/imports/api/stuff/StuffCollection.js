@@ -36,14 +36,22 @@ export const stuffPublications = {
 class StuffCollection extends BaseCollection {
   constructor() {
     super('Stuffs', new SimpleSchema({
-      name: String,
-      quantity: Number,
+      teamName: String,
+      challenges: String,
       owner: String,
       condition: {
         type: String,
         allowedValues: stuffConditions,
         defaultValue: 'good',
       },
+      skills: String,
+      tools: String,
+      aboutUs: String,
+      availability: {
+        type: String,
+        allowedValues: ['open', 'closed'],
+        defaultValue: 'open',
+      }
     }));
   }
 
@@ -55,12 +63,16 @@ class StuffCollection extends BaseCollection {
    * @param condition the condition of the item.
    * @return {String} the docID of the new document.
    */
-  define({ name, quantity, owner, condition }) {
+  define({ teamName, challenges, owner, condition, skills, tools, aboutUs, availability }) {
     const docID = this._collection.insert({
-      name,
-      quantity,
+      teamName,
+      challenges,
       owner,
       condition,
+      skills,
+      tools,
+      aboutUs,
+      availability,
     });
     return docID;
   }
