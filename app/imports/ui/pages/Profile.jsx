@@ -36,45 +36,44 @@ class profile extends React.Component {
                   padding: '1rem 4rem', margin: '2rem 0rem',
                   borderRadius: '2rem',
                 }}>
-                  <div>
-                    <Grid columns={8} divided style={{ paddingTop: '1rem' }}>
-                      <Grid.Row centered>
-                        <Header inverted as="h3" textAlign="center">
-                          <Icon className={'users'} inverted/>
-                          Team: N/A
-                        </Header>
-                      </Grid.Row>
-                      <Grid.Row centered>
-                        <Image
-                            style={{ borderRadius: '50%', width: '80%', height: 'auto' }}
-                            src={'https://writestylesonline.com/wp-content/uploads/2018/11/Three-Statistics-That-Will-Make-You-Rethink-Your-Professional-Profile-Picture-1024x1024.jpg'}/>
-                      </Grid.Row>
-                      <Grid.Row centered>
-                        <Header inverted as="h3" textAlign="center">
-                          {this.props.developer.firstName} {this.props.developer.lastName}
-                          <p style={{ color: 'white', fontSize: '13px' }}>
-                            University Student
-                          </p>
-                        </Header>
-                      </Grid.Row>
-
-                      <Grid.Row centered>
-                        <Icon className={'github'} inverted size={'big'}/>
-                        <Icon className={'linkedin'} inverted size={'big'}/>
-                        <Icon className={'world'} inverted size={'big'}/>
-                      </Grid.Row>
-                      <Grid.Row centered>
-                        <Header inverted as="h3" textAlign="center">Challenges</Header>
-                        <p style={{ color: 'white', fontSize: '16px' }}>
-                          ETS/HGG Community Engagement & Digital Storytelling <br/>
-                          HGIA Green Loan Portal
+                  <Grid columns={8} divided style={{ paddingTop: '1rem' }}>
+                    <Grid.Row centered>
+                      <Header inverted as="h3" textAlign="center">
+                        <Icon className={'users'} inverted/>
+                        Team: N/A
+                      </Header>
+                    </Grid.Row>
+                    <Grid.Row centered>
+                      <Image
+                          style={{ borderRadius: '50%', width: '80%', height: 'auto' }}
+                          src={'https://writestylesonline.com/wp-content/uploads/2018/11/Three-Statistics-That-Will-Make-You-Rethink-Your-Professional-Profile-Picture-1024x1024.jpg'}/>
+                    </Grid.Row>
+                    <Grid.Row centered>
+                      <Header inverted as="h3" textAlign="center">
+                        {this.props.developer.firstName} {this.props.developer.lastName}
+                        <p style={{ color: 'white', fontSize: '13px' }}>
+                          University Student
                         </p>
-                      </Grid.Row>
-                      <Grid.Row centered>
+                      </Header>
+                    </Grid.Row>
+                    <Grid.Row centered>
+                      <Icon className={'github'} inverted size={'big'} link={true}/>
+                      <Icon className={'linkedin'} inverted size={'big'} link={true}/>
+                      <a href={'http://linkedin.com/'}>
+                        <Icon className={'world'} inverted size={'big'} link={true}/>
+                      </a>
+                    </Grid.Row>
+                    <Grid.Row centered>
+                      <Header inverted as="h3" textAlign="center">Challenges</Header>
+                      <p style={{ color: 'white', fontSize: '16px' }}>
+                        ETS/HGG Community Engagement & Digital Storytelling <br/>
+                        HGIA Green Loan Portal
+                      </p>
+                    </Grid.Row>
+                    <Grid.Row centered>
 
-                      </Grid.Row>
-                    </Grid>
-                  </div>
+                    </Grid.Row>
+                  </Grid>
                 </Grid.Column>
                 <Grid.Column width={10}>
                   <Button floated='right' style={{
@@ -99,7 +98,7 @@ class profile extends React.Component {
                         <p style={{
                           color: 'white',
                           fontSize: '16px',
-                          textDecoration: 'underline'
+                          textDecoration: 'underline',
                         }}>
                           EXPERIENCED:
                         </p>
@@ -109,7 +108,7 @@ class profile extends React.Component {
                         <p style={{
                           color: 'white',
                           fontSize: '16px',
-                          textDecoration: 'underline'
+                          textDecoration: 'underline',
                         }}>
                           NOVICE:
                         </p>
@@ -119,7 +118,7 @@ class profile extends React.Component {
                         <p style={{
                           color: 'white',
                           fontSize: '16px',
-                          textDecoration: 'underline'
+                          textDecoration: 'underline',
                         }}>
                           DON'T KNOW BUT WOULD LIKE TO LEARN:
                         </p>
@@ -132,7 +131,7 @@ class profile extends React.Component {
                         <p style={{
                           color: 'white',
                           fontSize: '16px',
-                          textDecoration: 'underline'
+                          textDecoration: 'underline',
                         }}>
                           EXPERIENCED:
                         </p>
@@ -142,7 +141,7 @@ class profile extends React.Component {
                         <p style={{
                           color: 'white',
                           fontSize: '16px',
-                          textDecoration: 'underline'
+                          textDecoration: 'underline',
                         }}>
                           NOVICE:
                         </p>
@@ -152,7 +151,7 @@ class profile extends React.Component {
                         <p style={{
                           color: 'white',
                           fontSize: '16px',
-                          textDecoration: 'underline'
+                          textDecoration: 'underline',
                         }}>
                           DON'T KNOW BUT WOULD LIKE TO LEARN:
                         </p>
