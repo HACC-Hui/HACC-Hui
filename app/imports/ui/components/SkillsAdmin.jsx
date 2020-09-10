@@ -27,14 +27,14 @@ class SkillsAdmin extends React.Component {
     }
     return (
         <Table.Row>
-          <Table.Cell>{this.props.skill.name}</Table.Cell>
-          <Table.Cell>{this.props.skill.description}</Table.Cell>
           <Table.Cell>
-            <Link to={`/editSkills/${this.props.skill._id}`}>Edit</Link>
-          </Table.Cell>
-          <Table.Cell>
+            {this.props.skill.name}
+            <button className="ui button" style ={{margin: 10}}>
+              <Link to={`/editSkills/${this.props.skill._id}`}>Edit</Link>
+            </button>
             <Button content='Delete' onClick={() => deleteSkill(this.props.skill.slugID)} basic color='red'/>
           </Table.Cell>
+          <Table.Cell>{this.props.skill.description}</Table.Cell>
         </Table.Row>
     );
   }

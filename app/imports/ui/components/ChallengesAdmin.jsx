@@ -26,17 +26,17 @@ class ChallengesAdmin extends React.Component {
     }
     return (
         <Table.Row>
-          <Table.Cell>{this.props.challenge.title}</Table.Cell>
-          <Table.Cell>{this.props.challenge.description}</Table.Cell>
-          <Table.Cell>{this.props.interest}</Table.Cell>
-          <Table.Cell>{this.props.challenge.submissionDetail}</Table.Cell>
-          <Table.Cell>{this.props.challenge.pitch}</Table.Cell>
           <Table.Cell>
-            <Link to={`/editChallenges/${this.props.challenge._id}`}>Edit</Link>
-          </Table.Cell>
-          <Table.Cell>
+            {this.props.challenge.title}
+            <button className="ui button" style ={{margin: 10}}>
+              <Link to={`/editChallenges/${this.props.challenge._id}`}>Edit</Link>
+            </button>
             <Button content='Delete' onClick={() => deleteChallenge(this.props.challenge.slugID)} basic color='red'/>
           </Table.Cell>
+          <Table.Cell>{this.props.challenge.description}</Table.Cell>
+          <Table.Cell>{this.props.interest}</Table.Cell>
+          <Table.Cell><a href={this.props.challenge.submissionDetail}>{this.props.challenge.submissionDetail}</a></Table.Cell>
+          <Table.Cell><a href={this.props.challenge.pitch}>{this.props.challenge.pitch}</a></Table.Cell>
         </Table.Row>
     );
   }

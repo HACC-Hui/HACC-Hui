@@ -27,14 +27,14 @@ class ToolsAdmin extends React.Component {
     }
     return (
         <Table.Row>
-          <Table.Cell>{this.props.tool.name}</Table.Cell>
-          <Table.Cell>{this.props.tool.description}</Table.Cell>
           <Table.Cell>
-            <Link to={`/editTools/${this.props.tool._id}`}>Edit</Link>
-          </Table.Cell>
-          <Table.Cell>
+            {this.props.tool.name}
+            <button className="ui button" style ={{margin: 10}}>
+              <Link to={`/editTools/${this.props.tool._id}`}>Edit</Link>
+            </button>
             <Button content='Delete' onClick={() => deleteTool(this.props.tool.slugID)} basic color='red'/>
           </Table.Cell>
+          <Table.Cell>{this.props.tool.description}</Table.Cell>
         </Table.Row>
     );
   }
