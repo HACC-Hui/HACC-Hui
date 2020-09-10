@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header } from 'semantic-ui-react';
+import { Grid, Segment, Header, Icon } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
@@ -16,15 +16,15 @@ import SimpleSchema from 'simpl-schema';
 import MultiSelectField from '../controllers/MultiSelectField';
 import { Teams } from '../../api/team/TeamCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
-// import { demographicLevels, skillAndToolLevels } from '../../api/level/Levels';
+import { demographicLevels } from '../../api/level/Levels';
 import { Skills } from '../../api/skill/SkillCollection';
 import { Tools } from '../../api/tool/ToolCollection';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
 import { Developers } from '../../api/user/DeveloperCollection';
 
 const editSchema = new SimpleSchema({
-  fName: String,
-  lName: String,
+  firstName: String,
+  lastName: String,
   image: String,
   aboutMe: String,
   linkedIn: { type: String, optional: true },
@@ -52,12 +52,6 @@ const editSchema = new SimpleSchema({
     type: Array,
   },
   'demographicLevel.$': {
-    type: String,
-  },
-  skillAndToolLevels: {
-    type: Array,
-  },
-  'skillAndToolLevels.$': {
     type: String,
   },
 });
@@ -143,80 +137,78 @@ class editProfile extends React.Component {
     return (
         <div style={{ backgroundColor: '#24252B' }}>
           <Grid container centered>
-            <Grid.Column>
+            <Grid.Column >
               <AutoForm ref={ref => { fRef = ref; }} schema={eSchema} onSubmit={data => this.submit(data, fRef)}>
-              <div className='profileEditBox' style={{ padding: '1rem 5rem', margin: '2rem 0rem' }}>
+              <div className='profileEditBox' style={{ padding: '10rem 5rem', margin: '2rem 0rem' }}>
                 <Segment style={{
                   borderRadius: '1rem',
-                  backgroundColor: '#393B44',
+                  backgroundColor: '#C4C4C4',
                 }}>
-                <Grid>
+                  <Grid container centered>
+                    <br/>
+                  <Header as='h1'><Icon name='settings' size={'large'}/>EDIT YOUR PROFILE</Header>
+                    <br/>
+                  </Grid>
+                <Grid columns={'2'} stackable>
                   <Grid.Column>
                     <br/>
                     <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">First Name</Header>
-                      <TextField name='fName' required/>
+                      <TextField name='firstName' required/>
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">Last Name</Header>
-                      <TextField name='lName' required/>
+                      <TextField name='lastName' required/>
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">Profile Photo</Header>
                       <TextField name='image' required/>
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">About Me</Header>
+                      <TextField name='gitHub'/>
+                    </Grid.Row>
+                    <br/>
+                    <Grid.Row>
+                      <TextField name='linkedIn'/>
+                    </Grid.Row>
+                    <br/>
+                    <Grid.Row>
+                      <TextField name='website'/>
+                    </Grid.Row>
+                    <br/>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Grid.Row>
                       <LongTextField name='aboutMe'/>
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">Demographic</Header>
                       <MultiSelectField name='demographicLevel'
                                         allowedValues={demographicLevels}
                                         required/>
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">Tools</Header>
                       <MultiSelectField name='tools' placeholder={'Toolsets'}
                                         allowedValues={toolsP} />
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">Skills</Header>
                       <MultiSelectField name='skills' placeholder={'Skills'}
                                         allowedValues={skillsP} />
                     </Grid.Row>
                     <br/>
                     <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">Challenges</Header>
-                      <MultiSelectField name='challenges' placeholder={'Challenges'}
+                      <MultiSelectField name='challenges'
                                         allowedValues={ChallengesP} required/>
                     </Grid.Row>
                     <br/>
-                    <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">GitHub</Header>
-                      <TextField name='gitHub'/>
-                    </Grid.Row>
-                    <br/>
-                    <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">LinkedIn</Header>
-                      <TextField name='linkedIn'/>
-                    </Grid.Row>
-                    <br/>
-                    <Grid.Row>
-                      <Header inverted as="h3" textAlign="center">Personal Website</Header>
-                      <TextField name='website'/>
-                    </Grid.Row>
-                    <br/>
-                    <Grid.Row>
-                    <SubmitField value='Submit' style={{ color: 'white', backgroundColor: '#24252B' }}/>
-                    </Grid.Row>
                   </Grid.Column>
+                    <Grid container centered>
+                      <br/>
+                    <SubmitField value='Submit' style={{ color: 'white', backgroundColor: '#24252B' }}/>
+                      <br/>
+                    </Grid>
                 </Grid>
                   <ErrorsField/>
               </Segment>
