@@ -67,6 +67,8 @@ class ManageHACC extends React.Component {
                     <Table.Row>
                       <Table.HeaderCell>Name</Table.HeaderCell>
                       <Table.HeaderCell>Description</Table.HeaderCell>
+                      <Table.HeaderCell width={2}>Edit</Table.HeaderCell>
+                      <Table.HeaderCell width={2}>Delete</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   {/* eslint-disable-next-line max-len */}
@@ -85,6 +87,8 @@ class ManageHACC extends React.Component {
                     <Table.Row>
                       <Table.HeaderCell>Name</Table.HeaderCell>
                       <Table.HeaderCell>Description</Table.HeaderCell>
+                      <Table.HeaderCell width={2}>Edit</Table.HeaderCell>
+                      <Table.HeaderCell width={2}>Delete</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>{this.props.tools.map((tools => <ToolAdminTable key={tools._id} tools={tools} />))}

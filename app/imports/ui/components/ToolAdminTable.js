@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Button, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -11,6 +11,8 @@ class ToolAdminTable extends React.Component {
         <Table.Row>
           <Table.Cell>{this.props.tools.name}</Table.Cell>
           <Table.Cell>{this.props.tools.description}</Table.Cell>
+          <Table.Cell width={2}><Button>Edit</Button></Table.Cell>
+          <Table.Cell width={2}><Button negative>Delete</Button></Table.Cell>
         </Table.Row>
     );
   }
