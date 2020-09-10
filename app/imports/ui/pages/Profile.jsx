@@ -31,6 +31,9 @@ class profile extends React.Component {
 
   renderPage() {
     const open = this.state.open;
+    console.log(this.props.challenges);
+    console.log(this.props.tools);
+    console.log(this.props.skills);
 
     return (
         <div style={{ backgroundColor: '#C4C4C4', padding: '4rem 0rem', marginTop: '-0.7rem' }}>
@@ -214,6 +217,9 @@ class profile extends React.Component {
 /** Require the presence of a Developer document in the props object. Uniforms adds 'model' to the props, which we use. */
 profile.propTypes = {
   developer: PropTypes.object.isRequired,
+  challenges: PropTypes.object.isRequired,
+  tools: PropTypes.object.isRequired,
+  skills: PropTypes.object.isRequired,
   ready: PropTypes.bool.isRequired,
 };
 
@@ -229,6 +235,9 @@ export default withTracker(() => {
 
   return {
     developer: Developers.findOne({ userID: userID }),
+    challenges: DeveloperChallenges.findOne({ userID: userID }),
+    tools: DeveloperTools.findOne({ userID: userID }),
+    skills: DeveloperSkills.findOne({ userID: userID }),
     ready: sub1.ready() && sub2.ready() && sub3.ready() && sub4.ready(),
   };
 })(profile);

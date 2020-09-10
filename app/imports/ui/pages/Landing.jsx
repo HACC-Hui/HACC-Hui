@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Header, Button, Icon } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 
 /**
  * A simple static component to render some text for the landing page.
@@ -44,7 +45,10 @@ class Landing extends React.Component {
                   communication</Header.Subheader>
               </Header.Content>
             </Header>
-            <Button style={{ color: 'white', backgroundColor: '#24252B' }}>Sign Up</Button>
+            {/*<Button style={{ color: 'white', backgroundColor: '#24252B' }}*/}
+            {/*        as={NavLink} exact*/}
+            {/*        to="/signin">*/}
+            {/*  Login</Button>*/}
 
           </div>
         </div>
