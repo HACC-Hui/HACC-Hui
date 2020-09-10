@@ -10,10 +10,13 @@ import Landing from '../pages/Landing';
 import ListStuff from '../pages/ListStuff';
 import Profile from '../pages/Profile';
 import ListStuffAdmin from '../pages/ListStuffAdmin';
+import ChallengeListAdmin from '../pages/ChallengeListAdmin';
 import AddStuff from '../pages/AddStuff';
+import AddChallenge from '../pages/AddChallenge';
 import PostSignUp from '../pages/PostSignUp';
 import CreateTeam from '../pages/CreateTeam';
 import EditStuff from '../pages/EditStuff';
+import EditChallenge from '../pages/EditChallenge';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
@@ -26,6 +29,10 @@ import { ROLE } from '../../api/role/Role';
  * @memberOf ui/layouts
  */
 class App extends React.Component {
+
+
+
+
   render() {
     return (
         <Router>
@@ -36,11 +43,14 @@ class App extends React.Component {
               <Route path="/signin" component={Signin}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/profile" component={Profile}/>
-              <ProtectedRoute path="/add" component={AddStuff}/>
+              <AdminProtectedRoute path="/add" component={AddChallenge}/>
+              <ProtectedRoute path="/addstuff" component={AddStuff}/>
+              <ProtectedRoute path="/editstuff/:_id" component={EditStuff}/>
+              <AdminProtectedRoute path="/edit/:_id" component={EditChallenge}/>
+              <AdminProtectedRoute path="/admin" component={ChallengeListAdmin}/>
+              <AdminProtectedRoute path="/adminstuff" component={ListStuffAdmin}/>
               <ProtectedRoute path="/PostSignUp" component={PostSignUp}/>
               <ProtectedRoute path="/create" component={CreateTeam}/>
-              <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
-              <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
               <ProtectedRoute path="/Settings" component={Settings}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>

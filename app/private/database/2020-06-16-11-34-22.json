@@ -11,7 +11,7 @@
         {
           "title": "HGIA Green Loan Portal",
           "description": "Leveraging and integrating existing solutions (such as Salesforce, etc.) to provide our applicants with a more intuitive, customer friendly and timely experience with government loan programs.",
-          "interests": ["community-engagement"],
+          "interests": ["community-engagement", "education", "sustainability"],
           "submissionDetail": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/Challenge-Submission-Form_2019_HGIA_Final.pdf",
           "pitch": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/HGIA_Green_Loan.pdf"
         },
@@ -32,7 +32,7 @@
         {
           "title": "DOE Aloha+ Curricular Database",
           "description": "Curricular development is often done in silos and the resources generated from that are scattered across platforms and websites. We also lack a process to certify content to standards and career pathways. If we could construct an OER that enables specialists to certify materials (cross-walked to standards and HĀ policy, aligned to pathways) that would be accessible across educational systems, we could eliminate those silos and potentially create a resource with global impact.",
-          "interests": ["education"],
+          "interests": [],
           "submissionDetail": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/DOE-HACC-Challenge-Submission-Form_2019.pdf",
           "pitch": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/Aloha-Curricular-Database.pdf"
         }

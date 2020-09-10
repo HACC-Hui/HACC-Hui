@@ -33,12 +33,18 @@ class ChallengeCollection extends BaseSlugCollection {
    * @return {string} the id of the new challenge.
    */
   define({ title, description, interests, submissionDetail, pitch }) {
+    console.log('define()');
+    console.log(description);
     const docs = this.find({ title, description, submissionDetail, pitch }).fetch();
+    console.log(`docs = ${docs}`);
+    console.log(docs);
     if (docs && docs.length > 0) {
+      console.log('    if (docs && docs.length > 0) {');
       const challengeID = docs[0]._id;
       const cis = _.map(ChallengeInterests.find({ challengeID }).fetch(), (ci) => ci.interestID);
       const interestIDs = Interests.getIDs(interests);
       if (cis.length === interestIDs.length) {
+        console.log('if (cis.length === interestIDs.length) {');
         let same = true;
         _.each(cis, (ci) => {
           if (!_.includes(interestIDs, ci)) {
@@ -46,17 +52,23 @@ class ChallengeCollection extends BaseSlugCollection {
           }
         });
         if (same) {
-          // console.log('the same');
+          console.log('the same');
           return challengeID;
         }
       }
     }
     const challenge = slugify(title);
+    console.log('const challenge = slugify(title);');
     const slugID = Slugs.define({ name: challenge });
+    console.log('const slugID = Slugs.define({ name: challenge });');
+    console.log(`slugID = ${slugID}`);
     const challengeID = this._collection.insert({ title, slugID, description, submissionDetail, pitch });
+    console.log('const challengeID = this._collection.insert({ title, slugID, description, submissionDetail, pitch });');
     // Connect the Slug to this Challenge
     Slugs.updateEntityID(slugID, challengeID);
+    console.log('Slugs.updateEntityID(slugID, challengeID);');
     _.each(interests, (interest) => ChallengeInterests.define({ challenge, interest }));
+    console.log('_.each(interests, (interest) => ChallengeInterests.define({ challenge, interest }));');
     return challengeID;
   }
 
