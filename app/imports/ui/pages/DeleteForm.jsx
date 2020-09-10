@@ -1,24 +1,19 @@
 import React from 'react';
-import { Grid, Header, Form, Button, Checkbox } from 'semantic-ui-react';
+import { Grid, Header, Form, Button, Checkbox, Confirm, Dropdown } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
-import SimpleSchema from 'simpl-schema';
+import { NavLink } from 'react-router-dom';
+import { userInteractionDefineMethod } from '../../api/user/UserInteractionCollection.methods';
 import { removeItMethod } from '../../api/base/BaseCollection.methods';
 import { Developers } from '../../api/user/DeveloperCollection';
 
-/**
- * Renders the Page for adding stuff. **deprecated**
- * @memberOf ui/pages
- */
-
-const schema = new SimpleSchema({
-    response1: String,
-    response2: String,
-    response3: String,
-    response4: String,
-});
-
 class DeleteForm extends React.Component {
-    state = { response1: '0', response2: '0', response3: '0', response4: '' }
+    state = { response1: '', response2: '', response3: '', response4: '', open: false }
+
+    show = () => this.setState({ open: true })
+
+    handleConfirm = () => this.setState({ open: false })
+
+    handleCancel = () => this.setState({ open: false })
 
     handleChange = (e, { name, value }) => {
         this.setState({ [name]: value });
@@ -33,8 +28,20 @@ class DeleteForm extends React.Component {
         // eslint-disable-next-line max-len
         this.setState({ submittedResponse1: response1, submittedResponse2: response2, submittedResponse3: response3, submittedResponse4: response4 });
 
-        const id = Meteor.userId();
+        const id = Meteor.user().username;
         console.log(id);
+
+        const responses = [response1, response2, response3, response4];
+        const date = new Date();
+        console.log(date);
+        const userInteraction = { username: Meteor.user().username,
+            type: 'Account Deletion Form',
+            typeData: responses,
+            'typeData.$': 'String',
+            timestamp: date };
+
+        userInteractionDefineMethod.call(userInteraction);
+
         removeItMethod.call({ collectionName: Developers.getCollectionName(), instance: Developers.getID(id) });
 
     }
@@ -59,7 +66,7 @@ class DeleteForm extends React.Component {
                     name='response2'
                     value={'Couldn\'t find a team I liked being on.'}
                     control={Checkbox}
-                    label={<label>Couldn't find a team I liked being on.</label>}
+                    label={<label>Couldn&apos;t find a team I liked being on.</label>}
                     onChange={this.handleChange}
                 />
                 <Form.Field
@@ -70,7 +77,17 @@ class DeleteForm extends React.Component {
                     onChange={this.handleChange}
                 />
                 <Form.TextArea name='response4' value={response4} onChange={this.handleChange} label='Other' />
-                <Button content='Submit' fluid color='red'>Delete Account & Submit Form</Button>
+                  <div>
+                      <Button content='Submit' onClick={this.show} fluid color='red' >
+                          Delete Account & Submit Form
+                      </Button>
+                      <Confirm
+                          open={this.state.open}
+                          content='Your account has successfully been deleted, goodbye...'
+                          onConfirm={this.handleConfirm}
+                          as={NavLink} exact to="/signout"
+                      />
+                  </div>
             </Form>
           </Grid.Column>
         </Grid>
