@@ -24,7 +24,7 @@ class NavBar extends React.Component {
       color: '#25C2A0',
       backgroundColor: 'white',
     };
-      
+
     return (
       // Since Navbar is fixed to the top I needed to put it in a div and create space so that it doesn't overlap other content
       <div style={{height: 65}} >
@@ -40,7 +40,7 @@ class NavBar extends React.Component {
             <img style={{width: 90}} src='/images/hacc_logo.png'/>
           </Menu.Item>
           {this.props.currentUser ? (
-              [<Menu.Item as={NavLink} activeClassName="active" exact to="/add" key='add'>Add Stuff</Menu.Item>,
+              [<Menu.Item as={NavLink} activeClassName="active" exact to="/add" key='add'>Add Challenge</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact to="/list" key='list'>List Stuff</Menu.Item>]
           ) : ''}
           {Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN) ? (
@@ -68,6 +68,7 @@ class NavBar extends React.Component {
 // Declare the types of all properties.
 NavBar.propTypes = {
   currentUser: PropTypes.string,
+  subscriptions: PropTypes.object,
 };
 
 // withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker

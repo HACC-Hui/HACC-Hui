@@ -26,6 +26,9 @@ class ChallengeInterestCollection extends BaseCollection {
    * @return {string} The id of the record.
    */
   define({ challenge, interest }) {
+    console.log('  define({ challenge, interest }) {');
+    console.log(challenge);
+    console.log(interest);
     const challengeID = Challenges.getID(challenge);
     const interestID = Interests.findIdBySlug(interest);
     const docID = this._collection.insert({ challengeID, interestID });
