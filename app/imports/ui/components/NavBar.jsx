@@ -31,8 +31,6 @@ class NavBar extends React.Component {
                 Team Finder</Menu.Item>,
               <Menu.Item as={NavLink} activeClassName="active" exact to="/create" key='create'>
                 Create a Team</Menu.Item>,
-              <Menu.Item as={NavLink} activeClassName="active" exact to="/profile" key='profile'>
-                My Profile</Menu.Item>,
             ]
         ) : ''}
         {Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN) ? (
@@ -48,8 +46,8 @@ class NavBar extends React.Component {
           ) : (
             <Dropdown text={this.props.currentUser} pointing="top right" icon={'user'}>
               <Dropdown.Menu>
+                <Dropdown.Item icon="user" text="Profile" as={NavLink} exact to="/profile"/>
                 <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact to="/signout"/>
-                <Dropdown.Item icon="settings" text="Profile" as={NavLink} exact to="/myProfile"/>
               </Dropdown.Menu>
             </Dropdown>
           )}

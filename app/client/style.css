@@ -16,20 +16,20 @@ h3, h1, h2 {
 }
 
 .profileBox{
-  width: 1261px;
-  height: 714px;
+  width: 50rem;
+  height: auto;
   background: #393B44;
   border-radius: 25px;
 }
 
 .innerProfileBox{
-  width: 376px;
-  height: 646px;
+  width: 25rem;
+  height: auto;
   background: #24252B;
 }
 
 .info {
-  padding-top: 100px !important;
+  padding-top: 5rem !important;
 }
 
 .teamCreate label {
