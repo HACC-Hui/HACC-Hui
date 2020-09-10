@@ -16,7 +16,7 @@ import SimpleSchema from 'simpl-schema';
 import MultiSelectField from '../controllers/MultiSelectField';
 import { Teams } from '../../api/team/TeamCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
-// import { demographicLevels, skillAndToolLevels } from '../../api/level/Levels';
+ import { demographicLevels } from '../../api/level/Levels';
 import { Skills } from '../../api/skill/SkillCollection';
 import { Tools } from '../../api/tool/ToolCollection';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
