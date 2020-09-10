@@ -77,7 +77,7 @@ class ChallengeCollection extends BaseSlugCollection {
     this.assertDefined(docID);
     const updateData = {};
     if (title) {
-      updateData.title = description;
+      updateData.title = title;
     }
     if (description) {
       updateData.description = description;
