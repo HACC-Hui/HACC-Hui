@@ -14,6 +14,7 @@ import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
+import DeleteForm from '../pages/DeleteForm';
 import AccountOptions from '../pages/AccountOptions';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
@@ -37,6 +38,7 @@ class App extends React.Component {
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
               <ProtectedRoute path="/signout" component={Signout}/>
                 <ProtectedRoute path="/accountoptions" component={AccountOptions}/>
+                <ProtectedRoute path="/deleteform" component={DeleteForm}/>
               <Route component={NotFound}/>
             </Switch>
             <Footer/>

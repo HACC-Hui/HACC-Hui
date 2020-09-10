@@ -12,6 +12,7 @@ import {
 } from 'uniforms-semantic';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import { NavLink } from 'react-router-dom';
 import { createDeveloperMethod } from '../../api/user/AccountOptions.methods';
 import { Developers } from '../../api/user/DeveloperCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
@@ -40,10 +41,10 @@ const schema = new SimpleSchema({
     isCompliant: { type: Boolean, optional: true },
 });
 
-class AccountOptions extends React.Component {
+function AccountOptions() {
 
-    submit = (formRef) => {
-
+    const [open, setOpen] = React.useState(false);
+    /* submit = (formRef) => {
         const username = 'cmoore@hawaii.edu';
         const firstName = 'Cam';
         const lastName = 'Moore';
@@ -67,9 +68,7 @@ class AccountOptions extends React.Component {
                     // console.log('Success');
                 }
             });
-  }
-
-  render() {
+  } */
     return (
         <Grid container centered>
           <Grid.Column>
@@ -96,17 +95,33 @@ class AccountOptions extends React.Component {
                       <a>
                           <Icon name='setting' />
                           <Modal
+                              open={open}
                               trigger={<Button color='red'>Delete Account</Button>}
-                              header='Account Removal Form'
-                              content='Before you go please fill out this questionnaire so we can improve the HACC experience in the future.'
-                              actions={['Cancel', { key: 'submit', content: 'Submit & Delete', positive: true, onClick: this.submit('') }]}/>
+                              onClose={() => setOpen(false)}
+                              onOpen={() => setOpen(true)}
+                          >
+                              <Modal.Header>Account Removal Form</Modal.Header>
+                              <Modal.Content>
+                                  <p>
+                                      {/* eslint-disable-next-line max-len */}
+                                      Before you go please fill out this questionnaire so we can improve the HACC experience in the future.
+                                  </p>
+                              </Modal.Content>
+                              <Modal.Actions>
+                                  <Button color='red' onClick={() => setOpen(false)}>
+                                      <Icon name='remove' /> Cancel
+                                  </Button>
+                                  <Button color='green' onClick={() => setOpen(false)} as={NavLink} exact to ="/deleteform">
+                                      <Icon name='checkmark' /> Form & Delete
+                                  </Button>
+                              </Modal.Actions>
+                          </Modal>
                       </a>
                   </Card.Content>
               </Card>
           </Grid.Column>
         </Grid>
     );
-  }
 }
 
 export default AccountOptions;
