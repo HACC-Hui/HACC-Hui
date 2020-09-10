@@ -16,7 +16,7 @@ import SimpleSchema from 'simpl-schema';
 import MultiSelectField from '../controllers/MultiSelectField';
 import { Teams } from '../../api/team/TeamCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
-// import { demographicLevel } from '../../api/level/Levels';
+import { demographicLevels } from '../../api/level/Levels';
 import { Skills } from '../../api/skill/SkillCollection';
 import { Tools } from '../../api/tool/ToolCollection';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
@@ -55,6 +55,8 @@ const editSchema = new SimpleSchema({
   'challenges.$': {
     type: String,
   },
+  demographicLevel: { type: Array, label: 'Demographic Level' },
+  'demographicLevel.$': { type: String },
 });
 
 class editProfile extends React.Component {
@@ -67,7 +69,7 @@ class editProfile extends React.Component {
      console.log(data);
 
     const owner = this.props.developer[0].slugID;
-    const dLevelP = this.props.dLevel;
+    // const dLevelP = demographicLevels;
     const dLevelOb = [];
     const skillsP = this.props.skills;
     const skillsOb = [];
@@ -76,17 +78,12 @@ class editProfile extends React.Component {
     const ChallengesP = this.props.challenges;
     const ChallengesOb = [];
 
-    const {
+    let {
       challenges, skills, tools, aboutMe, website, dLevel, gitHub, linkedIn, firstName, lastName, image,
     } = data;
-/*    for (let i = 0; i < dLevelP.length; i++) {
-      for (let j = 0; j < tools.length; j++) {
-        if (dLevelP[i].name === tools[j]) {
-          dLevelOb.push(dLevelP[i].slugID);
-        }
-      }
-    }
- */
+
+    dLevel = dLevel.slugID;
+
     for (let i = 0; i < toolsP.length; i++) {
       for (let j = 0; j < tools.length; j++) {
         if (toolsP[i].name === tools[j]) {
@@ -139,6 +136,7 @@ class editProfile extends React.Component {
   }
 
   render() {
+
     const eSchema = new SimpleSchema2Bridge(editSchema);
     const skillsP = _.map(this.props.skills, 'name');
     const toolsP = _.map(this.props.tools, 'name');
@@ -185,7 +183,7 @@ class editProfile extends React.Component {
                     <Grid.Row>
                       <Header inverted as="h3" textAlign="center">Demographic</Header>
                       <MultiSelectField name='demographicLevel' placeholder={'demographicLevel'}
-                                        allowedValues={dLevelP}
+                                        allowedValues={demographicLevels}
                                         required/>
                     </Grid.Row>
                     <br/>
@@ -241,7 +239,6 @@ class editProfile extends React.Component {
 }
 
 editProfile.propTypes = {
-  dLevel: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
@@ -254,14 +251,13 @@ export default withTracker(() => {
   const subscription = Skills.subscribe();
   const subscription2 = Challenges.subscribe();
   const subscription3 = Developers.subscribe();
-  const subscription4 = demographicLevel.subscribe();
+  // const subscription4 = demographicLevels.subscribe();
   return {
-    demographicLevel: demographicLevel.find({}).fetch(),
+    // demographicLevel: demographicLevels.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     developer: Developers.find({}).fetch(),
-    ready: subscription.ready() && subscription1.ready() && subscription2.ready() && subscription3.ready()
-        && subscription4.ready(),
+    ready: subscription.ready() && subscription1.ready() && subscription2.ready() && subscription3.ready(),
   };
 })(editProfile);
