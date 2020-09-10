@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
 import moment from 'moment';
 import { HACCHui } from '../../api/hacc-hui/HACCHui';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
 
 // global Assets
 
@@ -97,5 +98,10 @@ function loadDatabase() {
 }
 
 Meteor.startup(() => {
+  Meteor.methods({
+    'challengeUpdate'(docID, title, description, interestIDs, submissionDetail, pitch) {
+      Challenges.update(docID, title, description, interestIDs, submissionDetail, pitch);
+    },
+  });
   loadDatabase();
 });

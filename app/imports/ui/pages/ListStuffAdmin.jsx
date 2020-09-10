@@ -22,15 +22,14 @@ class ListStuffAdmin extends React.Component {
   renderPage() {
     return (
         <Container>
-          <Header as="h2" textAlign="center">Challenges</Header>
+          <Header as="h2" textAlign="center">List Stuff (Admin)</Header>
           <Table celled>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Title</Table.HeaderCell>
-                <Table.HeaderCell>Description</Table.HeaderCell>
-                <Table.HeaderCell>Interests</Table.HeaderCell>
-                <Table.HeaderCell>Submission Details</Table.HeaderCell>
-                <Table.HeaderCell>Pitch</Table.HeaderCell>
+                <Table.HeaderCell>Name</Table.HeaderCell>
+                <Table.HeaderCell>Quantity</Table.HeaderCell>
+                <Table.HeaderCell>Condition</Table.HeaderCell>
+                <Table.HeaderCell>Owner</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
