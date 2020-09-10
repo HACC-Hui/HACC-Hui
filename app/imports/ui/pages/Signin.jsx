@@ -48,10 +48,9 @@ class Signin extends React.Component {
       console.log(deve);
       //console.log(deve.isCompliant);
       if (deve && !deve.isCompliant) {
-        console.log('hit');
+
         return <Redirect to='/Dpro'/>;
       }
-      console.log('hit2');
        return <Redirect to='/'/>;
     }
     // Otherwise return the Login form.
