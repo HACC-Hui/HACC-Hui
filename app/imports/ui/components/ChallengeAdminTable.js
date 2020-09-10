@@ -7,6 +7,7 @@ import { removeItMethod } from '../../api/base/BaseCollection.methods';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
 import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
 import { Interests } from '../../api/interest/InterestCollection';
+import { Link } from 'react-router-dom';
 
 /** Renders a single row in the table. See pages/Listmenuitemss.jsx. */
 class ChallengeAdminTable extends React.Component {
@@ -67,7 +68,7 @@ class ChallengeAdminTable extends React.Component {
           </Table.Cell>
           <Table.Cell width={2}>{this.props.challenges.submissionDetail}</Table.Cell>
           <Table.Cell width={2}>{this.props.challenges.pitch}</Table.Cell>
-          <Table.Cell width={2}><Button>Edit</Button></Table.Cell>
+          <Table.Cell width={2}><Button><Link to={`/edit-challenge/${this.props.challenges._id}`} style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Edit</Link></Button></Table.Cell>
           {/* eslint-disable-next-line max-len */}
           <Table.Cell width={2}><Button negative onClick={() => this.removeItem(this.props.challenges._id)}>Delete</Button></Table.Cell>
         </Table.Row>
