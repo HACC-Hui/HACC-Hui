@@ -10,6 +10,7 @@ import { Challenges } from '../challenge/ChallengeCollection';
 import { Developers } from '../user/DeveloperCollection';
 import { Skills } from '../skill/SkillCollection';
 import { Tools } from '../tool/ToolCollection';
+import { ROLE } from '../role/Role';
 
 /** @namespace api/team */
 
@@ -122,6 +123,10 @@ class TeamCollection extends BaseSlugCollection {
     TeamSkills.removeTeam(team);
     TeamTools.removeTeam(team);
     this._collection.remove({ _id: docID });
+  }
+
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
   }
 
   /**

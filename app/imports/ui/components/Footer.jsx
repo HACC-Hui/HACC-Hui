@@ -6,15 +6,15 @@ import React from 'react';
  */
 class Footer extends React.Component {
   render() {
-    const divStyle = { paddingTop: '15px' };
+    const divStyle = { padding: '3em 0em', color: 'white' };
     return (
-        <footer>
+        <footer style={{backgroundColor: '#303846' }}>
           <div style={divStyle} className="ui center aligned container">
-            <hr />
               Department of Information and Computer Sciences <br />
               University of Hawaii<br />
               Honolulu, HI 96822 <br />
             <a href="http://HACC-Hui.github.io">HACC-Hui Home Page</a>
+            <br/>
           </div>
         </footer>
     );
