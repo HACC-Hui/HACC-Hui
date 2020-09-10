@@ -77,6 +77,13 @@ class profile extends React.Component {
                 </Grid.Column>
                 <Grid.Column width={10}>
                   <Button floated='right' style={{
+                    backgroundColor: 'rgb(145 30 30)',
+                    color: 'white',
+                    margin: '1rem 0rem 0rem, 0rem',
+                  }}>
+                    DELETE
+                  </Button>
+                  <Button floated='right' style={{
                     backgroundColor: '#272727',
                     color: 'white',
                     margin: '1rem 0rem 0rem, 0rem',
