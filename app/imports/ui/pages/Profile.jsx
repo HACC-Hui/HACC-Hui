@@ -5,11 +5,11 @@ import { ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-sem
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
+import { NavLink } from 'react-router-dom';
 import { Developers } from '../../api/user/DeveloperCollection';
 import { DeveloperSkills } from '../../api/user/DeveloperSkillCollection';
 import { DeveloperChallenges } from '../../api/user/DeveloperChallengeCollection';
 import { DeveloperTools } from '../../api/user/DeveloperToolCollection';
-import { NavLink } from 'react-router-dom';
 
 /**
  * Profile page
@@ -33,7 +33,7 @@ class profile extends React.Component {
     const open = this.state.open;
 
     return (
-        <div style={{ backgroundColor: '#C4C4C4', padding: '4rem 0rem' }}>
+        <div style={{ backgroundColor: '#C4C4C4', padding: '4rem 0rem', marginTop: '-0.7rem' }}>
           <Grid container centered stackable
                 className='profileBox' style={{ padding: '1rem 5rem' }}>
             <Grid.Column>
