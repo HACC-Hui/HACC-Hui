@@ -56,7 +56,7 @@ class ChallengeCollection extends BaseSlugCollection {
     const challengeID = this._collection.insert({ title, slugID, description, submissionDetail, pitch });
     // Connect the Slug to this Challenge
     Slugs.updateEntityID(slugID, challengeID);
-    _.each(interests, (interest) => ChallengeInterests.define({ challenge, interest }));
+    console.log(_.each(interests, (interest) => ChallengeInterests.define({ challenge, interest })));
     return challengeID;
   }
 
