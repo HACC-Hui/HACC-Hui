@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
+import { Interests } from '../../api/interest/InterestCollection';
 import { Skills } from '../../api/skill/SkillCollection';
 import { Tools } from '../../api/tool/ToolCollection';
 import ChallengeAdminTable from '../components/ChallengeAdminTable';
@@ -36,18 +38,21 @@ class ManageHACC extends React.Component {
                 backgroundColor: '#393B44',
               }} className={'teamCreate'}>
                 <Header as="h2" textAlign="center" inverted>Challenges</Header>
-                <Table>
+                <Table fixed columns={5}>
                   <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell>Title</Table.HeaderCell>
-                    <Table.HeaderCell>Description</Table.HeaderCell>
-                    <Table.HeaderCell>Interests</Table.HeaderCell>
-                    <Table.HeaderCell>Submission Detail</Table.HeaderCell>
-                    <Table.HeaderCell>Pitch</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Title</Table.HeaderCell>
+                    <Table.HeaderCell width={5}>Description</Table.HeaderCell>
+                    <Table.HeaderCell width={5}>Interests</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Submission Detail</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Pitch</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Edit</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Delete</Table.HeaderCell>
                   </Table.Row>
                   </Table.Header>
                   {/* eslint-disable-next-line max-len */}
-                  <Table.Body>{this.props.challenges.map((challenges => <ChallengeAdminTable key={challenges._id} challenges={challenges} />))}
+                  <Table.Body>{this.props.challenges.map((challenges => <ChallengeAdminTable key={challenges._id} challenges={challenges} />
+                    ))}
                       </Table.Body>
                 </Table>
                 <div align='center'>
@@ -62,6 +67,8 @@ class ManageHACC extends React.Component {
                     <Table.Row>
                       <Table.HeaderCell>Name</Table.HeaderCell>
                       <Table.HeaderCell>Description</Table.HeaderCell>
+                      <Table.HeaderCell width={2}>Edit</Table.HeaderCell>
+                      <Table.HeaderCell width={2}>Delete</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   {/* eslint-disable-next-line max-len */}
@@ -80,6 +87,8 @@ class ManageHACC extends React.Component {
                     <Table.Row>
                       <Table.HeaderCell>Name</Table.HeaderCell>
                       <Table.HeaderCell>Description</Table.HeaderCell>
+                      <Table.HeaderCell width={2}>Edit</Table.HeaderCell>
+                      <Table.HeaderCell width={2}>Delete</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>{this.props.tools.map((tools => <ToolAdminTable key={tools._id} tools={tools} />))}
@@ -101,6 +110,8 @@ class ManageHACC extends React.Component {
 
 ManageHACC.propTypes = {
   challenges: PropTypes.array.isRequired,
+  challengeInterests: PropTypes.array.isRequired,
+  interests: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
@@ -114,6 +125,8 @@ export default withTracker(() => {
   const subscription3 = Tools.subscribe();
   return {
     challenges: Challenges.find({}).fetch(),
+    challengeInterests: ChallengeInterests.find({}).fetch(),
+    interests: Interests.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
     ready: subscription.ready() && subscription2.ready() && subscription3.ready(),
