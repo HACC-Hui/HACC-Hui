@@ -6,7 +6,7 @@ import { Header, Button } from 'semantic-ui-react';
  * A simple static component to render some text for the landing page.
  * @memberOf ui/pages
  */
-class agePage extends React.Component {
+class AgePage extends React.Component {
   render() {
     return (
         <div style={{ backgroundColor: '#393B44' }}>
@@ -16,10 +16,10 @@ class agePage extends React.Component {
               <br/>
               Are you 18 or over?
               <br/>
-              <Button as={NavLink} activeClassName="active" exact to="/PF"
+              <Button as={NavLink} activeClassName="active" exact to="/participation-page"
                   style={{ color: 'white', backgroundColor: '#393B44' }} content="Yes, I am." />
               <br/>
-              <Button as={NavLink} activeClassName="active" exact to="/UPF"
+              <Button as={NavLink} activeClassName="active" exact to="/under-participation-page"
                       style={{ color: 'white', backgroundColor: '#393B44' }} content="No, I am not." />
             </Header>
           </div>
@@ -28,4 +28,4 @@ class agePage extends React.Component {
   }
 }
 
-export default agePage;
+export default AgePage;

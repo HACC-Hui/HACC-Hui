@@ -209,6 +209,23 @@ class DeveloperCollection extends BaseSlugCollection {
     this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
   }
 
+  /**
+   * Returns true if the passed entity is in this collection.
+   * @param { String | Object } name The docID, or an object specifying a documennt.
+   * @returns {boolean} True if name exists in this collection.
+   */
+  isDefined(name) {
+    // console.log('isDefined', name);
+    if (_.isUndefined(name) || _.isNull(name)) {
+      return false;
+    }
+    return (
+        !!this._collection.findOne(name)
+        || !!this._collection.findOne({ name })
+        || !!this._collection.findOne({ _id: name })
+        || !!this._collection.findOne({ userID: name }));
+  }
+
 }
 
 /**

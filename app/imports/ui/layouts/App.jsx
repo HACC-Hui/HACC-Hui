@@ -16,6 +16,10 @@ import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
+import AgePage from '../pages/developer/AgePage';
+import ParticipationForm from '../pages/developer/ParticipationForm';
+import UnderParticipationForm from '../pages/developer/UnderParticipationForm';
+import Dprofile from '../pages/developer/Dprofile';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -30,6 +34,10 @@ class App extends React.Component {
             <Switch>
               <Route exact path="/" component={Landing}/>
               <Route path="/signin" component={Signin}/>
+              <ProtectedRoute path="/age-consent" component={AgePage}/>
+              <ProtectedRoute path="/participation-page" component={ParticipationForm}/>
+              <ProtectedRoute path="/under-participation-page" component={UnderParticipationForm}/>
+              <ProtectedRoute path="/profile" component={Dprofile}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
