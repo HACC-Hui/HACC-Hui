@@ -53,10 +53,10 @@ class TeamCollection extends BaseSlugCollection {
     const teamID = this._collection.insert({ name, slugID, description, gitHubRepo, devPostPage, owner, open });
     // Connect the Slug to this Interest
     Slugs.updateEntityID(slugID, teamID);
-    _.each(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
-    _.each(skills, (skill) => TeamSkills.define({ team, skill }));
-    _.each(tools, (tool) => TeamTools.define({ team, tool }));
-    _.each(developers, (developer) => TeamDevelopers.define({ team, developer }));
+    _.forEach(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
+    _.forEach(skills, (skill) => TeamSkills.define({ team, skill }));
+    _.forEach(tools, (tool) => TeamTools.define({ team, tool }));
+    _.forEach(developers, (developer) => TeamDevelopers.define({ team, developer }));
     TeamDevelopers.define({ team, developer: owner });
     return teamID;
   }
@@ -89,23 +89,23 @@ class TeamCollection extends BaseSlugCollection {
     const team = this.findSlugByID(docID);
     if (challenges) {
      TeamChallenges.removeTeam(team);
-      _.each(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
+      _.forEach(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
     }
     if (skills) {
       const teamSkills = TeamSkills.find(selector).fetch();
-      _.each(teamSkills, (tS) => TeamSkills.removeIt(tS._id));
-      _.each(skills, (skill) => TeamSkills.define({ team, skill }));
+      _.forEach(teamSkills, (tS) => TeamSkills.removeIt(tS._id));
+      _.forEach(skills, (skill) => TeamSkills.define({ team, skill }));
     }
     if (tools) {
       const teamTools = TeamTools.find(selector).fetch();
-      _.each(teamTools, (tT) => TeamTools.removeIt(tT._id));
-      _.each(tools, (tool) => TeamTools.define({ team, tool }));
+      _.forEach(teamTools, (tT) => TeamTools.removeIt(tT._id));
+      _.forEach(tools, (tool) => TeamTools.define({ team, tool }));
     }
     if (developers) {
       const owner = this.findDoc(docID).owner;
       const teamDevelopers = TeamDevelopers.find(selector).fetch();
-      _.each(teamDevelopers, (tD) => TeamDevelopers.removeIt(tD._id));
-      _.each(developers, (developer) => TeamDevelopers.define({ team, developer }));
+      _.forEach(teamDevelopers, (tD) => TeamDevelopers.removeIt(tD._id));
+      _.forEach(developers, (developer) => TeamDevelopers.define({ team, developer }));
       TeamDevelopers.define({ team, developer: owner });
     }
   }

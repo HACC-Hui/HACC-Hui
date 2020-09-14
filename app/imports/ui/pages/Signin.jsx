@@ -39,7 +39,7 @@ class Signin extends React.Component {
           role = ROLE.ADMIN;
         }
         this.setState({ error: '', redirectToReferer: true, role: role });
-        console.log('admin', Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN));
+        // console.log('admin', Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN));
       }
     });
   }

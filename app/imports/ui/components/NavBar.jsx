@@ -20,7 +20,8 @@ class NavBar extends React.Component {
           <Header inverted as='h1'>HACC-Hui</Header>
         </Menu.Item>
         {this.props.currentUser ? (
-            [<Menu.Item as={NavLink} activeClassName="active" exact to="/add" key='add'>Add Stuff</Menu.Item>,
+            [<Menu.Item as={NavLink} activeClassName="active" exact
+                        to="/team-creation" key='team-creation'>Create a Team</Menu.Item>,
               <Menu.Item as={NavLink} activeClassName="active" exact to="/list" key='list'>List Stuff</Menu.Item>]
         ) : ''}
         {Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN) ? (

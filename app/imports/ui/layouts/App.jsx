@@ -20,6 +20,7 @@ import AgePage from '../pages/developer/AgePage';
 import ParticipationForm from '../pages/developer/ParticipationForm';
 import UnderParticipationForm from '../pages/developer/UnderParticipationForm';
 import Dprofile from '../pages/developer/Dprofile';
+import TeamCreation from '../pages/developer/TeamCreation';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -38,6 +39,7 @@ class App extends React.Component {
               <ProtectedRoute path="/participation-page" component={ParticipationForm}/>
               <ProtectedRoute path="/under-participation-page" component={UnderParticipationForm}/>
               <ProtectedRoute path="/profile" component={Dprofile}/>
+              <ProtectedRoute path="/team-creation" component={TeamCreation}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>

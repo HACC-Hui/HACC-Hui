@@ -72,10 +72,10 @@ class DeveloperCollection extends BaseSlugCollection {
       Slugs.updateEntityID(slugID, profileID);
       const { userID, password } = Users.define({ username, role });
       this._collection.update(profileID, { $set: { userID } });
-      _.each(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer: username }));
-      _.each(interests, (interest) => DeveloperInterests.define({ interest, developer: username }));
-      _.each(skills, (skill) => DeveloperSkills.define({ skill, developer: username }));
-      _.each(tools, (tool) => DeveloperTools.define({ tool, developer: username }));
+      _.forEach(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer: username }));
+      _.forEach(interests, (interest) => DeveloperInterests.define({ interest, developer: username }));
+      _.forEach(skills, (skill) => DeveloperSkills.define({ skill, developer: username }));
+      _.forEach(tools, (tool) => DeveloperTools.define({ tool, developer: username }));
       return { profileID, password };
     }
     return undefined;
@@ -135,19 +135,19 @@ class DeveloperCollection extends BaseSlugCollection {
     const developer = this.findSlugByID(docID);
     if (challenges) {
       DeveloperChallenges.removeDeveloper(developer);
-      _.each(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer }));
+      _.forEach(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer }));
     }
     if (interests) {
       DeveloperInterests.removeDeveloper(developer);
-      _.each(interests, (interest) => DeveloperInterests.define({ interest, developer }));
+      _.forEach(interests, (interest) => DeveloperInterests.define({ interest, developer }));
     }
     if (skills) {
       DeveloperSkills.removeDeveloper(developer);
-      _.each(skills, (skill) => DeveloperSkills.define({ skill, developer }));
+      _.forEach(skills, (skill) => DeveloperSkills.define({ skill, developer }));
     }
     if (tools) {
       DeveloperTools.removeDeveloper(developer);
-      _.each(tools, (tool) => DeveloperTools.define({ tool, developer }));
+      _.forEach(tools, (tool) => DeveloperTools.define({ tool, developer }));
     }
   }
 

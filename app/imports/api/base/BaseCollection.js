@@ -242,7 +242,7 @@ class BaseCollection {
    * @param dumpObjects The array of objects representing the definition of a document in this collection.
    */
   restoreAll(dumpObjects) {
-    _.each(dumpObjects, dumpObject => this.restoreOne(dumpObject));
+    _.forEach(dumpObjects, dumpObject => this.restoreOne(dumpObject));
   }
 
   assertRole(userId, roles) {
