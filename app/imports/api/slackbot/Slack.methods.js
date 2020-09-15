@@ -27,7 +27,7 @@ export const sendDM2AdministratorsMethod = new ValidatedMethod({
   validate: null,
   run({ message }) {
     const administrators = _.map(Administrators.find({}).fetch(), (admin) => admin.username);
-    _.each(administrators, (username) => {
+    _.forEach(administrators, (username) => {
       const { slackUser, dmChannel } = SlackUsers.findDoc({ username });
       const text = `<@${slackUser}> ${message}`;
       (async () => {

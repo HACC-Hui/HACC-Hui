@@ -40,7 +40,7 @@ class ChallengeCollection extends BaseSlugCollection {
       const interestIDs = Interests.getIDs(interests);
       if (cis.length === interestIDs.length) {
         let same = true;
-        _.each(cis, (ci) => {
+        _.forEach(cis, (ci) => {
           if (!_.includes(interestIDs, ci)) {
             same = false;
           }
@@ -56,7 +56,7 @@ class ChallengeCollection extends BaseSlugCollection {
     const challengeID = this._collection.insert({ title, slugID, description, submissionDetail, pitch });
     // Connect the Slug to this Challenge
     Slugs.updateEntityID(slugID, challengeID);
-    _.each(interests, (interest) => ChallengeInterests.define({ challenge, interest }));
+    _.forEach(interests, (interest) => ChallengeInterests.define({ challenge, interest }));
     return challengeID;
   }
 
@@ -85,9 +85,9 @@ class ChallengeCollection extends BaseSlugCollection {
       const challengeName = this.findDoc(docID).title;
       // remove the old interests
       const oldInterests = ChallengeInterests.find({ challengeID: docID }).fetch();
-      _.each(oldInterests, (old) => ChallengeInterests.removeIt(old._id));
+      _.forEach(oldInterests, (old) => ChallengeInterests.removeIt(old._id));
       // add the new interests
-      _.each(interestIDs, (interestID) => {
+      _.forEach(interestIDs, (interestID) => {
         const interest = Interests.findSlugByID(interestID);
         ChallengeInterests.define({ challengeName, interest });
       });
@@ -96,7 +96,7 @@ class ChallengeCollection extends BaseSlugCollection {
 
   removeIt(docID) {
     const challengeInterests = ChallengeInterests.find({ challengeID: docID }).fetch();
-    _.each(challengeInterests, (ci) => {
+    _.forEach(challengeInterests, (ci) => {
       ChallengeInterests.removeIt(ci._id);
     });
     super.removeIt(docID);
