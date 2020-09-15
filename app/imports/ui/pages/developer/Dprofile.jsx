@@ -7,7 +7,6 @@ import {
   LongTextField,
   SubmitField,
   TextField,
-  BoolField,
 } from 'uniforms-semantic';
 import _ from 'underscore';
 import swal from 'sweetalert';

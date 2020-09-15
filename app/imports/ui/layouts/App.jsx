@@ -24,7 +24,6 @@ import TeamCreation from '../pages/developer/TeamCreation';
 import { ROUTES } from '../../startup/client/route-constants';
 import DeleteForm from '../pages/developer/DeleteForm';
 import ConfigureHACC from '../pages/administrator/ConfigureHACC';
-import ChallengesAdmin from '../components/administrator/ChallengesAdmin';
 import AddChallenge from '../pages/administrator/AddChallenge';
 import AddSkill from '../pages/administrator/AddSkill';
 import AddTool from '../pages/administrator/AddTool';

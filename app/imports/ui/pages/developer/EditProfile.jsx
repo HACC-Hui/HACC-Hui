@@ -9,16 +9,16 @@ import SimpleSchema from 'simpl-schema';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
-import { demographicLevels } from '../../api/level/Levels';
-import MultiSelectField from '../components/form-fields/MultiSelectField';
-import { Developers } from '../../api/user/DeveloperCollection';
-import { Challenges } from '../../api/challenge/ChallengeCollection';
-import { Skills } from '../../api/skill/SkillCollection';
-import { Tools } from '../../api/tool/ToolCollection';
-import { DeveloperTools } from '../../api/user/DeveloperToolCollection';
-import { DeveloperSkills } from '../../api/user/DeveloperSkillCollection';
-import { DeveloperChallenges } from '../../api/user/DeveloperChallengeCollection';
-import { updateMethod } from '../../api/base/BaseCollection.methods';
+import { demographicLevels } from '../../../api/level/Levels';
+import MultiSelectField from '../../components/form-fields/MultiSelectField';
+import { Developers } from '../../../api/user/DeveloperCollection';
+import { Challenges } from '../../../api/challenge/ChallengeCollection';
+import { Skills } from '../../../api/skill/SkillCollection';
+import { Tools } from '../../../api/tool/ToolCollection';
+import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
+import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
+import { DeveloperChallenges } from '../../../api/user/DeveloperChallengeCollection';
+import { updateMethod } from '../../../api/base/BaseCollection.methods';
 
 // added challenges, skills, tools fields to the Developers schema
 const schema = new SimpleSchema({
@@ -129,19 +129,19 @@ class EditProfile extends React.Component {
     const devSkill = [];
     const devTool = [];
     // add the developers challenges, skills, tools in the edit form
-    _.forEach(this.props.devChallenges, (c) =>
-        _.forEach(this.props.challenges, (p) => {
-          (c.challengeID === p._id) ? devChal.push(p.title) : ''
+    _.forEach(this.props.devChallenges, (c) => _.forEach(this.props.challenges, (p) => {
+      // eslint-disable-next-line no-unused-expressions
+          (c.challengeID === p._id) ? devChal.push(p.title) : '';
         }));
 
-    _.forEach(this.props.devSkills, (c) =>
-        _.forEach(this.props.skills, (p) => {
-          (c.skillID === p._id) ? devSkill.push(p.name) : ''
+    _.forEach(this.props.devSkills, (c) => _.forEach(this.props.skills, (p) => {
+      // eslint-disable-next-line no-unused-expressions
+          (c.skillID === p._id) ? devSkill.push(p.name) : '';
         }));
 
-    _.forEach(this.props.devTools, (c) =>
-        _.forEach(this.props.tools, (p) => {
-          (c.toolID === p._id) ? devTool.push(p.name) : ''
+    _.forEach(this.props.devTools, (c) => _.forEach(this.props.tools, (p) => {
+      // eslint-disable-next-line no-unused-expressions
+          (c.toolID === p._id) ? devTool.push(p.name) : '';
         }));
 
     dev.tools = devTool;
