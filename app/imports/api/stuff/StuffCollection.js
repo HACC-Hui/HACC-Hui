@@ -1,10 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import _ from 'lodash';
+import { _ } from 'lodash';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
-import { ROLE } from '../role/Role';
 
 /**
  * **deprecated**
@@ -118,7 +117,7 @@ class StuffCollection extends BaseCollection {
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
       Meteor.publish(stuffPublications.stuffAdmin, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
+        if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
           return instance._collection.find();
         }
         return this.ready();

@@ -6,7 +6,6 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 import { Stuffs } from '../api/stuff/StuffCollection';
-import { ROLE } from '../api/role/Role';
 
 /** @namespace test-utilities */
 
@@ -43,8 +42,8 @@ export const defineTestAdminUser = new ValidatedMethod({
         email,
         password,
       });
-      Roles.createRole(ROLE.ADMIN, { unlessExists: true });
-      Roles.addUsersToRoles([users], [ROLE.ADMIN]);
+      Roles.createRole('admin', { unlessExists: true });
+      Roles.addUsersToRoles([users], ['admin']);
       return { username, email, password };
     }
     throw new Meteor.Error('Need to be in test mode to call this method.');

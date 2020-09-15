@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import _ from 'lodash';
+import { _ } from 'lodash';
 import moment from 'moment';
 import { HACCHui } from '../../api/hacc-hui/HACCHui';
 

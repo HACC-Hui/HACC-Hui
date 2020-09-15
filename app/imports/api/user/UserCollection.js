@@ -1,7 +1,7 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { Meteor } from 'meteor/meteor';
-import _ from 'lodash';
+import { _ } from 'lodash';
 import { Developers } from './DeveloperCollection';
 import { Administrators } from './AdministratorCollection';
 

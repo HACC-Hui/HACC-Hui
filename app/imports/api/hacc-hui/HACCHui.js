@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { _ } from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Challenges } from '../challenge/ChallengeCollection';
 import { ChallengeInterests } from '../challenge/ChallengeInterestCollection';
