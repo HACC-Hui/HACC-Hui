@@ -23,6 +23,11 @@ import Dprofile from '../pages/developer/Dprofile';
 import TeamCreation from '../pages/developer/TeamCreation';
 import { ROUTES } from '../../startup/client/route-constants';
 import DeleteForm from '../pages/developer/DeleteForm';
+import ConfigureHACC from '../pages/administrator/ConfigureHACC';
+import ChallengesAdmin from '../components/administrator/ChallengesAdmin';
+import AddChallenge from '../pages/administrator/AddChallenge';
+import AddSkill from '../pages/administrator/AddSkill';
+import AddTool from '../pages/administrator/AddTool';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -47,6 +52,10 @@ class App extends React.Component {
               <ProtectedRoute path="/add" component={AddStuff} />
               <ProtectedRoute path="/edit/:_id" component={EditStuff} />
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin} />
+              <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHACC} />
+              <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
+              <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
+              <AdminProtectedRoute path={ROUTES.ADD_TOOL} component={AddTool} />
               <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
               <Route component={NotFound} />
             </Switch>

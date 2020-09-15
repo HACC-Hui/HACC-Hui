@@ -14,37 +14,44 @@ import { ROUTES } from '../../startup/client/route-constants';
  */
 class NavBar extends React.Component {
   render() {
+    const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
+    const isDeveloper = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.DEVELOPER);
     const menuStyle = { marginBottom: '10px' };
     return (
-      <Menu style={menuStyle} attached="top" borderless inverted>
-        <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
-          <Header inverted as='h1'>HACC-Hui</Header>
-        </Menu.Item>
-        {this.props.currentUser ? (
-            [<Menu.Item as={NavLink} activeClassName="active" exact
-                        to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
-              <Menu.Item as={NavLink} activeClassName="active" exact to="/list" key='list'>List Stuff</Menu.Item>]
-        ) : ''}
-        {Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN) ? (
-            <Menu.Item as={NavLink} activeClassName="active" exact to="/admin" key='admin'>Admin</Menu.Item>
-        ) : ''}
-        <Menu.Item position="right">
-          {this.props.currentUser === '' ? (
-            <Dropdown text="Login" pointing="top right" icon={'user'}>
-              <Dropdown.Menu>
-                <Dropdown.Item icon="user" text="Sign In" as={NavLink} exact to={ROUTES.SIGN_IN}/>
-              </Dropdown.Menu>
-            </Dropdown>
-          ) : (
-            <Dropdown text={this.props.currentUser} pointing="top right" icon={'user'}>
-              <Dropdown.Menu>
-                <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact to={ROUTES.SIGN_OUT}/>
-                <Dropdown.Item icon="user delete" text="Delete Account" as={NavLink} exact to={ROUTES.DELETE_ACCOUNT}/>
-              </Dropdown.Menu>
-            </Dropdown>
-          )}
-        </Menu.Item>
-      </Menu>
+        <Menu style={menuStyle} attached="top" borderless inverted>
+          <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
+            <Header inverted as='h1'>HACC-Hui</Header>
+          </Menu.Item>
+          {isDeveloper ? (
+              [<Menu.Item as={NavLink} activeClassName="active" exact
+                          to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
+              ]
+          ) : ''}
+          {isAdmin ? (
+              [
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.CONFIGURE_HACC}
+                           key={ROUTES.CONFIGURE_HACC}>Configure HACC</Menu.Item>,
+              ]
+          ) : ''}
+          <Menu.Item position="right">
+            {this.props.currentUser === '' ? (
+                <Dropdown text="Login" pointing="top right" icon={'user'}>
+                  <Dropdown.Menu>
+                    <Dropdown.Item icon="user" text="Sign In" as={NavLink} exact to={ROUTES.SIGN_IN} />
+                  </Dropdown.Menu>
+                </Dropdown>
+            ) : (
+                <Dropdown text={this.props.currentUser} pointing="top right" icon={'user'}>
+                  <Dropdown.Menu>
+                    <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact to={ROUTES.SIGN_OUT} />
+                    {Roles.userIsInRole(Meteor.userId(), ROLE.DEVELOPER) ? (
+                        <Dropdown.Item icon="user delete" text="Delete Account" as={NavLink} exact
+                                       to={ROUTES.DELETE_ACCOUNT} />) : ''}
+                  </Dropdown.Menu>
+                </Dropdown>
+            )}
+          </Menu.Item>
+        </Menu>
     );
   }
 }

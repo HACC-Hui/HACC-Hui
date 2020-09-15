@@ -9,6 +9,7 @@ import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import ChallengesAdmin from '../../components/administrator/ChallengesAdmin';
 import SkillsAdmin from '../../components/administrator/SkillsAdmin';
 import ToolsAdmin from '../../components/administrator/ToolsAdmin';
+import { ROUTES } from '../../../startup/client/route-constants';
 // import { removeItMethod } from '../../api/base/BaseCollection.methods';
 // import swal from 'sweetalert';
 
@@ -37,7 +38,7 @@ class ConfigureHACC extends React.Component {
 
                 <Grid>
                   <Grid.Column textAlign="center">
-                    <Button as={NavLink} activeClassName="active" exact to="/addChallenge" key='addChallenge'
+                    <Button as={NavLink} activeClassName="active" exact to={ROUTES.ADD_CHALLENGE} key='addChallenge'
                             size='large'>Add Challenge</Button>
                   </Grid.Column>
                 </Grid>
@@ -63,7 +64,8 @@ class ConfigureHACC extends React.Component {
 
                 <Grid>
                   <Grid.Column textAlign="center">
-                    <Button as={NavLink} activeClassName="active" exact to="/addSkill" key='addSkill' size='large'>Add
+                    <Button as={NavLink} activeClassName="active" exact to={ROUTES.ADD_SKILL} key='addSkill'
+                            size='large'>Add
                       Skill</Button>
                   </Grid.Column>
                 </Grid>
@@ -86,7 +88,8 @@ class ConfigureHACC extends React.Component {
 
                 <Grid>
                   <Grid.Column textAlign="center">
-                    <Button as={NavLink} activeClassName="active" exact to="/addTool" key='addTool' size='large'>Add
+                    <Button as={NavLink} activeClassName="active" exact
+                            to={ROUTES.ADD_TOOL} key='addTool' size='large'>Add
                       Tool</Button>
                   </Grid.Column>
                 </Grid>
