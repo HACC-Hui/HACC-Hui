@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Header, Button } from 'semantic-ui-react';
+import { ROUTES } from '../../../startup/client/route-constants';
 
 /**
  * A simple static component to render some text for the landing page.
@@ -16,10 +17,10 @@ class AgePage extends React.Component {
               <br/>
               Are you 18 or over?
               <br/>
-              <Button as={NavLink} activeClassName="active" exact to="/participation-page"
+              <Button as={NavLink} activeClassName="active" exact to={ROUTES.PARTICIPATION}
                   style={{ color: 'white', backgroundColor: '#393B44' }} content="Yes, I am." />
               <br/>
-              <Button as={NavLink} activeClassName="active" exact to="/under-participation-page"
+              <Button as={NavLink} activeClassName="active" exact to={ROUTES.UNDERAGE_PARTICIPATION}
                       style={{ color: 'white', backgroundColor: '#393B44' }} content="No, I am not." />
             </Header>
           </div>

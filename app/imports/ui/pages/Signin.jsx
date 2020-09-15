@@ -6,6 +6,7 @@ import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-rea
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 import { Developers } from '../../api/user/DeveloperCollection';
+import { ROUTES } from '../../startup/client/route-constants';
 
 /**
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().
@@ -47,13 +48,13 @@ class Signin extends React.Component {
   // Render the signin form.
   render() {
     console.log(this.state);
-    let pathname = '/';
+    let pathname = ROUTES.LANDING;
     if (Developers.isDefined(Meteor.userId())) {
       const dev = Developers.findDoc({ userID: Meteor.userId() });
       if (dev.isCompliant) {
-        pathname = '/profile';
+        pathname = ROUTES.CREATE_PROFILE;
       } else {
-        pathname = '/age-consent';
+        pathname = ROUTES.AGE_CONSENT;
       }
     }
     const { from } = this.props.location.state || { from: { pathname } };

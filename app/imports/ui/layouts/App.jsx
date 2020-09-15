@@ -21,6 +21,7 @@ import ParticipationForm from '../pages/developer/ParticipationForm';
 import UnderParticipationForm from '../pages/developer/UnderParticipationForm';
 import Dprofile from '../pages/developer/Dprofile';
 import TeamCreation from '../pages/developer/TeamCreation';
+import { ROUTES } from '../../startup/client/route-constants';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -33,18 +34,18 @@ class App extends React.Component {
           <div>
             <NavBar/>
             <Switch>
-              <Route exact path="/" component={Landing}/>
-              <Route path="/signin" component={Signin}/>
-              <ProtectedRoute path="/age-consent" component={AgePage}/>
-              <ProtectedRoute path="/participation-page" component={ParticipationForm}/>
-              <ProtectedRoute path="/under-participation-page" component={UnderParticipationForm}/>
-              <ProtectedRoute path="/profile" component={Dprofile}/>
-              <ProtectedRoute path="/team-creation" component={TeamCreation}/>
+              <Route exact path={ROUTES.LANDING} component={Landing}/>
+              <Route path={ROUTES.SIGN_IN} component={Signin}/>
+              <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage}/>
+              <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm}/>
+              <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm}/>
+              <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={Dprofile}/>
+              <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreation}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
-              <ProtectedRoute path="/signout" component={Signout}/>
+              <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout}/>
               <Route component={NotFound}/>
             </Switch>
             <Footer/>

@@ -6,6 +6,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import { Menu, Dropdown, Header } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
+import { ROUTES } from '../../startup/client/route-constants';
 
 /**
  * The NavBar appears at the top of every page. Rendered by the App Layout component.
@@ -16,12 +17,12 @@ class NavBar extends React.Component {
     const menuStyle = { marginBottom: '10px' };
     return (
       <Menu style={menuStyle} attached="top" borderless inverted>
-        <Menu.Item as={NavLink} activeClassName="" exact to="/">
+        <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
           <Header inverted as='h1'>HACC-Hui</Header>
         </Menu.Item>
         {this.props.currentUser ? (
             [<Menu.Item as={NavLink} activeClassName="active" exact
-                        to="/team-creation" key='team-creation'>Create a Team</Menu.Item>,
+                        to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
               <Menu.Item as={NavLink} activeClassName="active" exact to="/list" key='list'>List Stuff</Menu.Item>]
         ) : ''}
         {Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN) ? (
@@ -31,13 +32,13 @@ class NavBar extends React.Component {
           {this.props.currentUser === '' ? (
             <Dropdown text="Login" pointing="top right" icon={'user'}>
               <Dropdown.Menu>
-                <Dropdown.Item icon="user" text="Sign In" as={NavLink} exact to="/signin"/>
+                <Dropdown.Item icon="user" text="Sign In" as={NavLink} exact to={ROUTES.SIGN_IN}/>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
             <Dropdown text={this.props.currentUser} pointing="top right" icon={'user'}>
               <Dropdown.Menu>
-                <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact to="/signout"/>
+                <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact to={ROUTES.SIGN_OUT}/>
               </Dropdown.Menu>
             </Dropdown>
           )}

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button, Header, Image } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
+import { ROUTES } from '../../../startup/client/route-constants';
 
 /**
  * A simple static component to render some text for the landing page.
  * @memberOf ui/pages
  */
-class underpartf extends React.Component {
+class UnderParticipationForm extends React.Component {
   render() {
     return (
         <div style={{ backgroundColor: '#393B44' }}>
@@ -14,7 +15,7 @@ class underpartf extends React.Component {
             <Header inverted style={{ padding: '5rem 0rem 0rem 0rem' }} as={'h2'}>
               Participation form for underage contestants
             </Header>
-            <Image style={{ padding: '0rem 5rem 5rem 5rem' }} src='images/part.png'/>
+            <Image style={{ padding: '0rem 5rem 5rem 5rem' }} src='images/under-participation.png'/>
             <div className="ui inverted segment">
             <div className="ui inverted form">
               <div className="two fields">
@@ -43,7 +44,7 @@ class underpartf extends React.Component {
                   <label>I agree to the terms and conditions</label>
                 </div>
               </div>
-              <Button as={NavLink} exact to='/profile'>
+              <Button as={NavLink} exact to={ROUTES.CREATE_PROFILE}>
                 SUBMIT
               </Button>
             </div>
@@ -54,4 +55,4 @@ class underpartf extends React.Component {
   }
 }
 
-export default underpartf;
+export default UnderParticipationForm;
