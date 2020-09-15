@@ -1,37 +1,31 @@
 import React from 'react';
 import { Grid, Segment, Header } from 'semantic-ui-react';
-import {
-  AutoForm,
-  ErrorsField,
-  SubmitField,
-  TextField,
-  LongTextField,
-  HiddenField
-} from 'uniforms-semantic';
+import { AutoForm, ErrorsField, SubmitField, TextField, LongTextField } from 'uniforms-semantic';
+import MultiSelectField from '../controllers/MultiSelectField';
+import RadioField from '../controllers/RadioField';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
-import MultiSelectField from '../controllers/MultiSelectField';
-import RadioField from '../controllers/RadioField';
-import { Teams } from '../../api/team/TeamCollection';
+import { stuffDefineMethod } from '../../api/stuff/StuffCollection.methods';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
+  name: String,
+  quantity: Number,
   availability: {
     type: String,
-    allowedValues: ['Open', 'Close'],
+    allowedValues: ['Yes', 'No'],
   },
   teamName: String,
   image: String,
-  challenges: { type: Array, label: 'Challenges' },
+  challenges: { type: Array, label: 'Challenges', optional: true },
   'challenges.$': { type: String, allowedValues: ['Sustainability', 'Green Energy'] },
-  skills: { type: Array, label: 'Skills' },
+  skills: { type: Array, label: 'Skills', optional: true },
   'skills.$': { type: String, allowedValues: ['React', 'Python'] },
-  tools: { type: Array, label: 'Toolsets' },
-  'tools.$': { type: String, allowedValues: ['Graphic Design', 'Sony Vegas'] },
+  toolsets: { type: Array, label: 'Toolsets', optional: true },
+  'toolsets.$': { type: String, allowedValues: ['Graphic Design', 'Sony Vegas'] },
   description: String,
-  owner: String,
 });
 
 /**
@@ -45,34 +39,21 @@ class CreateTeam extends React.Component {
    * @param formRef {FormRef} reference to the form.
    */
   submit(data, formRef) {
-
-    console.log('CreateTeam.submit', data);
-
-    const {
-      teamName, description, gitHubRepo = '', devPostPage = '',
-      owner, open = true, challenges, skills, tools, developers = []
-    } = data;
-
-    const docID = Teams.define({
-      teamName, description, open, owner, gitHubRepo,
-      devPostPage, challenges, tools, skills
-    });
-
-    // const docID = Teams.define({
-    //     teamName, description, gitHubRepo, devPostPage,
-    //     owner, open, challenges, skills, tools, developers,
-    //   },
-    //     (error) => {
-    //       if (error) {
-    //         swal('Error', error.message, 'error');
-    //          console.error(error.message);
-    //       } else {
-    //         swal('Success', 'Item added successfully', 'success');
-    //         formRef.reset();
-    //          console.log('Success');
-    //       }
-    //     });
-    console.log(docID);
+    // console.log('CreateTeam.submit', data);
+    const { name, quantity, condition } = data;
+    const owner = Meteor.user().username;
+    // console.log(`{ ${name}, ${quantity}, ${condition}, ${owner} }`);
+    stuffDefineMethod.call({ name, quantity, condition, owner },
+        (error) => {
+          if (error) {
+            swal('Error', error.message, 'error');
+            // console.error(error.message);
+          } else {
+            swal('Success', 'Item added successfully', 'success');
+            formRef.reset();
+            // console.log('Success');
+          }
+        });
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -83,18 +64,13 @@ class CreateTeam extends React.Component {
         <div style={{ backgroundColor: '#C4C4C4' }}>
           <Grid container centered>
             <Grid.Column>
-              <div style={{
-                backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
-                borderRadius: '2rem',
-              }}>
+              <div style={{ backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
+                borderRadius: '2rem' }}>
                 <Header as="h2" textAlign="center" inverted>Team Creation</Header>
               </div>
-              <AutoForm ref={ref => {
-                fRef = ref;
-              }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}
-                        style={{
-                          paddingBottom: '4rem',
-                        }}>
+              <AutoForm ref={ref => { fRef = ref; }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}
+                style={{
+                  paddingBottom: '4rem' }}>
                 <Segment style={{
                   borderRadius: '1rem',
                   backgroundColor: '#393B44',
@@ -104,13 +80,13 @@ class CreateTeam extends React.Component {
                       <TextField name='teamName'/>
                       <MultiSelectField name='challenges' placeholder={'Challenges'} required/>
                       <MultiSelectField name='skills' placeholder={'Skills'} required/>
-                      <MultiSelectField name='tools' placeholder={'Toolsets'} required/>
+                      <MultiSelectField name='toolsets' placeholder={'Toolsets'} required/>
                     </Grid.Column>
                     <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
                       <RadioField
                           name='availability'
                           inline
-                      >
+                         >
                       </RadioField>
                       <TextField name='image' placeholder={'Team Image URL'}/>
                       <LongTextField name='description'/>
@@ -118,15 +94,9 @@ class CreateTeam extends React.Component {
                   </Grid>
                   <div align='center'>
                     <SubmitField value='Submit'
-                                 style={{
-                                   color: 'white', backgroundColor: '#24252B',
-                                   margin: '2rem 0rem',
-                                 }}/>
+                                 style={{ color: 'white', backgroundColor: '#24252B',
+                                   margin: '2rem 0rem' }}/>
                   </div>
-                  <HiddenField
-                      name='owner'
-                      value={Meteor.user().username}
-                  />
                   <ErrorsField/>
                 </Segment>
               </AutoForm>
