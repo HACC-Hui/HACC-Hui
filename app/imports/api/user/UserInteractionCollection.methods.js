@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { UserInteractions } from './UserInteractionCollection';
@@ -49,5 +50,18 @@ export const userInteractionFindMethod = new ValidatedMethod({
     UserInteractions.assertAdminRoleForMethod(this.userId);
     const results = UserInteractions.find(selector, options);
     return results.fetch();
+  },
+});
+
+export const deleteAccountMethod = new ValidatedMethod({
+  name: 'Users.deleteAccount',
+  validate: null,
+  mixins: [CallPromiseMixin],
+  run() {
+    try {
+      Meteor.users.remove(this.userId);
+    } catch (e) {
+      throw new Meteor.Error('user-delete', 'Failed to remove your account');
+    }
   },
 });
