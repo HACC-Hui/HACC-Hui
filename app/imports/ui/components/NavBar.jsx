@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Dropdown, Header, Image } from 'semantic-ui-react';
+import { Menu, Dropdown, Header } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 
@@ -13,17 +13,11 @@ import { ROLE } from '../../api/role/Role';
  */
 class NavBar extends React.Component {
   render() {
-    const navColor = {
-      color: 'white',
-      backgroundColor: '#393B44',
-      borderRadius: '0',
-      paddingBottom: '10px',
-    };
-
+    const menuStyle = { marginBottom: '10px' };
     return (
-      <Menu style={navColor} attached="top" borderless inverted>
+      <Menu style={menuStyle} attached="top" borderless inverted>
         <Menu.Item as={NavLink} activeClassName="" exact to="/">
-          <Image src="images/hacc-small.png" size="mini"/>
+          <Header inverted as='h1'>HACC-Hui</Header>
         </Menu.Item>
         {this.props.currentUser ? (
             [<Menu.Item as={NavLink} activeClassName="active" exact to="/add" key='add'>Challenges</Menu.Item>,
