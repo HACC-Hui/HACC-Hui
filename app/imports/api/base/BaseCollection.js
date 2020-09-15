@@ -91,6 +91,7 @@ class BaseCollection {
         this._collection.findOne(name)
         || this._collection.findOne({ name })
         || this._collection.findOne({ _id: name }));
+    // console.log(name, doc);
     if (!doc) {
       if (typeof name !== 'string') {
         throw new Meteor.Error(`${JSON.stringify(name)} is not a defined ${this._type}`, '', Error().stack);
@@ -241,7 +242,7 @@ class BaseCollection {
    * @param dumpObjects The array of objects representing the definition of a document in this collection.
    */
   restoreAll(dumpObjects) {
-    _.each(dumpObjects, dumpObject => this.restoreOne(dumpObject));
+    _.forEach(dumpObjects, dumpObject => this.restoreOne(dumpObject));
   }
 
   assertRole(userId, roles) {

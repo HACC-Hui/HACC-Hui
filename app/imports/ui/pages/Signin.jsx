@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
+import { Roles } from 'meteor/alanning:roles';
+import { ROLE } from '../../api/role/Role';
+import { Developers } from '../../api/user/DeveloperCollection';
+import { ROUTES } from '../../startup/client/route-constants';
 
 /**
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().
@@ -16,7 +20,7 @@ class Signin extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '', error: '', redirectToReferer: false };
+    this.state = { email: '', password: '', error: '', redirectToReferer: false, role: '' };
   }
 
   /** Update the form controls each time the user interacts with them. */
@@ -31,14 +35,29 @@ class Signin extends React.Component {
       if (err) {
         this.setState({ error: err.reason });
       } else {
-        this.setState({ error: '', redirectToReferer: true });
+        let role = ROLE.DEVELOPER;
+        if (Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN)) {
+          role = ROLE.ADMIN;
+        }
+        this.setState({ error: '', redirectToReferer: true, role: role });
+        // console.log('admin', Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN));
       }
     });
   }
 
   // Render the signin form.
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    console.log(this.state);
+    let pathname = ROUTES.LANDING;
+    if (Developers.isDefined(Meteor.userId())) {
+      const dev = Developers.findDoc({ userID: Meteor.userId() });
+      if (dev.isCompliant) {
+        pathname = ROUTES.CREATE_PROFILE;
+      } else {
+        pathname = ROUTES.AGE_CONSENT;
+      }
+    }
+    const { from } = this.props.location.state || { from: { pathname } };
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
       return <Redirect to={from}/>;
