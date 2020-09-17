@@ -6,6 +6,7 @@ import { Administrators } from '../../api/user/AdministratorCollection';
 import { SlackUsers } from '../../api/slackbot/SlackUserCollection';
 
 let app;
+
 if (!Meteor.isAppTest) {
   let pathToDotEnv = `${process.cwd()}`;
   pathToDotEnv = pathToDotEnv.substring(0, pathToDotEnv.indexOf('.meteor'));
@@ -22,19 +23,63 @@ if (!Meteor.isAppTest) {
   });
 
   app.event('message', async ({ event, say, context }) => {
-    // console.log('message', event, context);
+    // console.log('message', event, context)
+    // "unregister" will be identified as register
     if (event.text.includes('register')) {
       const { profile } = await app.client.users.profile.get({
         token: context.botToken,
         user: event.user,
       });
-      // console.log(profile);
+      console.log(profile);
       const { email, first_name, last_name } = profile;
-      // console.log(email, first_name, last_name);
+      console.log(email, first_name, last_name);
+
+      // DELETE THIS COMMENT WHEN PUSHING CHANGES TO MASTER.  LEAVE IN ORIGINAL BRANCH
+      // let gotName = false;
+      // // don't need to test for a string with only whitespaces because slack doesn't let a user send a string
+      // // with only whitespaces.
+      // const regex = /[ 'ĀāĒēĪīŌōŪūa-zA-Z._-]*/;
+      // let firstNameTemp = '';
+      // let lastNameTemp = '';
+      //
+      // while (!gotName) {
+      //   // eslint-disable-next-line no-loop-func
+      //   app.event('message', async ({ eventFirstName, sayFirstName }) => {
+      //     firstNameTemp = eventFirstName.text.match(regex);
+      //     if (firstNameTemp.length === 0) {
+      //       await sayFirstName(`<@${event.user}> I don't understand '${event.text}'. Names can only contain letters,
+      //                  vowels with macrons (e.g. ā and Ā), periods, underscores, hyphens, apostrophes, and spaces.
+      //                  Please re-enter your first name.`);
+      //     } else {
+      //       gotName = true;
+      //       console.log(`${event.user}'s first name is ${firstNameTemp}`);
+      //     }
+      //   });
+      // }
+      //
+      // gotName = false;
+      // while (!gotName) {
+      //   // eslint-disable-next-line no-loop-func
+      //   app.event('message', async ({ eventLastName, sayLastName }) => {
+      //     lastNameTemp = eventLastName.text.match(regex);
+      //     if (lastNameTemp.length === 0) {
+      //       await sayLastName(`<@${event.user}> I don't understand '${event.text}'. Names can only contain letters,
+      //                  vowels with macrons (e.g. ā and Ā), periods, underscores, hyphens, apostrophes, and spaces.
+      //                  Please re-enter your first name.`);
+      //     } else {
+      //       gotName = true;
+      //       console.log(`${event.user}'s last name is ${lastNameTemp}`);
+      //     }
+      //   });
+      // }
+
       if (!isAdminEmail(email)) { // they are a developer
+        console.log('is developer');
         if (!Developers.isDefined(email)) {
+          // Slack requires a first name so we don't have to check it
           const firstName = first_name;
-          const lastName = last_name;
+          // Slack doesn't require a last name so we have to check it
+          const lastName = (last_name.length > 0) ? last_name : '[insert last name]';
           const username = email;
           const { password } = Developers.define({ username, firstName, lastName });
           // record this user
@@ -49,8 +94,11 @@ if (!Meteor.isAppTest) {
         }
       } else
         if (!Administrators.isDefined(email)) {
+          console.log('is admin');
+          // Slack requires a first name so we don't have to check it
           const firstName = first_name;
-          const lastName = last_name;
+          // Slack doesn't require a last name so we have to check it
+          const lastName = (last_name.length > 0) ? last_name : '[insert last name]';
           const username = email;
           const { password } = Administrators.define({ username, firstName, lastName });
           // record this user
