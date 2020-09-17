@@ -25,6 +25,8 @@ class NavBar extends React.Component {
           {isDeveloper ? (
               [<Menu.Item as={NavLink} activeClassName="active" exact
                           to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact
+                           to={ROUTES.TEAM_FINDER} key='team-finder'>Team Finder</Menu.Item>,
               ]
           ) : ''}
           {isAdmin ? (
@@ -37,16 +39,18 @@ class NavBar extends React.Component {
             {this.props.currentUser === '' ? (
                 <Dropdown text="Login" pointing="top right" icon={'user'}>
                   <Dropdown.Menu>
-                    <Dropdown.Item icon="user" text="Sign In" as={NavLink} exact to={ROUTES.SIGN_IN} />
+                    <Dropdown.Item icon="user" text="Sign In" as={NavLink} exact
+                                   to={ROUTES.SIGN_IN}/>
                   </Dropdown.Menu>
                 </Dropdown>
             ) : (
                 <Dropdown text={this.props.currentUser} pointing="top right" icon={'user'}>
                   <Dropdown.Menu>
-                    <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact to={ROUTES.SIGN_OUT} />
+                    <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact
+                                   to={ROUTES.SIGN_OUT}/>
                     {isDeveloper ? (
                         <Dropdown.Item icon="user delete" text="Delete Account" as={NavLink} exact
-                                       to={ROUTES.DELETE_ACCOUNT} />) : ''}
+                                       to={ROUTES.DELETE_ACCOUNT}/>) : ''}
                   </Dropdown.Menu>
                 </Dropdown>
             )}
