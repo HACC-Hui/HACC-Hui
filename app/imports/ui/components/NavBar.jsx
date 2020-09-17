@@ -31,6 +31,8 @@ class NavBar extends React.Component {
               [
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.CONFIGURE_HACC}
                            key={ROUTES.CONFIGURE_HACC}>Configure HACC</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.DUMP_DATABASE}
+                           key={ROUTES.DUMP_DATABASE}>Dump Database</Menu.Item>,
               ]
           ) : ''}
           <Menu.Item position="right">

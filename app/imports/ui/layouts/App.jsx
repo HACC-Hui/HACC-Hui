@@ -27,6 +27,7 @@ import ConfigureHACC from '../pages/administrator/ConfigureHACC';
 import AddChallenge from '../pages/administrator/AddChallenge';
 import AddSkill from '../pages/administrator/AddSkill';
 import AddTool from '../pages/administrator/AddTool';
+import DumpDatabase from '../pages/administrator/DumpDatabase';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -55,6 +56,7 @@ class App extends React.Component {
               <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
               <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
               <AdminProtectedRoute path={ROUTES.ADD_TOOL} component={AddTool} />
+              <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
               <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
               <Route component={NotFound} />
             </Switch>

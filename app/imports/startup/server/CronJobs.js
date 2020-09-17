@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Meteor } from 'meteor/meteor';
 import { SyncedCron } from 'meteor/littledata:synced-cron';
 import { WantsToJoin } from '../../api/team/WantToJoinCollection';
 import { Developers } from '../../api/user/DeveloperCollection';
@@ -9,7 +10,8 @@ SyncedCron.add({
   name: 'Check for developers wanting to join team',
   schedule(parser) {
     // parser is a later.parse object
-    return parser.text('every 2 minutes'); // TODO change the value to something more realistic
+    const interval = Meteor.settings.pollingInterval || 5;
+    return parser.text(`every ${interval} minutes`);
   },
   job() {
     const wantsToJoin = WantsToJoin.find({}).fetch();

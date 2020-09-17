@@ -3,6 +3,7 @@
     "carleton.moore@gmail.com"
   ],
   "slackbotPort": 3100,
+  "pollingInterval": 3,
   "databaseRestoreFileName": "database/2020-06-16-11-34-22.json",
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN" },

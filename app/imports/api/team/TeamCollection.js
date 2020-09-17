@@ -144,11 +144,12 @@ class TeamCollection extends BaseSlugCollection {
     const challenges = _.map(teamChallenges, (tC) => Challenges.findSlugByID(tC.challengeID));
     const teamDevelopers = TeamDevelopers.find(selector).fetch();
     const developers = _.map(teamDevelopers, (tD) => Developers.findSlugByID(tD.developerID));
+    const ownerSlug = Developers.findSlugByID(owner)
     const teamSkills = TeamSkills.find(selector).fetch();
     const skills = _.map(teamSkills, (tS) => Skills.findSlugByID(tS.skillID));
     const teamTools = TeamTools.find(selector).fetch();
     const tools = _.map(teamTools, (tT) => Tools.findSlugByID(tT.toolID));
-    return { name, description, owner, open, challenges, developers, skills, tools };
+    return { name, description, owner: ownerSlug, open, challenges, developers, skills, tools };
   }
 }
 
