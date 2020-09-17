@@ -12,7 +12,6 @@ import Profile from '../pages/Profile';
 import ListStuffAdmin from '../pages/ListStuffAdmin';
 import ChallengeListAdmin from '../pages/ChallengeListAdmin';
 import AddStuff from '../pages/AddStuff';
-import AddChallenge from '../pages/AddChallenge';
 import PostSignUp from '../pages/PostSignUp';
 import CreateTeam from '../pages/CreateTeam';
 import EditStuff from '../pages/EditStuff';
@@ -40,10 +39,6 @@ import AddTool from '../pages/administrator/AddTool';
  * @memberOf ui/layouts
  */
 class App extends React.Component {
-
-
-
-
   render() {
     return (
         <Router>

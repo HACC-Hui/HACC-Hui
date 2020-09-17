@@ -58,6 +58,6 @@
     "test-app": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --full-app --once --driver-package meteortesting:mocha --port 3500",
     "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json",
     "move-docs": "cp -r ../docs/ ../../docusaurus/static/jsdoc/",
-    "deploy":"cross-env DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy hacchui.meteorapp.com --settings ../config/settings.production.json"
+    "deploy": "cross-env DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy hacchui.meteorapp.com --settings ../config/settings.production.json"
   }
 }
