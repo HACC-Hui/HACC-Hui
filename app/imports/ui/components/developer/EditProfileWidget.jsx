@@ -85,16 +85,25 @@ class EditProfileWidget extends React.Component {
 
   renderTools(model) {
     return (
-        <Form.Group widths="equal">
-          <FormField>
-            <label>Tools</label>
-          </FormField>
-        </Form.Group>
+        <React.Fragment>
+          <label>Tools</label>
+          <Form.Group widths="equal">
+          </Form.Group>
+        </React.Fragment>
     );
   }
 
   renderSkills(model) {
-    console.log(this.props.allSkills, model);
+    // console.log(this.props.allSkills, model);
+    const { allSkills } = this.props;
+    const chosenSkills = model.skills;
+    // console.log(allSkills, choosenSkills);
+    const chosen = _.map(chosenSkills, (cs) => {
+      const instanceID = Slugs.getEntityID(cs.slug);
+      return Skills.findDoc(instanceID);
+    });
+    const rest = _.differenceBy(allSkills, chosen, '_id');
+    console.log(chosen, rest);
     return (
         <React.Fragment>
           <label>Skills</label>
