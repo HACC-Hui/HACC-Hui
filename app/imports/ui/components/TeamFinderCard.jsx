@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Grid,
-  Segment,
   Header,
   Image,
   Popup,
@@ -32,63 +31,75 @@ class TeamFinderCard extends React.Component {
           <Modal closeIcon trigger={
             <Item.Content>
               <Item.Header>
-
                 <Header as={'h3'} style={{ color: '#263763', paddingTop: '2rem' }}>
+                  <Icon name='users' size='tiny' />
                   {this.props.teams.name}
                 </Header>
-
-
               </Item.Header>
               <Item.Meta>
                 <Item.Meta>
                   <Grid doubling columns={4}>
                     <Grid.Column>
-                      <Grid.Row>
-                        <Image src={this.props.teams.image} size='small' />
-                      </Grid.Row>
+                      <Image src={this.props.teams.image} rounded size='small'/>
                       <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
-                          <p style={{ color: 'rgb(89, 119, 199)' }}>
-                            ChallengeName
-                          </p>
-                        </Grid.Column>
+                        {this.props.challenges.map((challenge) => <p
+                            style={{ color: 'rgb(89, 119, 199)' }}
+                            key={challenge}>
+                          {challenge}</p>)}
+                      </Grid.Column>
+
                     </Grid.Column>
                     <Grid.Column>
-                      Skills
+                      <Header>Skills</Header>
+                      {this.props.skills.map((skill) => <p key={skill}>
+                        {skill}</p>)}
                     </Grid.Column>
                     <Grid.Column>
-                      Challenges
+                      <Header>Tools</Header>
+                      {this.props.tools.map((tool) => <p key={tool}>
+                        {tool}</p>)}
                     </Grid.Column>
                   </Grid>
                 </Item.Meta>
               </Item.Meta>
 
-              {/*<Item.Extra>*/}
-              {/*  {props.internship.skills.map((skill) => (*/}
-              {/*      hasSkill(skill)*/}
-              {/*  ))}*/}
-              {/*  {isRemote(props.internship.location.city)}*/}
-              {/*</Item.Extra>*/}
-              {/*<Item.Extra style={{ paddingBottom: '2rem' }}>*/}
-              {/*</Item.Extra>*/}
             </Item.Content>
           }>
-            <Modal.Header>Description</Modal.Header>
-            <Modal.Content>
+            <Modal.Header>{this.props.teams.name}</Modal.Header>
+            <Modal.Content image scrolling>
+              <Image size='medium' src={this.props.teams.image} wrapped/>
               <Modal.Description>
-                test
+                <Header>Description</Header>
+                <p>
+                  {this.props.teams.description}
+                </p>
+                <Header>Challenges</Header>
+                <p>
+                  {this.props.challenges.map((challenge) => <p key={challenge}>
+                    {challenge}</p>)}
+                </p>
+                <Header>Skills</Header>
+                <p>
+                  {this.props.skills.map((skill) => <p key={skill}>
+                    {skill}</p>)}
+                </p>
+                <Header>Tools</Header>
+                <p>
+                  {this.props.tools.map((tool) => <p key={tool}>
+                    {tool}</p>)}
+                </p>
+                <Header>Members</Header>
+                <p>
+                  {this.props.developers.map((developer) => <p key={developer}>
+                    {developer.firstName} {developer.lastName}</p>)}
+                </p>
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
               <Button style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }}>
-                <Icon name='star'/>
-                Add to Favorites
+                <Icon name='plus'/>
+                Request to join
               </Button>
-              <a href='' target="_blank" rel='noopener noreferrer'>
-                <Button style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }}>
-                  Go to Listing: test
-                  <Icon name='chevron right'/>
-                </Button>
-              </a>
             </Modal.Actions>
           </Modal>
           <Popup
@@ -108,6 +119,10 @@ class TeamFinderCard extends React.Component {
 
 TeamFinderCard.propTypes = {
   teams: PropTypes.object.isRequired,
+  skills: PropTypes.array.isRequired,
+  tools: PropTypes.array.isRequired,
+  challenges: PropTypes.array.isRequired,
+  developers: PropTypes.object.isRequired,
 };
 
 export default TeamFinderCard;
