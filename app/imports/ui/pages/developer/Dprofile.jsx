@@ -6,13 +6,8 @@ import {
   ErrorsField,
   LongTextField,
   SubmitField,
-<<<<<<< HEAD
-  SelectField,
   TextField,
-  BoolField,
-=======
-  TextField,
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
+
 } from 'uniforms-semantic';
 import _ from 'underscore';
 import swal from 'sweetalert';
@@ -20,10 +15,6 @@ import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
-<<<<<<< HEAD
-import MultiSelect from '../../form/MultiSelect';
-=======
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
 import { Developers } from '../../../api/user/DeveloperCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
@@ -31,18 +22,11 @@ import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
 import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
-<<<<<<< HEAD
-import { DeveloperChallenges } from '../../../api/user/DeveloperChallengeCollection';
+
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
-
- // challenges: { type: Array, label: 'Challenge', optional: true },
-=======
-// Create a schema to specify the structure of the data to appear in the form.
-const schema = new SimpleSchema({
-
   // challenges: { type: Array, label: 'Challenge', optional: true },
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
+
 //  'challenges.$': { type: String, allowedValues: allChallenges },
   linkedIn: { type: String, optional: true },
   gitHub: { type: String, optional: true },
@@ -92,16 +76,7 @@ class Dprofile extends React.Component {
 
   renderChallenge() {
     const handleOnChange = (e, data) => {
-<<<<<<< HEAD
-     if (data.checked === true) {
-       const challenge = _.findWhere(this.props.challenges, { title: data.label });
-       this.challenges.push(challenge);
 
-     } else {
-        // eslint-disable-next-line eqeqeq
-       this.challenges = _.filter(this.challenges, function (challenge) { return challenge.title != data.label; });
-     }
-=======
       if (data.checked === true) {
         const challenge = _.findWhere(this.props.challenges, { title: data.label });
         this.challenges.push(challenge);
@@ -112,17 +87,14 @@ class Dprofile extends React.Component {
           return challenge.title !== data.label;
         });
       }
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
       console.log(this.challenges);
     };
     const ChallengesOptions = this.props.challenges;
     return _.map(ChallengesOptions, function (challenge) {
       //  const name = `${challenge.title}   ( ${challenge.description} )`;
-<<<<<<< HEAD
-        return <Grid.Row><Checkbox label={challenge.title} onChange={handleOnChange}/></Grid.Row>;
-=======
+
       return <Grid.Row key={challenge._id}><Checkbox label={challenge.title} onChange={handleOnChange} /></Grid.Row>;
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
+
     });
   }
 
@@ -135,12 +107,7 @@ class Dprofile extends React.Component {
     // console.log(SkillArray);
     const Skillname = [];
     for (let i = 0; i < SkillArray.length; i++) {
-<<<<<<< HEAD
-      const sn = { key: SkillArray[i].slugID, docid: SkillArray[i]._id, text: SkillArray[i].name, value: SkillArray[i].name };
-      Skillname.push(sn);
-    }
-   return <Dropdown placeholder="please pick a skill" selection options={Skillname} onChange={handleOnChange} />;
-=======
+
       const sn = {
         key: SkillArray[i].slugID, docid: SkillArray[i]._id,
         text: SkillArray[i].name, value: SkillArray[i].name,
@@ -148,7 +115,6 @@ class Dprofile extends React.Component {
       Skillname.push(sn);
     }
     return <Dropdown placeholder="please pick a skill" selection options={Skillname} onChange={handleOnChange} />;
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
   }
 
   renderTools() {
@@ -160,14 +126,11 @@ class Dprofile extends React.Component {
     // console.log(SkillArray);
     const Toolname = [];
     for (let i = 0; i < ToolsArray.length; i++) {
-<<<<<<< HEAD
-      const sn = { key: ToolsArray[i].slugID, docid: ToolsArray[i]._id, text: ToolsArray[i].name, value: ToolsArray[i].name };
-=======
+
       const sn = {
         key: ToolsArray[i].slugID, docid: ToolsArray[i]._id,
         text: ToolsArray[i].name, value: ToolsArray[i].name,
       };
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
       Toolname.push(sn);
     }
     return <Dropdown placeholder="please pick a skill" selection options={Toolname} onChange={handleOnChange} />;
@@ -179,13 +142,7 @@ class Dprofile extends React.Component {
       console.log(this.level);
     };
     // eslint-disable-next-line max-len
-<<<<<<< HEAD
-    const Levels = [{ key: 0, text: 'Experienced', value: 'Experienced' }, { key: 1, text: 'Novice', value: 'Novice' }, { key: 2, text: 'Don\'t know, but would like to learn', value: 'Don\'t know, but would like to learn' }];
-    // eslint-disable-next-line max-len
-    // return Skillname.map((skill, i) => <Dropdown.Item key={i} onClick={() => this.selectSkill(skill)} >{skill}</Dropdown.Item>);
-    // eslint-disable-next-line max-len
-    return <Dropdown placeholder="please pick a Level for the skill" fluid selection options={Levels} onChange={handleOnChange} />;
-=======
+
     const Levels = [{ key: 0, text: 'Experienced', value: 'Experienced' }, {
       key: 1,
       text: 'Novice',
@@ -196,33 +153,24 @@ class Dprofile extends React.Component {
     // eslint-disable-next-line max-len
     return <Dropdown placeholder="please pick a Level for the skill" fluid selection options={Levels}
                      onChange={handleOnChange} />;
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
   }
 
   renderSkill_level() {
     const deleteSkill = (removeskill) => {
       // eslint-disable-next-line eqeqeq
-<<<<<<< HEAD
-      this.skillSet = _.filter(this.skillSet, function (skill) { return skill.name != removeskill.name; });
-=======
+
       this.skillSet = _.filter(this.skillSet, function (skill) {
         return skill.name !== removeskill.name;
       });
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
       // console.log(removeSkill);
       const newState = { Skilladded: true };
       this.setState(newState);
     };
     if (this.skillSet.length > 0) {
-<<<<<<< HEAD
-     // console.log(this.skillSet.length);
-      return _.map(this.skillSet, function (skill) {
-        return <Grid.Row>
-=======
+
       // console.log(this.skillSet.length);
       return _.map(this.skillSet, function (skill) {
         return <Grid.Row key={skill.docID}>
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}>
             <Header as='h3'>Skill:</Header> </Grid.Column>
           <Grid.Column width={4} style={{ marginTop: `${10}px` }}><Header as='h3'>{skill.name}</Header></Grid.Column>
@@ -230,51 +178,33 @@ class Dprofile extends React.Component {
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h3'>Level:</Header> </Grid.Column>
           <Grid.Column width={5} style={{ marginTop: `${10}px` }}><Header as='h3'>{skill.level}</Header></Grid.Column>
           {/* eslint-disable-next-line max-len */}
-<<<<<<< HEAD
-          <Grid.Column width={3}><Button type='button' onClick={() => deleteSkill(skill)}>delete the skill</Button></Grid.Column>
-=======
+
           <Grid.Column width={3}><Button type='button' onClick={() => deleteSkill(skill)}>delete the
             skill</Button></Grid.Column>
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
         </Grid.Row>;
       });
     }
 
     // eslint-disable-next-line eqeqeq
-<<<<<<< HEAD
-     return '';
-
-}
-=======
     return '';
 
   }
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
 
   renderTool_level() {
     const deleteTool = (removeTool) => {
       // eslint-disable-next-line eqeqeq
-<<<<<<< HEAD
-      this.toolset = _.filter(this.toolset, function (tool) { return tool.name != removeTool.name; });
-=======
+
       this.toolset = _.filter(this.toolset, function (tool) {
         return tool.name !== removeTool.name;
       });
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
       // console.log(removeSkill);
       const newState = { Skilladded: true };
       this.setState(newState);
     };
     if (this.toolset.length > 0) {
-<<<<<<< HEAD
-     // console.log(this.skillSet.length);
-      return _.map(this.toolset, function (tool) {
-        return <Grid.Row>
-=======
       // console.log(this.skillSet.length);
       return _.map(this.toolset, function (tool) {
         return <Grid.Row key={tool.docID}>
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}>
             <Header as='h3'>Tool:</Header> </Grid.Column>
           <Grid.Column width={4} style={{ marginTop: `${10}px` }}><Header as='h3'>{tool.name}</Header></Grid.Column>
@@ -282,12 +212,8 @@ class Dprofile extends React.Component {
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h3'>Level:</Header> </Grid.Column>
           <Grid.Column width={5} style={{ marginTop: `${10}px` }}><Header as='h3'>{tool.level}</Header></Grid.Column>
           {/* eslint-disable-next-line max-len */}
-<<<<<<< HEAD
-          <Grid.Column width={3}><Button type='button' onClick={() => deleteTool(tool)}>delete the tool</Button></Grid.Column>
-=======
           <Grid.Column width={3}><Button type='button' onClick={() => deleteTool(tool)}>delete the
             tool</Button></Grid.Column>
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
         </Grid.Row>;
       });
     }
@@ -298,28 +224,6 @@ class Dprofile extends React.Component {
   }
 
   addSkill() {
-<<<<<<< HEAD
-        const SkillObject = {};
-      if (this.skill != null) {
-            SkillObject.key = this.skill.key;
-        SkillObject.docID = this.skill.docid;
-        SkillObject.name = this.skill.text;
-             if (this.level != null) {
-               SkillObject.level = this.level.value;
-             } else SkillObject.level = '';
-            console.log(SkillObject);
-        }
-      console.log(SkillObject);
-      this.skillSet.push(SkillObject);
-      console.log(this.skillSet);
-      for (let i = 0; i < this.skillSet.length; i++) console.log(`skill${this.skillSet[i].name}`);
-      const newState = { Skilladded: true };
-      this.setState(newState);
-    // eslint-disable-next-line eqeqeq
-    // work on this part to update level
-
-    }
-=======
     const SkillObject = {};
     if (this.skill != null) {
       SkillObject.key = this.skill.key;
@@ -340,7 +244,6 @@ class Dprofile extends React.Component {
     // work on this part to update level
 
   }
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
 
   addTool() {
     const ToolObject = {};
@@ -367,12 +270,8 @@ class Dprofile extends React.Component {
     console.log(docID);
     // const docID = Meteor.userId();
     const {
-<<<<<<< HEAD
-      linkedIn, gitHub, website, aboutMe, Agree } = data;
-=======
       linkedIn, gitHub, website, aboutMe,
     } = data;
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
     console.log(linkedIn);
     console.log(gitHub);
     console.log(website);
@@ -394,27 +293,6 @@ class Dprofile extends React.Component {
     updateData.gitHub = gitHub;
     updateData.website = website;
     updateData.aboutMe = aboutMe;
-<<<<<<< HEAD
-    updateData.isCompliant = Agree;
-
-    console.log(updateData);
-    let success_base = false;
-    let success_skill_level = false;
-    let success_tool_level = false;
-    if (updateMethod.call({ collectionName: 'DeveloperCollection', updateData })) { console.log('sucess'); success_base = true } else { console.log('fail'); }
-    const deskill = DeveloperSkills._collection.find({ developerID: docID }).fetch();
-    _.each(deskill, function (skill_level) {
- const updateskillLevel = _.filter(this.skillSet, function (skill) { return skill_level.skillID == skill.docID; }); console.log(skill_level._id, updateskillLevel[0]); updateMethod.call({ collectionName: 'DeveloperSkillCollection', updateData: { id: skill_level._id,
-        skillLevel: updateskillLevel[0].level } });
-}, this);
-    success_skill_level = true;
-    const detool = DeveloperTools._collection.find({ developerID: docID }).fetch();
-    _.each(detool, function (tool_level) {
-      const updatetoolLevel = _.filter(this.toolset, function (tool) { return tool_level.toolID == tool.docID; }); updateMethod.call({ collectionName: 'DeveloperToolCollection', updateData: { id: tool_level._id,
-          toolLevel: updatetoolLevel[0].level } });
-    }, this);
-    success_tool_level =true;
-=======
 
     console.log(updateData);
     let success_base = false;
@@ -449,24 +327,10 @@ class Dprofile extends React.Component {
         },
       });
     }, this);
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
 
     /* Developers.update(docID, { challenges: challengesID, skills: skillsID, tools: toolsID,
            linkedIn, gitHub, website, aboutMe, isCompliant: Agree },
          (error) => { */
-<<<<<<< HEAD
-           if (!success_base) {
-             swal('Error', 'fail', 'error');
-           } else {
-             swal('Success', 'profile added successfully', 'success');
-             formRef.reset();
-           }
-
-    // eslint-disable-next-line max-len
-
-  // const test = DeveloperSkills._collection.find({ developerID: docID }).fetch();
-  // console.log(test);
-=======
     if (!success_base) {
       swal('Error', 'fail', 'error');
     } else {
@@ -478,23 +342,10 @@ class Dprofile extends React.Component {
 
     // const test = DeveloperSkills._collection.find({ developerID: docID }).fetch();
     // console.log(test);
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-<<<<<<< HEAD
-      return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
-    }
-
-    renderPage() {
-   // const ChallengesOptions = this.props.challenges;
-    const developer = this.getDeveloper();
-    let fRef = null;
-   const formSchema = new SimpleSchema2Bridge(schema);
-
-   const firstname = developer.firstName;
-=======
     return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
   }
 
@@ -505,21 +356,10 @@ class Dprofile extends React.Component {
     const formSchema = new SimpleSchema2Bridge(schema);
 
     const firstname = developer.firstName;
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
 
     return (
         <Grid container centered>
           <Grid.Column>
-<<<<<<< HEAD
-            <Header as="h2" textAlign="center">developer participation form</Header>
-            <Header>Hello {firstname}, this is your first time to login, so please read and fill out this form</Header>
-
-            <AutoForm ref={ref => { fRef = ref; }} schema={formSchema} onSubmit={data => this.submit(data, fRef)} >
-              <Segment>
-                <Header as='h3'>Challenge(s) you want to participate in: (please select at least one)</Header>
-                <Grid style={{ marginLeft: `${10}px` }}>
-                {this.renderChallenge()}
-=======
             <Header>Hello {firstname}, this is your first time to login, so please fill out your profile</Header>
 
             <AutoForm ref={ref => {
@@ -529,7 +369,6 @@ class Dprofile extends React.Component {
                 <Header as='h3'>Challenge(s) you want to participate in: (please select at least one)</Header>
                 <Grid style={{ marginLeft: `${10}px` }}>
                   {this.renderChallenge()}
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
                 </Grid>
                 <Grid>
 
@@ -538,12 +377,8 @@ class Dprofile extends React.Component {
                       <Header as='h4'>Skill:</Header> </Grid.Column>
                     <Grid.Column width={4}>{this.renderSkill()}</Grid.Column>
                     {/* eslint-disable-next-line max-len */}
-<<<<<<< HEAD
-                    <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h4'>Level:</Header> </Grid.Column>
-=======
                     <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h4'>Level:</Header>
                     </Grid.Column>
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
                     <Grid.Column width={5}>{this.renderLevel()}</Grid.Column>
                     <Grid.Column width={3}><Button type='button' onClick={() => this.addSkill()}>Add the skill</Button>
                     </Grid.Column>
@@ -554,34 +389,20 @@ class Dprofile extends React.Component {
                       <Header as='h4'>Tool:</Header> </Grid.Column>
                     <Grid.Column width={4}>{this.renderTools()}</Grid.Column>
                     {/* eslint-disable-next-line max-len */}
-<<<<<<< HEAD
-                    <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h4'>Level:</Header> </Grid.Column>
-=======
                     <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h4'>Level:</Header>
                     </Grid.Column>
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
                     <Grid.Column width={5}>{this.renderLevel()}</Grid.Column>
                     <Grid.Column width={3}><Button type='button' onClick={() => this.addTool()}>Add the tool</Button>
                     </Grid.Column>
                   </Grid.Row>
                   {this.state.Skilladded ? (this.renderTool_level()) : ''}
                 </Grid>
-<<<<<<< HEAD
-                <TextField name='linkedIn'/>
-                <TextField name='gitHub'/>
-                <TextField name='website'/>
-                <LongTextField name='aboutMe'/>
-                <BoolField apperance='checkbox' name='Agree'>I agree the statement</BoolField>
-                <SubmitField value='Submit'/>
-                <ErrorsField/>
-=======
                 <TextField name='linkedIn' />
                 <TextField name='gitHub' />
                 <TextField name='website' />
                 <LongTextField name='aboutMe' />
                 <SubmitField value='Submit' />
                 <ErrorsField />
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
               </Segment>
             </AutoForm>
           </Grid.Column>
@@ -598,18 +419,10 @@ Dprofile.propTypes = {
 
 };
 export default withTracker(() => {
-
-<<<<<<< HEAD
-  const subscription = Meteor.subscribe('allSkills');
-  const subscription2 = Meteor.subscribe('allChallenges');
-  const subscription3 = Meteor.subscribe('allDevp');
-  const subscription4 = Meteor.subscribe('allTools');
-=======
   const subscription = Skills.subscribe();
   const subscription2 = Challenges.subscribe();
   const subscription3 = Developers.subscribe();
   const subscription4 = Tools.subscribe();
->>>>>>> 4fedb7f034085137e21f13bc3be3ec876bfdedca
   return {
 
     skills: Skills.find({}).fetch(),
