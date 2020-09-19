@@ -7,7 +7,6 @@ import { Developers } from '../../api/user/DeveloperCollection';
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
-import { Developers } from '../../api/user/DeveloperCollection';
 import { ROUTES } from '../../startup/client/route-constants';
 
 /**

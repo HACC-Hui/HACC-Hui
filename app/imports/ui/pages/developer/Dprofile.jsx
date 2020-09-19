@@ -32,7 +32,6 @@ const schema = new SimpleSchema({
   gitHub: { type: String, optional: true },
   website: { type: String, optional: true },
   aboutMe: { type: String, optional: true },
-  Agree: { type: Boolean, defaultValue: false },
 
 });
 
