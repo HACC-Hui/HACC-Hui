@@ -22,6 +22,7 @@
     "semantic-ui-react": "^1.1.1",
     "simpl-schema": "^1.9.0",
     "sweetalert": "^2.1.2",
+    "sweetalert2": "^10.2.0",
     "uniforms": "^3.0.0-rc.2",
     "uniforms-bridge-simple-schema-2": "^3.0.0-rc.2",
     "uniforms-semantic": "^3.0.0-rc.2",
@@ -58,6 +59,6 @@
     "test-app": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --full-app --once --driver-package meteortesting:mocha --port 3500",
     "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json",
     "move-docs": "cp -r ../docs/ ../../docusaurus/static/jsdoc/",
-    "deploy":"cross-env DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy hacchui.meteorapp.com --settings ../config/settings.production.json"
+    "deploy": "cross-env DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy hacchui.meteorapp.com --settings ../config/settings.production.json"
   }
 }
