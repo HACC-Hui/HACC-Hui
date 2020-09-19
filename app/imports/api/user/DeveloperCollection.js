@@ -62,25 +62,20 @@ class DeveloperCollection extends BaseSlugCollection {
            linkedIn = '', gitHub = '', website = '', aboutMe = '',
            isCompliant = false,
          }) {
-    console.log('We in here boys 2');
     if (Meteor.isServer) {
-      console.log('We in here boys 3');
       const role = ROLE.DEVELOPER;
       const slugID = Slugs.define({ name: username }); // ensure the usernames are unique
       const profileID = this._collection.insert({
         username, slugID, firstName, lastName, demographicLevel,
         lookingForTeam, linkedIn, gitHub, website, aboutMe, isCompliant,
       });
-      console.log('We in here boys 4');
       Slugs.updateEntityID(slugID, profileID);
-      console.log('We in here boys 5');
       const { userID, password } = Users.define({ username, role });
-      console.log('We in here boys 6');
       this._collection.update(profileID, { $set: { userID } });
-      _.each(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer: username }));
-      _.each(interests, (interest) => DeveloperInterests.define({ interest, developer: username }));
-      _.each(skills, (skill) => DeveloperSkills.define({ skill, developer: username }));
-      _.each(tools, (tool) => DeveloperTools.define({ tool, developer: username }));
+      _.forEach(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer: username }));
+      _.forEach(interests, (interest) => DeveloperInterests.define({ interest, developer: username }));
+      _.forEach(skills, (skill) => DeveloperSkills.define({ skill, developer: username }));
+      _.forEach(tools, (tool) => DeveloperTools.define({ tool, developer: username }));
       return { profileID, password };
     }
     return undefined;
@@ -103,9 +98,10 @@ class DeveloperCollection extends BaseSlugCollection {
    * @param aboutMe {String} the new short description (optional).
    * @param isCompliant {Boolean} the new is compliant value (optional).
    */
-  update(docID, { firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
-    skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant }) {
-    console.log({docID,challenges,skills,isCompliant });
+  update(docID, {
+    firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
+    skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant,
+  }) {
     this.assertDefined(docID);
     const updateData = {};
     if (firstName) {
@@ -137,26 +133,22 @@ class DeveloperCollection extends BaseSlugCollection {
     }
     this._collection.update(docID, { $set: updateData });
     const developer = this.findSlugByID(docID);
-    console.log(developer);
     if (challenges) {
       DeveloperChallenges.removeDeveloper(developer);
-      console.log('good');
-      _.each(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer }));
-      console.log('good');
+      _.forEach(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer }));
     }
     if (interests) {
       DeveloperInterests.removeDeveloper(developer);
-      _.each(interests, (interest) => DeveloperInterests.define({ interest, developer }));
+      _.forEach(interests, (interest) => DeveloperInterests.define({ interest, developer }));
     }
     if (skills) {
       DeveloperSkills.removeDeveloper(developer);
-      _.each(skills, (skill) => DeveloperSkills.define({ skill, developer }));
+      _.forEach(skills, (skill) => DeveloperSkills.define({ skill, developer }));
     }
     if (tools) {
       DeveloperTools.removeDeveloper(developer);
-      _.each(tools, (tool) => DeveloperTools.define({ tool, developer }));
+      _.forEach(tools, (tool) => DeveloperTools.define({ tool, developer }));
     }
-    console.log('good');
   }
 
   /**
@@ -215,6 +207,23 @@ class DeveloperCollection extends BaseSlugCollection {
 
   assertValidRoleForMethod(userId) {
     this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+  }
+
+  /**
+   * Returns true if the passed entity is in this collection.
+   * @param { String | Object } name The docID, or an object specifying a documennt.
+   * @returns {boolean} True if name exists in this collection.
+   */
+  isDefined(name) {
+    // console.log('isDefined', name);
+    if (_.isUndefined(name) || _.isNull(name)) {
+      return false;
+    }
+    return (
+        !!this._collection.findOne(name)
+        || !!this._collection.findOne({ name })
+        || !!this._collection.findOne({ _id: name })
+        || !!this._collection.findOne({ userID: name }));
   }
 
 }
