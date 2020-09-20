@@ -16,6 +16,7 @@ import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
+import TeamDisplay from '../pages/developer/TeamDisplay';
 import AgePage from '../pages/developer/AgePage';
 import ParticipationForm from '../pages/developer/ParticipationForm';
 import UnderParticipationForm from '../pages/developer/UnderParticipationForm';
@@ -40,6 +41,7 @@ class App extends React.Component {
             <NavBar />
             <Switch>
               <Route exact path={ROUTES.LANDING} component={Landing} />
+              <Route exact path="/TeamDisplay" component={TeamDisplay} />
               <Route path={ROUTES.SIGN_IN} component={Signin} />
               <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
               <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
