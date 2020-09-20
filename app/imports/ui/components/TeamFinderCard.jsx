@@ -32,7 +32,7 @@ class TeamFinderCard extends React.Component {
             <Item.Content>
               <Item.Header>
                 <Header as={'h3'} style={{ color: '#263763', paddingTop: '2rem' }}>
-                  <Icon name='users' size='tiny' />
+                  <Icon name='users' size='tiny'/>
                   {this.props.teams.name}
                 </Header>
               </Item.Header>
@@ -74,25 +74,18 @@ class TeamFinderCard extends React.Component {
                   {this.props.teams.description}
                 </p>
                 <Header>Challenges</Header>
-                <p>
-                  {this.props.challenges.map((challenge) => <p key={challenge}>
-                    {challenge}</p>)}
-                </p>
+                {this.props.challenges.map((challenge) => <p key={challenge}>
+                  {challenge}</p>)}
                 <Header>Skills</Header>
-                <p>
-                  {this.props.skills.map((skill) => <p key={skill}>
-                    {skill}</p>)}
-                </p>
+                {this.props.skills.map((skill) => <p key={skill}>
+                  {skill}</p>)}
                 <Header>Tools</Header>
-                <p>
-                  {this.props.tools.map((tool) => <p key={tool}>
-                    {tool}</p>)}
-                </p>
+                {this.props.tools.map((tool) => <p key={tool}>
+                  {tool}</p>)}
                 <Header>Members</Header>
-                <p>
-                  {this.props.developers.map((developer) => <p key={developer}>
-                    {developer.firstName} {developer.lastName}</p>)}
-                </p>
+                {this.props.developers.map((developer) => <p key={developer}>
+                  {developer.firstName} {developer.lastName}</p>)}
+
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
@@ -122,7 +115,7 @@ TeamFinderCard.propTypes = {
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
-  developers: PropTypes.object.isRequired,
+  developers: PropTypes.array.isRequired,
 };
 
 export default TeamFinderCard;

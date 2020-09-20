@@ -25,6 +25,7 @@ import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
+import TeamFinderFilter from '../../components/TeamFinderFilter';
 import TeamFinderCard from '../../components/TeamFinderCard';
 
 /**
@@ -32,6 +33,15 @@ import TeamFinderCard from '../../components/TeamFinderCard';
  * @memberOf ui/pages
  */
 class TeamFinder extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: this.props.teams,
+      challenges: '',
+      tools: '',
+      skills: '',
+    };
+  }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
@@ -67,8 +77,12 @@ class TeamFinder extends React.Component {
       top: '6.5rem',
     };
 
-    const handleSubmit = () => {
-      console.log('submitted');
+    const filters = new TeamFinderFilter();
+
+    const handleSearchChange = (event) => {
+      const searchResults = filters.filterBySearch(this.props.teams, event.target.value);
+      this.setState({ search: searchResults });
+
     };
 
     const universalSkills = this.props.skills;
@@ -165,18 +179,13 @@ class TeamFinder extends React.Component {
                 </Header>
               </div>
               <div style={{ paddingTop: '2rem' }}>
-                <Form onSubmit={handleSubmit}>
-                  <Popup
-                      trigger={<Input icon='search'
-                                      iconPosition='left'
-                                      placeholder='Search ...'
-                          // onChange={handleSearchChange}
-                                      fluid
-                      />}
-                      content='Press enter to search!'
-                      on={'focus'}
-                  />
-                </Form>
+                <Input icon='search'
+                       iconPosition='left'
+                       placeholder='Search by team name...'
+                       onChange={handleSearchChange}
+                       fluid
+                />
+
                 <div style={{ paddingTop: '2rem' }}>
                   <Header>Challenges</Header>
                   <Dropdown
@@ -218,12 +227,12 @@ class TeamFinder extends React.Component {
           </Grid.Column>
           <Grid.Column width={12}>
             <Item.Group divided>
-              {this.props.teams.map((teams) => <TeamFinderCard key={teams._id} teams={teams}
-                   skills={getTeamSkills(teams._id, this.props.teamSkills)}
-                   tools={getTeamTools(teams._id, this.props.teamTools)}
-                   challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
-                   developers={getTeamDevelopers(teams._id, this.props.teamDevelopers)}
-                  />)}
+              {this.state.search.map((teams) => <TeamFinderCard key={teams._id} teams={teams}
+                                                                skills={getTeamSkills(teams._id, this.props.teamSkills)}
+                                                                tools={getTeamTools(teams._id, this.props.teamTools)}
+                                                                challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
+                                                                developers={getTeamDevelopers(teams._id, this.props.teamDevelopers)}
+              />)}
             </Item.Group>
           </Grid.Column>
         </Grid>
