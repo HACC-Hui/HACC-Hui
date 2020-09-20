@@ -5,6 +5,7 @@ import { WantsToJoin } from '../../api/team/WantToJoinCollection';
 import { Developers } from '../../api/user/DeveloperCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
+import { sendDM2DeveloperMethod } from '../../api/slackbot/Slack.methods';
 
 SyncedCron.add({
   name: 'Check for developers wanting to join team',
@@ -20,8 +21,21 @@ SyncedCron.add({
       const developer = Developers.findDoc(developerID);
       const team = Teams.findDoc(teamID);
       const teamMemberIDs = TeamDevelopers.find({ teamID }).fetch();
+      // console.log(team, teamMemberIDs);
       teamMemberIDs.push(team.owner);
-      console.log(teamMemberIDs, developer);
+      // console.log(developer);
+      teamMemberIDs.forEach((memberID) => {
+        const message = `${developer.firstName} ${developer.lastName} would like to join your team.`;
+        if (Developers.isDefined(memberID)) {
+          const username = Developers.findDoc(memberID).username;
+          sendDM2DeveloperMethod.call({ developer: username, message }, (error) => {
+            if (error) {
+              console.error('Failed to send DM. ', error);
+            }
+          });
+        }
+      });
+      WantsToJoin.removeIt(join._id);
     });
   },
 });

@@ -10,6 +10,7 @@ import {
 import swal from 'sweetalert';
 import PropTypes from 'prop-types';
 import { _ } from 'lodash';
+import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
@@ -66,7 +67,7 @@ class TeamCreation extends React.Component {
     const challengesArr = this.props.challenges;
     const challengesObj = [];
 
-    const owner = this.props.developers[0].slugID;
+    const owner = Developers.findDoc({ userID: Meteor.userId() }).username;
 
     const {
       name, description, challenges, skills, tools, image,
