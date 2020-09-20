@@ -1,13 +1,8 @@
 import React from 'react';
 import {
   Grid,
-  Segment,
   Header,
   Loader,
-  Dropdown,
-  Input,
-  Popup,
-  Form,
   Item,
   Icon,
   Button,
@@ -25,7 +20,7 @@ import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
-import TeamFinderCard from '../../components/TeamFinderCard';
+import InterestedDeveloperCard from '../../components/InterestedDeveloperCard';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -53,23 +48,6 @@ class InterestedDevelopers extends React.Component {
           </div>
       );
     }
-
-    const sortBy = [
-      { key: 'challenges', text: 'challenges', value: 'challenges' },
-      { key: 'skills', text: 'skills', value: 'skills' },
-      { key: 'teams', text: 'teams', value: 'teams' },
-      { key: 'tools', text: 'tools', value: 'tools' },
-    ];
-
-    const sticky = {
-      position: '-webkit-sticky',
-      position: 'sticky',
-      top: '6.5rem',
-    };
-
-    const handleSubmit = () => {
-      console.log('submitted');
-    };
 
     const universalSkills = this.props.skills;
 
@@ -138,87 +116,13 @@ class InterestedDevelopers extends React.Component {
         <Grid container doubling relaxed stackable>
           <Grid.Row centered>
             <Header as={'h2'} style={{ paddingTop: '2rem' }}>
-              Team Finder
+              Interested Developers
             </Header>
           </Grid.Row>
-          <Grid.Column width={4}>
-            <Segment style={sticky}>
-              <div style={{ paddingTop: '2rem' }}>
-                <Header>
-                  <Header.Content>
-                    Total Teams: 30
-                  </Header.Content>
-                </Header>
-              </div>
-              <div style={{ paddingTop: '2rem' }}>
-                <Header>
-                  <Header.Content>
-                    Sort by {' '}
-                    <Dropdown
-                        inline
-                        header='Sort by...'
-                        options={sortBy}
-                        defaultValue={sortBy[0].value}
-                        // onChange={getSort}
-                    />
-                  </Header.Content>
-                </Header>
-              </div>
-              <div style={{ paddingTop: '2rem' }}>
-                <Form onSubmit={handleSubmit}>
-                  <Popup
-                      trigger={<Input icon='search'
-                                      iconPosition='left'
-                                      placeholder='Search ...'
-                          // onChange={handleSearchChange}
-                                      fluid
-                      />}
-                      content='Press enter to search!'
-                      on={'focus'}
-                  />
-                </Form>
-                <div style={{ paddingTop: '2rem' }}>
-                  <Header>Challenges</Header>
-                  <Dropdown
-                      placeholder='Challenges'
-                      fluid
-                      multiple
-                      search
-                      selection
-                      // options={internships.dropdownSkills()}
-                      // onChange={getSkills}
-                  />
-                </div>
-              </div>
-              <div style={{ paddingTop: '2rem' }}>
-                <Header>Skills</Header>
-                <Dropdown placeholder='Skills'
-                          fluid
-                          multiple
-                          search
-                          selection
-                    // options={internships.dropdownSkills()}
-                    // onChange={getSkills}
-                />
-              </div>
-
-              <div style={{ paddingTop: '2rem' }}>
-                <Header>Tools</Header>
-                <Dropdown
-                    placeholder='Tools'
-                    fluid
-                    multiple
-                    search
-                    selection
-                    // options={internships.dropdownSkills()}
-                    // onChange={getSkills}
-                />
-              </div>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column width={12}>
+          <Grid.Row>
+          <Grid.Column>
             <Item.Group divided>
-              {this.props.teams.map((teams) => <TeamFinderCard key={teams._id} teams={teams}
+              {this.props.teams.map((teams) => <InterestedDeveloperCard key={teams._id} teams={teams}
                    skills={getTeamSkills(teams._id, this.props.teamSkills)}
                    tools={getTeamTools(teams._id, this.props.teamTools)}
                    challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
@@ -226,6 +130,7 @@ class InterestedDevelopers extends React.Component {
                   />)}
             </Item.Group>
           </Grid.Column>
+          </Grid.Row>
         </Grid>
     );
   }
