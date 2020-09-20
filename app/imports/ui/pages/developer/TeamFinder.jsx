@@ -36,7 +36,7 @@ class TeamFinder extends React.Component {
       challenges: [],
       tools: [],
       skills: [],
-      result: this.props.teams,
+      result: _.orderBy(this.props.teams, ['name'], ['asc']),
     };
   }
 
@@ -62,9 +62,9 @@ class TeamFinder extends React.Component {
     }
 
     const sortBy = [
+      { key: 'teams', text: 'teams', value: 'teams' },
       { key: 'challenges', text: 'challenges', value: 'challenges' },
       { key: 'skills', text: 'skills', value: 'skills' },
-      { key: 'teams', text: 'teams', value: 'teams' },
       { key: 'tools', text: 'tools', value: 'tools' },
     ];
 
@@ -81,8 +81,9 @@ class TeamFinder extends React.Component {
       const skillResults = filters.filterBySkills(this.state.skills, this.props.skills, this.props.teamSkills, searchResults);
       const toolResults = filters.filterByTools(this.state.tools, this.props.tools, this.props.teamTools, skillResults);
       const challengeResults = filters.filterByChallenge(this.state.challenges, this.props.challenges, this.props.teamChallenges, toolResults);
+      const sorted = filters.sortBy(challengeResults, 'teams');
       this.setState({
-        result: challengeResults,
+        result: sorted,
       }, () => {
       });
     };
@@ -96,6 +97,14 @@ class TeamFinder extends React.Component {
       // this.setState({ search: event.target.value });
       // setFilters();
     };
+
+    // const getSort = (event, { value }) => {
+    //   this.setState({
+    //     sortBy: value,
+    //   }, () => {
+    //     setFilters();
+    //   });
+    // };
 
     const getSkills = (event, { value }) => {
       this.setState({
@@ -200,20 +209,20 @@ class TeamFinder extends React.Component {
                   </Header.Content>
                 </Header>
               </div>
-              <div style={{ paddingTop: '2rem' }}>
-                <Header>
-                  <Header.Content>
-                    Sort by {' '}
-                    <Dropdown
-                        inline
-                        header='Sort by...'
-                        options={sortBy}
-                        defaultValue={sortBy[0].value}
-                        // onChange={getSort}
-                    />
-                  </Header.Content>
-                </Header>
-              </div>
+              {/*<div style={{ paddingTop: '2rem' }}>*/}
+              {/*  <Header>*/}
+              {/*    <Header.Content>*/}
+              {/*      Sort by {' '}*/}
+              {/*      <Dropdown*/}
+              {/*          inline*/}
+              {/*          header='Sort by...'*/}
+              {/*          options={sortBy}*/}
+              {/*          defaultValue={sortBy[0].value}*/}
+              {/*          onChange={getSort}*/}
+              {/*      />*/}
+              {/*    </Header.Content>*/}
+              {/*  </Header>*/}
+              {/*</div>*/}
               <div style={{ paddingTop: '2rem' }}>
                 <Input icon='search'
                        iconPosition='left'
@@ -247,7 +256,7 @@ class TeamFinder extends React.Component {
                 />
               </div>
 
-              <div style={{ paddingTop: '2rem' }}>
+              <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
                 <Header>Tools</Header>
                 <Dropdown
                     placeholder='Tools'

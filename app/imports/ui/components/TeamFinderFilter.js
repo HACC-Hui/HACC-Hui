@@ -26,6 +26,19 @@ class TeamFinderFilter {
   }
 
   /**
+   *
+   * @param data The data we want to sort
+   * @param value The value we want to sort by
+   * @returns {Array|*} Returns the sorted array
+   */
+  sortBy(data, value) {
+    if (value === 'teams') {
+      return _.orderBy(data, ['name'], ['asc']);
+    }
+    return data;
+  }
+
+  /**
    * Filters through the data based on the user selection. By default, if no option is selected it
    * returns the original data
    * @param value The inputs given
