@@ -25,6 +25,15 @@ class TeamFinderFilter {
     return list;
   }
 
+  /**
+   * Filters through the data based on the user selection. By default, if no option is selected it
+   * returns the original data
+   * @param value The inputs given
+   * @param allSkills All the available skills
+   * @param teamSkill Each teams' skills
+   * @param team The teams
+   * @returns {[]|*} Returns the filtered array
+   */
   filterBySkills(value, allSkills, teamSkill, team) {
 
     // if there are no skills selected
@@ -75,22 +84,82 @@ class TeamFinderFilter {
     return teams;
   }
 
-  dropdownSkills(data) {
-    let skills = _.map(data, 'name');
-    let skillsID = _.map(data, '_id');
-    const categories = _.flattenDeep(skills);
-    const skillCategory = _.flattenDeep(skillsID);
-    skills = _.uniq(categories);
-    skillsID = _.uniq(skillCategory);
+  /**
+   * Filters through the data based on the user selection. By default, if no option is selected it
+   * returns the original data
+   * @param value The inputs given
+   * @param allTools All the available tools
+   * @param teamSkill Each teams' skills
+   * @param team The teams
+   * @returns {[]|*} Returns the filtered array
+   */
+  filterByTools(value, allTools, teamTools, team) {
+
+    // if there are no skills selected
+    if (value.length === 0) {
+      return team;
+    }
+
+    // if the 'any' option was selected
+    for (let i = 0; i < value.length; i++) {
+      if (value[i] === 'Any') {
+        return team;
+      }
+    }
+
+    // convert from skillName --> skillID
+    const toolID = [];
+    for (let i = 0; i < value.length; i++) {
+      for (let j = 0; j < allTools.length; j++) {
+        if (value[i] === allTools[j].name) {
+          toolID.push(allTools[j]._id);
+        }
+      }
+    }
+
+    // get teamIDs for those that have the skills
+    let teamsWithTool = [];
+    for (let i = 0; i < toolID.length; i++) {
+      for (let j = 0; j < teamTools.length; j++) {
+        if (toolID[i] === teamTools[j].toolID) {
+          teamsWithTool.push(teamTools[j].teamID);
+        }
+      }
+    }
+
+    // Ensure there's no duplicate teamIDs
+    teamsWithTool = _.uniq(teamsWithTool);
+
+    // Get the filtered teams
+    const teams = [];
+    for (let i = 0; i < teamsWithTool.length; i++) {
+      for (let j = 0; j < team.length; j++) {
+        if (teamsWithTool[i] === team[j]._id) {
+          teams.push(team[j]);
+        }
+      }
+    }
+
+    return teams;
+  }
+
+  /**
+   * Supplies all the possible values to make it work with semantic UI's dropdown
+   * @param data The values
+   * @returns {Array} Returns an array that can be used by semantic UI's dropdown
+   */
+  dropdownValues(data) {
+    let values = _.map(data, 'name');
+    const categories = _.flattenDeep(values);
+    values = _.uniq(categories);
 
     let info = [];
 
-    for (let i = 0; i < skills.length; i++) {
+    for (let i = 0; i < values.length; i++) {
       info.push({
-        key: skills[i],
-        text: skills[i],
-        value: skills[i],
-        _id: skillsID[i],
+        key: values[i],
+        text: values[i],
+        value: values[i],
       });
     }
 
@@ -102,21 +171,8 @@ class TeamFinderFilter {
       text: 'Any',
       value: 'any',
     });
-   // console.log(info);
+    // console.log(info);
     return info;
-  }
-
-  getTeamSkillNames(teamID, teamSkills, universalSkills) {
-    const data = [];
-    const skills = _.filter(teamSkills, { teamID: teamID });
-    for (let i = 0; i < skills.length; i++) {
-      for (let j = 0; j < universalSkills.length; j++) {
-        if (skills[i].skillID === universalSkills[j]._id) {
-          data.push(universalSkills[j].name);
-        }
-      }
-    }
-    return data;
   }
 
 }

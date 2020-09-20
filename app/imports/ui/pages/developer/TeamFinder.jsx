@@ -33,8 +33,8 @@ class TeamFinder extends React.Component {
     super(props);
     this.state = {
       search: '',
-      challenges: this.props.challenges,
-      tools: this.props.tools,
+      challenges: [],
+      tools: [],
       skills: [],
       result: this.props.teams,
     };
@@ -79,8 +79,9 @@ class TeamFinder extends React.Component {
     const setFilters = () => {
       const searchResults = filters.filterBySearch(this.props.teams, this.state.search);
       const skillResults = filters.filterBySkills(this.state.skills, this.props.skills, this.props.teamSkills, searchResults);
+      const toolResults = filters.filterByTools(this.state.tools, this.props.tools, this.props.teamTools, skillResults);
       this.setState({
-        result: skillResults,
+        result: toolResults,
       }, () => {});
     };
 
@@ -95,6 +96,12 @@ class TeamFinder extends React.Component {
     const getSkills = (event, { value }) => {
       this.setState({
         skills: value,
+      }, () => { setFilters(); });
+    };
+
+    const getTools = (event, { value }) => {
+      this.setState({
+        tools: value,
       }, () => { setFilters(); });
     };
 
@@ -219,7 +226,7 @@ class TeamFinder extends React.Component {
                           multiple
                           search
                           selection
-                          options={filters.dropdownSkills(this.props.skills)}
+                          options={filters.dropdownValues(this.props.skills)}
                           onChange={getSkills}
                 />
               </div>
@@ -232,8 +239,8 @@ class TeamFinder extends React.Component {
                     multiple
                     search
                     selection
-                    // options={internships.dropdownSkills()}
-                    // onChange={getSkills}
+                    options={filters.dropdownValues(this.props.tools)}
+                    onChange={getTools}
                 />
               </div>
             </Segment>
