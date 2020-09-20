@@ -27,6 +27,8 @@ class NavBar extends React.Component {
                           to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact
                            to={ROUTES.TEAM_FINDER} key='team-finder'>Team Finder</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact
+                           to={ROUTES.INTERESTED_DEVELOPERS} key='team-finder'>Interested Developers</Menu.Item>,
               ]
           ) : ''}
           {isAdmin ? (
