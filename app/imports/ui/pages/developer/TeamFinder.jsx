@@ -32,10 +32,11 @@ class TeamFinder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: this.props.teams,
+      search: '',
       challenges: this.props.challenges,
       tools: this.props.tools,
-      skills: this.props.skills,
+      skills: [],
+      result: this.props.teams,
     };
   }
 
@@ -75,54 +76,26 @@ class TeamFinder extends React.Component {
 
     const filters = new TeamFinderFilter();
 
-    const handleSearchChange = (event) => {
-      const searchResults = filters.filterBySearch(this.props.teams, event.target.value);
-      this.setState({ search: searchResults });
+    const setFilters = () => {
+      const searchResults = filters.filterBySearch(this.props.teams, this.state.search);
+      const skillResults = filters.filterBySkills(this.state.skills, this.props.skills, this.props.teamSkills, searchResults);
+      this.setState({
+        result: skillResults,
+      }, () => {});
+    };
 
+    const handleSearchChange = (event) => {
+      this.setState({
+        search: event.target.value,
+      }, () => { setFilters(); });
+      // this.setState({ search: event.target.value });
+      // setFilters();
     };
 
     const getSkills = (event, { value }) => {
-      console.log(value);
-
-      // convert from skillName --> skillID
-      const skillID = [];
-      const allSkills = this.props.skills;
-      for (let i = 0; i < value.length; i++) {
-        for (let j = 0; j < allSkills.length; j++) {
-          if (value[i] === allSkills[j].name) {
-            skillID.push(allSkills[j]._id);
-          }
-        }
-      }
-
-      // get teamIDs for those that have the skills
-      let teamsWithSkill = [];
-      for (let i = 0; i < skillID.length; i++) {
-        for (let j = 0; j < this.props.teamSkills.length; j++) {
-          if (skillID[i] === this.props.teamSkills[j].skillID) {
-            teamsWithSkill.push(this.props.teamSkills[j].teamID);
-          }
-        }
-      }
-
-      // Ensure there's no duplicate teamIDs
-      teamsWithSkill = _.uniq(teamsWithSkill);
-
-      // Get the filtered teams
-      const teams = [];
-      for (let i = 0; i < teamsWithSkill.length; i++) {
-        for (let j = 0; j < this.props.teams.length; j++) {
-          if (teamsWithSkill[i] === this.props.teams[j]._id) {
-            teams.push(this.props.teams[j]);
-          }
-        }
-      }
-
-      console.log(teams);
-    };
-
-    const setFilters = () => {
-
+      this.setState({
+        skills: value,
+      }, () => { setFilters(); });
     };
 
     const universalSkills = this.props.skills;
@@ -267,7 +240,7 @@ class TeamFinder extends React.Component {
           </Grid.Column>
           <Grid.Column width={12}>
             <Item.Group divided>
-              {this.state.search.map((teams) => <TeamFinderCard key={teams._id} teams={teams}
+              {this.state.result.map((teams) => <TeamFinderCard key={teams._id} teams={teams}
                                                                 skills={getTeamSkills(teams._id, this.props.teamSkills)}
                                                                 tools={getTeamTools(teams._id, this.props.teamTools)}
                                                                 challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
