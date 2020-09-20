@@ -4,7 +4,7 @@ import {
   Header,
   Item,
   Modal,
-  Icon,
+  Icon, Button, Popup,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
@@ -105,7 +105,23 @@ class InterestedDeveloperCard extends React.Component {
                 </p>
               </Modal.Description>
             </Modal.Content>
+            <Modal.Actions>
+              <Button style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }}>
+                <Icon name='plus'/>
+                Add member
+              </Button>
+            </Modal.Actions>
           </Modal>
+          <Popup
+              content='Added member!'
+              mouseLeaveDelay={200}
+              on='click'
+              trigger={
+                <Button style={{ backgroundColor: 'transparent' }}>
+                  Add member
+                </Button>
+              }
+          />
         </Item>
     );
   }
