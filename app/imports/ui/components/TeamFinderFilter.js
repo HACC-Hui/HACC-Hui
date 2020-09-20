@@ -41,13 +41,6 @@ class TeamFinderFilter {
       return team;
     }
 
-    // if the 'any' option was selected
-    for (let i = 0; i < value.length; i++) {
-      if (value[i] === 'Any') {
-        return team;
-      }
-    }
-
     // convert from skillName --> skillID
     const skillID = [];
     for (let i = 0; i < value.length; i++) {
@@ -89,25 +82,18 @@ class TeamFinderFilter {
    * returns the original data
    * @param value The inputs given
    * @param allTools All the available tools
-   * @param teamSkill Each teams' skills
+   * @param teamTools Each teams' tools
    * @param team The teams
    * @returns {[]|*} Returns the filtered array
    */
   filterByTools(value, allTools, teamTools, team) {
 
-    // if there are no skills selected
+    // if there are no tools selected
     if (value.length === 0) {
       return team;
     }
 
-    // if the 'any' option was selected
-    for (let i = 0; i < value.length; i++) {
-      if (value[i] === 'Any') {
-        return team;
-      }
-    }
-
-    // convert from skillName --> skillID
+    // convert from toolName --> toolID
     const toolID = [];
     for (let i = 0; i < value.length; i++) {
       for (let j = 0; j < allTools.length; j++) {
@@ -117,7 +103,7 @@ class TeamFinderFilter {
       }
     }
 
-    // get teamIDs for those that have the skills
+    // get teamIDs for those that have the tools
     let teamsWithTool = [];
     for (let i = 0; i < toolID.length; i++) {
       for (let j = 0; j < teamTools.length; j++) {
@@ -139,7 +125,57 @@ class TeamFinderFilter {
         }
       }
     }
+    return teams;
+  }
 
+  /**
+   * Filters through the data based on the user selection. By default, if no option is selected it
+   * returns the original data
+   * @param value The inputs given
+   * @param allChallenges All the available challenges
+   * @param teamChallenge Each teams' challenge(s)
+   * @param team The teams
+   * @returns {[]|*} Returns the filtered array
+   */
+  filterByChallenge(value, allChallenges, teamChallenge, team) {
+
+    // if there are no tools selected
+    if (value.length === 0) {
+      return team;
+    }
+
+    // convert from challengeName --> challengeID
+    const challengeID = [];
+    for (let i = 0; i < value.length; i++) {
+      for (let j = 0; j < allChallenges.length; j++) {
+        if (value[i] === allChallenges[j].title) {
+          challengeID.push(allChallenges[j]._id);
+        }
+      }
+    }
+
+    // get teamIDs for those that have the challenges
+    let teamsWithChallenge = [];
+    for (let i = 0; i < challengeID.length; i++) {
+      for (let j = 0; j < teamChallenge.length; j++) {
+        if (challengeID[i] === teamChallenge[j].challengeID) {
+          teamsWithChallenge.push(teamChallenge[j].teamID);
+        }
+      }
+    }
+
+    // Ensure there's no duplicate teamIDs
+    teamsWithChallenge = _.uniq(teamsWithChallenge);
+
+    // Get the filtered teams
+    const teams = [];
+    for (let i = 0; i < teamsWithChallenge.length; i++) {
+      for (let j = 0; j < team.length; j++) {
+        if (teamsWithChallenge[i] === team[j]._id) {
+          teams.push(team[j]);
+        }
+      }
+    }
     return teams;
   }
 
@@ -148,8 +184,8 @@ class TeamFinderFilter {
    * @param data The values
    * @returns {Array} Returns an array that can be used by semantic UI's dropdown
    */
-  dropdownValues(data) {
-    let values = _.map(data, 'name');
+  dropdownValues(data, mapValue) {
+    let values = _.map(data, mapValue);
     const categories = _.flattenDeep(values);
     values = _.uniq(categories);
 
@@ -164,17 +200,8 @@ class TeamFinderFilter {
     }
 
     info = _.orderBy(info, ['text'], ['asc']);
-
-    // Adding any parameter to front of array
-    info.unshift({
-      key: 'any',
-      text: 'Any',
-      value: 'any',
-    });
-    // console.log(info);
     return info;
   }
-
 }
 
 export default TeamFinderFilter;
