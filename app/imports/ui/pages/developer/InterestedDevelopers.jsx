@@ -11,10 +11,9 @@ import PropTypes from 'prop-types';
 import { _ } from 'lodash';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Teams } from '../../../api/team/TeamCollection';
-import { TeamSkills } from '../../../api/team/TeamSkillCollection';
-import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
-import { TeamTools } from '../../../api/team/TeamToolCollection';
-import { TeamDevelopers } from '../../../api/team/TeamDeveloperCollection';
+import { DeveloperChallenges } from '../../../api/user/DeveloperChallengeCollection';
+import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
+import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
@@ -35,12 +34,12 @@ class InterestedDevelopers extends React.Component {
 
   renderPage() {
 
-    if (this.props.teams.length === 0) {
+    if (this.props.developers.length === 0) {
       return (
           <div align={'center'}>
             <Header as='h2' icon>
               <Icon name='users'/>
-              There are no available teams at the moment.
+              There are no interested developers at the moment.
               <Header.Subheader>
                 Please check back later.
               </Header.Subheader>
@@ -51,9 +50,9 @@ class InterestedDevelopers extends React.Component {
 
     const universalSkills = this.props.skills;
 
-    function getTeamSkills(teamID, teamSkills) {
+    function getDeveloperSkills(developerID, developerSkills) {
       const data = [];
-      const skills = _.filter(teamSkills, { teamID: teamID });
+      const skills = _.filter(developerSkills, { developerID: developerID });
       for (let i = 0; i < skills.length; i++) {
         for (let j = 0; j < universalSkills.length; j++) {
           if (skills[i].skillID === universalSkills[j]._id) {
@@ -66,9 +65,9 @@ class InterestedDevelopers extends React.Component {
 
     const universalTools = this.props.tools;
 
-    function getTeamTools(teamID, teamTools) {
+    function getDeveloperTools(developerID, developerTools) {
       const data = [];
-      const tools = _.filter(teamTools, { teamID: teamID });
+      const tools = _.filter(developerTools, { developerID: developerID });
       for (let i = 0; i < tools.length; i++) {
         for (let j = 0; j < universalTools.length; j++) {
           if (tools[i].toolID === universalTools[j]._id) {
@@ -81,31 +80,13 @@ class InterestedDevelopers extends React.Component {
 
     const universalChallenges = this.props.challenges;
 
-    function getTeamChallenges(teamID, teamChallenges) {
+    function getDeveloperChallenges(developerID, developerChallenges) {
       const data = [];
-      const challenges = _.filter(teamChallenges, { teamID: teamID });
+      const challenges = _.filter(developerChallenges, { developerID: developerID });
       for (let i = 0; i < challenges.length; i++) {
         for (let j = 0; j < universalChallenges.length; j++) {
           if (challenges[i].challengeID === universalChallenges[j]._id) {
             data.push(universalChallenges[j].title);
-          }
-        }
-      }
-      return data;
-    }
-
-    const allDevelopers = this.props.developers;
-
-    function getTeamDevelopers(teamID, teamDevelopers) {
-      const data = [];
-      const developers = _.filter(teamDevelopers, { teamID: teamID });
-      for (let i = 0; i < developers.length; i++) {
-        for (let j = 0; j < allDevelopers.length; j++) {
-          if (developers[i].developerID === allDevelopers[j]._id) {
-            data.push({
-              firstName: allDevelopers[j].firstName,
-              lastName: allDevelopers[j].lastName,
-            });
           }
         }
       }
@@ -122,11 +103,11 @@ class InterestedDevelopers extends React.Component {
           <Grid.Row>
           <Grid.Column>
             <Item.Group divided>
-              {this.props.teams.map((teams) => <InterestedDeveloperCard key={teams._id} teams={teams}
-                   skills={getTeamSkills(teams._id, this.props.teamSkills)}
-                   tools={getTeamTools(teams._id, this.props.teamTools)}
-                   challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
-                   developers={getTeamDevelopers(teams._id, this.props.teamDevelopers)}
+              {/* eslint-disable-next-line max-len */}
+              {this.props.developers.map((developers) => <InterestedDeveloperCard key={developers._id} developers={developers}
+                   skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
+                   tools={getDeveloperTools(developers._id, this.props.developerTools)}
+                   challenges={getDeveloperChallenges(developers._id, this.props.developerChallenges)}
                   />)}
             </Item.Group>
           </Grid.Column>
@@ -137,10 +118,10 @@ class InterestedDevelopers extends React.Component {
 }
 
 InterestedDevelopers.propTypes = {
-  teamChallenges: PropTypes.array.isRequired,
-  teamSkills: PropTypes.array.isRequired,
+  developerChallenges: PropTypes.array.isRequired,
+  developerSkills: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
-  teamTools: PropTypes.array.isRequired,
+  developerTools: PropTypes.array.isRequired,
   teams: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
   developers: PropTypes.array.isRequired,
@@ -151,29 +132,27 @@ InterestedDevelopers.propTypes = {
 };
 
 export default withTracker(() => {
-  const subscriptionChallenges = TeamChallenges.subscribe();
-  const subscriptionSkills = TeamSkills.subscribe();
-  const subscriptionTools = TeamTools.subscribe();
+  const subscriptionChallenges = DeveloperChallenges.subscribe();
+  const subscriptionSkills = DeveloperSkills.subscribe();
+  const subscriptionTools = DeveloperTools.subscribe();
   const subscriptionDevelopers = Developers.subscribe();
   const subscriptionTeam = Teams.subscribe();
   const subSkills = Skills.subscribe();
   const subChallenges = Challenges.subscribe();
   const subTools = Tools.subscribe();
-  const teamDev = TeamDevelopers.subscribe();
 
   return {
-    teamChallenges: TeamChallenges.find({}).fetch(),
-    teamSkills: TeamSkills.find({}).fetch(),
-    teamTools: TeamTools.find({}).fetch(),
+    developerChallenges: DeveloperChallenges.find({}).fetch(),
+    developerSkills: DeveloperSkills.find({}).fetch(),
+    developerTools: DeveloperTools.find({}).fetch(),
     teams: Teams.find({ open: true }).fetch(),
     skills: Skills.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     tools: Tools.find({}).fetch(),
     developers: Developers.find({}).fetch(),
-    teamDevelopers: TeamDevelopers.find({}).fetch(),
     // eslint-disable-next-line max-len
     ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready()
         && subscriptionDevelopers.ready() && subscriptionTeam.ready() && subSkills.ready() && subTools.ready()
-        && subChallenges.ready() && teamDev.ready(),
+        && subChallenges.ready(),
   };
 })(InterestedDevelopers);

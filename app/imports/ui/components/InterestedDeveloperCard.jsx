@@ -32,15 +32,14 @@ class InterestedDeveloperCard extends React.Component {
             <Item.Content>
               <Item.Header>
                 <Header as={'h3'} style={{ color: '#263763', paddingTop: '2rem' }}>
-                  <Icon name='users' size='tiny' />
-                  {this.props.teams.name}
+                  <Icon name='user' size='tiny' />
+                  {this.props.developers.firstName} {this.props.developers.lastName}
                 </Header>
               </Item.Header>
               <Item.Meta>
                 <Item.Meta>
                   <Grid doubling columns={5}>
                     <Grid.Column>
-                      <Image src={this.props.teams.image} rounded size='small'/>
                       <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
                         {this.props.challenges.map((challenge) => <p
                             style={{ color: 'rgb(89, 119, 199)' }}
@@ -61,8 +60,7 @@ class InterestedDeveloperCard extends React.Component {
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Slack Username</Header>
-                      {this.props.tools.map((tool) => <p key={tool}>
-                        {tool}</p>)}
+                      {this.props.developers.username}
                     </Grid.Column>
                   </Grid>
                 </Item.Meta>
@@ -70,13 +68,16 @@ class InterestedDeveloperCard extends React.Component {
 
             </Item.Content>
           }>
-            <Modal.Header>{this.props.teams.name}</Modal.Header>
+            <Modal.Header>{this.props.developers.firstName} {this.props.developers.lastName}</Modal.Header>
             <Modal.Content image scrolling>
-              <Image size='medium' src={this.props.teams.image} wrapped/>
               <Modal.Description>
-                <Header>Description</Header>
+                <Header>About Me</Header>
                 <p>
-                  {this.props.teams.description}
+                  {this.props.developers.aboutMe}
+                </p>
+                <Header>Slack Username</Header>
+                <p>
+                {this.props.developers.username}
                 </p>
                 <Header>Challenges</Header>
                 <p>
@@ -92,11 +93,6 @@ class InterestedDeveloperCard extends React.Component {
                 <p>
                   {this.props.tools.map((tool) => <p key={tool}>
                     {tool}</p>)}
-                </p>
-                <Header>Members</Header>
-                <p>
-                  {this.props.developers.map((developer) => <p key={developer}>
-                    {developer.firstName} {developer.lastName}</p>)}
                 </p>
               </Modal.Description>
             </Modal.Content>
