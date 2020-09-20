@@ -6,11 +6,8 @@ import {
   Loader,
   Dropdown,
   Input,
-  Popup,
-  Form,
   Item,
   Icon,
-  Button,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { _ } from 'lodash';
@@ -24,7 +21,7 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
-import { Slugs } from '../../../api/slug/SlugCollection';
+import TeamFinderFilter from '../../components/TeamFinderFilter';
 import TeamFinderCard from '../../components/TeamFinderCard';
 
 /**
@@ -32,6 +29,16 @@ import TeamFinderCard from '../../components/TeamFinderCard';
  * @memberOf ui/pages
  */
 class TeamFinder extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: '',
+      challenges: [],
+      tools: [],
+      skills: [],
+      result: _.orderBy(this.props.teams, ['name'], ['asc']),
+    };
+  }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
@@ -55,9 +62,9 @@ class TeamFinder extends React.Component {
     }
 
     const sortBy = [
+      { key: 'teams', text: 'teams', value: 'teams' },
       { key: 'challenges', text: 'challenges', value: 'challenges' },
       { key: 'skills', text: 'skills', value: 'skills' },
-      { key: 'teams', text: 'teams', value: 'teams' },
       { key: 'tools', text: 'tools', value: 'tools' },
     ];
 
@@ -67,8 +74,60 @@ class TeamFinder extends React.Component {
       top: '6.5rem',
     };
 
-    const handleSubmit = () => {
-      console.log('submitted');
+    const filters = new TeamFinderFilter();
+
+    const setFilters = () => {
+      const searchResults = filters.filterBySearch(this.props.teams, this.state.search);
+      const skillResults = filters.filterBySkills(this.state.skills, this.props.skills, this.props.teamSkills, searchResults);
+      const toolResults = filters.filterByTools(this.state.tools, this.props.tools, this.props.teamTools, skillResults);
+      const challengeResults = filters.filterByChallenge(this.state.challenges, this.props.challenges, this.props.teamChallenges, toolResults);
+      const sorted = filters.sortBy(challengeResults, 'teams');
+      this.setState({
+        result: sorted,
+      }, () => {
+      });
+    };
+
+    const handleSearchChange = (event) => {
+      this.setState({
+        search: event.target.value,
+      }, () => {
+        setFilters();
+      });
+      // this.setState({ search: event.target.value });
+      // setFilters();
+    };
+
+    // const getSort = (event, { value }) => {
+    //   this.setState({
+    //     sortBy: value,
+    //   }, () => {
+    //     setFilters();
+    //   });
+    // };
+
+    const getSkills = (event, { value }) => {
+      this.setState({
+        skills: value,
+      }, () => {
+        setFilters();
+      });
+    };
+
+    const getTools = (event, { value }) => {
+      this.setState({
+        tools: value,
+      }, () => {
+        setFilters();
+      });
+    };
+
+    const getChallenge = (event, { value }) => {
+      this.setState({
+        challenges: value,
+      }, () => {
+        setFilters();
+      });
     };
 
     const universalSkills = this.props.skills;
@@ -146,37 +205,32 @@ class TeamFinder extends React.Component {
               <div style={{ paddingTop: '2rem' }}>
                 <Header>
                   <Header.Content>
-                    Total Teams: 30
+                    Total Teams: {this.state.result.length}
                   </Header.Content>
                 </Header>
               </div>
+              {/*<div style={{ paddingTop: '2rem' }}>*/}
+              {/*  <Header>*/}
+              {/*    <Header.Content>*/}
+              {/*      Sort by {' '}*/}
+              {/*      <Dropdown*/}
+              {/*          inline*/}
+              {/*          header='Sort by...'*/}
+              {/*          options={sortBy}*/}
+              {/*          defaultValue={sortBy[0].value}*/}
+              {/*          onChange={getSort}*/}
+              {/*      />*/}
+              {/*    </Header.Content>*/}
+              {/*  </Header>*/}
+              {/*</div>*/}
               <div style={{ paddingTop: '2rem' }}>
-                <Header>
-                  <Header.Content>
-                    Sort by {' '}
-                    <Dropdown
-                        inline
-                        header='Sort by...'
-                        options={sortBy}
-                        defaultValue={sortBy[0].value}
-                        // onChange={getSort}
-                    />
-                  </Header.Content>
-                </Header>
-              </div>
-              <div style={{ paddingTop: '2rem' }}>
-                <Form onSubmit={handleSubmit}>
-                  <Popup
-                      trigger={<Input icon='search'
-                                      iconPosition='left'
-                                      placeholder='Search ...'
-                          // onChange={handleSearchChange}
-                                      fluid
-                      />}
-                      content='Press enter to search!'
-                      on={'focus'}
-                  />
-                </Form>
+                <Input icon='search'
+                       iconPosition='left'
+                       placeholder='Search by team name...'
+                       onChange={handleSearchChange}
+                       fluid
+                />
+
                 <div style={{ paddingTop: '2rem' }}>
                   <Header>Challenges</Header>
                   <Dropdown
@@ -185,8 +239,8 @@ class TeamFinder extends React.Component {
                       multiple
                       search
                       selection
-                      // options={internships.dropdownSkills()}
-                      // onChange={getSkills}
+                      options={filters.dropdownValues(this.props.challenges, 'title')}
+                      onChange={getChallenge}
                   />
                 </div>
               </div>
@@ -197,12 +251,12 @@ class TeamFinder extends React.Component {
                           multiple
                           search
                           selection
-                    // options={internships.dropdownSkills()}
-                    // onChange={getSkills}
+                          options={filters.dropdownValues(this.props.skills, 'name')}
+                          onChange={getSkills}
                 />
               </div>
 
-              <div style={{ paddingTop: '2rem' }}>
+              <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
                 <Header>Tools</Header>
                 <Dropdown
                     placeholder='Tools'
@@ -210,20 +264,20 @@ class TeamFinder extends React.Component {
                     multiple
                     search
                     selection
-                    // options={internships.dropdownSkills()}
-                    // onChange={getSkills}
+                    options={filters.dropdownValues(this.props.tools, 'name')}
+                    onChange={getTools}
                 />
               </div>
             </Segment>
           </Grid.Column>
           <Grid.Column width={12}>
             <Item.Group divided>
-              {this.props.teams.map((teams) => <TeamFinderCard key={teams._id} teams={teams}
-                   skills={getTeamSkills(teams._id, this.props.teamSkills)}
-                   tools={getTeamTools(teams._id, this.props.teamTools)}
-                   challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
-                   developers={getTeamDevelopers(teams._id, this.props.teamDevelopers)}
-                  />)}
+              {this.state.result.map((teams) => <TeamFinderCard key={teams._id} teams={teams}
+                                                                skills={getTeamSkills(teams._id, this.props.teamSkills)}
+                                                                tools={getTeamTools(teams._id, this.props.teamTools)}
+                                                                challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
+                                                                developers={getTeamDevelopers(teams._id, this.props.teamDevelopers)}
+              />)}
             </Item.Group>
           </Grid.Column>
         </Grid>

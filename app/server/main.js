@@ -1,7 +1,4 @@
-import '../imports/startup/server/Accounts';
-import '../imports/startup/server/Publications';
-import '../imports/startup/server/Mongo';
-import '../imports/startup/server/Slack';
+import '../imports/startup/server';
 import '../imports/api/stuff/StuffCollection.methods';
 import '../imports/api/base';
 import '../imports/api/challenge';

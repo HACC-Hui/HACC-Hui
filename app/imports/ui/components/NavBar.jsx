@@ -27,12 +27,20 @@ class NavBar extends React.Component {
                           to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact
                            to={ROUTES.TEAM_FINDER} key='team-finder'>Team Finder</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact
+                           to={ROUTES.INTERESTED_DEVELOPERS} key='team-finder'>Interested Developers</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.EDIT_PROFILE} key='edit-profile'>Edit
+                  Your Profile</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_TEAMS} key='list-teams'>List the
+                  Teams</Menu.Item>,
               ]
           ) : ''}
           {isAdmin ? (
               [
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.CONFIGURE_HACC}
                            key={ROUTES.CONFIGURE_HACC}>Configure HACC</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.DUMP_DATABASE}
+                           key={ROUTES.DUMP_DATABASE}>Dump Database</Menu.Item>,
               ]
           ) : ''}
           <Menu.Item position="right">
