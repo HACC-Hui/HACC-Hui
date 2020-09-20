@@ -50,7 +50,13 @@ class TeamCollection extends BaseSlugCollection {
            owner, open = true, challenges, skills, tools, developers = [] }) {
     const team = slugify(name);
     const slugID = Slugs.define({ name: team });
-    const ownerID = Slugs.getEntityID(owner);
+    // check to see if owner is a slug
+    let ownerID;
+    if (Slugs.isDefined(owner)) {
+      ownerID = Slugs.getEntityID(owner);
+    } else {
+      ownerID = owner;
+    }
     const teamID = this._collection.insert({ name, slugID, description, gitHubRepo, devPostPage,
       owner: ownerID, open });
     // Connect the Slug to this Interest
