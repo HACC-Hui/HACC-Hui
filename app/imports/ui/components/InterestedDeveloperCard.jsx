@@ -53,7 +53,7 @@ class InterestedDeveloperCard extends React.Component {
                     <Grid.Column>
                       <Header>Tools</Header>
                       {this.props.tools.map((tool) => <p key={tool}>
-                        {tool}</p>)}
+                        {tool.name}</p>)}
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Slack Username</Header>
@@ -101,7 +101,7 @@ class InterestedDeveloperCard extends React.Component {
                 <Header>Tools</Header>
                 <p>
                   {this.props.tools.map((tool) => <p key={tool}>
-                    {tool}</p>)}
+                    {tool.name}: {tool.level}</p>)}
                 </p>
               </Modal.Description>
             </Modal.Content>

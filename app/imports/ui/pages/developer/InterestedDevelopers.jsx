@@ -70,7 +70,7 @@ class InterestedDevelopers extends React.Component {
       for (let i = 0; i < tools.length; i++) {
         for (let j = 0; j < universalTools.length; j++) {
           if (tools[i].toolID === universalTools[j]._id) {
-            data.push(universalTools[j].name);
+            data.push({ name: universalTools[j].name, level: tools[i].toolLevel });
           }
         }
       }
