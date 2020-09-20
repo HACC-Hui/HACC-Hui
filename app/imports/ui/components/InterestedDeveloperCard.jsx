@@ -2,12 +2,9 @@ import React from 'react';
 import {
   Grid,
   Header,
-  Image,
-  Popup,
   Item,
   Modal,
   Icon,
-  Button,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
@@ -51,7 +48,7 @@ class InterestedDeveloperCard extends React.Component {
                     <Grid.Column>
                       <Header>Skills</Header>
                       {this.props.skills.map((skill) => <p key={skill}>
-                        {skill}</p>)}
+                        {skill.name}</p>)}
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Tools</Header>
@@ -79,6 +76,18 @@ class InterestedDeveloperCard extends React.Component {
                 <p>
                 {this.props.developers.username}
                 </p>
+                <Header>LinkedIn</Header>
+                <p>
+                  {this.props.developers.linkedIn}
+                </p>
+                <Header>GitHub</Header>
+                <p>
+                  {this.props.developers.gitHub}
+                </p>
+                <Header>Website</Header>
+                <p>
+                  {this.props.developers.website}
+                </p>
                 <Header>Challenges</Header>
                 <p>
                   {this.props.challenges.map((challenge) => <p key={challenge}>
@@ -87,7 +96,7 @@ class InterestedDeveloperCard extends React.Component {
                 <Header>Skills</Header>
                 <p>
                   {this.props.skills.map((skill) => <p key={skill}>
-                    {skill}</p>)}
+                    {skill.name}: {skill.level}</p>)}
                 </p>
                 <Header>Tools</Header>
                 <p>

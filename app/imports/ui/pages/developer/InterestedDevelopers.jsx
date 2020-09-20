@@ -5,7 +5,6 @@ import {
   Loader,
   Item,
   Icon,
-  Button,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { _ } from 'lodash';
@@ -18,7 +17,6 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
-import { Slugs } from '../../../api/slug/SlugCollection';
 import InterestedDeveloperCard from '../../components/InterestedDeveloperCard';
 
 /**
@@ -56,10 +54,11 @@ class InterestedDevelopers extends React.Component {
       for (let i = 0; i < skills.length; i++) {
         for (let j = 0; j < universalSkills.length; j++) {
           if (skills[i].skillID === universalSkills[j]._id) {
-            data.push(universalSkills[j].name);
+            data.push({ name: universalSkills[j].name, level: skills[i].skillLevel });
           }
         }
       }
+      console.log(data);
       return data;
     }
 
@@ -75,6 +74,7 @@ class InterestedDevelopers extends React.Component {
           }
         }
       }
+      console.log(data);
       return data;
     }
 
