@@ -6,11 +6,8 @@ import {
   Loader,
   Dropdown,
   Input,
-  Popup,
-  Form,
   Item,
   Icon,
-  Button,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { _ } from 'lodash';
@@ -24,7 +21,6 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
-import { Slugs } from '../../../api/slug/SlugCollection';
 import TeamFinderFilter from '../../components/TeamFinderFilter';
 import TeamFinderCard from '../../components/TeamFinderCard';
 
@@ -37,9 +33,9 @@ class TeamFinder extends React.Component {
     super(props);
     this.state = {
       search: this.props.teams,
-      challenges: '',
-      tools: '',
-      skills: '',
+      challenges: this.props.challenges,
+      tools: this.props.tools,
+      skills: this.props.skills,
     };
   }
 
@@ -82,6 +78,50 @@ class TeamFinder extends React.Component {
     const handleSearchChange = (event) => {
       const searchResults = filters.filterBySearch(this.props.teams, event.target.value);
       this.setState({ search: searchResults });
+
+    };
+
+    const getSkills = (event, { value }) => {
+      console.log(value);
+
+      // convert from skillName --> skillID
+      const skillID = [];
+      const allSkills = this.props.skills;
+      for (let i = 0; i < value.length; i++) {
+        for (let j = 0; j < allSkills.length; j++) {
+          if (value[i] === allSkills[j].name) {
+            skillID.push(allSkills[j]._id);
+          }
+        }
+      }
+
+      // get teamIDs for those that have the skills
+      let teamsWithSkill = [];
+      for (let i = 0; i < skillID.length; i++) {
+        for (let j = 0; j < this.props.teamSkills.length; j++) {
+          if (skillID[i] === this.props.teamSkills[j].skillID) {
+            teamsWithSkill.push(this.props.teamSkills[j].teamID);
+          }
+        }
+      }
+
+      // Ensure there's no duplicate teamIDs
+      teamsWithSkill = _.uniq(teamsWithSkill);
+
+      // Get the filtered teams
+      const teams = [];
+      for (let i = 0; i < teamsWithSkill.length; i++) {
+        for (let j = 0; j < this.props.teams.length; j++) {
+          if (teamsWithSkill[i] === this.props.teams[j]._id) {
+            teams.push(this.props.teams[j]);
+          }
+        }
+      }
+
+      console.log(teams);
+    };
+
+    const setFilters = () => {
 
     };
 
@@ -194,7 +234,7 @@ class TeamFinder extends React.Component {
                       multiple
                       search
                       selection
-                      // options={internships.dropdownSkills()}
+                      // options={filters.dropdownSkills(this.props.skills)}
                       // onChange={getSkills}
                   />
                 </div>
@@ -206,8 +246,8 @@ class TeamFinder extends React.Component {
                           multiple
                           search
                           selection
-                    // options={internships.dropdownSkills()}
-                    // onChange={getSkills}
+                          options={filters.dropdownSkills(this.props.skills)}
+                          onChange={getSkills}
                 />
               </div>
 
