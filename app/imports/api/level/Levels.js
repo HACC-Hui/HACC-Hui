@@ -27,9 +27,9 @@ export const demographicLevels = _.values(demographicLevel);
  * @memberOf api/level
  */
 export const skillAndToolLevel = {
+  DONT_KNOW: 'Don\'t know, but would like to learn',
   NOVICE: 'Novice',
   EXPERIENCED: 'Experienced',
-  DONT_KNOW: 'Don\'t know, but would like to learn',
 };
 
 /**

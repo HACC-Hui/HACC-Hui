@@ -11,6 +11,7 @@ export const ROUTES = {
   PARTICIPATION: '/participation',
   UNDERAGE_PARTICIPATION: '/under-participation',
   CREATE_PROFILE: '/create-profile',
+  EDIT_PROFILE: '/edit-profile',
   CREATE_TEAM: '/create-team',
   DELETE_ACCOUNT: '/delete-account',
   CONFIGURE_HACC: '/configure-hacc',
