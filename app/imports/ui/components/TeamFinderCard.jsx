@@ -10,11 +10,19 @@ import {
   Button,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+// import { sendDM2DeveloperMethod } from '../../api/slackbot/Slack.methods';
 
 class TeamFinderCard extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+    /*
+    function sendMessage(developer) {
+      const message = 'test message';
+      const username = developer.username;
+      sendDM2DeveloperMethod.call({ username, message });
+    }
+     */
 
     function changeBackground(e) {
       e.currentTarget.style.backgroundColor = '#fafafa';
