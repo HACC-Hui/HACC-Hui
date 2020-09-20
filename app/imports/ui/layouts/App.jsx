@@ -28,6 +28,7 @@ import AddChallenge from '../pages/administrator/AddChallenge';
 import AddSkill from '../pages/administrator/AddSkill';
 import AddTool from '../pages/administrator/AddTool';
 import TeamFinder from '../pages/developer/TeamFinder';
+import InterestedDevelopers from '../pages/developer/InterestedDevelopers';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -48,6 +49,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={Dprofile} />
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreation} />
               <ProtectedRoute path={ROUTES.TEAM_FINDER} component={TeamFinder}/>
+              <ProtectedRoute path={ROUTES.INTERESTED_DEVELOPERS} component={InterestedDevelopers}/>
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
               <ProtectedRoute path="/list" component={ListStuff} />
               <ProtectedRoute path="/add" component={AddStuff} />
