@@ -61,6 +61,7 @@ class TeamFinder extends React.Component {
       );
     }
 
+    // eslint-disable-next-line no-unused-vars
     const sortBy = [
       { key: 'teams', text: 'teams', value: 'teams' },
       { key: 'challenges', text: 'challenges', value: 'challenges' },
@@ -70,6 +71,7 @@ class TeamFinder extends React.Component {
 
     const sticky = {
       position: '-webkit-sticky',
+      // eslint-disable-next-line no-dupe-keys
       position: 'sticky',
       top: '6.5rem',
     };
@@ -78,8 +80,10 @@ class TeamFinder extends React.Component {
 
     const setFilters = () => {
       const searchResults = filters.filterBySearch(this.props.teams, this.state.search);
+      // eslint-disable-next-line max-len
       const skillResults = filters.filterBySkills(this.state.skills, this.props.skills, this.props.teamSkills, searchResults);
       const toolResults = filters.filterByTools(this.state.tools, this.props.tools, this.props.teamTools, skillResults);
+      // eslint-disable-next-line max-len
       const challengeResults = filters.filterByChallenge(this.state.challenges, this.props.challenges, this.props.teamChallenges, toolResults);
       const sorted = filters.sortBy(challengeResults, 'teams');
       this.setState({
@@ -209,20 +213,20 @@ class TeamFinder extends React.Component {
                   </Header.Content>
                 </Header>
               </div>
-              {/*<div style={{ paddingTop: '2rem' }}>*/}
-              {/*  <Header>*/}
-              {/*    <Header.Content>*/}
-              {/*      Sort by {' '}*/}
-              {/*      <Dropdown*/}
-              {/*          inline*/}
-              {/*          header='Sort by...'*/}
-              {/*          options={sortBy}*/}
-              {/*          defaultValue={sortBy[0].value}*/}
-              {/*          onChange={getSort}*/}
-              {/*      />*/}
-              {/*    </Header.Content>*/}
-              {/*  </Header>*/}
-              {/*</div>*/}
+              {/* <div style={{ paddingTop: '2rem' }}> */}
+              {/*  <Header> */}
+              {/*    <Header.Content> */}
+              {/*      Sort by {' '} */}
+              {/*      <Dropdown */}
+              {/*          inline */}
+              {/*          header='Sort by...' */}
+              {/*          options={sortBy} */}
+              {/*          defaultValue={sortBy[0].value} */}
+              {/*          onChange={getSort} */}
+              {/*      /> */}
+              {/*    </Header.Content> */}
+              {/*  </Header> */}
+              {/* </div> */}
               <div style={{ paddingTop: '2rem' }}>
                 <Input icon='search'
                        iconPosition='left'

@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import {
   Grid,
@@ -10,19 +11,33 @@ import {
   Button,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-// import { sendDM2DeveloperMethod } from '../../api/slackbot/Slack.methods';
+import { WantsToJoin } from '../../api/team/WantToJoinCollection';
+import { Developers } from '../../api/user/DeveloperCollection';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
+import { Teams } from '../../api/team/TeamCollection';
+import { Slugs } from '../../api/slug/SlugCollection';
 
 class TeamFinderCard extends React.Component {
+  handleClick(e, inst) {
+    console.log(e, inst);
+    const collectionName = WantsToJoin.getCollectionName();
+    const teamDoc = Teams.findDoc(inst.id);
+    const team = Slugs.getNameFromID(teamDoc.slugID);
+    const developer = Developers.findDoc({ userID: Meteor.userId() }).username;
+    const definitionData = {
+      team,
+      developer,
+    };
+    console.log(collectionName, definitionData);
+    defineMethod.call({ collectionName, definitionData }, (error) => {
+      if (error) {
+        console.error('Failed to define', error);
+      }
+    });
+  }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    /*
-    function sendMessage(developer) {
-      const message = 'test message';
-      const username = developer.username;
-      sendDM2DeveloperMethod.call({ username, message });
-    }
-     */
 
     function changeBackground(e) {
       e.currentTarget.style.backgroundColor = '#fafafa';
@@ -97,7 +112,7 @@ class TeamFinderCard extends React.Component {
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-              <Button style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }}>
+              <Button style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} onClick={this.handleClick}>
                 <Icon name='plus'/>
                 Request to join
               </Button>
@@ -108,7 +123,7 @@ class TeamFinderCard extends React.Component {
               mouseLeaveDelay={200}
               on='click'
               trigger={
-                <Button style={{ backgroundColor: 'transparent' }}>
+                <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.handleClick}>
                   Request to join
                 </Button>
               }

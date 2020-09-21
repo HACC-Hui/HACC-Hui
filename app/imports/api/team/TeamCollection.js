@@ -60,7 +60,7 @@ class TeamCollection extends BaseSlugCollection {
     } else {
       ownerID = owner;
     }
-    const teamID = this._collection.insert({ name, slugID, description, gitHubRepo, devPostPage,
+    const teamID = this._collection.insert({ name, slugID, description, gitHubRepo, image, devPostPage,
       owner: ownerID, open });
     // Connect the Slug to this Interest
     Slugs.updateEntityID(slugID, teamID);
@@ -165,7 +165,7 @@ class TeamCollection extends BaseSlugCollection {
     const skills = _.map(teamSkills, (tS) => Skills.findSlugByID(tS.skillID));
     const teamTools = TeamTools.find(selector).fetch();
     const tools = _.map(teamTools, (tT) => Tools.findSlugByID(tT.toolID));
-    return { name, description, owner: ownerSlug, open, challenges, developers, skills, tools };
+    return { name, description, owner: ownerSlug, open, image, challenges, developers, skills, tools };
   }
 }
 
