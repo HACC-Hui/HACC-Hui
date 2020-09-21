@@ -16,6 +16,7 @@ import { Developers } from '../../api/user/DeveloperCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { Teams } from '../../api/team/TeamCollection';
 import { Slugs } from '../../api/slug/SlugCollection';
+import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
 
 class TeamFinderCard extends React.Component {
   handleClick(e, inst) {
@@ -30,6 +31,13 @@ class TeamFinderCard extends React.Component {
     };
     console.log(collectionName, definitionData);
     defineMethod.call({ collectionName, definitionData }, (error) => {
+      if (error) {
+        console.error('Failed to define', error);
+      }
+    });
+    const collectionName2 = InterestedDevs.getCollectionName();
+    console.log(collectionName2, definitionData);
+    defineMethod.call({ collectionName: collectionName2, definitionData }, (error) => {
       if (error) {
         console.error('Failed to define', error);
       }

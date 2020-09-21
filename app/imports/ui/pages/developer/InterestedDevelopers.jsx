@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import {
   Grid,
@@ -17,6 +18,8 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
+import { InterestedDevs } from '../../../api/team/InterestedDeveloperCollection';
+import { TeamDevelopers } from '../../../api/team/TeamDeveloperCollection';
 import InterestedDeveloperCard from '../../components/InterestedDeveloperCard';
 
 /**
@@ -55,6 +58,21 @@ class InterestedDevelopers extends React.Component {
         for (let j = 0; j < universalSkills.length; j++) {
           if (skills[i].skillID === universalSkills[j]._id) {
             data.push({ name: universalSkills[j].name, level: skills[i].skillLevel });
+          }
+        }
+      }
+      console.log(data);
+      return data;
+    }
+
+    const universalDevs = this.props.developers;
+
+    function getInterestedDevelopers(devs) {
+      const data = [];
+      for (let i = 0; i < devs.length; i++) {
+        for (let j = 0; j < universalDevs.length; j++) {
+          if (devs[i].developerID === universalDevs[j]._id) {
+            data.push(universalDevs[j]);
           }
         }
       }
@@ -104,7 +122,7 @@ class InterestedDevelopers extends React.Component {
           <Grid.Column>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
-              {this.props.developers.map((developers) => <InterestedDeveloperCard key={developers._id} developers={developers}
+              {getInterestedDevelopers(this.props.interestedDevs).map((developers) => <InterestedDeveloperCard key={developers._id} developers={developers}
                    skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
                    tools={getDeveloperTools(developers._id, this.props.developerTools)}
                    challenges={getDeveloperChallenges(developers._id, this.props.developerChallenges)}
@@ -119,6 +137,7 @@ class InterestedDevelopers extends React.Component {
 
 InterestedDevelopers.propTypes = {
   developerChallenges: PropTypes.array.isRequired,
+  interestedDevs: PropTypes.array.isRequired,
   developerSkills: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   developerTools: PropTypes.array.isRequired,
@@ -127,7 +146,6 @@ InterestedDevelopers.propTypes = {
   developers: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
-  teamDevelopers: PropTypes.array.isRequired,
 
 };
 
@@ -136,23 +154,32 @@ export default withTracker(() => {
   const subscriptionSkills = DeveloperSkills.subscribe();
   const subscriptionTools = DeveloperTools.subscribe();
   const subscriptionDevelopers = Developers.subscribe();
+  const subscriptionInterestedDevs = InterestedDevs.subscribe();
+  const subscriptionTeamDevelopers = TeamDevelopers.subscribe();
   const subscriptionTeam = Teams.subscribe();
   const subSkills = Skills.subscribe();
   const subChallenges = Challenges.subscribe();
   const subTools = Tools.subscribe();
+  // eslint-disable-next-line max-len
+  console.log(InterestedDevs.find({ teamID: TeamDevelopers.findDoc({ developerID: Developers.findDoc({ userID: Meteor.userId() })._id }).teamID }).fetch());
 
   return {
+    // eslint-disable-next-line max-len
+    developers: Developers.find({}).fetch(),
     developerChallenges: DeveloperChallenges.find({}).fetch(),
     developerSkills: DeveloperSkills.find({}).fetch(),
     developerTools: DeveloperTools.find({}).fetch(),
+    // eslint-disable-next-line max-len
+    interestedDevs: InterestedDevs.find({ teamID: TeamDevelopers.findDoc({ developerID: Developers.findDoc({ userID: Meteor.userId() })._id }).teamID }).fetch(),
     teams: Teams.find({ open: true }).fetch(),
     skills: Skills.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     tools: Tools.find({}).fetch(),
-    developers: Developers.find({}).fetch(),
+    // developers: Developers.find({}).fetch(),
     // eslint-disable-next-line max-len
     ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready()
-        && subscriptionDevelopers.ready() && subscriptionTeam.ready() && subSkills.ready() && subTools.ready()
+        // eslint-disable-next-line max-len
+        && subscriptionDevelopers.ready() && subscriptionInterestedDevs.ready() && subscriptionTeamDevelopers.ready() && subscriptionTeam.ready() && subSkills.ready() && subTools.ready()
         && subChallenges.ready(),
   };
 })(InterestedDevelopers);
