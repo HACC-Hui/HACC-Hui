@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { Teams } from './TeamCollection';
 import { Users } from '../user/UserCollection';
 import { ROLE } from '../role/Role';
+import { WantsToJoin } from './WantToJoinCollection';
 
 /**
  * Meteor method for getting the teams without a GitHub Repository. Only Administrators can run this
@@ -57,5 +58,19 @@ export const getTeamsWithoutDevpostPageMethod = new ValidatedMethod({
       return teams;
     }
     return null;
+  },
+});
+
+export const developerIsInterestedInJoiningTeamMethod = new ValidatedMethod({
+  name: 'DeveloperInterestedInTeam.method',
+  mixins: [CallPromiseMixin],
+  validate: null,
+  run({ developer, team }) {
+    if (!this.userId) {
+      throw new Meteor.Error('unauthorized', 'You must be logged in to indicate you are interested in a team.');
+    }
+    if (Meteor.isServer) {
+      WantsToJoin.define({ team, developer });
+    }
   },
 });
