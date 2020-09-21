@@ -20,7 +20,8 @@ export const ROUTES = {
   ADD_SKILL: '/add-skill',
   ADD_TOOL: '/add-tool',
   TEAM_FINDER: '/team-finder',
-  INTERESTED_DEVELOPERS: '/interested-developers',
+  INTERESTED_DEVELOPERS: '/interested-developers/:_id',
   ALL_DEVELOPERS: '/all-developers',
   DUMP_DATABASE: '/dump-database',
+  YOUR_TEAMS: '/your-teams',
 };

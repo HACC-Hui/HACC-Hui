@@ -149,7 +149,8 @@ InterestedDevelopers.propTypes = {
 
 };
 
-export default withTracker(() => {
+export default withTracker(({ match }) => {
+  const documentId = match.params._id;
   const subscriptionChallenges = DeveloperChallenges.subscribe();
   const subscriptionSkills = DeveloperSkills.subscribe();
   const subscriptionTools = DeveloperTools.subscribe();
@@ -160,8 +161,9 @@ export default withTracker(() => {
   const subSkills = Skills.subscribe();
   const subChallenges = Challenges.subscribe();
   const subTools = Tools.subscribe();
+  console.log(documentId);
   // eslint-disable-next-line max-len
-  console.log(InterestedDevs.find({ teamID: TeamDevelopers.findDoc({ developerID: Developers.findDoc({ userID: Meteor.userId() })._id }).teamID }).fetch());
+  // console.log(InterestedDevs.find({ teamID: TeamDevelopers.findDoc({ developerID: Developers.findDoc({ userID: Meteor.userId() })._id }).teamID }).fetch());
 
   return {
     // eslint-disable-next-line max-len
@@ -170,7 +172,7 @@ export default withTracker(() => {
     developerSkills: DeveloperSkills.find({}).fetch(),
     developerTools: DeveloperTools.find({}).fetch(),
     // eslint-disable-next-line max-len
-    interestedDevs: InterestedDevs.find({ teamID: TeamDevelopers.findDoc({ developerID: Developers.findDoc({ userID: Meteor.userId() })._id }).teamID }).fetch(),
+    interestedDevs: InterestedDevs.find({ teamID: documentId }).fetch(),
     teams: Teams.find({ open: true }).fetch(),
     skills: Skills.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
