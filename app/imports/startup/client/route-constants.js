@@ -21,5 +21,6 @@ export const ROUTES = {
   ADD_TOOL: '/add-tool',
   TEAM_FINDER: '/team-finder',
   INTERESTED_DEVELOPERS: '/interested-developers',
+  ALL_DEVELOPERS: '/all-developers',
   DUMP_DATABASE: '/dump-database',
 };
