@@ -88,7 +88,7 @@ class AdministratorCollection extends BaseSlugCollection {
    */
   hasProfile(user) {
     const userID = Users.getID(user);
-    return this.collection.findOne({ userID });
+    return this._collection.findOne({ userID });
   }
 
   assertValidRoleForMethod(userId) {

@@ -11,10 +11,13 @@ export const ROUTES = {
   PARTICIPATION: '/participation',
   UNDERAGE_PARTICIPATION: '/under-participation',
   CREATE_PROFILE: '/create-profile',
+  EDIT_PROFILE: '/edit-profile',
   CREATE_TEAM: '/create-team',
+  LIST_TEAMS: '/list-teams',
   DELETE_ACCOUNT: '/delete-account',
   CONFIGURE_HACC: '/configure-hacc',
   ADD_CHALLENGE: '/add-challenge',
   ADD_SKILL: '/add-skill',
   ADD_TOOL: '/add-tool',
+  DUMP_DATABASE: '/dump-database',
 };
