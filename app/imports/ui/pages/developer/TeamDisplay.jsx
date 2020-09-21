@@ -70,15 +70,8 @@ class TeamDisplay extends React.Component {
   return challenge_teams;
   }
 
+
   renderTeamChallenge_match() {
-    const Challenge_matched_teams = this.getTeamChallenge_match();
-    console.log(Challenge_matched_teams);
-    const Challenge_teams = Challenge_matched_teams.map((Chall_team, index) => <div key={index} ><Container><Header as='h3'>The Following teams have your requested Challenge: {Chall_team.Challenge}</Header> <ListTeamsWidget teams={Chall_team.teams}/></Container></div>);
-    return Challenge_teams;
-
-  }
-
-  renderTeamChallenge_match2() {
     const Challenge_matched_teams = this.getTeamChallenge_match();
     return _.map(Challenge_matched_teams, function (chall_team) {
             if (chall_team.teams.length > 0) return <div key={chall_team}><Container><Header as='h3'>The Following teams have your requested Challenge: {chall_team.Challenge}</Header> <ListTeamsWidget teams={chall_team.teams}/></Container></div>;
@@ -87,20 +80,25 @@ class TeamDisplay extends React.Component {
 
   }
 
-  getTeamChallengeSkillMatch() {
-    const challengeTeam = this.getTeamChallenge_match();
+  getTeamSkillMatch(){
     const Did = this.getDeveloper()._id;
     const Dskills = _.filter(this.props.developerSkill, function (skill) { return skill.developerID == Did; });
     const Tskill = this.props.teamSkills;
     console.log(Dskills);
     console.log(Tskill);
-    console.log(challengeTeam);
     const SkillTeams = [];
     _.each(Dskills, function (skill) {
       const tempTeam = {}; tempTeam.skillID = skill.skillID; tempTeam.skillLevel = skill.skillLevel; tempTeam.teams = _.filter(Tskill, function (teamskill) { return teamskill.skillID == skill.skillID; });
       SkillTeams.push(tempTeam);
     }, SkillTeams);
-    console.log(SkillTeams);
+    return SkillTeams;
+  }
+
+  getTeamChallengeSkillMatch() {
+    const challengeTeam = this.getTeamChallenge_match();
+    const SkillTeam = this.getTeamSkillMatch();
+    console.log(challengeTeam);
+    console.log(SkillTeam);
 
   }
 
@@ -121,7 +119,7 @@ class TeamDisplay extends React.Component {
           </Container>
           { this.getAllOpenTeam() }
           { console.log(this.getTeamChallenge_match()) }
-          {this.renderTeamChallenge_match2()}
+          {this.renderTeamChallenge_match()}
 
           {this.getTeamChallengeSkillMatch()}
 
