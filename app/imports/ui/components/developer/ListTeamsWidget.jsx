@@ -1,5 +1,6 @@
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
+import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Grid, Header } from 'semantic-ui-react';
 import { Teams } from '../../../api/team/TeamCollection';
@@ -21,13 +22,16 @@ const getTeamChallenges = (team) => {
 const getTeamSkills = (team) => {
   const teamID = team._id;
   const teamSkills = TeamSkills.find({ teamID }).fetch();
+  console.log(teamSkills);
   const skillNames = teamSkills.map((ts) => Skills.findDoc(ts.skillID).name);
   return skillNames;
 };
 
 const getTeamTools = (team) => {
   const teamID = team._id;
+  console.log(teamID);
   const teamTools = TeamTools.find({ teamID }).fetch();
+  console.log(teamTools);
   const toolNames = teamTools.map((tt) => Tools.findDoc(tt.toolID).name);
   return toolNames;
 };
@@ -71,10 +75,12 @@ ListTeamsWidget.propTypes = {
       PropTypes.object,
   ),
 };
-
+export default withRouter(ListTeamsWidget);
+/*
 export default withTracker(() => {
   const teams = Teams.find({}).fetch();
   return {
     teams,
   };
 })(ListTeamsWidget);
+*/

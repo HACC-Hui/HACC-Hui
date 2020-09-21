@@ -10,9 +10,11 @@ import { Tools } from '../../../api/tool/ToolCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
 import { Teams } from '../../../api/team/TeamCollection';
 import { TeamSkills } from '../../../api/team/TeamSkillCollection';
+import { TeamTools } from '../../../api/team/TeamToolCollection';
 import { DeveloperChallenges } from '../../../api/user/DeveloperChallengeCollection';
 import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
+import ListTeamsWidget from '../../components/developer/ListTeamsWidget';
 import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
 
 /** Renders a table containing all of the Book documents. Use <BookItem> to render each row. */
@@ -63,22 +65,39 @@ class TeamDisplay extends React.Component {
    const challenge_teams = [];
    const Allchallenges = this.props.challenges;
    const Allteams = this.AllOpenTeam;
-  _.each(challengeTeams, function (challengeObject) { const tempChallengeteam = {}; const challengePicked = _.find(Allchallenges, function (challange) { return challange._id == challengeObject.challengeID; }); tempChallengeteam.Challenge = challengePicked.title; const Matchteams = []; _.each(challengeObject.teams, function (Cteam) { const Matchteam = _.find(Allteams, function (team) { return Cteam.teamID == team._id; }); Matchteams.push(Matchteam); },Allteams); tempChallengeteam.teams = Matchteams; challenge_teams.push(tempChallengeteam); }, Allchallenges);
+  _.each(challengeTeams, function (challengeObject) { const tempChallengeteam = {}; const challengePicked = _.find(Allchallenges, function (challange) { return challange._id == challengeObject.challengeID; }); tempChallengeteam.Challenge = challengePicked.title; const Matchteams = []; _.each(challengeObject.teams, function (Cteam) { const Matchteam = _.find(Allteams, function (team) { return Cteam.teamID == team._id; }); Matchteams.push(Matchteam); }, Allteams); tempChallengeteam.teams = Matchteams; challenge_teams.push(tempChallengeteam); }, Allchallenges);
   this.Team_challenge_match = challenge_teams;
   return challenge_teams;
   }
 
-  getTeamChallengeSkillMatch(){
+  renderTeamChallenge_match() {
+    const Challenge_matched_teams = this.getTeamChallenge_match();
+    console.log(Challenge_matched_teams);
+    const Challenge_teams = Challenge_matched_teams.map((Chall_team, index) => <div key={index} ><Container><Header as='h3'>The Following teams have your requested Challenge: {Chall_team.Challenge}</Header> <ListTeamsWidget teams={Chall_team.teams}/></Container></div>);
+    return Challenge_teams;
+
+  }
+
+  renderTeamChallenge_match2() {
+    const Challenge_matched_teams = this.getTeamChallenge_match();
+    return _.map(Challenge_matched_teams, function (chall_team) {
+            if (chall_team.teams.length > 0) return <div key={chall_team}><Container><Header as='h3'>The Following teams have your requested Challenge: {chall_team.Challenge}</Header> <ListTeamsWidget teams={chall_team.teams}/></Container></div>;
+            return '';
+    });
+
+  }
+
+  getTeamChallengeSkillMatch() {
     const challengeTeam = this.getTeamChallenge_match();
     const Did = this.getDeveloper()._id;
-    const Dskills = _.filter(this.props.developerSkill, function(skill) { return skill.developerID == Did});
+    const Dskills = _.filter(this.props.developerSkill, function (skill) { return skill.developerID == Did; });
     const Tskill = this.props.teamSkills;
     console.log(Dskills);
     console.log(Tskill);
     console.log(challengeTeam);
-    const SkillTeams=[];
+    const SkillTeams = [];
     _.each(Dskills, function (skill) {
-      const tempTeam = {}; tempTeam.skillID = skill.skillID; tempTeam.skillLevel=skill.skillLevel; tempTeam.teams = _.filter(Tskill, function(teamskill){ return teamskill.skillID == skill.skillID});
+      const tempTeam = {}; tempTeam.skillID = skill.skillID; tempTeam.skillLevel = skill.skillLevel; tempTeam.teams = _.filter(Tskill, function (teamskill) { return teamskill.skillID == skill.skillID; });
       SkillTeams.push(tempTeam);
     }, SkillTeams);
     console.log(SkillTeams);
@@ -102,6 +121,8 @@ class TeamDisplay extends React.Component {
           </Container>
           { this.getAllOpenTeam() }
           { console.log(this.getTeamChallenge_match()) }
+          {this.renderTeamChallenge_match2()}
+
           {this.getTeamChallengeSkillMatch()}
 
         </div>
@@ -132,6 +153,7 @@ export default withTracker(() => {
   const subscriptionTeamChallenges = TeamChallenges.subscribe();
   const subscriptionDeveloperSkill = DeveloperSkills.subscribe();
   const subscriptionTeamSkill = TeamSkills.subscribe();
+  const subscriptionTeamTool = TeamTools.subscribe();
 
   return {
     challenges: Challenges.find({}).fetch(),
@@ -140,8 +162,8 @@ export default withTracker(() => {
     developers: Developers.find({}).fetch(),
     teams: Teams.find({}).fetch(),
     developerSkill: DeveloperSkills.find({}).fetch(),
-    teamSkills:  TeamSkills.find({}).fetch(),
+    teamSkills: TeamSkills.find({}).fetch(),
     // eslint-disable-next-line max-len
-    ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready() && subscriptionDevelopers.ready() && subscriptionTeams.ready() && subscriptionDeveloperChallenges.ready() && subscriptionTeamChallenges.ready() && subscriptionDeveloperSkill.ready() && subscriptionTeamSkill.ready(),
+    ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready() && subscriptionDevelopers.ready() && subscriptionTeams.ready() && subscriptionDeveloperChallenges.ready() && subscriptionTeamChallenges.ready() && subscriptionDeveloperSkill.ready() && subscriptionTeamSkill.ready() && subscriptionTeamTool.ready(),
   };
 })(TeamDisplay);
