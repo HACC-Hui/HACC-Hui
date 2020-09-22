@@ -17,15 +17,13 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
-import { InterestedDevs } from '../../../api/team/InterestedDeveloperCollection';
-import { TeamDevelopers } from '../../../api/team/TeamDeveloperCollection';
 import InterestedDeveloperCard from '../../components/InterestedDeveloperCard';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
  * @memberOf ui/pages
  */
-class InterestedDevelopers extends React.Component {
+class AllDevelopers extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
@@ -34,12 +32,12 @@ class InterestedDevelopers extends React.Component {
 
   renderPage() {
 
-    if (this.props.interestedDevs.length === 0) {
+    if (this.props.developers.length === 0) {
       return (
           <div align={'center'}>
             <Header as='h2' icon>
               <Icon name='users'/>
-              There are no interested developers at the moment.
+              There are no developers at the moment.
               <Header.Subheader>
                 Please check back later.
               </Header.Subheader>
@@ -60,22 +58,7 @@ class InterestedDevelopers extends React.Component {
           }
         }
       }
-      // console.log(data);
-      return data;
-    }
-
-    const universalDevs = this.props.developers;
-
-    function getInterestedDevelopers(devs) {
-      const data = [];
-      for (let i = 0; i < devs.length; i++) {
-        for (let j = 0; j < universalDevs.length; j++) {
-          if (devs[i].developerID === universalDevs[j]._id) {
-            data.push(universalDevs[j]);
-          }
-        }
-      }
-      // console.log(data);
+      console.log(data);
       return data;
     }
 
@@ -91,7 +74,7 @@ class InterestedDevelopers extends React.Component {
           }
         }
       }
-      // console.log(data);
+      console.log(data);
       return data;
     }
 
@@ -114,14 +97,14 @@ class InterestedDevelopers extends React.Component {
         <Grid container doubling relaxed stackable>
           <Grid.Row centered>
             <Header as={'h2'} style={{ paddingTop: '2rem' }}>
-              Interested Developers
+              All Developers
             </Header>
           </Grid.Row>
           <Grid.Row>
           <Grid.Column>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
-              {getInterestedDevelopers(this.props.interestedDevs).map((developers) => <InterestedDeveloperCard key={developers._id} developers={developers} teams={this.props.teams}
+              {this.props.developers.map((developers) => <InterestedDeveloperCard key={developers._id} developers={developers}
                    skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
                    tools={getDeveloperTools(developers._id, this.props.developerTools)}
                    challenges={getDeveloperChallenges(developers._id, this.props.developerChallenges)}
@@ -134,9 +117,8 @@ class InterestedDevelopers extends React.Component {
   }
 }
 
-InterestedDevelopers.propTypes = {
+AllDevelopers.propTypes = {
   developerChallenges: PropTypes.array.isRequired,
-  interestedDevs: PropTypes.array.isRequired,
   developerSkills: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   developerTools: PropTypes.array.isRequired,
@@ -145,42 +127,32 @@ InterestedDevelopers.propTypes = {
   developers: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
+  teamDevelopers: PropTypes.array.isRequired,
 
 };
 
-export default withTracker(({ match }) => {
-  const documentId = match.params._id;
+export default withTracker(() => {
   const subscriptionChallenges = DeveloperChallenges.subscribe();
   const subscriptionSkills = DeveloperSkills.subscribe();
   const subscriptionTools = DeveloperTools.subscribe();
   const subscriptionDevelopers = Developers.subscribe();
-  const subscriptionInterestedDevs = InterestedDevs.subscribe();
-  const subscriptionTeamDevelopers = TeamDevelopers.subscribe();
   const subscriptionTeam = Teams.subscribe();
   const subSkills = Skills.subscribe();
   const subChallenges = Challenges.subscribe();
   const subTools = Tools.subscribe();
-  // console.log(Teams.find({ _id: documentId }).fetch());
-  // eslint-disable-next-line max-len
-  // console.log(InterestedDevs.find({ teamID: TeamDevelopers.findDoc({ developerID: Developers.findDoc({ userID: Meteor.userId() })._id }).teamID }).fetch());
 
   return {
-    // eslint-disable-next-line max-len
-    developers: Developers.find({}).fetch(),
     developerChallenges: DeveloperChallenges.find({}).fetch(),
     developerSkills: DeveloperSkills.find({}).fetch(),
     developerTools: DeveloperTools.find({}).fetch(),
-    // eslint-disable-next-line max-len
-    interestedDevs: InterestedDevs.find({ teamID: documentId }).fetch(),
-    teams: Teams.find({ _id: documentId }).fetch(),
+    teams: Teams.find({ open: true }).fetch(),
     skills: Skills.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     tools: Tools.find({}).fetch(),
-    // developers: Developers.find({}).fetch(),
+    developers: Developers.find({}).fetch(),
     // eslint-disable-next-line max-len
     ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready()
-        // eslint-disable-next-line max-len
-        && subscriptionDevelopers.ready() && subscriptionInterestedDevs.ready() && subscriptionTeamDevelopers.ready() && subscriptionTeam.ready() && subSkills.ready() && subTools.ready()
+        && subscriptionDevelopers.ready() && subscriptionTeam.ready() && subSkills.ready() && subTools.ready()
         && subChallenges.ready(),
   };
-})(InterestedDevelopers);
+})(AllDevelopers);
