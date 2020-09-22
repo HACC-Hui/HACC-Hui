@@ -34,12 +34,30 @@ class InterestedDeveloperCard extends React.Component {
           }
         });
     const collectionName2 = InterestedDevs.getCollectionName();
-    console.log(collectionName2, devID);
+    // console.log(collectionName2, devID);
     const intID = InterestedDevs.findDoc({ developerID: devID })._id;
-    console.log(intID);
+    // console.log(intID);
     removeItMethod.call({ collectionName: collectionName2, instance: intID }, (error) => {
       if (error) {
         console.error('Failed to remove', error);
+      }
+    });
+  }
+
+  removeDev(dID, e) {
+    console.log(e);
+    const devID = dID;
+    const collectionName2 = InterestedDevs.getCollectionName();
+    // console.log(collectionName2, devID);
+    const intID = InterestedDevs.findDoc({ developerID: devID })._id;
+    // console.log(intID);
+    removeItMethod.call({ collectionName: collectionName2, instance: intID }, (error) => {
+      if (error) {
+        swal('Error', error.message, 'error');
+        // console.error(error.message);
+      } else {
+        swal('Success', 'Removed Interested Developer', 'success');
+        // console.log('Success');
       }
     });
   }
@@ -145,12 +163,20 @@ class InterestedDeveloperCard extends React.Component {
                 <Icon name='plus'/>
                 Add member
               </Button>
+              {/* eslint-disable-next-line max-len */}
+              <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(192, 0, 0)', color: 'white' }} onClick={this.removeDev.bind(this, this.props.developers._id)}>
+                Remove
+              </Button>
             </Modal.Actions>
           </Modal>
           {/* eslint-disable-next-line max-len */}
                 <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.handleClick.bind(this, this.props.teams[0]._id, this.props.developers._id)}>
                   Add member
                 </Button>
+          {/* eslint-disable-next-line max-len */}
+          <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.removeDev.bind(this, this.props.developers._id)}>
+            Remove
+          </Button>
         </Item>
     );
   }
