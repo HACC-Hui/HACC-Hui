@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import {
   Grid,
@@ -122,7 +121,7 @@ class InterestedDevelopers extends React.Component {
           <Grid.Column>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
-              {getInterestedDevelopers(this.props.interestedDevs).map((developers) => <InterestedDeveloperCard key={developers._id} developers={developers}
+              {getInterestedDevelopers(this.props.interestedDevs).map((developers) => <InterestedDeveloperCard key={developers._id} developers={developers} teams={this.props.teams}
                    skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
                    tools={getDeveloperTools(developers._id, this.props.developerTools)}
                    challenges={getDeveloperChallenges(developers._id, this.props.developerChallenges)}
@@ -161,7 +160,7 @@ export default withTracker(({ match }) => {
   const subSkills = Skills.subscribe();
   const subChallenges = Challenges.subscribe();
   const subTools = Tools.subscribe();
-  console.log(documentId);
+  console.log(Teams.find({ _id: documentId }).fetch());
   // eslint-disable-next-line max-len
   // console.log(InterestedDevs.find({ teamID: TeamDevelopers.findDoc({ developerID: Developers.findDoc({ userID: Meteor.userId() })._id }).teamID }).fetch());
 
@@ -173,7 +172,7 @@ export default withTracker(({ match }) => {
     developerTools: DeveloperTools.find({}).fetch(),
     // eslint-disable-next-line max-len
     interestedDevs: InterestedDevs.find({ teamID: documentId }).fetch(),
-    teams: Teams.find({ open: true }).fetch(),
+    teams: Teams.find({ _id: documentId }).fetch(),
     skills: Skills.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     tools: Tools.find({}).fetch(),

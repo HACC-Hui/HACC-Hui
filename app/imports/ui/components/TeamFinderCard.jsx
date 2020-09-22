@@ -120,7 +120,8 @@ class TeamFinderCard extends React.Component {
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-              <Button style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} onClick={this.handleClick}>
+              {/* eslint-disable-next-line max-len */}
+              <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} onClick={this.handleClick}>
                 <Icon name='plus'/>
                 Request to join
               </Button>
