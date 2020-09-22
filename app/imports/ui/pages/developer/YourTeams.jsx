@@ -13,6 +13,7 @@ import { Teams } from '../../../api/team/TeamCollection';
 import { TeamDevelopers } from '../../../api/team/TeamDeveloperCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
 import YourTeamsCard from '../../components/YourTeamsCard';
+import { _ } from 'lodash';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -26,6 +27,24 @@ class YourTeams extends React.Component {
   }
 
   renderPage() {
+
+    const allDevelopers = this.props.developers;
+
+    function getTeamDevelopers(teamID, teamDevelopers) {
+      const data = [];
+      const developers = _.filter(teamDevelopers, { teamID: teamID });
+      for (let i = 0; i < developers.length; i++) {
+        for (let j = 0; j < allDevelopers.length; j++) {
+          if (developers[i].developerID === allDevelopers[j]._id) {
+            data.push({
+              firstName: allDevelopers[j].firstName,
+              lastName: allDevelopers[j].lastName,
+            });
+          }
+        }
+      }
+      return data;
+    }
 
     if (this.props.teams.length === 0) {
       return (
@@ -49,7 +68,8 @@ class YourTeams extends React.Component {
           </Grid.Row>
           <Grid.Column width={12}>
             <Item.Group divided>
-              {this.props.teams.map((teams) => <YourTeamsCard key={teams._id} teams={teams} />)}
+              {/* eslint-disable-next-line max-len */}
+              {this.props.teams.map((teams) => <YourTeamsCard key={teams._id} teams={teams} teamDevelopers={getTeamDevelopers(teams._id, this.props.teamDevelopers)}/>)}
             </Item.Group>
           </Grid.Column>
         </Grid>
@@ -61,6 +81,7 @@ YourTeams.propTypes = {
   teams: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
   teamDevelopers: PropTypes.array.isRequired,
+  developers: Developers.find({}).fetch(),
 
 };
 

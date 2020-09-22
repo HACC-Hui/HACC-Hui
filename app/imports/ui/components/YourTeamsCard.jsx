@@ -5,10 +5,11 @@ import {
   Image,
   Item,
   Icon,
-  Button,
+  Button, Modal,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { _ } from 'lodash';
 
 class YourTeamsCard extends React.Component {
 
@@ -25,13 +26,16 @@ class YourTeamsCard extends React.Component {
                 </Header>
               </Item.Header>
               <Item.Meta>
-                <Item.Meta>
-                  <Grid>
+                  <Grid columns='equal'>
                     <Grid.Column>
-                      <Image src={this.props.teams.image} rounded size='small'/>
+                      <Image src={this.props.teams.image} rounded size='large'/>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Header>Members</Header>
+                      {this.props.teamDevelopers.map((developer) => <p key={developer}>
+                        {developer.firstName} {developer.lastName}</p>)}
                     </Grid.Column>
                   </Grid>
-                </Item.Meta>
               </Item.Meta>
             </Item.Content>
                 <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }}>
@@ -44,6 +48,7 @@ class YourTeamsCard extends React.Component {
 
 YourTeamsCard.propTypes = {
   teams: PropTypes.object.isRequired,
+  teamDevelopers: PropTypes.object.isRequired,
 };
 
 export default YourTeamsCard;
