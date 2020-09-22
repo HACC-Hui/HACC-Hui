@@ -60,7 +60,7 @@ class InterestedDevelopers extends React.Component {
           }
         }
       }
-      console.log(data);
+      // console.log(data);
       return data;
     }
 
@@ -75,7 +75,7 @@ class InterestedDevelopers extends React.Component {
           }
         }
       }
-      console.log(data);
+      // console.log(data);
       return data;
     }
 
@@ -91,7 +91,7 @@ class InterestedDevelopers extends React.Component {
           }
         }
       }
-      console.log(data);
+      // console.log(data);
       return data;
     }
 
@@ -160,7 +160,7 @@ export default withTracker(({ match }) => {
   const subSkills = Skills.subscribe();
   const subChallenges = Challenges.subscribe();
   const subTools = Tools.subscribe();
-  console.log(Teams.find({ _id: documentId }).fetch());
+  // console.log(Teams.find({ _id: documentId }).fetch());
   // eslint-disable-next-line max-len
   // console.log(InterestedDevs.find({ teamID: TeamDevelopers.findDoc({ developerID: Developers.findDoc({ userID: Meteor.userId() })._id }).teamID }).fetch());
 

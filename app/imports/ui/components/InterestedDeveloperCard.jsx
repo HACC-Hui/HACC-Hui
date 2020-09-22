@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import {
   Grid,
@@ -10,20 +9,20 @@ import {
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
-import { defineMethod /* removeItMethod */ } from '../../api/base/BaseCollection.methods';
-// import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
+import { defineMethod, removeItMethod } from '../../api/base/BaseCollection.methods';
+import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
 
 class InterestedDeveloperCard extends React.Component {
   handleClick(tID, dID, e) {
     console.log(e);
-    console.log(tID);
-    console.log(dID);
+    // console.log(tID);
+    // console.log(dID);
     const thisTeam = tID;
     const devID = dID;
-    console.log(thisTeam);
+    // console.log(thisTeam);
     const definitionData = { team: thisTeam, developer: devID };
     const collectionName = TeamDevelopers.getCollectionName();
-    console.log(collectionName);
+    // console.log(collectionName);
     defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
         (error) => {
           if (error) {
@@ -34,16 +33,15 @@ class InterestedDeveloperCard extends React.Component {
             // console.log('Success');
           }
         });
-    /*
     const collectionName2 = InterestedDevs.getCollectionName();
-    const devID = InterestedDevs.findDoc({ developerID: Developers.findDoc({ userID: Meteor.userId() })._id })._id;
     console.log(collectionName2, devID);
-    removeItMethod.call({ collectionName: collectionName2, docID: devID }, (error) => {
+    const intID = InterestedDevs.findDoc({ developerID: devID })._id;
+    console.log(intID);
+    removeItMethod.call({ collectionName: collectionName2, instance: intID }, (error) => {
       if (error) {
-        console.error('Failed to define', error);
+        console.error('Failed to remove', error);
       }
     });
-     */
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
