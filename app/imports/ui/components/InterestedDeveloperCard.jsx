@@ -14,8 +14,8 @@ import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
 
 class InterestedDeveloperCard extends React.Component {
   isAdded(tID, dID) {
-    console.log(TeamDevelopers.findOne({ teamID: tID, developerID: dID }));
-    if (TeamDevelopers.findOne({ teamID: tID, developerID: dID })) {
+    console.log(typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined');
+    if (typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined') {
       return true;
     }
     return false;
@@ -173,7 +173,7 @@ class InterestedDeveloperCard extends React.Component {
                     Add member
                   </Button>
               ) : ''}
-              {this.isAdded.bind(this.props.teams[0]._id, this.props.developers._id) ? (
+              {this.isAdded(this.props.teams[0]._id, this.props.developers._id) ? (
                   // eslint-disable-next-line max-len
                   <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} disabled>
                     <Icon name='plus'/>
@@ -192,7 +192,7 @@ class InterestedDeveloperCard extends React.Component {
                 Add member
               </Button>
           ) : ''}
-          {this.isAdded.bind(this.props.teams[0]._id, this.props.developers._id) ? (
+          {this.isAdded(this.props.teams[0]._id, this.props.developers._id) ? (
               <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} disabled>
                 Member already added
               </Button>
