@@ -34,7 +34,7 @@ class InterestedDevelopers extends React.Component {
 
   renderPage() {
 
-    if (this.props.developers.length === 0) {
+    if (this.props.interestedDevs.length === 0) {
       return (
           <div align={'center'}>
             <Header as='h2' icon>
