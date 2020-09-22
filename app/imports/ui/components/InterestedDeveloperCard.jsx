@@ -13,6 +13,14 @@ import { defineMethod, removeItMethod } from '../../api/base/BaseCollection.meth
 import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
 
 class InterestedDeveloperCard extends React.Component {
+  isAdded(tID, dID) {
+    console.log(TeamDevelopers.findOne({ teamID: tID, developerID: dID }));
+    if (TeamDevelopers.findOne({ teamID: tID, developerID: dID })) {
+      return true;
+    }
+    return false;
+  }
+
   handleClick(tID, dID, e) {
     console.log(e);
     // console.log(tID);
@@ -158,21 +166,37 @@ class InterestedDeveloperCard extends React.Component {
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-              {/* eslint-disable-next-line max-len */}
-              <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} onClick={this.handleClick.bind(this, this.props.teams[0]._id, this.props.developers._id)}>
-                <Icon name='plus'/>
-                Add member
-              </Button>
+              {!this.isAdded(this.props.teams[0]._id, this.props.developers._id) ? (
+                  // eslint-disable-next-line max-len
+                  <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} onClick={this.handleClick.bind(this, this.props.teams[0]._id, this.props.developers._id)}>
+                    <Icon name='plus'/>
+                    Add member
+                  </Button>
+              ) : ''}
+              {this.isAdded.bind(this.props.teams[0]._id, this.props.developers._id) ? (
+                  // eslint-disable-next-line max-len
+                  <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} disabled>
+                    <Icon name='plus'/>
+                    Member already added
+                  </Button>
+              ) : '' }
               {/* eslint-disable-next-line max-len */}
               <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(192, 0, 0)', color: 'white' }} onClick={this.removeDev.bind(this, this.props.developers._id)}>
                 Remove
               </Button>
             </Modal.Actions>
           </Modal>
-          {/* eslint-disable-next-line max-len */}
-                <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.handleClick.bind(this, this.props.teams[0]._id, this.props.developers._id)}>
-                  Add member
-                </Button>
+          {!this.isAdded(this.props.teams[0]._id, this.props.developers._id) ? (
+              // eslint-disable-next-line max-len
+              <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.handleClick.bind(this, this.props.teams[0]._id, this.props.developers._id)}>
+                Add member
+              </Button>
+          ) : ''}
+          {this.isAdded.bind(this.props.teams[0]._id, this.props.developers._id) ? (
+              <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} disabled>
+                Member already added
+              </Button>
+          ) : '' }
           {/* eslint-disable-next-line max-len */}
           <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.removeDev.bind(this, this.props.developers._id)}>
             Remove
