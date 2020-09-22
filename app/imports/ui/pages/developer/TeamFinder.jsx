@@ -23,6 +23,7 @@ import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
 import TeamFinderFilter from '../../components/TeamFinderFilter';
 import TeamFinderCard from '../../components/TeamFinderCard';
+import { InterestedDevs } from '../../../api/team/InterestedDeveloperCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -290,6 +291,7 @@ class TeamFinder extends React.Component {
 }
 
 TeamFinder.propTypes = {
+  interestedDevs: PropTypes.array.isRequired,
   teamChallenges: PropTypes.array.isRequired,
   teamSkills: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
@@ -313,8 +315,10 @@ export default withTracker(() => {
   const subChallenges = Challenges.subscribe();
   const subTools = Tools.subscribe();
   const teamDev = TeamDevelopers.subscribe();
+  const subIntDevs = InterestedDevs.subscribe();
 
   return {
+    interestedDevs: InterestedDevs.find().fetch(),
     teamChallenges: TeamChallenges.find({}).fetch(),
     teamSkills: TeamSkills.find({}).fetch(),
     teamTools: TeamTools.find({}).fetch(),
@@ -327,6 +331,6 @@ export default withTracker(() => {
     // eslint-disable-next-line max-len
     ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready()
         && subscriptionDevelopers.ready() && subscriptionTeam.ready() && subSkills.ready() && subTools.ready()
-        && subChallenges.ready() && teamDev.ready(),
+        && subChallenges.ready() && teamDev.ready() && subIntDevs.ready(),
   };
 })(TeamFinder);
