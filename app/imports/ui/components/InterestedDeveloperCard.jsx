@@ -14,7 +14,7 @@ import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
 
 class InterestedDeveloperCard extends React.Component {
   isAdded(tID, dID) {
-    console.log(typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined');
+    // console.log(typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined');
     if (typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined') {
       return true;
     }

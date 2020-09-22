@@ -19,6 +19,19 @@ import { Slugs } from '../../api/slug/SlugCollection';
 import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
 
 class TeamFinderCard extends React.Component {
+
+  hasRequested(tID) {
+    console.log(tID);
+    const dID = Developers.findOne({ userID: Meteor.userId() })._id;
+    console.log(dID);
+    console.log(InterestedDevs.findOne({ teamID: tID, developerID: dID }));
+    // console.log(typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined');
+    if (typeof InterestedDevs.findOne({ teamID: tID, developerID: dID }) !== 'undefined') {
+      return true;
+    }
+    return false;
+  }
+
   handleClick(e, inst) {
     console.log(e, inst);
     const collectionName = WantsToJoin.getCollectionName();
@@ -121,22 +134,48 @@ class TeamFinderCard extends React.Component {
             </Modal.Content>
             <Modal.Actions>
               {/* eslint-disable-next-line max-len */}
-              <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} onClick={this.handleClick}>
-                <Icon name='plus'/>
-                Request to join
-              </Button>
+              {!this.hasRequested(this.props.teams._id) ? (
+                  // eslint-disable-next-line max-len
+                  <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} onClick={this.handleClick.bind}>
+                    <Icon name='plus'/>
+                    Request to join
+                  </Button>
+              ) : ''}
+              {this.hasRequested(this.props.teams._id) ? (
+                  // eslint-disable-next-line max-len
+                  <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} disabled>
+                    <Icon name='plus'/>
+                    Already requested
+                  </Button>
+              ) : '' }
             </Modal.Actions>
           </Modal>
-          <Popup
-              content='Request sent!'
-              mouseLeaveDelay={200}
-              on='click'
-              trigger={
-                <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.handleClick}>
-                  Request to join
-                </Button>
-              }
-          />
+          {!this.hasRequested(this.props.teams._id) ? (
+              <Popup
+                  content='Request sent!'
+                  mouseLeaveDelay={200}
+                  on='click'
+                  trigger={
+                    // eslint-disable-next-line max-len
+                    <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.handleClick}>
+                      Request to join
+                    </Button>
+                  }
+              />
+          ) : ''}
+          {this.hasRequested(this.props.teams._id) ? (
+              <Popup
+                  content='Request already sent!'
+                  mouseLeaveDelay={200}
+                  on='click'
+                  trigger={
+                    // eslint-disable-next-line max-len
+                    <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} disabled>
+                      Already Requested
+                    </Button>
+                  }
+              />
+          ) : '' }
         </Item>
     );
   }
