@@ -70,7 +70,6 @@ class TeamDisplay extends React.Component {
   return challenge_teams;
   }
 
-
   renderTeamChallenge_match() {
     const Challenge_matched_teams = this.getTeamChallenge_match();
     return _.map(Challenge_matched_teams, function (chall_team) {
@@ -80,7 +79,7 @@ class TeamDisplay extends React.Component {
 
   }
 
-  getTeamSkillMatch(){
+  getTeamSkillMatch() {
     const Did = this.getDeveloper()._id;
     const Dskills = _.filter(this.props.developerSkill, function (skill) { return skill.developerID == Did; });
     const Tskill = this.props.teamSkills;
@@ -88,7 +87,7 @@ class TeamDisplay extends React.Component {
     console.log(Tskill);
     const SkillTeams = [];
     _.each(Dskills, function (skill) {
-      const tempTeam = {}; tempTeam.skillID = skill.skillID; tempTeam.skillLevel = skill.skillLevel; tempTeam.teams = _.filter(Tskill, function (teamskill) { return teamskill.skillID == skill.skillID; });
+      const tempTeam = {}; tempTeam.skillID = skill.skillID; tempTeam.skillName = Skills.findDoc(skill.skillID).name; tempTeam.skillLevel = skill.skillLevel; tempTeam.teams = _.filter(Tskill, function (teamskill) { return teamskill.skillID == skill.skillID; });
       SkillTeams.push(tempTeam);
     }, SkillTeams);
     return SkillTeams;
@@ -99,6 +98,40 @@ class TeamDisplay extends React.Component {
     const SkillTeam = this.getTeamSkillMatch();
     console.log(challengeTeam);
     console.log(SkillTeam);
+
+    const Challenge_Skill_Teams = [];
+    _.each(challengeTeam, function (challenge) {
+ const tempchallenge = {}; const both_challenge_skill_matched = []; tempchallenge.Chanllenge = challenge.Challenge;
+      const teamID_challenge = _.pluck(challenge.teams, '_id');
+    _.each(SkillTeam, function (skill) {
+ const tempskill = {}; tempskill.skillName = skill.skillName;
+      const teamID_skill = _.pluck(skill.teams, 'teamID');
+      const both_challenge_skill_matched_teamID = _.intersection(teamID_challenge, teamID_skill);
+      console.log(both_challenge_skill_matched_teamID);
+      if (both_challenge_skill_matched_teamID.length) {
+        const both_challenge_skill_matched_teamID_array = [];
+        const teamID = {};
+        for (let i = 0; i < both_challenge_skill_matched_teamID.length; i++) {
+          teamID._id = both_challenge_skill_matched_teamID[i];
+          both_challenge_skill_matched_teamID_array.push(teamID);
+        }
+        console.log(both_challenge_skill_matched_teamID_array);
+        tempskill.teams = both_challenge_skill_matched_teamID_array;
+        both_challenge_skill_matched.push(tempskill);
+        tempchallenge.skill = both_challenge_skill_matched;
+      }
+      else
+      {
+        const empty_skill = [];
+        tempchallenge.skill = empty_skill;
+      }
+
+       // skills.push(tempskill);
+
+    });
+      Challenge_Skill_Teams.push(tempchallenge);
+});
+    console.log(Challenge_Skill_Teams);
 
   }
 
