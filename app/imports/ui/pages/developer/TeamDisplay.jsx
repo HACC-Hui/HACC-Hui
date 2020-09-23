@@ -74,8 +74,8 @@ class TeamDisplay extends React.Component {
   renderTeamChallenge_match() {
     const Challenge_matched_teams = this.getTeamChallenge_match();
     return _.map(Challenge_matched_teams, function (chall_team) {
-            if (chall_team.teams.length > 0)
-              { return <div key={chall_team}>
+            if (chall_team.teams.length > 0) {
+ return <div key={chall_team}>
                 <Container>
                   <Header as='h3'>The Following teams have your requested Challenge: {chall_team.Challenge}</Header>
                   <ListTeamsWidget teams={chall_team.teams}/></Container></div>;
@@ -85,7 +85,7 @@ class TeamDisplay extends React.Component {
 
   }
 
-  renderTeamChallenge_skill_match(){
+  renderTeamChallenge_skill_match() {
     const Team_challenge_skill_match = this.getTeamChallengeSkillMatch();
     console.log(Team_challenge_skill_match);
     return _.map(Team_challenge_skill_match, function (chall_skill_team) {
@@ -124,11 +124,12 @@ class TeamDisplay extends React.Component {
     const Challenge_Skill_Teams = [];
     _.each(challengeTeam, function (challenge) {
  const tempchallenge = {}; const both_challenge_skill_matched = []; tempchallenge.Challenge = challenge.Challenge;
-      const teamID_challenge = _.pluck(challenge.teams, '_id');
+      const teamID_challenge = _.pluck(challenge.teams, '_id'); const skill_match_teams = [];
     _.each(SkillTeam, function (skill) {
  const tempskill = {}; tempskill.skillName = skill.skillName; tempskill.level = skill.skillLevel;
       const teamID_skill = _.pluck(skill.teams, 'teamID');
       const both_challenge_skill_matched_teamID = _.intersection(teamID_challenge, teamID_skill);
+      skill_match_teams.push(both_challenge_skill_matched_teamID);
       console.log(both_challenge_skill_matched_teamID);
       if (both_challenge_skill_matched_teamID.length) {
         const both_challenge_skill_matched_teamID_array = [];
@@ -141,9 +142,7 @@ class TeamDisplay extends React.Component {
         tempskill.teams = both_challenge_skill_matched_teamID_array;
         both_challenge_skill_matched.push(tempskill);
         tempchallenge.skill = both_challenge_skill_matched;
-      }
-      else
-      {
+      } else {
         const empty_skill = [];
         tempchallenge.skill = empty_skill;
       }
@@ -152,6 +151,13 @@ class TeamDisplay extends React.Component {
 
     });
       Challenge_Skill_Teams.push(tempchallenge);
+      console.log(skill_match_teams);
+      console.log(teamID_challenge);
+      let all = [];
+      _.each(skill_match_teams, function (skill_teams) { all = all.concat(skill_teams); });
+      const remain = _.difference(teamID_challenge,all);
+      console.log(all);
+      console.log(remain);
 });
     return Challenge_Skill_Teams;
 
@@ -177,8 +183,6 @@ class TeamDisplay extends React.Component {
 
           {console.log(this.getTeamChallengeSkillMatch())}
           {this.renderTeamChallenge_skill_match()}
-
-
 
         </div>
     );
