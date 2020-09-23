@@ -24,4 +24,7 @@ export const ROUTES = {
   ALL_DEVELOPERS: '/all-developers',
   DUMP_DATABASE: '/dump-database',
   YOUR_TEAMS: '/your-teams',
+  EDIT_CHALLENGE: '/edit-challenge/:_id',
+  EDIT_TOOL: '/edit-tool/:_id',
+  EDIT_SKILL: '/edit-skill/:_id',
 };

@@ -8,18 +8,21 @@ import {
   LongTextField,
 } from 'uniforms-semantic';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
-import SimpleSchema from 'simpl-schema';
-import swal from 'sweetalert';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
+import swal from 'sweetalert';
 import { _ } from 'lodash';
-import MultiSelectField from '../../components/form-fields/MultiSelectField';
-import { defineMethod } from '../../../api/base/BaseCollection.methods';
+import SimpleSchema from 'simpl-schema';
+import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
+import MultiSelectField from '../../components/form-fields/MultiSelectField';
 import { Interests } from '../../../api/interest/InterestCollection';
-// import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
 
-// Create a schema to specify the structure of the data to appear in the form.
+/**
+ * Renders the Page for adding stuff. **deprecated**
+ * @memberOf ui/pages
+ */
+
 const schema = new SimpleSchema({
   title: String,
   interests: { type: Array, label: 'interests' },
@@ -28,25 +31,18 @@ const schema = new SimpleSchema({
   pitch: String,
   description: String,
 });
-
-/**
- * Renders the Page for adding stuff. **deprecated**
- * @memberOf ui/pages
- */
-class AddChallenge extends React.Component {
+class EditChallenge extends React.Component {
 
   /** On submit, insert the data.
    * @param data {Object} the results from the form.
    * @param formRef {FormRef} reference to the form.
    */
-
-  submit(data, formRef) {
-
-    // console.log('AddChallenge.submit', data);
+  submit(data) {
 
     const {
-      title, description, interests, submissionDetail, pitch,
+      description, interests, submissionDetail, pitch,
     } = data;
+    const id = this.props.doc._id;
 
     const interestFilter = (interest) => {
       for (let i = 0; i < interests.length; i++) {
@@ -60,42 +56,27 @@ class AddChallenge extends React.Component {
     const interestNames = this.props.interests.filter(interestFilter);
     // console.log(interestNames);
     // console.log(_.map(interestNames, 'slugID'));
-    const interestSlugs = _.map(interestNames, 'slugID');
-    // console.log(interestSlugs);
-    const definitionData = {
-      title, description, interests: interestSlugs, submissionDetail, pitch,
+    const interestSlugs = _.map(interestNames, '_id');
+    console.log(interestSlugs);
+    const updateData = {
+      id, description, interestIDs: interestSlugs, submissionDetail, pitch,
     };
     const collectionName = Challenges.getCollectionName();
-    // console.log(collectionName);
-    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+    console.log(updateData);
+    updateMethod.call({ collectionName: collectionName, updateData: updateData },
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
             // console.error(error.message);
           } else {
-            swal('Success', 'Item added successfully', 'success');
-            formRef.reset();
+            swal('Success', 'Item edited successfully', 'success');
             // console.log('Success');
           }
         });
-    /*
-    const interestsArray = this.props.interests;
-    const interestCollectionName = ChallengeInterests.getCollectionName();
-    console.log(interests);
-    for (let i = 0; i < interestsArray.length; i++) {
-      for (let j = 0; j < interests.length; j++) {
-        if (interestsArray[i].name === interests[j]) {
-          const interestID = interestsArray[i]._id;
-          defineMethod.call({ collectionName: interestCollectionName, definitionData: { challengeID, interestID } });
-        }
-      }
-    }
-     */
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    let fRef = null;
     const formSchema = new SimpleSchema2Bridge(schema);
     const interestsArray = _.map(this.props.interests, 'name');
     return (
@@ -106,11 +87,9 @@ class AddChallenge extends React.Component {
                 backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
                 borderRadius: '2rem',
               }}>
-                <Header as="h2" textAlign="center" inverted>Add Challenge</Header>
+                <Header as="h2" textAlign="center" inverted>Edit Challenge</Header>
               </div>
-              <AutoForm ref={ref => {
-                fRef = ref;
-              }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}
+              <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.doc}
                         style={{
                           paddingBottom: '4rem',
                         }}>
@@ -120,7 +99,6 @@ class AddChallenge extends React.Component {
                 }} className={'teamCreate'}>
                   <Grid container centered>
                     <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
-                      <TextField name='title' required/>
                       <LongTextField name='description' required/>
                       <MultiSelectField name='interests' placeholder={'Interests'}
                                         allowedValues={interestsArray} required/>
@@ -145,16 +123,22 @@ class AddChallenge extends React.Component {
   }
 }
 
-AddChallenge.propTypes = {
+EditChallenge.propTypes = {
   interests: PropTypes.array.isRequired,
+  doc: PropTypes.object,
+  model: PropTypes.object,
   ready: PropTypes.bool.isRequired,
 };
 
-// export default CreateTeam;
-export default withTracker(() => {
-  const subscription = Interests.subscribe();
+export default withTracker(({ match }) => {
+  // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
+  const documentId = match.params._id;
+  // Get access to Stuff documents.
+  const subscription = Challenges.subscribe();
+  const subscription2 = Interests.subscribe();
   return {
+    doc: Challenges.findOne(documentId),
     interests: Interests.find({}).fetch(),
-    ready: subscription.ready(),
+    ready: subscription.ready() && subscription2.ready(),
   };
-})(AddChallenge);
+})(EditChallenge);

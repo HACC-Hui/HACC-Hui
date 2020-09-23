@@ -34,6 +34,9 @@ import EditProfilePage from '../pages/developer/EditProfilePage';
 import ListTeamsPage from '../pages/developer/ListTeamsPage';
 import AllDevelopers from '../pages/developer/AllDevelopers';
 import YourTeams from '../pages/developer/YourTeams';
+import EditChallenge from '../pages/administrator/EditChallenge';
+import EditSkill from '../pages/administrator/EditSkill';
+import EditTool from '../pages/administrator/EditTool';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -68,6 +71,9 @@ class App extends React.Component {
               <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
               <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
               <AdminProtectedRoute path={ROUTES.ADD_TOOL} component={AddTool} />
+              <AdminProtectedRoute path={ROUTES.EDIT_CHALLENGE} component={EditChallenge}/>
+              <AdminProtectedRoute path={ROUTES.EDIT_TOOL} component={EditTool}/>
+              <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkill}/>
               <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
               <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
               <Route component={NotFound} />
