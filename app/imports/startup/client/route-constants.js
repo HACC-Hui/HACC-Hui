@@ -24,4 +24,5 @@ export const ROUTES = {
   ALL_DEVELOPERS: '/all-developers',
   DUMP_DATABASE: '/dump-database',
   YOUR_TEAMS: '/your-teams',
+  DELETE_TEAM: '/deleteTeam',
 };
