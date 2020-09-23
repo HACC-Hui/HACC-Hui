@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import _ from 'lodash';
+import { Roles } from 'meteor/alanning:roles';
 import { HACCHui } from '../hacc-hui/HACCHui';
-import { Users } from '../user/UserCollection';
 import { ROLE } from '../role/Role';
 
 /**
@@ -17,11 +17,9 @@ export const dumpDatabaseMethod = new ValidatedMethod({
   run() {
     if (!this.userId) {
       throw new Meteor.Error('unauthorized', 'You must be logged in to dump the database..');
-    } else {
-      const profile = Users.getProfile(this.userId);
-      if (profile.role !== ROLE.ADMIN) {
-        throw new Meteor.Error('unauthorized', 'You must be an admin to dump the database.');
-      }
+    }
+    if (!Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
+      throw new Meteor.Error('unauthorized', 'You must be an admin to dump the database.');
     }
     // Don't do the dump except on server side (disable client-side simulation).
     // Return an object with fields timestamp and collections.
