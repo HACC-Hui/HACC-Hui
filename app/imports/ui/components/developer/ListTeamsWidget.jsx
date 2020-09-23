@@ -22,19 +22,25 @@ const getTeamChallenges = (team) => {
 const getTeamSkills = (team) => {
   const teamID = team._id;
   const teamSkills = TeamSkills.find({ teamID }).fetch();
-  console.log(teamSkills);
   const skillNames = teamSkills.map((ts) => Skills.findDoc(ts.skillID).name);
   return skillNames;
 };
 
 const getTeamTools = (team) => {
   const teamID = team._id;
-  console.log(teamID);
   const teamTools = TeamTools.find({ teamID }).fetch();
-  console.log(teamTools);
   const toolNames = teamTools.map((tt) => Tools.findDoc(tt.toolID).name);
   return toolNames;
 };
+
+const addTeamName = (team) => {
+  const teamID = team._id;
+  const teamName = Teams._collection.findOne({_id:teamID});
+  console.log(teamName);
+  const name = teamName.name;
+  team.name = name;
+  return team;
+}
 
 class ListTeamsWidget extends React.Component {
   render() {
@@ -59,7 +65,7 @@ class ListTeamsWidget extends React.Component {
           </Grid.Row>
           {this.props.teams.map((team) => (
               <ListTeamExampleWidget key={team._id}
-                                     team={team}
+                                     team={addTeamName(team)}
                                      teamChallenges={getTeamChallenges(team)}
                                      teamSkills={getTeamSkills(team)}
                                      teamTools={getTeamTools(team)}

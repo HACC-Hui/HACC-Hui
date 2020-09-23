@@ -15,6 +15,7 @@ import { DeveloperChallenges } from '../../../api/user/DeveloperChallengeCollect
 import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
 import ListTeamsWidget from '../../components/developer/ListTeamsWidget';
+import ChallengeSkillTeams from '../../components/developer/ChallengeSkillTeams';
 import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
 
 /** Renders a table containing all of the Book documents. Use <BookItem> to render each row. */
@@ -73,8 +74,26 @@ class TeamDisplay extends React.Component {
   renderTeamChallenge_match() {
     const Challenge_matched_teams = this.getTeamChallenge_match();
     return _.map(Challenge_matched_teams, function (chall_team) {
-            if (chall_team.teams.length > 0) return <div key={chall_team}><Container><Header as='h3'>The Following teams have your requested Challenge: {chall_team.Challenge}</Header> <ListTeamsWidget teams={chall_team.teams}/></Container></div>;
+            if (chall_team.teams.length > 0)
+              { return <div key={chall_team}>
+                <Container>
+                  <Header as='h3'>The Following teams have your requested Challenge: {chall_team.Challenge}</Header>
+                  <ListTeamsWidget teams={chall_team.teams}/></Container></div>;
+}
             return '';
+    });
+
+  }
+
+  renderTeamChallenge_skill_match(){
+    const Team_challenge_skill_match = this.getTeamChallengeSkillMatch();
+    console.log(Team_challenge_skill_match);
+    return _.map(Team_challenge_skill_match, function (chall_skill_team) {
+      console.log(chall_skill_team);
+      return (<div key={chall_skill_team.Challenge}> <Container><Header as='h3'>The Following teams have your requested Challenge: {chall_skill_team.Challenge}</Header>
+        <ChallengeSkillTeams chall_skill_teams={chall_skill_team}/>
+      </Container></div>);
+
     });
 
   }
@@ -87,7 +106,10 @@ class TeamDisplay extends React.Component {
     console.log(Tskill);
     const SkillTeams = [];
     _.each(Dskills, function (skill) {
-      const tempTeam = {}; tempTeam.skillID = skill.skillID; tempTeam.skillName = Skills.findDoc(skill.skillID).name; tempTeam.skillLevel = skill.skillLevel; tempTeam.teams = _.filter(Tskill, function (teamskill) { return teamskill.skillID == skill.skillID; });
+      const tempTeam = {}; tempTeam.skillID = skill.skillID; tempTeam.skillName = Skills.findDoc(skill.skillID).name;
+      tempTeam.skillLevel = skill.skillLevel; tempTeam.teams = _.filter(Tskill, function (teamskill) {
+        return teamskill.skillID == skill.skillID;
+});
       SkillTeams.push(tempTeam);
     }, SkillTeams);
     return SkillTeams;
@@ -101,10 +123,10 @@ class TeamDisplay extends React.Component {
 
     const Challenge_Skill_Teams = [];
     _.each(challengeTeam, function (challenge) {
- const tempchallenge = {}; const both_challenge_skill_matched = []; tempchallenge.Chanllenge = challenge.Challenge;
+ const tempchallenge = {}; const both_challenge_skill_matched = []; tempchallenge.Challenge = challenge.Challenge;
       const teamID_challenge = _.pluck(challenge.teams, '_id');
     _.each(SkillTeam, function (skill) {
- const tempskill = {}; tempskill.skillName = skill.skillName;
+ const tempskill = {}; tempskill.skillName = skill.skillName; tempskill.level = skill.skillLevel;
       const teamID_skill = _.pluck(skill.teams, 'teamID');
       const both_challenge_skill_matched_teamID = _.intersection(teamID_challenge, teamID_skill);
       console.log(both_challenge_skill_matched_teamID);
@@ -131,7 +153,7 @@ class TeamDisplay extends React.Component {
     });
       Challenge_Skill_Teams.push(tempchallenge);
 });
-    console.log(Challenge_Skill_Teams);
+    return Challenge_Skill_Teams;
 
   }
 
@@ -152,9 +174,11 @@ class TeamDisplay extends React.Component {
           </Container>
           { this.getAllOpenTeam() }
           { console.log(this.getTeamChallenge_match()) }
-          {this.renderTeamChallenge_match()}
 
-          {this.getTeamChallengeSkillMatch()}
+          {console.log(this.getTeamChallengeSkillMatch())}
+          {this.renderTeamChallenge_skill_match()}
+
+
 
         </div>
     );
