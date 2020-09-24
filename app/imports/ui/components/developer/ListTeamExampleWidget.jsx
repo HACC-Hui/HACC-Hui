@@ -33,7 +33,9 @@ class ListTeamExampleWidget extends React.Component {
         <Grid.Row columns={5}>
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
+            {this.props.team.owner === Developers.findDoc({ userID: Meteor.userId() })._id ?
             <Link className='edit' to={`/update-team/${this.props.team._id}`}>Edit</Link>
+            : '' }
           </Grid.Column>
           <Grid.Column>
             <Header as="h3">{this.props.teamChallenges.join(',')}</Header>
