@@ -31,6 +31,8 @@ class TeamDisplay extends React.Component {
 
   BestTeam;
 
+  nomatch;
+
   constructor(props) {
     super(props);
     this.AllOpenTeam = [];
@@ -38,6 +40,7 @@ class TeamDisplay extends React.Component {
     this.Team_challenge_skill = [];
     this.Team_challenge_tool = [];
     this.BestTeam = [];
+    this.nomatch = [];
 
   }
 
@@ -66,8 +69,17 @@ class TeamDisplay extends React.Component {
    const challenge_teams = [];
    const Allchallenges = this.props.challenges;
    const Allteams = this.AllOpenTeam;
-  _.each(challengeTeams, function (challengeObject) { const tempChallengeteam = {}; const challengePicked = _.find(Allchallenges, function (challange) { return challange._id == challengeObject.challengeID; }); tempChallengeteam.Challenge = challengePicked.title; const Matchteams = []; _.each(challengeObject.teams, function (Cteam) { const Matchteam = _.find(Allteams, function (team) { return Cteam.teamID == team._id; }); Matchteams.push(Matchteam); }, Allteams); tempChallengeteam.teams = Matchteams; challenge_teams.push(tempChallengeteam); }, Allchallenges);
+   const matchteams = [];
+   console.log(Allteams);
+  _.each(challengeTeams, function (challengeObject) { const tempChallengeteam = {}; const challengePicked = _.find(Allchallenges, function (challange) { return challange._id == challengeObject.challengeID; }); tempChallengeteam.Challenge = challengePicked.title; const Matchteams = []; _.each(challengeObject.teams, function (Cteam) { const Matchteam = _.find(Allteams, function (team) { return Cteam.teamID == team._id; }); Matchteams.push(Matchteam); }, Allteams); matchteams.push(Matchteams); tempChallengeteam.teams = Matchteams; challenge_teams.push(tempChallengeteam); }, Allchallenges);
   this.Team_challenge_match = challenge_teams;
+  console.log(challenge_teams);
+    console.log(matchteams);
+    var allmatch = [];
+    _.each(matchteams, function (teams) { allmatch = allmatch.concat(teams); });
+    const remain = _.difference(Allteams,allmatch);
+    console.log(remain);
+    this.nomatch = remain;
   return challenge_teams;
   }
 
@@ -195,13 +207,15 @@ class TeamDisplay extends React.Component {
           <Container>
 
             <Header as="h1" textAlign="center">Browse for Teams</Header>
-          </Container>
+
           { this.getAllOpenTeam() }
           { console.log(this.getTeamChallenge_match()) }
 
           {console.log(this.getTeamChallengeSkillMatch())}
           {this.renderTeamChallenge_skill_match()}
-
+          <Header as="h2" >The following teams do not match any of your challenge</Header>
+          <ListTeamsWidget teams={this.nomatch}/>
+          </Container>
         </div>
     );
   }
