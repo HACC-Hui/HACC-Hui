@@ -8,6 +8,7 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import ListStuff from '../pages/ListStuff';
+import InterestedDevelopers from '../pages/developer/InterestedDevelopersPage';
 import ListStuffAdmin from '../pages/ListStuffAdmin';
 import AddStuff from '../pages/AddStuff';
 import EditStuff from '../pages/EditStuff';
@@ -50,6 +51,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={Dprofile} />
               <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreation} />
+              <ProtectedRoute path={ROUTES.INTERESTED_DEVELOPERS} component={InterestedDevelopers} />
               <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
               <ProtectedRoute path="/list" component={ListStuff} />

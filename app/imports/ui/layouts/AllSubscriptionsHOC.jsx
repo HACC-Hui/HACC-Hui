@@ -20,6 +20,7 @@ import { DeveloperInterests } from '../../api/user/DeveloperInterestCollection';
 import { DeveloperTools } from '../../api/user/DeveloperToolCollection';
 import { DeveloperSkills } from '../../api/user/DeveloperSkillCollection';
 import { Developers } from '../../api/user/DeveloperCollection';
+import { InterestedDevelopers } from '../../api/team/InterestedDevelopersCollection';
 
 // cacheLimit default is 10, so increased to handle all our subscriptions.
 // expireLimit set to 30 minutes because: why not.
@@ -60,6 +61,7 @@ function withAllSubscriptions(WrappedComponent) {
       allSubs.subscribe(TeamSkills.getCollectionName()),
       allSubs.subscribe(TeamTools.getCollectionName()),
       allSubs.subscribe(Tools.getCollectionName()),
+      allSubs.subscribe(InterestedDevelopers.getCollectionName()),
     ];
     const loading = handles.some((handle) => !handle.ready());
     return {
