@@ -16,6 +16,7 @@ class NavBar extends React.Component {
   render() {
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isDeveloper = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.DEVELOPER);
+    console.log(isDeveloper);
     const menuStyle = { marginBottom: '10px' };
     return (
         <Menu style={menuStyle} attached="top" borderless inverted>
@@ -26,15 +27,14 @@ class NavBar extends React.Component {
               [<Menu.Item as={NavLink} activeClassName="active" exact
                           to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact
-                           to={ROUTES.DELETE_TEAM} key='team-creation'>Delete a Team</Menu.Item>,
+                           to={ROUTES.DELETE_TEAM} key='delete-team'>Delete a Team</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact
                            to={ROUTES.TEAM_FINDER} key='team-finder'>Team Finder</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact
                            to={ROUTES.YOUR_TEAMS} key='your-teams'>Your Teams</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.EDIT_PROFILE} key='edit-profile'>Edit
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.EDIT_PROFILE}
+                           key='edit-profile'>Edit
                   Your Profile</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_TEAMS} key='list-teams'>List the
-                  Teams</Menu.Item>,
               ]
           ) : ''}
           {isAdmin ? (
