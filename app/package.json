@@ -3,16 +3,13 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@material-ui/core": "^4.11.0",
     "@slack/bolt": "^2.2.3",
-    "bcrypt": "^5.0.0",
     "classnames": "^2.2.6",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "graphql": "^15.3.0",
     "lodash": "^4.17.19",
-    "material-table": "^1.69.0",
     "meteor-node-stubs": "^1.0.1",
     "moment": "^2.27.0",
     "prop-types": "^15.7.2",
@@ -25,7 +22,8 @@
     "semantic-ui-react": "^1.1.1",
     "simpl-schema": "^1.9.0",
     "sweetalert": "^2.1.2",
-    "uniforms": "^3.0.0-rc.3",
+    "sweetalert2": "^10.3.0",
+    "uniforms": "^3.0.0-rc.2",
     "uniforms-bridge-simple-schema-2": "^3.0.0-rc.2",
     "uniforms-semantic": "^3.0.0-rc.2",
     "xkpasswd": "^1.0.5"
@@ -53,12 +51,14 @@
   },
   "scripts": {
     "start": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --settings ../config/settings.development.json --port 3400",
+    "start2": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --settings ../config/settings.development.json --port 3500",
     "lint": "eslint --quiet --ext .jsx --ext .js ./imports",
     "pretest": "npm run lint",
     "test": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha --port 3500",
     "test-no-lint": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha --port 3500",
     "test-app": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --full-app --once --driver-package meteortesting:mocha --port 3500",
     "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json",
-    "move-docs": "cp -r ../docs/ ../../docusaurus/static/jsdoc/"
+    "move-docs": "cp -r ../docs/ ../../docusaurus/static/jsdoc/",
+    "deploy": "cross-env DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy hacchui.meteorapp.com --settings ../config/settings.production.json"
   }
 }

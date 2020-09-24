@@ -24,8 +24,10 @@ class TeamChallengeCollection extends BaseCollection {
    * @return {String} the ID of the new pair.
    */
   define({ team, challenge }) {
+    console.log('TeamChallenge.define', team, challenge);
     const teamID = Teams.findIdBySlug(team);
     const challengeID = Challenges.findIdBySlug(challenge);
+    console.log(teamID, challengeID);
     return this._collection.insert({ teamID, challengeID });
   }
 

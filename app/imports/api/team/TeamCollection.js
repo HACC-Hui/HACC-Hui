@@ -50,13 +50,21 @@ class TeamCollection extends BaseSlugCollection {
            owner, open = true, challenges, skills, tools, developers = [] }) {
     const team = slugify(name);
     const slugID = Slugs.define({ name: team });
-    const teamID = this._collection.insert({ name, slugID, description, gitHubRepo, devPostPage, owner, open });
+    // check to see if owner is a slug
+    let ownerID;
+    if (Slugs.isDefined(owner)) {
+      ownerID = Slugs.getEntityID(owner);
+    } else {
+      ownerID = owner;
+    }
+    const teamID = this._collection.insert({ name, slugID, description, gitHubRepo, devPostPage,
+      owner: ownerID, open });
     // Connect the Slug to this Interest
     Slugs.updateEntityID(slugID, teamID);
-    _.each(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
-    _.each(skills, (skill) => TeamSkills.define({ team, skill }));
-    _.each(tools, (tool) => TeamTools.define({ team, tool }));
-    _.each(developers, (developer) => TeamDevelopers.define({ team, developer }));
+    _.forEach(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
+    _.forEach(skills, (skill) => TeamSkills.define({ team, skill }));
+    _.forEach(tools, (tool) => TeamTools.define({ team, tool }));
+    _.forEach(developers, (developer) => TeamDevelopers.define({ team, developer }));
     TeamDevelopers.define({ team, developer: owner });
     return teamID;
   }
@@ -89,23 +97,23 @@ class TeamCollection extends BaseSlugCollection {
     const team = this.findSlugByID(docID);
     if (challenges) {
      TeamChallenges.removeTeam(team);
-      _.each(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
+      _.forEach(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
     }
     if (skills) {
       const teamSkills = TeamSkills.find(selector).fetch();
-      _.each(teamSkills, (tS) => TeamSkills.removeIt(tS._id));
-      _.each(skills, (skill) => TeamSkills.define({ team, skill }));
+      _.forEach(teamSkills, (tS) => TeamSkills.removeIt(tS._id));
+      _.forEach(skills, (skill) => TeamSkills.define({ team, skill }));
     }
     if (tools) {
       const teamTools = TeamTools.find(selector).fetch();
-      _.each(teamTools, (tT) => TeamTools.removeIt(tT._id));
-      _.each(tools, (tool) => TeamTools.define({ team, tool }));
+      _.forEach(teamTools, (tT) => TeamTools.removeIt(tT._id));
+      _.forEach(tools, (tool) => TeamTools.define({ team, tool }));
     }
     if (developers) {
       const owner = this.findDoc(docID).owner;
       const teamDevelopers = TeamDevelopers.find(selector).fetch();
-      _.each(teamDevelopers, (tD) => TeamDevelopers.removeIt(tD._id));
-      _.each(developers, (developer) => TeamDevelopers.define({ team, developer }));
+      _.forEach(teamDevelopers, (tD) => TeamDevelopers.removeIt(tD._id));
+      _.forEach(developers, (developer) => TeamDevelopers.define({ team, developer }));
       TeamDevelopers.define({ team, developer: owner });
     }
   }
@@ -144,11 +152,12 @@ class TeamCollection extends BaseSlugCollection {
     const challenges = _.map(teamChallenges, (tC) => Challenges.findSlugByID(tC.challengeID));
     const teamDevelopers = TeamDevelopers.find(selector).fetch();
     const developers = _.map(teamDevelopers, (tD) => Developers.findSlugByID(tD.developerID));
+    const ownerSlug = Developers.findSlugByID(owner);
     const teamSkills = TeamSkills.find(selector).fetch();
     const skills = _.map(teamSkills, (tS) => Skills.findSlugByID(tS.skillID));
     const teamTools = TeamTools.find(selector).fetch();
     const tools = _.map(teamTools, (tT) => Tools.findSlugByID(tT.toolID));
-    return { name, description, owner, open, challenges, developers, skills, tools };
+    return { name, description, owner: ownerSlug, open, challenges, developers, skills, tools };
   }
 }
 
