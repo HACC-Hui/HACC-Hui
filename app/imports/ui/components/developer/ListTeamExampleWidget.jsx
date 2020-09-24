@@ -34,7 +34,7 @@ class ListTeamExampleWidget extends React.Component {
   }
 
   render() {
-    const developer = Developers.findDoc({ userID: Meteor.userId() }).username;
+    const developer = Developers.findDoc({ userID: Meteor.userId() });
     return (
         <Grid.Row columns={5}>
           <Grid.Column>
@@ -51,12 +51,11 @@ class ListTeamExampleWidget extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <Button id={this.props.team._id} color="green" onClick={this.handleClick}>Request to Join</Button>
-            { (this.props.team.owner._id === developer._id) ? <Button
+            { (this.props.team.owner === developer._id) ? <Button
                 color="red"
                 id={this.props.team._id}
                 content='Delete Team'
                 onClick={this.handleClick2}>
-              Delete Team
             </Button> : '' }
           </Grid.Column>
         </Grid.Row>
@@ -66,7 +65,6 @@ class ListTeamExampleWidget extends React.Component {
 
 ListTeamExampleWidget.propTypes = {
   team: PropTypes.object,
-  teamDevelopers: PropTypes.object.isRequired,
   teamChallenges: PropTypes.arrayOf(
       PropTypes.string,
   ),
