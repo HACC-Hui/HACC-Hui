@@ -202,11 +202,11 @@ class TeamUpdate extends React.Component {
                     </Grid>
                     <TextField name='image' />
                     <LongTextField name='description' />
-                    <MultiSelectField name='challenges' value={getTeamChallenges(this.props.challengeDoc)}
+                    <MultiSelectField name='challenges' placeholder={getTeamChallenges(this.props.challengeDoc)}
                                       allowedValues={challengeArr} required />
-                    <MultiSelectField name='skills' value={getTeamSkills(this.props.skillDoc)}
+                    <MultiSelectField name='skills' placeholder={getTeamSkills(this.props.skillDoc)}
                                       allowedValues={skillArr} required />
-                    <MultiSelectField name='tools' value={getTeamTools(this.props.toolDoc)}
+                    <MultiSelectField name='tools' placeholder={getTeamTools(this.props.toolDoc)}
                                       allowedValues={toolArr} required />
                     <TextField name="github" />
                     <TextField name="devpostPage" />
