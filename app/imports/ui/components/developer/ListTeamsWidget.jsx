@@ -101,7 +101,7 @@ ListTeamsWidget.propTypes = {
 };
 
 export default withTracker(() => {
-  const teams = Teams.find({ open: true }, { }).fetch();
+  const teams = Teams.find({ open: true }, {}).fetch();
   return {
     teams,
   };
