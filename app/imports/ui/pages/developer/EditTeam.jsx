@@ -9,7 +9,9 @@ import SimpleSchema from 'simpl-schema';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import MultiSelectField from '../../components/form-fields/MultiSelectField';
+import { Slugs } from '../../../api/slug/SlugCollection';
 import { Teams } from '../../../api/team/TeamCollection';
+import { Developers } from '../../../api/user/DeveloperCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
@@ -38,6 +40,27 @@ const schema = new SimpleSchema({
   devpostPage: { type: String, optional: true },
 });
 
+const fetchChalls = (team) => {
+  const teamID = team._id;
+  const challengeStored = TeamChallenges.find({ teamID }).fetch();
+  const challengeExamples = challengeStored.map((tc) => Challenges.findDoc(tc.challengeID).title);
+  return challengeExamples;
+};
+
+const fetchSkills = (team) => {
+  const teamID = team._id;
+  const skillsStored = TeamSkills.find({ teamID }).fetch();
+  const skillExamples = skillsStored.map((ts) => Skills.findDoc(ts.skillID).name);
+  return skillExamples;
+};
+
+const fetchTools = (team) => {
+  const teamID = team._id;
+  const teamStored = TeamTools.find({ teamID }).fetch();
+  const toolExamples = teamStored.map((tt) => Tools.findDoc(tt.toolID).name);
+  return toolExamples;
+};
+
 /**
  * A simple edit page thats prefilled with any info about the team.
  * @memberOf ui/pages
@@ -49,58 +72,57 @@ class EditTeam extends React.Component {
    * @param data {Object} the result from the form.
    */
   submit(data) {
-    const { open, image, challenges,
-      skills, tools, description, gitHub, devpostPage, _id } = data;
-
-    const challengesList = _.map(this.props.challenges, 'title');
+    const { description, challenges,
+      skills, tools, image, _id } = data;
+    const owner = this.props.developers[0].slugID;
+    const challengesList = this.props.challenges;
     const challengeIds = [];
-    const skillsList = _.map(this.props.skills, 'name');
+    const skillsList = this.props.skills;
     const skillIds = [];
-    const toolsList = _.map(this.props.tools, 'name');
+    const toolsList = this.props.tools;
     const toolIds = [];
+    let { open } = data;
+    if (open === 'Open') {
+      open = true;
+    } else {
+      open = false;
+    }
 
-    if (challenges) {
       for (let i = 0; i < challengesList.length; i++) {
         for (let j = 0; j < challenges.length; j++) {
           if (challengesList[i].title === challenges[j]) {
-            challengeIds.push(challengesList[i].slugID);
+            challengeIds.push(Slugs.getNameFromID(challengesList[i].slugID));
           }
         }
       }
-    }
 
-    if (skills) {
       for (let i = 0; i < skillsList.length; i++) {
         for (let j = 0; j < skills.length; j++) {
           if (skillsList[i].name === skills[j]) {
-            skillIds.push(skillsList[i].slugID);
+            skillIds.push(Slugs.getNameFromID(skillsList[i].slugID));
           }
         }
       }
-    }
 
-    if (tools) {
       for (let i = 0; i < toolsList.length; i++) {
         for (let j = 0; j < tools.length; j++) {
           if (toolsList[i].name === tools[j]) {
-            toolIds.push(toolsList[i].slugID);
+            toolIds.push(Slugs.getNameFromID(toolsList[i].slugID));
           }
         }
       }
-    }
-
+    const collectionName = Teams.getCollectionName();
     const updateData = {
       id: _id,
       challenges: challengeIds,
       skills: skillIds,
       tools: toolIds,
+      description,
+      owner,
       open,
       image,
-      description,
-      gitHub,
-      devpostPage,
     };
-    updateMethod.call({ collectionName: Teams.getCollectionName(), updateData: updateData }, (error) => (error ?
+    updateMethod.call({ collectionName, updateData }, (error) => (error ?
         swal('Error', error.message, 'error') :
         swal('Success', 'Item updated successfully', 'success')));
   }
@@ -118,28 +140,6 @@ class EditTeam extends React.Component {
     const skillArr = _.map(this.props.skills, 'name');
     const toolArr = _.map(this.props.tools, 'name');
     const eTeam = Teams.findOne();
-    const teamsChal = [];
-    const teamsSkill = [];
-    const teamsTool = [];
-    // add the teams challenges, skills, tools in the edit form
-    _.forEach(this.props.teamChallenges, (c) => _.forEach(this.props.challenges, (p) => {
-      // eslint-disable-next-line no-unused-expressions
-          (c.challengeID === p._id) ? teamsChal.push(p.title) : '';
-        }));
-
-    _.forEach(this.props.teamSkills, (c) => _.forEach(this.props.skills, (p) => {
-      // eslint-disable-next-line no-unused-expressions
-          (c.skillID === p._id) ? teamsSkill.push(p.name) : '';
-        }));
-
-    _.forEach(this.props.teamTools, (c) => _.forEach(this.props.tools, (p) => {
-      // eslint-disable-next-line no-unused-expressions
-          (c.toolID === p._id) ? teamsTool.push(p.name) : '';
-        }));
-
-    eTeam.tools = teamsTool;
-    eTeam.skills = teamsSkill;
-    eTeam.challenges = teamsChal;
     console.log(eTeam);
     return (
         <Grid container centered>
@@ -148,12 +148,13 @@ class EditTeam extends React.Component {
             <AutoForm ref={ref => {
               fRef = ref;
             }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}
+                      model={this.props.doc}
                       style={{
                         paddingBottom: '40px',
                       }}>
               <Segment style={{
                 borderRadius: '10px',
-              }} className={'createTeam'}>
+              }}>
                 <Grid columns={1} style={{ paddingTop: '20px' }}>
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
                     <Header as="h2" textAlign="center">Team Information</Header>
@@ -165,11 +166,11 @@ class EditTeam extends React.Component {
                     </Grid>
                     <TextField name='image' placeholder={'Team Image URL'} />
                     <LongTextField name='description' />
-                    <MultiSelectField name='challenges' placeholder={'Challenges'}
+                    <MultiSelectField name='challenges' placeholder={fetchChalls(this.props.teamChallenges)}
                                       allowedValues={challengeArr} required />
-                    <MultiSelectField name='skills' placeholder={'Skills'}
+                    <MultiSelectField name='skills' placeholder={fetchSkills(this.props.teamSkills)}
                                       allowedValues={skillArr} required />
-                    <MultiSelectField name='tools' placeholder={'Toolsets'}
+                    <MultiSelectField name='tools' placeholder={fetchTools(this.props.teamTools)}
                                       allowedValues={toolArr} required />
                     <TextField name="github" />
                     <TextField name="devpostPage" />
@@ -192,26 +193,29 @@ class EditTeam extends React.Component {
 }
 
 EditTeam.propTypes = {
+  doc: PropTypes.object,
+  currentUser: PropTypes.string,
   challenges: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
+  developers: PropTypes.array.isRequired,
   teamChallenges: PropTypes.array.isRequired,
   teamSkills: PropTypes.array.isRequired,
   teamTools: PropTypes.array.isRequired,
+  model: PropTypes.object,
   ready: PropTypes.bool.isRequired,
 
 };
 
-export default withTracker(() => {
+export default withTracker(({ match }) => {
   // Get access to documents.
+  const documentId = match.params._id;
   const toolsSubscription = Tools.subscribe();
   const skillsSubscription = Skills.subscribe();
-  const teamSubscription = Teams.subscribe();
   const challengesSubscription = Challenges.subscribe();
-  const teamToolsSubscription = TeamTools.subscribe();
-  const teamSkillsSubscription = TeamSkills.subscribe();
-  const teamChallengesSubscription = TeamChallenges.subscribe();
+  const subscriptionDevelopers = Developers.subscribe();
   return {
+    doc: Teams.findOne(documentId),
     tools: Tools.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     team: Teams.find({}).fetch(),
@@ -219,10 +223,8 @@ export default withTracker(() => {
     teamTools: TeamTools.find({}).fetch(),
     teamSkills: TeamSkills.find({}).fetch(),
     teamChallenges: TeamChallenges.find({}).fetch(),
+    developers: Developers.find({}).fetch(),
     ready: toolsSubscription.ready() && skillsSubscription.ready() &&
-        teamSubscription.ready() && challengesSubscription.ready() &&
-        teamToolsSubscription.ready() &&
-        teamSkillsSubscription.ready() && teamSubscription.ready() &&
-        teamChallengesSubscription.ready(),
+        challengesSubscription.ready() && subscriptionDevelopers.ready(),
   };
 })(EditTeam);
