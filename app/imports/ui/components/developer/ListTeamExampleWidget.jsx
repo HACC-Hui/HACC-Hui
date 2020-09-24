@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Button, Grid, Header } from 'semantic-ui-react';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
@@ -32,6 +33,7 @@ class ListTeamExampleWidget extends React.Component {
         <Grid.Row columns={5}>
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
+            <Link className='edit' to={`/update-team/${this.props.team._id}`}>Edit</Link>
           </Grid.Column>
           <Grid.Column>
             <Header as="h3">{this.props.teamChallenges.join(',')}</Header>
