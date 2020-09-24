@@ -89,7 +89,7 @@ class TeamDisplay extends React.Component {
     const Team_challenge_skill_match = this.getTeamChallengeSkillMatch();
     console.log(Team_challenge_skill_match);
     return _.map(Team_challenge_skill_match, function (chall_skill_team) {
-      return (<div key={chall_skill_team.Challenge}> <Container><Header as='h3'>The Following teams have your requested Challenge: {chall_skill_team.Challenge}</Header>
+      return (<div key={chall_skill_team.Challenge}> <Container><Header as='h2'>The Following teams have your requested Challenge: {chall_skill_team.Challenge}</Header>
         <ChallengeSkillTeams chall_skill_teams={chall_skill_team}/>
       </Container></div>);
 

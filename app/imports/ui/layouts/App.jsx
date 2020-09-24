@@ -44,7 +44,7 @@ class App extends React.Component {
             <NavBar />
             <Switch>
               <Route exact path={ROUTES.LANDING} component={Landing} />
-              
+
               <Route path={ROUTES.SIGN_IN} component={Signin} />
               <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
               <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />

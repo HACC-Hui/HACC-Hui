@@ -75,8 +75,6 @@ class ChallengeSkillTeams extends React.Component {
 
         }
         if (no_match) {
-          console.log('hit');
-          console.log(no_match);
 
 
           No_skill_teams =  <div>
