@@ -46,6 +46,27 @@ const schema = new SimpleSchema({
   devpostPage: { type: String, optional: true },
 });
 
+const getTeamChallenges = (team) => {
+  const teamID = team._id;
+  const teamChallengeDocs = TeamChallenges.find({ teamID }).fetch();
+  const challengeTitles = teamChallengeDocs.map((tc) => Challenges.findDoc(tc.challengeID).title);
+  return challengeTitles;
+};
+
+const getTeamSkills = (team) => {
+  const teamID = team._id;
+  const teamSkills = TeamSkills.find({ teamID }).fetch();
+  const skillNames = teamSkills.map((ts) => Skills.findDoc(ts.skillID).name);
+  return skillNames;
+};
+
+const getTeamTools = (team) => {
+  const teamID = team._id;
+  const teamTools = TeamTools.find({ teamID }).fetch();
+  const toolNames = teamTools.map((tt) => Tools.findDoc(tt.toolID).name);
+  return toolNames;
+};
+
 /**
  * Renders the Page for adding stuff. **deprecated**
  * @memberOf ui/pages
@@ -181,11 +202,11 @@ class TeamUpdate extends React.Component {
                     </Grid>
                     <TextField name='image' />
                     <LongTextField name='description' />
-                    <MultiSelectField name='challenges' placeholder={this.props.challengeDoc}
+                    <MultiSelectField name='challenges' value={getTeamChallenges(this.props.challengeDoc)}
                                       allowedValues={challengeArr} required />
-                    <MultiSelectField name='skills' placeholder={this.props.skillDoc}
+                    <MultiSelectField name='skills' value={getTeamSkills(this.props.skillDoc)}
                                       allowedValues={skillArr} required />
-                    <MultiSelectField name='tools' placeholder={this.props.toolDoc}
+                    <MultiSelectField name='tools' value={getTeamTools(this.props.toolDoc)}
                                       allowedValues={toolArr} required />
                     <TextField name="github" />
                     <TextField name="devpostPage" />
@@ -230,9 +251,9 @@ export default withTracker(({ match }) => {
 
   return {
     doc: Teams.findOne(documentId),
-    challengeDoc: TeamChallenges.find(documentId).fetch(),
-    skillDoc: TeamSkills.find(documentId).fetch(),
-    toolDoc: TeamTools.find(documentId).fetch(),
+    challengeDoc: TeamChallenges.find(documentId),
+    skillDoc: TeamSkills.find(documentId),
+    toolDoc: TeamTools.find(documentId),
     challenges: Challenges.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
