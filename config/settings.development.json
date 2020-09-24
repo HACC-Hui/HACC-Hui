@@ -7,7 +7,7 @@
   "databaseRestoreFileName": "database/2020-06-16-11-34-22.json",
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN" },
-    { "email": "john@foo.com", "password": "changeme","role": "DEVELOPER" }
+    { "email": "john@foo.com", "password": "changeme" }
   ],
 
   "defaultData": [
