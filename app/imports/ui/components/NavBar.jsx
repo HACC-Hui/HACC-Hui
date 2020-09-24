@@ -35,9 +35,6 @@ class NavBar extends React.Component {
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.EDIT_PROFILE}
                            key='edit-profile'>Edit
                   Your Profile</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_TEAMS}
-                           key='list-teams'>List the
-                  Teams</Menu.Item>,
               ]
           ) : ''}
           {isAdmin ? (
