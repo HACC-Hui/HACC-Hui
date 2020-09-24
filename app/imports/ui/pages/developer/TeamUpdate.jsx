@@ -22,7 +22,7 @@ import { TeamTools } from '../../../api/team/TeamToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
-import { defineMethod } from '../../../api/base/BaseCollection.methods';
+import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { Developers } from '../../../api/user/DeveloperCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 
@@ -72,7 +72,7 @@ class TeamUpdate extends React.Component {
     const owner = this.props.developers[0].slugID;
 
     const {
-      name, description, challenges, skills, tools, image,
+      name, description, challenges, skills, tools, image, _id,
     } = formData;
     let { open } = formData;
     // console.log(challenges, skills, tools, open);
@@ -113,7 +113,8 @@ class TeamUpdate extends React.Component {
       return;
     }
     const collectionName = Teams.getCollectionName();
-    const definitionData = {
+    const updateData = {
+      id: _id,
       name,
       description,
       owner,
@@ -124,16 +125,16 @@ class TeamUpdate extends React.Component {
       tools: toolsObj,
     };
     // console.log(collectionName, definitionData);
-    defineMethod.call({
+    updateMethod.call({
           collectionName,
-          definitionData,
+          updateData,
         },
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
             // console.error(error.message);
           } else {
-            swal('Success', 'Team created successfully', 'success');
+            swal('Success', 'Team updated successfully', 'success');
             formRef.reset();
             //   console.log('Success');
           }
@@ -180,11 +181,11 @@ class TeamUpdate extends React.Component {
                     </Grid>
                     <TextField name='image' />
                     <LongTextField name='description' />
-                    <MultiSelectField name='challenges' value={this.props.challengeDoc}
+                    <MultiSelectField name='challenges' placeholder={this.props.challengeDoc}
                                       allowedValues={challengeArr} required />
-                    <MultiSelectField name='skills' value={this.props.skillDoc}
+                    <MultiSelectField name='skills' placeholder={this.props.skillDoc}
                                       allowedValues={skillArr} required />
-                    <MultiSelectField name='tools' value={this.props.toolDoc}
+                    <MultiSelectField name='tools' placeholder={this.props.toolDoc}
                                       allowedValues={toolArr} required />
                     <TextField name="github" />
                     <TextField name="devpostPage" />
@@ -229,9 +230,9 @@ export default withTracker(({ match }) => {
 
   return {
     doc: Teams.findOne(documentId),
-    challengeDoc: TeamChallenges.find(documentId),
-    skillDoc: TeamSkills.find(documentId),
-    toolDoc: TeamTools.find(documentId),
+    challengeDoc: TeamChallenges.find(documentId).fetch(),
+    skillDoc: TeamSkills.find(documentId).fetch(),
+    toolDoc: TeamTools.find(documentId).fetch(),
     challenges: Challenges.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
