@@ -26,6 +26,8 @@ class NavBar extends React.Component {
               [<Menu.Item as={NavLink} activeClassName="active" exact
                           to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact
+                           to={ROUTES.DELETE_TEAM} key='team-creation'>Delete a Team</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact
                            to={ROUTES.TEAM_FINDER} key='team-finder'>Team Finder</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact
                            to={ROUTES.YOUR_TEAMS} key='your-teams'>Your Teams</Menu.Item>,
