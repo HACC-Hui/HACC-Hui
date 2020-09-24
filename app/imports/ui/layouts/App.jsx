@@ -44,7 +44,7 @@ class App extends React.Component {
             <NavBar />
             <Switch>
               <Route exact path={ROUTES.LANDING} component={Landing} />
-              <Route exact path="/TeamDisplay" component={TeamDisplay} />
+              
               <Route path={ROUTES.SIGN_IN} component={Signin} />
               <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
               <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
@@ -52,7 +52,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={Dprofile} />
               <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreation} />
-              <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
+              <ProtectedRoute path={ROUTES.LIST_TEAMS} component={TeamDisplay} />
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
               <ProtectedRoute path="/list" component={ListStuff} />
               <ProtectedRoute path="/add" component={AddStuff} />
