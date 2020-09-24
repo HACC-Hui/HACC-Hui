@@ -46,7 +46,6 @@ class TeamCollection extends BaseSlugCollection {
    * @param tools {string[]} the tools this team wants to use.
    * @param developers {string[]} the developers on the team.
    * @param image {String} the team's image
-
    * @return {string} the id of the team.
    */
   define({ name, description = '', gitHubRepo = '', devPostPage = '', image = '',
@@ -83,7 +82,6 @@ class TeamCollection extends BaseSlugCollection {
    * @param tools {String[]} the new set of tools (optional).
    * @param developers {String[]} the new set of developers (optional).
    * @param image {String} the team's image
-
    */
   update(docID, { name, description, open, image, challenges, skills, tools, developers }) {
     this.assertDefined(docID);

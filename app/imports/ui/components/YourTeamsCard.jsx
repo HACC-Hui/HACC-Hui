@@ -41,6 +41,10 @@ class YourTeamsCard extends React.Component {
                 <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }}>
                   <Link to={`/interested-developers/${this.props.teams._id}`}>See interested developers</Link>
                 </Button>
+
+          <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }}>
+            <Link to={`/edit-team/${this.props.teams._id}`}>Edit Team</Link>
+          </Button>
         </Item>
     );
   }

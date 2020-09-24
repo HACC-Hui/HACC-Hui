@@ -9,11 +9,11 @@ import {
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
+import { _ } from 'lodash';
 import { Teams } from '../../../api/team/TeamCollection';
 import { TeamDevelopers } from '../../../api/team/TeamDeveloperCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
 import YourTeamsCard from '../../components/YourTeamsCard';
-import { _ } from 'lodash';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
