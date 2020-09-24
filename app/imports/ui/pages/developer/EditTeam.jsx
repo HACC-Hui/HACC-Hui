@@ -28,6 +28,7 @@ const schema = new SimpleSchema({
     allowedValues: ['Open', 'Close'],
     label: 'Availability',
   },
+  name: { type: String },
   image: { type: String, optional: true },
   challenges: { type: Array, label: 'Challenges' },
   'challenges.$': { type: String },
@@ -72,7 +73,7 @@ class EditTeam extends React.Component {
    * @param data {Object} the result from the form.
    */
   submit(data) {
-    const { description, challenges,
+    const { name, description, challenges,
       skills, tools, image, _id } = data;
     const owner = this.props.developers[0].slugID;
     const challengesList = this.props.challenges;
@@ -82,6 +83,10 @@ class EditTeam extends React.Component {
     const toolsList = this.props.tools;
     const toolIds = [];
     let { open } = data;
+    if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
+      swal('Error', 'Sorry, no special characters or space allowed.', 'error');
+      return;
+    }
     if (open === 'Open') {
       open = true;
     } else {
@@ -114,6 +119,7 @@ class EditTeam extends React.Component {
     const collectionName = Teams.getCollectionName();
     const updateData = {
       id: _id,
+      name,
       challenges: challengeIds,
       skills: skillIds,
       tools: toolIds,
@@ -159,6 +165,7 @@ class EditTeam extends React.Component {
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
                     <Header as="h2" textAlign="center">Team Information</Header>
                     <Grid className='doubleLine'>
+                      <TextField name='name' />
                       <RadioField
                           name='open'
                           inline
