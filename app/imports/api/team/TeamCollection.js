@@ -80,7 +80,7 @@ class TeamCollection extends BaseSlugCollection {
    * @param tools {String[]} the new set of tools (optional).
    * @param developers {String[]} the new set of developers (optional).
    */
-  update(docID, { name, description, open, challenges, skills, tools, developers }) {
+  update(docID, { name, description, gitHubRepo, devPostPage, open, challenges, skills, tools, developers }) {
     this.assertDefined(docID);
     const updateData = {};
     if (name) {
@@ -88,6 +88,11 @@ class TeamCollection extends BaseSlugCollection {
     }
     if (description) {
       updateData.description = description;
+    } if (gitHubRepo) {
+      updateData.gitHubRepo = gitHubRepo;
+    }
+    if (devPostPage) {
+      updateData.devPostPage = devPostPage;
     }
     if (_.isBoolean(open)) {
       updateData.open = open;

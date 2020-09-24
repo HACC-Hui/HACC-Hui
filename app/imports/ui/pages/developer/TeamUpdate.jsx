@@ -42,8 +42,8 @@ const schema = new SimpleSchema({
   tools: { type: Array, label: 'Toolsets' },
   'tools.$': { type: String },
   description: String,
-  github: { type: String, optional: true },
-  devpostPage: { type: String, optional: true },
+  gitHubRepo: { type: String, optional: true },
+  devPostPage: { type: String, optional: true },
 });
 
 const getTeamChallenges = (team) => {
@@ -93,7 +93,7 @@ class TeamUpdate extends React.Component {
     const owner = this.props.developers[0].slugID;
 
     const {
-      name, description, challenges, skills, tools, image, _id,
+      name, description, gitHubRepo, devPostPage, challenges, skills, tools, image, _id,
     } = formData;
     let { open } = formData;
     // console.log(challenges, skills, tools, open);
@@ -138,6 +138,8 @@ class TeamUpdate extends React.Component {
       id: _id,
       name,
       description,
+      gitHubRepo,
+      devPostPage,
       owner,
       open,
       image,
@@ -208,8 +210,8 @@ class TeamUpdate extends React.Component {
                                       allowedValues={skillArr} required />
                     <MultiSelectField name='tools' placeholder={getTeamTools(this.props.toolDoc)}
                                       allowedValues={toolArr} required />
-                    <TextField name="github" />
-                    <TextField name="devpostPage" />
+                    <TextField name="gitHubRepo" />
+                    <TextField name="devPostPage" />
                   </Grid.Column>
                 </Grid>
                 <div align='center'>
