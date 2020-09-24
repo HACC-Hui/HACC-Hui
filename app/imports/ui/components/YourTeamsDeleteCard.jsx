@@ -16,10 +16,9 @@ import { Teams } from '../../api/team/TeamCollection';
 
 class YourTeamsDeleteCard extends React.Component {
 
-  state = false;
   handleClick = () => {
-    this.state = true
-    console.log(this.state);
+    const id = this.props.teams._id;
+    removeItMethod.call({ collectionName: Teams.getCollectionName(), instance: id });
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -47,8 +46,10 @@ class YourTeamsDeleteCard extends React.Component {
               </Grid>
             </Item.Meta>
             <Button
+                negative
+                id={this.props.teams._id}
                 attached='bottom'
-                content='Click'
+                content='Delete this team'
                 onClick={this.handleClick}
             />
           </Item.Content>
