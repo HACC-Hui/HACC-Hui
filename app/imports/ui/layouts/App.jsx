@@ -8,7 +8,6 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import ListStuff from '../pages/ListStuff';
-import InterestedDevelopers from '../pages/developer/InterestedDevelopersPage';
 import ListStuffAdmin from '../pages/ListStuffAdmin';
 import AddStuff from '../pages/AddStuff';
 import EditStuff from '../pages/EditStuff';
@@ -17,6 +16,7 @@ import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
+import TeamDisplay from '../pages/developer/TeamDisplay';
 import AgePage from '../pages/developer/AgePage';
 import ParticipationForm from '../pages/developer/ParticipationForm';
 import UnderParticipationForm from '../pages/developer/UnderParticipationForm';
@@ -44,6 +44,7 @@ class App extends React.Component {
             <NavBar />
             <Switch>
               <Route exact path={ROUTES.LANDING} component={Landing} />
+              
               <Route path={ROUTES.SIGN_IN} component={Signin} />
               <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
               <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
@@ -51,8 +52,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={Dprofile} />
               <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreation} />
-              <ProtectedRoute path={ROUTES.INTERESTED_DEVELOPERS} component={InterestedDevelopers} />
-              <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
+              <ProtectedRoute path={ROUTES.LIST_TEAMS} component={TeamDisplay} />
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
               <ProtectedRoute path="/list" component={ListStuff} />
               <ProtectedRoute path="/add" component={AddStuff} />
