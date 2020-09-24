@@ -89,7 +89,6 @@ class TeamDisplay extends React.Component {
     const Team_challenge_skill_match = this.getTeamChallengeSkillMatch();
     console.log(Team_challenge_skill_match);
     return _.map(Team_challenge_skill_match, function (chall_skill_team) {
-      console.log(chall_skill_team);
       return (<div key={chall_skill_team.Challenge}> <Container><Header as='h3'>The Following teams have your requested Challenge: {chall_skill_team.Challenge}</Header>
         <ChallengeSkillTeams chall_skill_teams={chall_skill_team}/>
       </Container></div>);
@@ -150,7 +149,7 @@ class TeamDisplay extends React.Component {
        // skills.push(tempskill);
 
     });
-      Challenge_Skill_Teams.push(tempchallenge);
+
       console.log(skill_match_teams);
       console.log(teamID_challenge);
       let all = [];
@@ -158,6 +157,25 @@ class TeamDisplay extends React.Component {
       const remain = _.difference(teamID_challenge,all);
       console.log(all);
       console.log(remain);
+
+      if(remain.length>0)
+      {
+
+            const tempskill = {};
+            tempskill.skillName = 'no match';
+            const no_skill_match = [];
+        for (let i = 0; i < remain.length; i++) {
+          const teamID = {};
+          teamID._id = remain[i];
+          no_skill_match.push(teamID);
+        }
+            tempskill.teams = no_skill_match;
+
+            tempchallenge.skill.push(tempskill);
+
+      }
+      Challenge_Skill_Teams.push(tempchallenge);
+      console.log(Challenge_Skill_Teams);
 });
     return Challenge_Skill_Teams;
 
