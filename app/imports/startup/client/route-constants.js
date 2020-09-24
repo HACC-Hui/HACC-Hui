@@ -13,6 +13,7 @@ export const ROUTES = {
   CREATE_PROFILE: '/create-profile',
   EDIT_PROFILE: '/edit-profile',
   CREATE_TEAM: '/create-team',
+  EDIT_TEAM: '/edit-team',
   LIST_TEAMS: '/list-teams',
   DELETE_ACCOUNT: '/delete-account',
   CONFIGURE_HACC: '/configure-hacc',
