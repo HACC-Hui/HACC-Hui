@@ -22,6 +22,7 @@ import UnderParticipationForm from '../pages/developer/UnderParticipationForm';
 import Dprofile from '../pages/developer/Dprofile';
 import TeamCreation from '../pages/developer/TeamCreation';
 import EditTeam from '../pages/developer/EditTeam';
+import deleteTeam from '../pages/developer/deleteTeam';
 import { ROUTES } from '../../startup/client/route-constants';
 import DeleteForm from '../pages/developer/DeleteForm';
 import ConfigureHACC from '../pages/administrator/ConfigureHACC';
@@ -59,6 +60,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreation} />
               <ProtectedRoute path={ROUTES.EDIT_TEAM} component={EditTeam} />
+              <ProtectedRoute path={ROUTES.DELETE_TEAM} component={deleteTeam} />
               <ProtectedRoute path={ROUTES.TEAM_FINDER} component={TeamFinder}/>
               <ProtectedRoute path={ROUTES.INTERESTED_DEVELOPERS} component={InterestedDevelopers}/>
               <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
