@@ -12,6 +12,7 @@ export const ROUTES = {
   UNDERAGE_PARTICIPATION: '/under-participation',
   CREATE_PROFILE: '/create-profile',
   EDIT_PROFILE: '/edit-profile',
+  EDIT_TEAM: '/edit-team',
   CREATE_TEAM: '/create-team',
   LIST_TEAMS: '/list-teams',
   DELETE_ACCOUNT: '/delete-account',

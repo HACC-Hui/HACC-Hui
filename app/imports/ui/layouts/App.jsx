@@ -28,7 +28,8 @@ import AddChallenge from '../pages/administrator/AddChallenge';
 import AddSkill from '../pages/administrator/AddSkill';
 import AddTool from '../pages/administrator/AddTool';
 import DumpDatabase from '../pages/administrator/DumpDatabase';
-import EditProfilePage from '../pages/developer/EditProfilePage';
+import EditProfile from '../pages/developer/EditProfile';
+import EditTeam from '../pages/developer/EditTeam';
 import ListTeamsPage from '../pages/developer/ListTeamsPage';
 
 /**
@@ -48,7 +49,8 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
               <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm} />
               <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={Dprofile} />
-              <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
+              <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfile} />
+              <ProtectedRoute path="/edit-team/:_id" component={EditTeam} />
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreation} />
               <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
