@@ -61,7 +61,6 @@ class HACCHuiClass {
         Challenges,
         Developers,
         Teams,
-        InterestedDevelopers,
         SlackUsers,
     ];
     /** Maps collection name to the collection. */
