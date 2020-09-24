@@ -9,7 +9,6 @@ import { defineMethod, removeItMethod } from '../../../api/base/BaseCollection.m
 import { Teams } from '../../../api/team/TeamCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 
-
 class ListTeamExampleWidget extends React.Component {
   handleClick(e, inst) {
     console.log(e, inst);

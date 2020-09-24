@@ -196,7 +196,7 @@ class TeamUpdate extends React.Component {
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
                     <Header as="h2" textAlign="center" inverted>Team Information</Header>
                     <Grid className='doubleLine'>
-                      <TextField name='name' />
+                      <TextField name='name' disabled/>
                       <RadioField
                           name='open'
                           inline
