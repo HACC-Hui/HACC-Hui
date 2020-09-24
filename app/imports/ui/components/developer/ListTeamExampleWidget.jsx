@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { Button, Grid, Header } from 'semantic-ui-react';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
-import { defineMethod } from '../../../api/base/BaseCollection.methods';
+import { defineMethod, removeItMethod } from '../../../api/base/BaseCollection.methods';
 import { Teams } from '../../../api/team/TeamCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
+
 
 class ListTeamExampleWidget extends React.Component {
   handleClick(e, inst) {
@@ -27,7 +28,13 @@ class ListTeamExampleWidget extends React.Component {
     });
   }
 
+  handleClick2 = () => {
+    const id = this.props.team._id;
+    removeItMethod.call({ collectionName: Teams.getCollectionName(), instance: id });
+  }
+
   render() {
+    const developer = Developers.findDoc({ userID: Meteor.userId() });
     return (
         <Grid.Row columns={5}>
           <Grid.Column>
@@ -44,6 +51,12 @@ class ListTeamExampleWidget extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <Button id={this.props.team._id} color="green" onClick={this.handleClick}>Request to Join</Button>
+            { (this.props.team.owner === developer._id) ? <Button
+                color="red"
+                id={this.props.team._id}
+                content='Delete Team'
+                onClick={this.handleClick2}>
+            </Button> : '' }
           </Grid.Column>
         </Grid.Row>
     );
