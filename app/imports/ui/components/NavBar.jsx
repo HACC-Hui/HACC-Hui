@@ -23,8 +23,6 @@ class NavBar extends React.Component {
             <Header inverted as='h1'>HACC-Hui</Header>
           </Menu.Item>
 
-          <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.EDIT_TEAM} >Edit Team</Menu.Item>,
-
            {isDeveloper ? (
               [<Menu.Item as={NavLink} activeClassName="active" exact
                           to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
