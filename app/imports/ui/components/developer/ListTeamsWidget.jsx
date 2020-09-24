@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Container, Checkbox } from 'semantic-ui-react';
 import { Teams } from '../../../api/team/TeamCollection';
 import ListTeamExampleWidget from './ListTeamExampleWidget';
 import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
@@ -33,8 +33,35 @@ const getTeamTools = (team) => {
 };
 
 class ListTeamsWidget extends React.Component {
+
+  state = { skills: false, tools: false, challenges: false }
+
+  toggle1 = () => this.setState((prevState) => ({ skills: !prevState.skills }))
+
+  toggle2 = () => this.setState((prevState) => ({ tools: !prevState.tools }))
+
+  toggle3 = () => this.setState((prevState) => ({ challenges: !prevState.challenges }))
+
   render() {
     return (
+      <Container>
+          <h2>Sort</h2>
+          <Checkbox
+                  toggle
+                  label='Skills'
+                  onChange={this.toggle1}
+                  checked={this.state.skills}/>
+          <Checkbox
+                  fitted
+                  toggle
+                  label='Tools'
+                  onChange={this.toggle2}
+                  checked={this.state.tools}/>
+          <Checkbox
+                  toggle
+                  label='Challenges'
+                  onChange={this.toggle3}
+                  checked={this.state.challenges}/>
         <Grid celled>
           <Grid.Row columns={5}>
             <Grid.Column>
@@ -62,6 +89,7 @@ class ListTeamsWidget extends React.Component {
               />
           ))}
         </Grid>
+        </Container>
     );
   }
 }
@@ -73,7 +101,8 @@ ListTeamsWidget.propTypes = {
 };
 
 export default withTracker(() => {
-  const teams = Teams.find({}).fetch();
+  const teams = Teams.find({ open: true }, { sort: ['name', 'asc'] }).fetch();
+  console.log(teams);
   return {
     teams,
   };
