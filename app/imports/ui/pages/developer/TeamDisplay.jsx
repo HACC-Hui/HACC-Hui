@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Card, Header, Loader, Grid, Button } from 'semantic-ui-react';
@@ -31,6 +32,8 @@ class TeamDisplay extends React.Component {
 
   BestTeam;
 
+  nomatch;
+
   constructor(props) {
     super(props);
     this.AllOpenTeam = [];
@@ -38,6 +41,7 @@ class TeamDisplay extends React.Component {
     this.Team_challenge_skill = [];
     this.Team_challenge_tool = [];
     this.BestTeam = [];
+    this.nomatch = [];
 
   }
 
@@ -59,28 +63,37 @@ class TeamDisplay extends React.Component {
     const challengeTeams = [];
     console.log(Tchaleenges);
     console.log(Dchallenges);
-   _.each(Dchallenges, function (challenge) {
- const tempTeam = {}; tempTeam.challengeID = challenge.challengeID; tempTeam.teams = TeamChallenges._collection.find({ challengeID: challenge.challengeID }).fetch();
-   challengeTeams.push(tempTeam); console.log(challengeTeams);
-}, challengeTeams);
-   const challenge_teams = [];
-   const Allchallenges = this.props.challenges;
-   const Allteams = this.AllOpenTeam;
-  _.each(challengeTeams, function (challengeObject) { const tempChallengeteam = {}; const challengePicked = _.find(Allchallenges, function (challange) { return challange._id == challengeObject.challengeID; }); tempChallengeteam.Challenge = challengePicked.title; const Matchteams = []; _.each(challengeObject.teams, function (Cteam) { const Matchteam = _.find(Allteams, function (team) { return Cteam.teamID == team._id; }); Matchteams.push(Matchteam); }, Allteams); tempChallengeteam.teams = Matchteams; challenge_teams.push(tempChallengeteam); }, Allchallenges);
-  this.Team_challenge_match = challenge_teams;
-  return challenge_teams;
+    _.each(Dchallenges, function (challenge) {
+      const tempTeam = {}; tempTeam.challengeID = challenge.challengeID; tempTeam.teams = TeamChallenges._collection.find({ challengeID: challenge.challengeID }).fetch();
+      challengeTeams.push(tempTeam); console.log(challengeTeams);
+    }, challengeTeams);
+    const challenge_teams = [];
+    const Allchallenges = this.props.challenges;
+    const Allteams = this.AllOpenTeam;
+    const matchteams = [];
+    console.log(Allteams);
+    _.each(challengeTeams, function (challengeObject) { const tempChallengeteam = {}; const challengePicked = _.find(Allchallenges, function (challange) { return challange._id == challengeObject.challengeID; }); tempChallengeteam.Challenge = challengePicked.title; const Matchteams = []; _.each(challengeObject.teams, function (Cteam) { const Matchteam = _.find(Allteams, function (team) { return Cteam.teamID == team._id; }); Matchteams.push(Matchteam); }, Allteams); matchteams.push(Matchteams); tempChallengeteam.teams = Matchteams; challenge_teams.push(tempChallengeteam); }, Allchallenges);
+    this.Team_challenge_match = challenge_teams;
+    console.log(challenge_teams);
+    console.log(matchteams);
+    var allmatch = [];
+    _.each(matchteams, function (teams) { allmatch = allmatch.concat(teams); });
+    const remain = _.difference(Allteams,allmatch);
+    console.log(remain);
+    this.nomatch = remain;
+    return challenge_teams;
   }
 
   renderTeamChallenge_match() {
     const Challenge_matched_teams = this.getTeamChallenge_match();
     return _.map(Challenge_matched_teams, function (chall_team) {
-            if (chall_team.teams.length > 0) {
- return <div key={chall_team}>
-                <Container>
-                  <Header as='h3'>The Following teams have your requested Challenge: {chall_team.Challenge}</Header>
-                  <ListTeamsWidget teams={chall_team.teams}/></Container></div>;
-}
-            return '';
+      if (chall_team.teams.length > 0) {
+        return <div key={chall_team}>
+          <Container>
+            <Header as='h3'>The Following teams have your requested Challenge: {chall_team.Challenge}</Header>
+            <ListTeamsWidget teams={chall_team.teams}/></Container></div>;
+      }
+      return '';
     });
 
   }
@@ -89,7 +102,7 @@ class TeamDisplay extends React.Component {
     const Team_challenge_skill_match = this.getTeamChallengeSkillMatch();
     console.log(Team_challenge_skill_match);
     return _.map(Team_challenge_skill_match, function (chall_skill_team) {
-      return (<div key={chall_skill_team.Challenge}> <Container><Header as='h3'>The Following teams have your requested Challenge: {chall_skill_team.Challenge}</Header>
+      return (<div key={chall_skill_team.Challenge}> <Container><Header as='h2'>The Following teams have your requested Challenge: {chall_skill_team.Challenge}</Header>
         <ChallengeSkillTeams chall_skill_teams={chall_skill_team}/>
       </Container></div>);
 
@@ -108,7 +121,7 @@ class TeamDisplay extends React.Component {
       const tempTeam = {}; tempTeam.skillID = skill.skillID; tempTeam.skillName = Skills.findDoc(skill.skillID).name;
       tempTeam.skillLevel = skill.skillLevel; tempTeam.teams = _.filter(Tskill, function (teamskill) {
         return teamskill.skillID == skill.skillID;
-});
+      });
       SkillTeams.push(tempTeam);
     }, SkillTeams);
     return SkillTeams;
@@ -122,33 +135,33 @@ class TeamDisplay extends React.Component {
 
     const Challenge_Skill_Teams = [];
     _.each(challengeTeam, function (challenge) {
- const tempchallenge = {}; const both_challenge_skill_matched = []; tempchallenge.Challenge = challenge.Challenge;
+      const tempchallenge = {}; const both_challenge_skill_matched = []; tempchallenge.Challenge = challenge.Challenge;
       const teamID_challenge = _.pluck(challenge.teams, '_id'); const skill_match_teams = [];
-    _.each(SkillTeam, function (skill) {
- const tempskill = {}; tempskill.skillName = skill.skillName; tempskill.level = skill.skillLevel;
-      const teamID_skill = _.pluck(skill.teams, 'teamID');
-      const both_challenge_skill_matched_teamID = _.intersection(teamID_challenge, teamID_skill);
-      skill_match_teams.push(both_challenge_skill_matched_teamID);
-      console.log(both_challenge_skill_matched_teamID);
-      if (both_challenge_skill_matched_teamID.length) {
-        const both_challenge_skill_matched_teamID_array = [];
-        const teamID = {};
-        for (let i = 0; i < both_challenge_skill_matched_teamID.length; i++) {
-          teamID._id = both_challenge_skill_matched_teamID[i];
-          both_challenge_skill_matched_teamID_array.push(teamID);
+      _.each(SkillTeam, function (skill) {
+        const tempskill = {}; tempskill.skillName = skill.skillName; tempskill.level = skill.skillLevel;
+        const teamID_skill = _.pluck(skill.teams, 'teamID');
+        const both_challenge_skill_matched_teamID = _.intersection(teamID_challenge, teamID_skill);
+        skill_match_teams.push(both_challenge_skill_matched_teamID);
+        console.log(both_challenge_skill_matched_teamID);
+        if (both_challenge_skill_matched_teamID.length) {
+          const both_challenge_skill_matched_teamID_array = [];
+          const teamID = {};
+          for (let i = 0; i < both_challenge_skill_matched_teamID.length; i++) {
+            teamID._id = both_challenge_skill_matched_teamID[i];
+            both_challenge_skill_matched_teamID_array.push(teamID);
+          }
+          console.log(both_challenge_skill_matched_teamID_array);
+          tempskill.teams = both_challenge_skill_matched_teamID_array;
+          both_challenge_skill_matched.push(tempskill);
+          tempchallenge.skill = both_challenge_skill_matched;
+        } else {
+          const empty_skill = [];
+          tempchallenge.skill = empty_skill;
         }
-        console.log(both_challenge_skill_matched_teamID_array);
-        tempskill.teams = both_challenge_skill_matched_teamID_array;
-        both_challenge_skill_matched.push(tempskill);
-        tempchallenge.skill = both_challenge_skill_matched;
-      } else {
-        const empty_skill = [];
-        tempchallenge.skill = empty_skill;
-      }
 
-       // skills.push(tempskill);
+        // skills.push(tempskill);
 
-    });
+      });
 
       console.log(skill_match_teams);
       console.log(teamID_challenge);
@@ -161,22 +174,22 @@ class TeamDisplay extends React.Component {
       if(remain.length>0)
       {
 
-            const tempskill = {};
-            tempskill.skillName = 'no match';
-            const no_skill_match = [];
+        const tempskill = {};
+        tempskill.skillName = 'no match';
+        const no_skill_match = [];
         for (let i = 0; i < remain.length; i++) {
           const teamID = {};
           teamID._id = remain[i];
           no_skill_match.push(teamID);
         }
-            tempskill.teams = no_skill_match;
+        tempskill.teams = no_skill_match;
 
-            tempchallenge.skill.push(tempskill);
+        tempchallenge.skill.push(tempskill);
 
       }
       Challenge_Skill_Teams.push(tempchallenge);
       console.log(Challenge_Skill_Teams);
-});
+    });
     return Challenge_Skill_Teams;
 
   }
@@ -195,13 +208,15 @@ class TeamDisplay extends React.Component {
           <Container>
 
             <Header as="h1" textAlign="center">Browse for Teams</Header>
+
+            { this.getAllOpenTeam() }
+            { console.log(this.getTeamChallenge_match()) }
+
+            {console.log(this.getTeamChallengeSkillMatch())}
+            {this.renderTeamChallenge_skill_match()}
+            <Header as="h2" >The following teams do not match any of your challenge</Header>
+            <ListTeamsWidget teams={this.nomatch}/>
           </Container>
-          { this.getAllOpenTeam() }
-          { console.log(this.getTeamChallenge_match()) }
-
-          {console.log(this.getTeamChallengeSkillMatch())}
-          {this.renderTeamChallenge_skill_match()}
-
         </div>
     );
   }
