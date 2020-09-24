@@ -26,7 +26,6 @@ const schema = new SimpleSchema({
     allowedValues: ['Open', 'Close'],
     label: 'Availability',
   },
-  name: String,
   image: { type: String, optional: true },
   challenges: { type: Array, label: 'Challenges' },
   'challenges.$': { type: String },
@@ -50,7 +49,7 @@ class EditTeam extends React.Component {
    * @param data {Object} the result from the form.
    */
   submit(data) {
-    const { open, name, image, challenges,
+    const { open, image, challenges,
       skills, tools, description, gitHub, devpostPage, _id } = data;
 
     const challengesList = _.map(this.props.challenges, 'title');
@@ -92,7 +91,6 @@ class EditTeam extends React.Component {
 
     const updateData = {
       id: _id,
-      name,
       challenges: challengeIds,
       skills: skillIds,
       tools: toolIds,
@@ -142,7 +140,7 @@ class EditTeam extends React.Component {
     eTeam.tools = teamsTool;
     eTeam.skills = teamsSkill;
     eTeam.challenges = teamsChal;
-
+    console.log(eTeam);
     return (
         <Grid container centered>
           <Grid.Column>
@@ -160,7 +158,6 @@ class EditTeam extends React.Component {
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
                     <Header as="h2" textAlign="center">Team Information</Header>
                     <Grid className='doubleLine'>
-                      <TextField name='name' />
                       <RadioField
                           name='open'
                           inline
