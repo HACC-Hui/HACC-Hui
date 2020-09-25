@@ -289,6 +289,7 @@ class EditProfileWidget extends React.Component {
               size="mini"
               color="red"
               onClick={handleDelete(skill.slug)}
+              type='button'
             >
               Delete Tool
             </Button>
@@ -312,6 +313,7 @@ class EditProfileWidget extends React.Component {
                 style={style}
                 size="mini"
                 color="teal"
+                type='button'
                 onClick={handleAdd}
               >
                 Add tool
@@ -404,6 +406,7 @@ class EditProfileWidget extends React.Component {
               size="mini"
               color="red"
               onClick={handleDelete(skill.slug)}
+              type='button'
             >
               Delete Skill
             </Button>
@@ -427,6 +430,7 @@ class EditProfileWidget extends React.Component {
                 style={style}
                 size="mini"
                 color="teal"
+                type='button'
                 onClick={handleAdd}
               >
                 Add skill
