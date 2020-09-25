@@ -35,7 +35,7 @@ const getTeamTools = (team) => {
 
 const addTeamName = (team) => {
   const teamID = team._id;
-  const teamName = Teams._collection.findOne({_id:teamID});
+  const teamName = Teams._collection.findOne({_id: teamID});
   console.log(teamName);
   const name = teamName.name;
   team.name = name;

@@ -36,6 +36,7 @@ import AddTool from "../pages/administrator/AddTool";
 import DumpDatabase from "../pages/administrator/DumpDatabase";
 import EditProfilePage from "../pages/developer/EditProfilePage";
 import ListTeamsPage from "../pages/developer/ListTeamsPage";
+import TeamDisplay from '../pages/developer/TeamDisplay';
 import DeleteTeam from "../pages/developer/DeleteTeam";
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -70,7 +71,7 @@ class App extends React.Component {
             />
             <ProtectedRoute
               path={ROUTES.LIST_TEAMS}
-              component={ListTeamsPage}
+              component={TeamDisplay}
             />
             <ProtectedRoute
               path={ROUTES.DELETE_ACCOUNT}
