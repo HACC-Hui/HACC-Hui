@@ -13,11 +13,12 @@ export const ROUTES = {
   CREATE_PROFILE: '/create-profile',
   EDIT_PROFILE: '/edit-profile',
   CREATE_TEAM: '/create-team',
-  LIST_TEAMS: '/list-teams',
+  LIST_TEAMS: '/TeamDisplay',
   DELETE_ACCOUNT: '/delete-account',
   CONFIGURE_HACC: '/configure-hacc',
   ADD_CHALLENGE: '/add-challenge',
   ADD_SKILL: '/add-skill',
   ADD_TOOL: '/add-tool',
   DUMP_DATABASE: '/dump-database',
+  INTERESTED_DEVELOPERS: '/interested-developers',
 };
