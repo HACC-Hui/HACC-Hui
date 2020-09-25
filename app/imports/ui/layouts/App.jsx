@@ -36,6 +36,7 @@ import AddTool from "../pages/administrator/AddTool";
 import DumpDatabase from "../pages/administrator/DumpDatabase";
 import EditProfilePage from "../pages/developer/EditProfilePage";
 import TeamDisplay from '../pages/developer/TeamDisplay';
+import InterestedDevelopersPage from '../pages/developer/InterestedDevelopersPage';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -77,6 +78,7 @@ class App extends React.Component {
               component={DeleteForm}
             />
             <ProtectedRoute path="/list" component={ListStuff} />
+            <ProtectedRoute path="/interested-developers" component={InterestedDevelopersPage} />
             <ProtectedRoute path="/add" component={AddStuff} />
             <ProtectedRoute path="/edit/:_id" component={EditStuff} />
             <AdminProtectedRoute path="/admin" component={ListStuffAdmin} />
