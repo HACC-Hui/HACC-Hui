@@ -44,10 +44,11 @@ class App extends React.Component {
     // console.log(Teams)
 
     // console.log(Teams.find({}).fetch())
+    const WrappedComponent = withAllSubscriptions(NavBar)
     return (
         <Router>
           <div>
-            <NavBar />
+          <WrappedComponent></WrappedComponent>
             <Switch>
               <Route exact path={ROUTES.LANDING} component={Landing} />
               <Route path={ROUTES.SIGN_IN} component={Signin} />

@@ -11,6 +11,13 @@ import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { Developers } from '../../api/user/DeveloperCollection';
 
+
+const getUsersTeams = (meteorUserID) => {
+  const developerID = Developers.findDoc({ userID: meteorUserID })._id;
+  const usersTeams = TeamDevelopers.find({ developerID }).fetch();
+  return usersTeams;
+};
+
 /**
  * The NavBar appears at the top of every page. Rendered by the App Layout component.
  * @memberOf ui/components
@@ -21,7 +28,7 @@ class NavBar extends React.Component {
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isDeveloper = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.DEVELOPER);
     const menuStyle = { marginBottom: '10px' };
-    // if (isDeveloper) {
+    if (isDeveloper) {
     //   console.log(`this.props.teams`);
     //   console.log(this.props.teams);
     //   console.log(`this.props.teamDevelopers`);
@@ -31,13 +38,14 @@ class NavBar extends React.Component {
     //   const developer = Developers.findDoc({ userID: Meteor.userId() });
     //   console.log(`developer`);
     //   console.log(developer);
-    // }
+    }
 
 
     // this.props.teamDevelopers.filter(teamDeveloper => {
     //   (teamDeveloper.developerID === this.props.currentUser)
     //   }
     // )
+
     return (
         <Menu style={menuStyle} attached="top" borderless inverted>
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
@@ -50,12 +58,13 @@ class NavBar extends React.Component {
                   Your Profile</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_TEAMS} key='list-teams'>List the
                   Teams</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.TEAMMATES} key='teammates'>
-                  Interested Developers
-                </Menu.Item>,
               ]
           ) : ''}
-
+          {isDeveloper && getUsersTeams(Meteor.userId()).length > 0 ? (
+            <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.TEAMMATES} key='teammates'>
+              Interested Developers
+            </Menu.Item>
+          ) : ''}
 
           {/* {isDeveloper ? (
             (this.props.teamDevelopers.map(teamDeveloper => (
