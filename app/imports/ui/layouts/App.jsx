@@ -31,6 +31,8 @@ import AddTool from '../pages/administrator/AddTool';
 import DumpDatabase from '../pages/administrator/DumpDatabase';
 import EditProfilePage from '../pages/developer/EditProfilePage';
 import ListTeamsPage from '../pages/developer/ListTeamsPage';
+import Teammates from '../pages/developer/Teammates';
+// import { Teams } from '../../api/team/TeamCollection';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -38,10 +40,15 @@ import ListTeamsPage from '../pages/developer/ListTeamsPage';
  */
 class App extends React.Component {
   render() {
+    // console.log('Teams')
+    // console.log(Teams)
+
+    // console.log(Teams.find({}).fetch())
+    const WrappedComponent = withAllSubscriptions(NavBar)
     return (
         <Router>
           <div>
-            <NavBar />
+          <WrappedComponent></WrappedComponent>
             <Switch>
               <Route exact path={ROUTES.LANDING} component={Landing} />
               <Route path={ROUTES.SIGN_IN} component={Signin} />
@@ -53,6 +60,11 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreation} />
               <ProtectedRoute path="/update-team/:_id" component={TeamUpdate} />
               <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
+              <ProtectedRoute path={ROUTES.TEAMMATES} component={Teammates} />
+
+              {/* For multiple teammate pages */}
+              {/* <ProtectedRoute path={`${ROUTES.TEAMMATES}/:${teamID}`} component={Teammates} /> */}
+
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
               <ProtectedRoute path="/list" component={ListStuff} />
               <ProtectedRoute path="/add" component={AddStuff} />

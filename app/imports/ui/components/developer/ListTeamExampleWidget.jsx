@@ -8,6 +8,7 @@ import { Developers } from '../../../api/user/DeveloperCollection';
 import { defineMethod, removeItMethod } from '../../../api/base/BaseCollection.methods';
 import { Teams } from '../../../api/team/TeamCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
+import { TeamDevelopers } from '../../../api/team/TeamDeveloperCollection';
 
 class ListTeamExampleWidget extends React.Component {
   handleClick(e, inst) {
@@ -32,7 +33,7 @@ class ListTeamExampleWidget extends React.Component {
     const id = this.props.team._id;
     removeItMethod.call({ collectionName: Teams.getCollectionName(), instance: id });
   }
-
+ 
   render() {
     const developer = Developers.findDoc({ userID: Meteor.userId() });
     return (
@@ -42,6 +43,13 @@ class ListTeamExampleWidget extends React.Component {
             {this.props.team.owner === Developers.findDoc({ userID: Meteor.userId() })._id ?
             <Link className='edit' to={`/update-team/${this.props.team._id}`}>Edit</Link>
             : '' }
+            <br></br>
+                        { (this.props.team.owner === developer._id) ? <Button
+                color="red"
+                id={this.props.team._id}
+                content='Delete Team'
+                onClick={this.handleClick2}>
+            </Button> : '' }
           </Grid.Column>
           <Grid.Column>
             <Header as="h3">{this.props.teamChallenges.join(',')}</Header>
@@ -53,13 +61,14 @@ class ListTeamExampleWidget extends React.Component {
             <Header as="h3">{this.props.teamTools.join(',')}</Header>
           </Grid.Column>
           <Grid.Column>
-            <Button id={this.props.team._id} color="green" onClick={this.handleClick}>Request to Join</Button>
-            { (this.props.team.owner === developer._id) ? <Button
-                color="red"
-                id={this.props.team._id}
-                content='Delete Team'
-                onClick={this.handleClick2}>
-            </Button> : '' }
+            {TeamDevelopers.find({ teamID: this.props.team._id, developerID: developer._id }).fetch().length === 0 ? (
+                WantsToJoin.find({ teamID: this.props.team._id, developerID: developer._id }).fetch().length === 0 ? (
+                  <Button id={this.props.team._id} color="green" onClick={this.handleClick}>Request to Join</Button>
+                ) : (
+                  <Button id={this.props.team._id} color="green" disabled onClick={this.handleClick}>Requested to Join</Button>
+                )
+              ) : ''
+            }
           </Grid.Column>
         </Grid.Row>
     );

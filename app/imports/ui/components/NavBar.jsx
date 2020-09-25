@@ -7,16 +7,45 @@ import { Menu, Dropdown, Button, Header } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 import { ROUTES } from '../../startup/client/route-constants';
+import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
+import { Teams } from '../../api/team/TeamCollection';
+import { Developers } from '../../api/user/DeveloperCollection';
+
+
+const getUsersTeams = (meteorUserID) => {
+  const developerID = Developers.findDoc({ userID: meteorUserID })._id;
+  const usersTeams = TeamDevelopers.find({ developerID }).fetch();
+  return usersTeams;
+};
 
 /**
  * The NavBar appears at the top of every page. Rendered by the App Layout component.
  * @memberOf ui/components
  */
 class NavBar extends React.Component {
+
   render() {
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isDeveloper = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.DEVELOPER);
     const menuStyle = { marginBottom: '10px' };
+    if (isDeveloper) {
+    //   console.log(`this.props.teams`);
+    //   console.log(this.props.teams);
+    //   console.log(`this.props.teamDevelopers`);
+    //   console.log(this.props.teamDevelopers);
+    //   console.log(`Meteor.userID`);
+    //   console.log(Meteor.userId());
+    //   const developer = Developers.findDoc({ userID: Meteor.userId() });
+    //   console.log(`developer`);
+    //   console.log(developer);
+    }
+
+
+    // this.props.teamDevelopers.filter(teamDeveloper => {
+    //   (teamDeveloper.developerID === this.props.currentUser)
+    //   }
+    // )
+
     return (
         <Menu style={menuStyle} attached="top" borderless inverted>
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
@@ -31,6 +60,24 @@ class NavBar extends React.Component {
                   Teams</Menu.Item>,
               ]
           ) : ''}
+          {isDeveloper && getUsersTeams(Meteor.userId()).length > 0 ? (
+            <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.TEAMMATES} key='teammates'>
+              Interested Developers
+            </Menu.Item>
+          ) : ''}
+
+          {/* {isDeveloper ? (
+            (this.props.teamDevelopers.map(teamDeveloper => (
+
+              )
+            )
+            
+            )
+            <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.TEAMMATES} key='list-teammates'>List the
+                Teams</Menu.Item>
+          ) : ''} */}
+
+
           {isAdmin ? (
               [
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.CONFIGURE_HACC}
@@ -61,6 +108,31 @@ class NavBar extends React.Component {
     );
   }
 }
+
+// // Declare the types of all properties.
+// NavBar.propTypes = {
+//   currentUser: PropTypes.string,
+//   ready: PropTypes.bool,
+//   // teamDevelopers: PropTypes.arrayOf(
+//   //   PropTypes.object,
+//   // ),
+//   teams: PropTypes.arrayOf(
+//     PropTypes.object,
+//   ),
+// };
+
+// // withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
+// const NavBarContainer = withTracker(() => {
+//   // const teamDevelopers = Meteor.subscribe(TeamDevelopers);
+//   // const teams = Teams.find({}).fetch();
+//   const currentUser = Meteor.user() ? Meteor.user().username : '';
+
+//   return {
+//     currentUser,
+//     // ready: teamDevelopers.ready(),
+//     // teams, 
+//   };
+// })(NavBar);
 
 // Declare the types of all properties.
 NavBar.propTypes = {

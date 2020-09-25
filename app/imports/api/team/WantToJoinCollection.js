@@ -22,6 +22,8 @@ class WantToJoinCollection extends BaseCollection {
   define({ team, developer }) {
     const teamID = Teams.getID(team);
     const developerID = Developers.getID(developer);
+    console.log(`teamID = ${teamID}`);
+    console.log(`developerID = ${developerID}`);
     return this._collection.insert({ teamID, developerID });
   }
 
