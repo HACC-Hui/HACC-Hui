@@ -65,6 +65,10 @@ class App extends React.Component {
             />
             <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={Dprofile} />
             <ProtectedRoute
+                path={ROUTES.EDIT_PROFILE}
+                component={EditProfilePage}
+            />
+            <ProtectedRoute
               path={ROUTES.CREATE_TEAM}
               component={TeamCreation}
             />
@@ -80,7 +84,6 @@ class App extends React.Component {
                 path={ROUTES.EDIT_TEAM}
                 component={EditTeam}
             />
-            <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfile} />
             <ProtectedRoute path="/interested-developers" component={InterestedDevelopersPage} />
             <ProtectedRoute path="/add" component={AddStuff} />
             <ProtectedRoute path="/edit/:_id" component={EditStuff} />
