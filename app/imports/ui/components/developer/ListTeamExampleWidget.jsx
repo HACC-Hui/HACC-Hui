@@ -43,6 +43,13 @@ class ListTeamExampleWidget extends React.Component {
             {this.props.team.owner === Developers.findDoc({ userID: Meteor.userId() })._id ?
             <Link className='edit' to={`/update-team/${this.props.team._id}`}>Edit</Link>
             : '' }
+            <br></br>
+                        { (this.props.team.owner === developer._id) ? <Button
+                color="red"
+                id={this.props.team._id}
+                content='Delete Team'
+                onClick={this.handleClick2}>
+            </Button> : '' }
           </Grid.Column>
           <Grid.Column>
             <Header as="h3">{this.props.teamChallenges.join(',')}</Header>
@@ -62,12 +69,6 @@ class ListTeamExampleWidget extends React.Component {
                 )
               ) : ''
             }
-            { (this.props.team.owner === developer._id) ? <Button
-                color="red"
-                id={this.props.team._id}
-                content='Delete Team'
-                onClick={this.handleClick2}>
-            </Button> : '' }
           </Grid.Column>
         </Grid.Row>
     );

@@ -51,7 +51,7 @@ class NavBar extends React.Component {
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_TEAMS} key='list-teams'>List the
                   Teams</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.TEAMMATES} key='teammates'>
-                  Teammates
+                  Interested Developers
                 </Menu.Item>,
               ]
           ) : ''}

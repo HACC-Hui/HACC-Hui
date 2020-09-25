@@ -116,8 +116,9 @@ class TeammatesWidget extends React.Component {
             </Menu.Item>
           </Menu.Menu>
         </Menu>
-        <Segment>
-          <Header>{tab}</Header>
+        <div>
+          <br></br>
+          <Header>Developers Interested in Joining {tab}</Header>
           <Card.Group>
             {this.props.developers.map((developer) => (
               <Card key={developer._id}>
@@ -194,7 +195,7 @@ class TeammatesWidget extends React.Component {
               </Card>
             ))}
           </Card.Group>
-        </Segment>
+        </div>
       </Container>
 
 
