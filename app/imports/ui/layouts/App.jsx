@@ -1,3 +1,4 @@
+
 import React from "react";
 import PropTypes from "prop-types";
 import { Meteor } from "meteor/meteor";
@@ -36,8 +37,6 @@ import DumpDatabase from "../pages/administrator/DumpDatabase";
 import EditProfilePage from "../pages/developer/EditProfilePage";
 import ListTeamsPage from "../pages/developer/ListTeamsPage";
 import DeleteTeam from "../pages/developer/DeleteTeam";
-
-
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
  * @memberOf ui/layouts
@@ -45,7 +44,6 @@ import DeleteTeam from "../pages/developer/DeleteTeam";
 class App extends React.Component {
   render() {
     return (
-
       <Router>
         <div>
           <NavBar />
@@ -102,7 +100,6 @@ class App extends React.Component {
           <Footer />
         </div>
       </Router>
-
     );
   }
 }

@@ -254,7 +254,7 @@ class EditProfile extends React.Component {
 EditProfile.propTypes = {
   tools: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
-  developer: PropTypes.array.isRequired,
+  developers: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
   devTools: PropTypes.array.isRequired,
   devSkills: PropTypes.array.isRequired,
@@ -275,7 +275,7 @@ export default withTracker(() => {
   return {
     tools: Tools.find({}).fetch(),
     skills: Skills.find({}).fetch(),
-    developer: Developers.find({}).fetch(),
+    dev: Developers.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     devTools: DeveloperTools.find({}).fetch(),
     devSkills: DeveloperSkills.find({}).fetch(),
