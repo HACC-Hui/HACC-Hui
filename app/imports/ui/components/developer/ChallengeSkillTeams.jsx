@@ -74,7 +74,7 @@ class ChallengeSkillTeams extends React.Component {
           });
 
         }
-        if (no_match) {
+        if (no_match.length > 0) {
 
 
           No_skill_teams =  <div>
