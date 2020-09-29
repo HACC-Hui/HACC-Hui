@@ -7,6 +7,7 @@ import {
   LongTextField,
   SubmitField,
   TextField,
+
 } from 'uniforms-semantic';
 import _ from 'underscore';
 import swal from 'sweetalert';
@@ -21,16 +22,16 @@ import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
 import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
+
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
-
   // challenges: { type: Array, label: 'Challenge', optional: true },
+
 //  'challenges.$': { type: String, allowedValues: allChallenges },
   linkedIn: { type: String, optional: true },
   gitHub: { type: String, optional: true },
   website: { type: String, optional: true },
   aboutMe: { type: String, optional: true },
-  Agree: { type: Boolean, defaultValue: false },
 
 });
 
@@ -74,6 +75,7 @@ class Dprofile extends React.Component {
 
   renderChallenge() {
     const handleOnChange = (e, data) => {
+
       if (data.checked === true) {
         const challenge = _.findWhere(this.props.challenges, { title: data.label });
         this.challenges.push(challenge);
@@ -89,7 +91,9 @@ class Dprofile extends React.Component {
     const ChallengesOptions = this.props.challenges;
     return _.map(ChallengesOptions, function (challenge) {
       //  const name = `${challenge.title}   ( ${challenge.description} )`;
+
       return <Grid.Row key={challenge._id}><Checkbox label={challenge.title} onChange={handleOnChange} /></Grid.Row>;
+
     });
   }
 
@@ -102,6 +106,7 @@ class Dprofile extends React.Component {
     // console.log(SkillArray);
     const Skillname = [];
     for (let i = 0; i < SkillArray.length; i++) {
+
       const sn = {
         key: SkillArray[i].slugID, docid: SkillArray[i]._id,
         text: SkillArray[i].name, value: SkillArray[i].name,
@@ -120,6 +125,7 @@ class Dprofile extends React.Component {
     // console.log(SkillArray);
     const Toolname = [];
     for (let i = 0; i < ToolsArray.length; i++) {
+
       const sn = {
         key: ToolsArray[i].slugID, docid: ToolsArray[i]._id,
         text: ToolsArray[i].name, value: ToolsArray[i].name,
@@ -135,6 +141,7 @@ class Dprofile extends React.Component {
       console.log(this.level);
     };
     // eslint-disable-next-line max-len
+
     const Levels = [{ key: 0, text: 'Experienced', value: 'Experienced' }, {
       key: 1,
       text: 'Novice',
@@ -150,6 +157,7 @@ class Dprofile extends React.Component {
   renderSkill_level() {
     const deleteSkill = (removeskill) => {
       // eslint-disable-next-line eqeqeq
+
       this.skillSet = _.filter(this.skillSet, function (skill) {
         return skill.name !== removeskill.name;
       });
@@ -158,6 +166,7 @@ class Dprofile extends React.Component {
       this.setState(newState);
     };
     if (this.skillSet.length > 0) {
+
       // console.log(this.skillSet.length);
       return _.map(this.skillSet, function (skill) {
         return <Grid.Row key={skill.docID}>
@@ -168,6 +177,7 @@ class Dprofile extends React.Component {
           <Grid.Column width={1} style={{ marginTop: `${10}px` }}><Header as='h3'>Level:</Header> </Grid.Column>
           <Grid.Column width={5} style={{ marginTop: `${10}px` }}><Header as='h3'>{skill.level}</Header></Grid.Column>
           {/* eslint-disable-next-line max-len */}
+
           <Grid.Column width={3}><Button type='button' onClick={() => deleteSkill(skill)}>delete the
             skill</Button></Grid.Column>
         </Grid.Row>;
@@ -182,6 +192,7 @@ class Dprofile extends React.Component {
   renderTool_level() {
     const deleteTool = (removeTool) => {
       // eslint-disable-next-line eqeqeq
+
       this.toolset = _.filter(this.toolset, function (tool) {
         return tool.name !== removeTool.name;
       });
@@ -407,7 +418,6 @@ Dprofile.propTypes = {
 
 };
 export default withTracker(() => {
-
   const subscription = Skills.subscribe();
   const subscription2 = Challenges.subscribe();
   const subscription3 = Developers.subscribe();

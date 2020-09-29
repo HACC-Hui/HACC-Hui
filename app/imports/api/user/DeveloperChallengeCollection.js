@@ -26,6 +26,8 @@ class DeveloperChallengeCollection extends BaseCollection {
   define({ challenge, developer }) {
     const challengeID = Challenges.getID(challenge);
     const developerID = Developers.getID(developer);
+    console.log(developerID);
+    console.log(challengeID);
     return this._collection.insert({ challengeID, developerID });
   }
 

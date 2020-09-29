@@ -68,9 +68,12 @@ class SlugCollection extends BaseCollection {
    */
   getEntityID(slugName) {
     if (!this.isDefined(slugName)) {
+      console.log('error');
       throw new Meteor.Error(`Undefined slug ${slugName}.`, '', Error().stack);
     }
+    console.log('getId', slugName);
     const doc = this.findDoc(slugName);
+    console.log('getdoc',doc);
     return doc.entityID;
   }
 

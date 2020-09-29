@@ -29,6 +29,7 @@ class UserInteractionCollection extends BaseCollection {
    */
   define({ username, type, typeData, timestamp = moment().toDate() }) {
     const doc = this._collection.findOne({ username, type, typeData, timestamp });
+    console.log('I have been defined 3.');
     if (doc) {
       return doc._id;
     }
