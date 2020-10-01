@@ -66,7 +66,7 @@ class YourTeams extends React.Component {
               Your Teams
             </Header>
           </Grid.Row>
-          <Grid.Column width={12}>
+          <Grid.Column width={15}>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
               {this.props.teams.map((teams) => <YourTeamsCard key={teams._id} teams={teams} teamDevelopers={getTeamDevelopers(teams._id, this.props.teamDevelopers)}/>)}
