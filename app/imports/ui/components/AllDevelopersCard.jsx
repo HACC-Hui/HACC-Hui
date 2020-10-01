@@ -1,15 +1,20 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import {
   Grid,
   Header,
   Item,
   Modal,
-  Icon, Button,
+  Icon,
+  Button,
+    Dropdown,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
+import { Teams } from '../../api/team/TeamCollection';
+import { Developers } from '../../api/user/DeveloperCollection';
 
 class AllDevelopersCard extends React.Component {
   /*
@@ -22,12 +27,12 @@ class AllDevelopersCard extends React.Component {
   }
    */
 
-  handleClick(tID, dID, e) {
+  handleChange(e, { value }) {
     console.log(e);
     // console.log(tID);
     // console.log(dID);
-    const thisTeam = tID;
-    const devID = dID;
+    const thisTeam = Teams.findDoc({ name: value })._id;
+    const devID = Developers.findDoc({ userID: Meteor.userId() }).username;
     // console.log(thisTeam);
     const definitionData = { team: thisTeam, developer: devID };
     const collectionName = TeamInvitations.getCollectionName();
@@ -36,10 +41,10 @@ class AllDevelopersCard extends React.Component {
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
-            // console.error(error.message);
+            console.error(error.message);
           } else {
             swal('Success', 'Invitation sent successfully', 'success');
-            // console.log('Success');
+            console.log('Success');
           }
         });
   }
@@ -56,6 +61,17 @@ class AllDevelopersCard extends React.Component {
       e.currentTarget.style.backgroundColor = 'transparent';
     }
 
+    function setOptions() {
+      const teams = Teams.find({ owner: Developers.findDoc({ userID: Meteor.userId() })._id }).fetch();
+      const newOptions = [];
+      for (let i = 0; i < teams.length; i++) {
+        newOptions.push({ key: teams[i].name, text: teams[i].name, value: teams[i].name });
+      }
+      return newOptions;
+    }
+
+    const options = setOptions();
+
     return (
         <Item onMouseEnter={changeBackground} onMouseLeave={onLeave}
               style={{ padding: '0rem 2rem 0rem 2rem' }}>
@@ -69,7 +85,7 @@ class AllDevelopersCard extends React.Component {
               </Item.Header>
               <Item.Meta>
                 <Item.Meta>
-                  <Grid doubling columns={5}>
+                  <Grid doubling columns={6}>
                     <Grid.Column>
                       <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
                         {this.props.challenges.map((challenge) => <p
@@ -92,6 +108,18 @@ class AllDevelopersCard extends React.Component {
                     <Grid.Column>
                       <Header>Slack Username</Header>
                       {this.props.developers.username}
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Button.Group style={{ backgroundColor: 'transparent' }}>
+                        <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
+                        <Dropdown
+                            className='button icon'
+                            onChange={this.handleChange}
+                            options={options}
+                            trigger={<></>}
+                            style={{ backgroundColor: 'transparent' }}
+                        />
+                      </Button.Group>
                     </Grid.Column>
                   </Grid>
                 </Item.Meta>
@@ -140,15 +168,18 @@ class AllDevelopersCard extends React.Component {
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-              <Button style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }}>
-                <Icon name='plus'/>
-                Send Invitation
-              </Button>
+              <Button.Group style={{ backgroundColor: 'transparent' }}>
+                <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
+                <Dropdown
+                    className='button icon'
+                    onChange={this.handleChange}
+                    options={options}
+                    trigger={<></>}
+                    style={{ backgroundColor: 'transparent' }}
+                />
+              </Button.Group>
             </Modal.Actions>
           </Modal>
-          <Button style={{ backgroundColor: 'transparent' }}>
-            Send Invitation
-          </Button>
         </Item>
     );
   }
