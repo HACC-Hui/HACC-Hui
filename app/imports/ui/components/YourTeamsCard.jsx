@@ -24,6 +24,9 @@ import { Developers } from '../../api/user/DeveloperCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
+import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
+import { WantsToJoin } from '../../api/team/WantToJoinCollection';
+import { Slugs } from '../../api/slug/SlugCollection';
 
 const schema = new SimpleSchema({
   participants: {
@@ -94,19 +97,20 @@ class YourTeamsCard extends React.Component {
       return;
     }
 
-    // If the participant is already in the team OR user tries to invite themselves
+    // If the participant is already in the team OR user tries to invite themselves OR there is already an invitation
     const selfUser = Developers.findDoc({ userID: Meteor.userId() }).username;
     for (let i = 0; i < participantList.length; i++) {
       const participantDoc = Developers.findDoc({ username: participantList[i] });
+
       if (selfUser === participantList[i]) {
         swal('Error',
-            'Sorry, you can\'t invite yourself!',
+            'Sorry, you can\'t add yourself!',
             'error');
         return;
       }
       if (typeof TeamDevelopers.findOne({
         teamID: this.props.teams._id,
-        developerID: participantDoc._id
+        developerID: participantDoc._id,
       }) !== 'undefined') {
         swal('Error',
             `Sorry, participant ${participantList[i]} is already in ${this.props.teams.name}!`,
@@ -114,10 +118,27 @@ class YourTeamsCard extends React.Component {
         return;
       }
 
+      console.log(participantDoc._id);
+      console.log(this.props.teams._id);
+      console.log(this.props.teams.name);
+      console.log(InterestedDevs.findOne({ teamID: this.props.teams._id, developerID: participantDoc._id }));
+      console.log(InterestedDevs.findOne({ teamID: this.props.teams._id }));
+
+      if (typeof InterestedDevs.findOne({
+        teamID: this.props.teams._id,
+        developerID: participantDoc._id,
+      }) !== 'undefined') {
+        swal('Error',
+            `Sorry, an invitation ${participantList[i]} was already issued!`,
+            'error');
+        return;
+      }
+
+      const collectionName = WantsToJoin.getCollectionName();
       const teamDoc = Teams.findDoc(this.props.teams._id);
-      const team = teamDoc._id;
-      const developerDoc = Developers.findDoc({ username: participantList[i] });
-      const developer = developerDoc._id;
+      const team = Slugs.getNameFromID(teamDoc.slugID);
+      const developer = participantList[i];
+
       // console.log(developerDoc);
       // console.log(developer);
 
@@ -126,20 +147,53 @@ class YourTeamsCard extends React.Component {
         developer,
       };
 
-      // console.log(definitionData);
-      const collectionName = TeamDevelopers.getCollectionName();
+      // // console.log(collectionName);
+      // defineMethod.call({ collectionName, definitionData }, (error) => {
+      //   if (error) {
+      //     swal('Error', error.message, 'error');
+      //   } else {
+      //     swal('Success',
+      //         `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
+      //         to ${this.props.teams.name}
+      //         \n\n The participants can now look at 'Team Invitations' to accept it.`,
+      //         'success');
+      //   }
+      // });
+      //
+      // const collectionName2 = InterestedDevs.getCollectionName();
+      // // console.log(collectionName2, definitionData);
+      // defineMethod.call({ collectionName: collectionName2, definitionData }, (error) => {
+      //   if (error) {
+      //     swal('Error', error.message, 'error');
+      //   } else {
+      //     swal('Success',
+      //         `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
+      //         to ${this.props.teams.name}
+      //         \n\n The participants can now look at 'Team Invitations' to accept it.`,
+      //         'success');
+      //   }
+      // });
 
-      defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
-          (error) => {
-            if (error) {
-              swal('Error', error.message, 'error');
-            } else {
-              swal('Success',
-                  `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
-                to ${this.props.teams.name}`,
-                  'success');
-            }
-          });
+      // IF WE WANT TO ISSUE DIRECT INVITE (THEY DON'T HAVE TO ACCEPT IT)
+
+      // const teamDoc = Teams.findDoc(this.props.teams._id);
+      // const team = teamDoc._id;
+      // const developerDoc = Developers.findDoc({ username: participantList[i] });
+      // const developer = developerDoc._id;
+      // console.log(definitionData);
+      // const addToTeam = TeamDevelopers.getCollectionName();
+      //
+      // defineMethod.call({ collectionName: addToTeam, definitionData: definitionData },
+      //     (error) => {
+      //       if (error) {
+      //         swal('Error', error.message, 'error');
+      //       } else {
+      //         swal('Success',
+      //             `You've successfully added participant(s):\n\n ${participantList.join(', ')}
+      //           to ${this.props.teams.name}`,
+      //             'success');
+      //       }
+      //     });
 
     }
 
@@ -185,7 +239,7 @@ class YourTeamsCard extends React.Component {
               trigger={
                 <Button id={this.props.teams._id}
                         style={{ backgroundColor: 'transparent', color: '#4183C4' }}>
-                  Invite Members
+                  Invite Participants
                 </Button>
               }
           >
@@ -207,7 +261,8 @@ class YourTeamsCard extends React.Component {
                       <Header as="h2" textAlign="center">
                         Who would you like to invite to {this.props.teams.name}?
                       </Header>
-                      <Header as={'h4'} textAlign={'center'} style={{ paddingBottom: '2rem', marginTop: '0rem' }}>
+                      <Header as={'h4'} textAlign={'center'}
+                              style={{ paddingBottom: '2rem', marginTop: '0rem' }}>
                         Please make sure the email you input is the same as the ones they've used to
                         make their Slack account.
                       </Header>
