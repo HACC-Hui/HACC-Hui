@@ -104,7 +104,10 @@ class YourTeamsCard extends React.Component {
             'error');
         return;
       }
-      if (typeof TeamDevelopers.findOne({ teamID: this.props.teams._id, developerID: participantDoc._id }) !== 'undefined') {
+      if (typeof TeamDevelopers.findOne({
+        teamID: this.props.teams._id,
+        developerID: participantDoc._id
+      }) !== 'undefined') {
         swal('Error',
             `Sorry, participant ${participantList[i]} is already in ${this.props.teams.name}!`,
             'error');
@@ -205,7 +208,10 @@ class YourTeamsCard extends React.Component {
                       <Header as="h2" textAlign="center">
                         Who would you like to invite to {this.props.teams.name}?
                       </Header>
-
+                      <Header as={'h4'} textAlign={'center'} style={{ paddingBottom: '2rem', marginTop: '0rem' }}>
+                        Please make sure the email you input is the same as the ones they've used to
+                        make their Slack account.
+                      </Header>
                       <ListField name="participants" label={'Enter each participant\'s email'}>
                         <ListItemField name="$">
                           <TextField showInlineError
