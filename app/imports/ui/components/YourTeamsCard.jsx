@@ -94,11 +94,15 @@ class YourTeamsCard extends React.Component {
     }
 
     for (let i = 0; i < participantList.length; i++) {
-      const test = Slugs.getNameFromID(participantList[i]);
-      console.log(test);
-      // if (typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined') {
-      //   return;
-      // }
+      const participantDoc = Developers.findDoc({ username: participantList[i] });
+      console.log(participantDoc);
+      console.log(participantDoc._id);
+      if (typeof TeamDevelopers.findOne({ developerID: participantDoc._id }) !== 'undefined') {
+        swal('Error',
+            `Sorry, participant ${participantList[i]} is already in ${this.props.teams.name}!`,
+            'error');
+        return;
+      }
     }
 
     const teamDoc = Teams.findDoc(this.props.teams._id);
@@ -118,17 +122,17 @@ class YourTeamsCard extends React.Component {
 
     const collectionName = TeamDevelopers.getCollectionName();
 
-    // defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
-    //     (error) => {
-    //       if (error) {
-    //         swal('Error', error.message, 'error');
-    //       } else {
-    //         swal('Success',
-    //             `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
-    //             to ${this.props.teams.name}`,
-    //             'success');
-    //       }
-    //     });
+    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+        (error) => {
+          if (error) {
+            swal('Error', error.message, 'error');
+          } else {
+            swal('Success',
+                `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
+                to ${this.props.teams.name}`,
+                'success');
+          }
+        });
 
   }
 
