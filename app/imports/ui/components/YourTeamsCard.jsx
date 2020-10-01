@@ -121,6 +121,7 @@ class YourTeamsCard extends React.Component {
       console.log(participantDoc._id);
       console.log(this.props.teams._id);
       console.log(this.props.teams.name);
+      console.log(InterestedDevs.dumpAll())
       console.log(InterestedDevs.findOne({ teamID: this.props.teams._id, developerID: participantDoc._id }));
       console.log(InterestedDevs.findOne({ teamID: this.props.teams._id }));
 
@@ -129,7 +130,7 @@ class YourTeamsCard extends React.Component {
         developerID: participantDoc._id,
       }) !== 'undefined') {
         swal('Error',
-            `Sorry, an invitation ${participantList[i]} was already issued!`,
+            `Sorry, an invitation to ${participantList[i]} was already issued!`,
             'error');
         return;
       }
