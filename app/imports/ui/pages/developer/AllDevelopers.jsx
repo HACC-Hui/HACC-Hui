@@ -17,7 +17,7 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
-import InterestedDeveloperCard from '../../components/InterestedDeveloperCard';
+import AllDevelopersCard from '../../components/AllDevelopersCard';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -104,7 +104,7 @@ class AllDevelopers extends React.Component {
           <Grid.Column>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
-              {this.props.developers.map((developers) => <InterestedDeveloperCard key={developers._id} developers={developers}
+              {this.props.developers.map((developers) => <AllDevelopersCard key={developers._id} developers={developers}
                    skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
                    tools={getDeveloperTools(developers._id, this.props.developerTools)}
                    challenges={getDeveloperChallenges(developers._id, this.props.developerChallenges)}
