@@ -75,7 +75,7 @@ class YourTeamsCard extends React.Component {
 
     const notFoundParticipants = _.difference(participantList, foundParticipants);
 
-    console.log('Not Found:', notFoundParticipants);
+    // console.log('Not Found:', notFoundParticipants);
 
     // if they entered duplicates
     if (_.uniq(participantList).length !== participantList.length) {
@@ -123,7 +123,7 @@ class YourTeamsCard extends React.Component {
         developer,
       };
 
-      console.log(definitionData);
+      // console.log(definitionData);
 
       const collectionName = TeamDevelopers.getCollectionName();
 
@@ -141,33 +141,6 @@ class YourTeamsCard extends React.Component {
 
     }
 
-    // const teamDoc = Teams.findDoc(this.props.teams._id);
-    // const team = teamDoc._id;
-    // const developerDoc = Developers.findDoc({ username: participants[0].email });
-    // const developer = developerDoc._id;
-    // // console.log(developerDoc);
-    // // console.log(developer);
-    //
-    // const definitionData = {
-    //   team,
-    //   developer,
-    // };
-    //
-    // // console.log(definitionData);
-    //
-    // const collectionName = TeamDevelopers.getCollectionName();
-    //
-    // defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
-    //     (error) => {
-    //       if (error) {
-    //         swal('Error', error.message, 'error');
-    //       } else {
-    //         swal('Success',
-    //             `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
-    //             to ${this.props.teams.name}`,
-    //             'success');
-    //       }
-    //     });
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
