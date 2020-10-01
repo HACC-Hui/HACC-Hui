@@ -1,4 +1,5 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import {
   Grid,
   Header,
@@ -20,7 +21,6 @@ import {
 } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Developers } from '../../api/user/DeveloperCollection';
-import { Slugs } from '../../api/slug/SlugCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
@@ -77,6 +77,7 @@ class YourTeamsCard extends React.Component {
 
     console.log('Not Found:', notFoundParticipants);
 
+    // if they entered duplicates
     if (_.uniq(participantList).length !== participantList.length) {
       swal('Error',
           'Sorry, it seems like you entered a duplicate email.\n\nPlease check again.',
@@ -84,7 +85,7 @@ class YourTeamsCard extends React.Component {
       return;
     }
 
-    // If we cannot find a username email
+    // If we cannot find a participant's email
     if (notFoundParticipants.length > 0) {
       swal('Error',
           `Sorry, we could not find participant(s): \n${notFoundParticipants.join(', ')}
@@ -93,10 +94,16 @@ class YourTeamsCard extends React.Component {
       return;
     }
 
+    // If the participant is already in the team OR user tries to invite themselves
+    const selfUser = Developers.findDoc({ userID: Meteor.userId() }).username;
     for (let i = 0; i < participantList.length; i++) {
       const participantDoc = Developers.findDoc({ username: participantList[i] });
-      console.log(participantDoc);
-      console.log(participantDoc._id);
+      if (selfUser === participantList[i]) {
+        swal('Error',
+            'Sorry, you can\'t invite yourself!',
+            'error');
+        return;
+      }
       if (typeof TeamDevelopers.findOne({ developerID: participantDoc._id }) !== 'undefined') {
         swal('Error',
             `Sorry, participant ${participantList[i]} is already in ${this.props.teams.name}!`,
@@ -106,19 +113,18 @@ class YourTeamsCard extends React.Component {
     }
 
     const teamDoc = Teams.findDoc(this.props.teams._id);
-
     const team = teamDoc._id;
     const developerDoc = Developers.findDoc({ username: participants[0].email });
     const developer = developerDoc._id;
-    console.log(developerDoc);
-    console.log(developer);
+    // console.log(developerDoc);
+    // console.log(developer);
 
     const definitionData = {
       team,
       developer,
     };
 
-    console.log(definitionData);
+    // console.log(definitionData);
 
     const collectionName = TeamDevelopers.getCollectionName();
 
