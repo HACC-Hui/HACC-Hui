@@ -104,7 +104,7 @@ class YourTeamsCard extends React.Component {
             'error');
         return;
       }
-      if (typeof TeamDevelopers.findOne({ team: this.props.teams._id, developerID: participantDoc._id }) !== 'undefined') {
+      if (typeof TeamDevelopers.findOne({ teamID: this.props.teams._id, developerID: participantDoc._id }) !== 'undefined') {
         swal('Error',
             `Sorry, participant ${participantList[i]} is already in ${this.props.teams.name}!`,
             'error');
