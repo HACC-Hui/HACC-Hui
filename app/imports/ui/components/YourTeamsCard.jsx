@@ -127,7 +127,6 @@ class YourTeamsCard extends React.Component {
       };
 
       // console.log(definitionData);
-
       const collectionName = TeamDevelopers.getCollectionName();
 
       defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
