@@ -14,8 +14,6 @@ import SimpleSchema from 'simpl-schema';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import {
   AutoForm,
-  ErrorsField,
-  SubmitField,
   TextField,
   ListField,
   ListItemField,
@@ -23,6 +21,9 @@ import {
 import swal from 'sweetalert';
 import { Developers } from '../../api/user/DeveloperCollection';
 import { Slugs } from '../../api/slug/SlugCollection';
+import { Teams } from '../../api/team/TeamCollection';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
+import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
 
 const schema = new SimpleSchema({
   participants: {
@@ -57,9 +58,6 @@ class YourTeamsCard extends React.Component {
     console.log('CreateTeam.submit', formData, this.props);
 
     const { participants } = formData;
-    // console.log(participants);
-    // console.log(participants[0]);
-    // console.log(participants[0].email);
 
     const developerCollection = Developers.dumpAll().contents;
 
@@ -76,8 +74,7 @@ class YourTeamsCard extends React.Component {
     }
 
     const notFoundParticipants = _.difference(participantList, foundParticipants);
-    console.log(foundParticipants);
-    console.log(participantList);
+
     console.log('Not Found:', notFoundParticipants);
 
     if (_.uniq(participantList).length !== participantList.length) {
@@ -90,37 +87,49 @@ class YourTeamsCard extends React.Component {
     // If we cannot find a username email
     if (notFoundParticipants.length > 0) {
       swal('Error',
-          `Sorry, we could not find user(s): \n${notFoundParticipants.join(', ')} \n\nPlease double check that their emails are inputted correctly and that they have registered with the HACC-HUI Slackbot.`,
+          `Sorry, we could not find participant(s): \n${notFoundParticipants.join(', ')}
+          \n\nPlease double check that their emails are inputted correctly and that they have registered with the HACC-HUI Slackbot.`,
           'error');
       return;
     }
 
-    // const definitionData = {
-    //   name,
-    //   description,
-    //   owner,
-    //   open,
-    //   image,
-    //   challenges: challengesObj,
-    //   skills: skillsObj,
-    //   tools: toolsObj,
-    // };
-    // // console.log(collectionName, definitionData);
-    // defineMethod.call({
-    //       collectionName,
-    //       definitionData,
-    //     },
+    for (let i = 0; i < participantList.length; i++) {
+      const test = Slugs.getNameFromID(participantList[i]);
+      console.log(test);
+      // if (typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined') {
+      //   return;
+      // }
+    }
+
+    const teamDoc = Teams.findDoc(this.props.teams._id);
+
+    const team = teamDoc._id;
+    const developerDoc = Developers.findDoc({ username: participants[0].email });
+    const developer = developerDoc._id;
+    console.log(developerDoc);
+    console.log(developer);
+
+    const definitionData = {
+      team,
+      developer,
+    };
+
+    console.log(definitionData);
+
+    const collectionName = TeamDevelopers.getCollectionName();
+
+    // defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
     //     (error) => {
     //       if (error) {
     //         swal('Error', error.message, 'error');
-    //         // console.error(error.message);
     //       } else {
-    //         swal('Success', 'Team created successfully', 'success');
-    //         formRef.reset();
-    //         //   console.log('Success');
+    //         swal('Success',
+    //             `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
+    //             to ${this.props.teams.name}`,
+    //             'success');
     //       }
     //     });
-    // console.log(docID);
+
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -189,6 +198,7 @@ class YourTeamsCard extends React.Component {
                       <ListField name="participants" label={'Enter each participant\'s email'}>
                         <ListItemField name="$">
                           <TextField showInlineError
+                                     iconLeft='mail'
                                      name="email"
                                      label={'Email'}/>
                         </ListItemField>
