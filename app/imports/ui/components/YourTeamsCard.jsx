@@ -110,36 +110,64 @@ class YourTeamsCard extends React.Component {
             'error');
         return;
       }
+
+      const teamDoc = Teams.findDoc(this.props.teams._id);
+      const team = teamDoc._id;
+      const developerDoc = Developers.findDoc({ username: participantList[i] });
+      const developer = developerDoc._id;
+      // console.log(developerDoc);
+      // console.log(developer);
+
+      const definitionData = {
+        team,
+        developer,
+      };
+
+      console.log(definitionData);
+
+      const collectionName = TeamDevelopers.getCollectionName();
+
+      defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+          (error) => {
+            if (error) {
+              swal('Error', error.message, 'error');
+            } else {
+              swal('Success',
+                  `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
+                to ${this.props.teams.name}`,
+                  'success');
+            }
+          });
+
     }
 
-    const teamDoc = Teams.findDoc(this.props.teams._id);
-    const team = teamDoc._id;
-    const developerDoc = Developers.findDoc({ username: participants[0].email });
-    const developer = developerDoc._id;
-    // console.log(developerDoc);
-    // console.log(developer);
-
-    const definitionData = {
-      team,
-      developer,
-    };
-
-    // console.log(definitionData);
-
-    const collectionName = TeamDevelopers.getCollectionName();
-
-    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
-        (error) => {
-          if (error) {
-            swal('Error', error.message, 'error');
-          } else {
-            swal('Success',
-                `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
-                to ${this.props.teams.name}`,
-                'success');
-          }
-        });
-
+    // const teamDoc = Teams.findDoc(this.props.teams._id);
+    // const team = teamDoc._id;
+    // const developerDoc = Developers.findDoc({ username: participants[0].email });
+    // const developer = developerDoc._id;
+    // // console.log(developerDoc);
+    // // console.log(developer);
+    //
+    // const definitionData = {
+    //   team,
+    //   developer,
+    // };
+    //
+    // // console.log(definitionData);
+    //
+    // const collectionName = TeamDevelopers.getCollectionName();
+    //
+    // defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+    //     (error) => {
+    //       if (error) {
+    //         swal('Error', error.message, 'error');
+    //       } else {
+    //         swal('Success',
+    //             `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
+    //             to ${this.props.teams.name}`,
+    //             'success');
+    //       }
+    //     });
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
