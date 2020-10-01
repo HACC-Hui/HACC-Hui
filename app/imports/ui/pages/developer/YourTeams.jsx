@@ -82,7 +82,7 @@ YourTeams.propTypes = {
   teams: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
   teamDevelopers: PropTypes.array.isRequired,
-  developers: Developers.find({}).fetch(),
+  developers: PropTypes.array.isRequired,
   teamInvitation: PropTypes.array.isRequired,
 
 };

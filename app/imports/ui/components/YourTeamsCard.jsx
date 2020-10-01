@@ -149,8 +149,8 @@ class YourTeamsCard extends React.Component {
         } else {
           swal('Success',
               `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
-              to ${this.props.teams.name}
-              \n\n The participants can now look at 'Team Invitations' to accept it.`,
+              \nto ${this.props.teams.name}
+              \n The participants can now look at 'Team Invitations' to accept it.`,
               'success');
         }
       });
@@ -283,7 +283,7 @@ class YourTeamsCard extends React.Component {
 YourTeamsCard.propTypes = {
   teams: PropTypes.object.isRequired,
   teamDevelopers: PropTypes.array.isRequired,
-  teamInvitation: PropTypes.object.isRequired,
+  teamInvitation: PropTypes.array.isRequired,
 };
 
 export default YourTeamsCard;
