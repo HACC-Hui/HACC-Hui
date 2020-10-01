@@ -20,7 +20,7 @@ import {
   ListItemField,
 } from 'uniforms-semantic';
 import swal from 'sweetalert';
-import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
+import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 import { Developers } from '../../api/user/DeveloperCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
@@ -118,9 +118,9 @@ class YourTeamsCard extends React.Component {
         return;
       }
 
-      for (let j = 0; j < this.props.interestedParticipants.length; j++) {
-        if (this.props.interestedParticipants[j].teamID === this.props.teams._id &&
-            this.props.interestedParticipants[j].developerID === participantDoc._id) {
+      for (let j = 0; j < this.props.teamInvitation.length; j++) {
+        if (this.props.teamInvitation[j].teamID === this.props.teams._id &&
+            this.props.teamInvitation[j].developerID === participantDoc._id) {
           swal('Error',
               `Sorry, an invitation to ${participantList[i]} was already issued!`,
               'error');
@@ -128,7 +128,7 @@ class YourTeamsCard extends React.Component {
         }
       }
 
-      const collectionName = WantsToJoin.getCollectionName();
+      // const collectionName = WantsToJoin.getCollectionName();
       const teamDoc = Teams.findDoc(this.props.teams._id);
       const team = Slugs.getNameFromID(teamDoc.slugID);
       const developer = participantList[i];
@@ -141,20 +141,7 @@ class YourTeamsCard extends React.Component {
         developer,
       };
 
-      // // console.log(collectionName);
-      defineMethod.call({ collectionName, definitionData }, (error) => {
-        if (error) {
-          swal('Error', error.message, 'error');
-        } else {
-          swal('Success',
-              `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
-              to ${this.props.teams.name}
-              \n\n The participants can now look at 'Team Invitations' to accept it.`,
-              'success');
-        }
-      });
-
-      const collectionName2 = InterestedDevs.getCollectionName();
+      const collectionName2 = TeamInvitations.getCollectionName();
       // console.log(collectionName2, definitionData);
       defineMethod.call({ collectionName: collectionName2, definitionData }, (error) => {
         if (error) {
@@ -296,7 +283,7 @@ class YourTeamsCard extends React.Component {
 YourTeamsCard.propTypes = {
   teams: PropTypes.object.isRequired,
   teamDevelopers: PropTypes.array.isRequired,
-  interestedParticipants: PropTypes.object.isRequired,
+  teamInvitation: PropTypes.object.isRequired,
 };
 
 export default YourTeamsCard;

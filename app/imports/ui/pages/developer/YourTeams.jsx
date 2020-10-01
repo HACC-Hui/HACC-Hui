@@ -13,7 +13,7 @@ import { _ } from 'lodash';
 import { Teams } from '../../../api/team/TeamCollection';
 import { TeamDevelopers } from '../../../api/team/TeamDeveloperCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
-import { InterestedDevs } from '../../../api/team/InterestedDeveloperCollection';
+import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 import YourTeamsCard from '../../components/YourTeamsCard';
 
 /**
@@ -70,7 +70,7 @@ class YourTeams extends React.Component {
           <Grid.Column width={15}>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
-              {this.props.teams.map((teams) => <YourTeamsCard key={teams._id} teams={teams} teamDevelopers={getTeamDevelopers(teams._id, this.props.teamDevelopers)} interestedParticipants={this.props.interestedParticipants}/>)}
+              {this.props.teams.map((teams) => <YourTeamsCard key={teams._id} teams={teams} teamDevelopers={getTeamDevelopers(teams._id, this.props.teamDevelopers)} teamInvitation={this.props.teamInvitation}/>)}
             </Item.Group>
           </Grid.Column>
         </Grid>
@@ -83,7 +83,7 @@ YourTeams.propTypes = {
   ready: PropTypes.bool.isRequired,
   teamDevelopers: PropTypes.array.isRequired,
   developers: Developers.find({}).fetch(),
-  interestedParticipants: PropTypes.array.isRequired,
+  teamInvitation: PropTypes.array.isRequired,
 
 };
 
@@ -91,14 +91,14 @@ export default withTracker(() => {
   const subscriptionDevelopers = Developers.subscribe();
   const subscriptionTeam = Teams.subscribe();
   const teamDev = TeamDevelopers.subscribe();
-  const interestedParticipantSub = InterestedDevs.subscribe();
+  const intivationSub = TeamInvitations.subscribe();
 
   return {
     teams: Teams.find({ owner: Developers.findDoc({ userID: Meteor.userId() })._id }).fetch(),
     developers: Developers.find({}).fetch(),
     teamDevelopers: TeamDevelopers.find({}).fetch(),
-    interestedParticipants: InterestedDevs.find({}).fetch(),
+    teamInvitation: TeamInvitations.find({}).fetch(),
     // eslint-disable-next-line max-len
-    ready: subscriptionDevelopers.ready() && subscriptionTeam.ready() && teamDev.ready() && interestedParticipantSub.ready(),
+    ready: subscriptionDevelopers.ready() && subscriptionTeam.ready() && teamDev.ready() && intivationSub.ready(),
   };
 })(YourTeams);
