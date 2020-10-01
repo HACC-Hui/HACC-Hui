@@ -20,11 +20,11 @@ import {
   ListItemField,
 } from 'uniforms-semantic';
 import swal from 'sweetalert';
+import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
 import { Developers } from '../../api/user/DeveloperCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
-import { InterestedDevs } from '../../api/team/InterestedDeveloperCollection';
 import { WantsToJoin } from '../../api/team/WantToJoinCollection';
 import { Slugs } from '../../api/slug/SlugCollection';
 
@@ -58,7 +58,7 @@ class YourTeamsCard extends React.Component {
   // eslint-disable-next-line no-unused-vars
   submit(formData, formRef) {
 
-    console.log('CreateTeam.submit', formData, this.props);
+    // console.log('CreateTeam.submit', formData, this.props);
 
     const { participants } = formData;
 
@@ -104,7 +104,7 @@ class YourTeamsCard extends React.Component {
 
       if (selfUser === participantList[i]) {
         swal('Error',
-            'Sorry, you can\'t add yourself!',
+            'Sorry, you can\'t invite yourself!',
             'error');
         return;
       }
@@ -118,21 +118,14 @@ class YourTeamsCard extends React.Component {
         return;
       }
 
-      console.log(participantDoc._id);
-      console.log(this.props.teams._id);
-      console.log(this.props.teams.name);
-      console.log(InterestedDevs.dumpAll())
-      console.log(InterestedDevs.findOne({ teamID: this.props.teams._id, developerID: participantDoc._id }));
-      console.log(InterestedDevs.findOne({ teamID: this.props.teams._id }));
-
-      if (typeof InterestedDevs.findOne({
-        teamID: this.props.teams._id,
-        developerID: participantDoc._id,
-      }) !== 'undefined') {
-        swal('Error',
-            `Sorry, an invitation to ${participantList[i]} was already issued!`,
-            'error');
-        return;
+      for (let j = 0; j < this.props.interestedParticipants.length; j++) {
+        if (this.props.interestedParticipants[j].teamID === this.props.teams._id &&
+            this.props.interestedParticipants[j].developerID === participantDoc._id) {
+          swal('Error',
+              `Sorry, an invitation to ${participantList[i]} was already issued!`,
+              'error');
+          return;
+        }
       }
 
       const collectionName = WantsToJoin.getCollectionName();
@@ -149,31 +142,31 @@ class YourTeamsCard extends React.Component {
       };
 
       // // console.log(collectionName);
-      // defineMethod.call({ collectionName, definitionData }, (error) => {
-      //   if (error) {
-      //     swal('Error', error.message, 'error');
-      //   } else {
-      //     swal('Success',
-      //         `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
-      //         to ${this.props.teams.name}
-      //         \n\n The participants can now look at 'Team Invitations' to accept it.`,
-      //         'success');
-      //   }
-      // });
-      //
-      // const collectionName2 = InterestedDevs.getCollectionName();
-      // // console.log(collectionName2, definitionData);
-      // defineMethod.call({ collectionName: collectionName2, definitionData }, (error) => {
-      //   if (error) {
-      //     swal('Error', error.message, 'error');
-      //   } else {
-      //     swal('Success',
-      //         `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
-      //         to ${this.props.teams.name}
-      //         \n\n The participants can now look at 'Team Invitations' to accept it.`,
-      //         'success');
-      //   }
-      // });
+      defineMethod.call({ collectionName, definitionData }, (error) => {
+        if (error) {
+          swal('Error', error.message, 'error');
+        } else {
+          swal('Success',
+              `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
+              to ${this.props.teams.name}
+              \n\n The participants can now look at 'Team Invitations' to accept it.`,
+              'success');
+        }
+      });
+
+      const collectionName2 = InterestedDevs.getCollectionName();
+      // console.log(collectionName2, definitionData);
+      defineMethod.call({ collectionName: collectionName2, definitionData }, (error) => {
+        if (error) {
+          swal('Error', error.message, 'error');
+        } else {
+          swal('Success',
+              `You've successfully invited participant(s):\n\n ${participantList.join(', ')}
+              to ${this.props.teams.name}
+              \n\n The participants can now look at 'Team Invitations' to accept it.`,
+              'success');
+        }
+      });
 
       // IF WE WANT TO ISSUE DIRECT INVITE (THEY DON'T HAVE TO ACCEPT IT)
 
@@ -302,7 +295,8 @@ class YourTeamsCard extends React.Component {
 
 YourTeamsCard.propTypes = {
   teams: PropTypes.object.isRequired,
-  teamDevelopers: PropTypes.object.isRequired,
+  teamDevelopers: PropTypes.array.isRequired,
+  interestedParticipants: PropTypes.object.isRequired,
 };
 
 export default YourTeamsCard;
