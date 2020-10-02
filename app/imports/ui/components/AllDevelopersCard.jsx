@@ -29,24 +29,27 @@ class AllDevelopersCard extends React.Component {
 
   handleChange(e, { value }) {
     console.log(e);
-    // console.log(tID);
-    // console.log(dID);
-    const thisTeam = Teams.findDoc({ name: value })._id;
-    const devID = Developers.findDoc({ userID: Meteor.userId() }).username;
-    // console.log(thisTeam);
-    const definitionData = { team: thisTeam, developer: devID };
-    const collectionName = TeamInvitations.getCollectionName();
-    // console.log(collectionName);
-    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
-        (error) => {
-          if (error) {
-            swal('Error', error.message, 'error');
-            console.error(error.message);
-          } else {
-            swal('Success', 'Invitation sent successfully', 'success');
-            console.log('Success');
-          }
-        });
+    console.log(value);
+    if (value !== 'Select a Team') {
+      // console.log(tID);
+      // console.log(dID);
+      const thisTeam = Teams.findDoc({ name: value })._id;
+      const devID = Developers.findDoc({ userID: Meteor.userId() }).username;
+      // console.log(thisTeam);
+      const definitionData = { team: thisTeam, developer: devID };
+      const collectionName = TeamInvitations.getCollectionName();
+      // console.log(collectionName);
+      defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+          (error) => {
+            if (error) {
+              swal('Error', error.message, 'error');
+              console.error(error.message);
+            } else {
+              swal('Success', 'Invitation sent successfully', 'success');
+              console.log('Success');
+            }
+          });
+    }
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -64,9 +67,11 @@ class AllDevelopersCard extends React.Component {
     function setOptions() {
       const teams = Teams.find({ owner: Developers.findDoc({ userID: Meteor.userId() })._id }).fetch();
       const newOptions = [];
+      newOptions.push({ key: 'Select a Team', text: 'Select a Team', value: 'Select a Team' });
       for (let i = 0; i < teams.length; i++) {
         newOptions.push({ key: teams[i].name, text: teams[i].name, value: teams[i].name });
       }
+      console.log(newOptions);
       return newOptions;
     }
 

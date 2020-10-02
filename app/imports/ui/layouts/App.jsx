@@ -39,6 +39,7 @@ import YourTeams from '../pages/developer/YourTeams';
 import EditChallenge from '../pages/administrator/EditChallenge';
 import EditSkill from '../pages/administrator/EditSkill';
 import EditTool from '../pages/administrator/EditTool';
+import TeamInvitations from '../pages/developer/TeamInvitations';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -70,6 +71,7 @@ class App extends React.Component {
               <ProtectedRoute path="/list" component={ListStuff} />
               <ProtectedRoute path="/add" component={AddStuff} />
               <ProtectedRoute path="/edit/:_id" component={EditStuff} />
+              <ProtectedRoute path={ROUTES.TEAM_INVITATIONS} component={TeamInvitations}/>
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin} />
               <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHACC} />
               <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
