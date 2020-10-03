@@ -27,14 +27,17 @@ class AllDevelopersCard extends React.Component {
   }
    */
 
-  handleChange(e, { value }) {
+  state = {};
+
+  handleChange(dID, { value }, e) {
     console.log(e);
-    console.log(value);
-    if (value !== 'Select a Team') {
+    console.log(e.value);
+    console.log(dID);
+    if (e.value !== 'Select a Team') {
       // console.log(tID);
       // console.log(dID);
-      const thisTeam = Teams.findDoc({ name: value })._id;
-      const devID = Developers.findDoc({ userID: Meteor.userId() }).username;
+      const thisTeam = Teams.findDoc({ name: e.value })._id;
+      const devID = Developers.findDoc({ _id: dID }).username;
       // console.log(thisTeam);
       const definitionData = { team: thisTeam, developer: devID };
       const collectionName = TeamInvitations.getCollectionName();
@@ -54,6 +57,8 @@ class AllDevelopersCard extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+
+    const { value } = this.state;
 
     function changeBackground(e) {
       e.currentTarget.style.backgroundColor = '#fafafa';
@@ -119,7 +124,7 @@ class AllDevelopersCard extends React.Component {
                         <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
                         <Dropdown
                             className='button icon'
-                            onChange={this.handleChange}
+                            onChange={this.handleChange.bind(this, this.props.devID)}
                             options={options}
                             trigger={<></>}
                             style={{ backgroundColor: 'transparent' }}
@@ -177,10 +182,12 @@ class AllDevelopersCard extends React.Component {
                 <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
                 <Dropdown
                     className='button icon'
-                    onChange={this.handleChange}
+                    onChange={this.handleChange.bind(this, this.props.devID)}
                     options={options}
                     trigger={<></>}
                     style={{ backgroundColor: 'transparent' }}
+                    selection
+                    value={value}
                 />
               </Button.Group>
             </Modal.Actions>
@@ -191,10 +198,10 @@ class AllDevelopersCard extends React.Component {
 }
 
 AllDevelopersCard.propTypes = {
+  devID: PropTypes.string.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
   developers: PropTypes.object.isRequired,
 };
-
 export default AllDevelopersCard;
