@@ -12,12 +12,10 @@ import {
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { WantsToJoin } from '../../api/team/WantToJoinCollection';
 import { Developers } from '../../api/user/DeveloperCollection';
 import { defineMethod, removeItMethod } from '../../api/base/BaseCollection.methods';
-import { Teams } from '../../api/team/TeamCollection';
-import { Slugs } from '../../api/slug/SlugCollection';
 import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
+import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
 
 class TeamInvitationCard extends React.Component {
 /*
@@ -54,27 +52,34 @@ class TeamInvitationCard extends React.Component {
     });
   }
 
-  handleClick(e, inst) {
-    console.log(e, inst);
-    const collectionName = WantsToJoin.getCollectionName();
-    const teamDoc = Teams.findDoc(inst.id);
-    const team = Slugs.getNameFromID(teamDoc.slugID);
-    const developer = Developers.findDoc({ userID: Meteor.userId() }).username;
-    const definitionData = {
-      team,
-      developer,
-    };
-    console.log(collectionName, definitionData);
-    defineMethod.call({ collectionName, definitionData }, (error) => {
-      if (error) {
-        console.error('Failed to define', error);
-      }
-    });
+  handleClick(tID, e) {
+    console.log(e);
+    // console.log(tID);
+    // console.log(dID);
+    const thisTeam = tID;
+    const devID = Developers.findDoc({ userID: Meteor.userId() })._id;
+    // console.log(thisTeam);
+    const definitionData = { team: thisTeam, developer: devID };
+    const collectionName = TeamDevelopers.getCollectionName();
+    // console.log(collectionName);
+    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+        (error) => {
+          if (error) {
+            swal('Error', error.message, 'error');
+            // console.error(error.message);
+          } else {
+            swal('Success', 'Team Invitation Accepted', 'success');
+            // console.log('Success');
+          }
+        });
     const collectionName2 = TeamInvitations.getCollectionName();
-    console.log(collectionName2, definitionData);
-    defineMethod.call({ collectionName: collectionName2, definitionData }, (error) => {
+    // console.log(collectionName2, devID);
+    // eslint-disable-next-line max-len
+    const intID = TeamInvitations.findDoc({ teamID: thisTeam, developerID: Developers.findDoc({ userID: Meteor.userId() })._id });
+    // console.log(intID);
+    removeItMethod.call({ collectionName: collectionName2, instance: intID }, (error) => {
       if (error) {
-        console.error('Failed to define', error);
+        console.error('Failed to remove', error);
       }
     });
   }
@@ -156,7 +161,7 @@ class TeamInvitationCard extends React.Component {
             </Modal.Content>
             <Modal.Actions>
               {/* eslint-disable-next-line max-len */}
-                  <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} onClick={this.handleClick}>
+                  <Button id={this.props.teams._id} style={{ backgroundColor: 'rgb(89, 119, 199)', color: 'white' }} onClick={this.handleClick.bind(this, this.props.teams._id)}>
                     <Icon name='plus'/>
                     Accept Request
                   </Button>
@@ -172,11 +177,12 @@ class TeamInvitationCard extends React.Component {
                   on='click'
                   trigger={
                     // eslint-disable-next-line max-len
-                    <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.handleClick}>
+                    <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.handleClick.bind(this, this.props.teams._id)}>
                       Accept Request
                     </Button>
                   }
               />
+          {/* eslint-disable-next-line max-len */}
           <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }} onClick={this.removeClick.bind(this, this.props.teams._id)}>
             Decline Request
           </Button>
