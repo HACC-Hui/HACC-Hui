@@ -18,4 +18,6 @@ EXPOSE 80
 
 EXPOSE 8888
 
+EXPOSE 3100
+
 CMD ["node", "main.js"]
