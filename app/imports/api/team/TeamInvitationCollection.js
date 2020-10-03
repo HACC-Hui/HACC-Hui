@@ -1,4 +1,5 @@
 import SimpleSchema from 'simpl-schema';
+import { _ } from 'lodash';
 import BaseCollection from '../base/BaseCollection';
 import { Developers } from '../user/DeveloperCollection';
 import { Teams } from './TeamCollection';
@@ -15,6 +16,7 @@ class TeamInvitationCollection extends BaseCollection {
     super('TeamInvitation', new SimpleSchema({
       teamID: { type: SimpleSchema.RegEx.Id },
       developerID: { type: SimpleSchema.RegEx.Id },
+      sentDM: { type: Boolean },
     }));
   }
 
@@ -24,10 +26,10 @@ class TeamInvitationCollection extends BaseCollection {
    * @param developer {String} developer slug or ID.
    * @return {String} the ID of the pair.
    */
-  define({ team, developer }) {
+  define({ team, developer, sentDM = false }) {
     const teamID = Teams.getID(team);
     const developerID = Developers.getID(developer);
-    return this._collection.insert({ teamID, developerID });
+    return this._collection.insert({ teamID, developerID, sentDM });
   }
 
   /**
@@ -37,7 +39,8 @@ class TeamInvitationCollection extends BaseCollection {
    * @param developer {String} the slug or ID of the developer (optional).
    * @throws {Meteor.Error} if docID is undefined.
    */
-  update(docID, { team, developer }) {
+  update(docID, { team, developer, sentDM }) {
+    // console.log({ team, developer, sentDM });
     this.assertDefined(docID);
     const updateData = {};
     if (developer) {
@@ -45,6 +48,9 @@ class TeamInvitationCollection extends BaseCollection {
     }
     if (team) {
       updateData.teamID = Teams.getID(team);
+    }
+    if (_.isBoolean(sentDM)) {
+      updateData.sentDM = sentDM;
     }
     this._collection.update(docID, { $set: updateData });
   }
