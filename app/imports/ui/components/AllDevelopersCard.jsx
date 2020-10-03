@@ -27,30 +27,38 @@ class AllDevelopersCard extends React.Component {
   }
    */
 
-  handleChange(e, { value }) {
+  state = {};
+
+  handleChange(dID, { value }, e) {
     console.log(e);
-    // console.log(tID);
-    // console.log(dID);
-    const thisTeam = Teams.findDoc({ name: value })._id;
-    const devID = Developers.findDoc({ userID: Meteor.userId() }).username;
-    // console.log(thisTeam);
-    const definitionData = { team: thisTeam, developer: devID };
-    const collectionName = TeamInvitations.getCollectionName();
-    // console.log(collectionName);
-    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
-        (error) => {
-          if (error) {
-            swal('Error', error.message, 'error');
-            console.error(error.message);
-          } else {
-            swal('Success', 'Invitation sent successfully', 'success');
-            console.log('Success');
-          }
-        });
+    console.log(e.value);
+    console.log(dID);
+    if (e.value !== 'Select a Team') {
+      // console.log(tID);
+      // console.log(dID);
+      const thisTeam = Teams.findDoc({ name: e.value })._id;
+      const devID = Developers.findDoc({ _id: dID }).username;
+      // console.log(thisTeam);
+      const definitionData = { team: thisTeam, developer: devID };
+      const collectionName = TeamInvitations.getCollectionName();
+      // console.log(collectionName);
+      defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+          (error) => {
+            if (error) {
+              swal('Error', error.message, 'error');
+              console.error(error.message);
+            } else {
+              swal('Success', 'Invitation sent successfully', 'success');
+              console.log('Success');
+            }
+          });
+    }
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+
+    const { value } = this.state;
 
     function changeBackground(e) {
       e.currentTarget.style.backgroundColor = '#fafafa';
@@ -64,9 +72,11 @@ class AllDevelopersCard extends React.Component {
     function setOptions() {
       const teams = Teams.find({ owner: Developers.findDoc({ userID: Meteor.userId() })._id }).fetch();
       const newOptions = [];
+      newOptions.push({ key: 'Select a Team', text: 'Select a Team', value: 'Select a Team' });
       for (let i = 0; i < teams.length; i++) {
         newOptions.push({ key: teams[i].name, text: teams[i].name, value: teams[i].name });
       }
+      console.log(newOptions);
       return newOptions;
     }
 
@@ -114,7 +124,7 @@ class AllDevelopersCard extends React.Component {
                         <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
                         <Dropdown
                             className='button icon'
-                            onChange={this.handleChange}
+                            onChange={this.handleChange.bind(this, this.props.devID)}
                             options={options}
                             trigger={<></>}
                             style={{ backgroundColor: 'transparent' }}
@@ -172,10 +182,12 @@ class AllDevelopersCard extends React.Component {
                 <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
                 <Dropdown
                     className='button icon'
-                    onChange={this.handleChange}
+                    onChange={this.handleChange.bind(this, this.props.devID)}
                     options={options}
                     trigger={<></>}
                     style={{ backgroundColor: 'transparent' }}
+                    selection
+                    value={value}
                 />
               </Button.Group>
             </Modal.Actions>
@@ -186,10 +198,10 @@ class AllDevelopersCard extends React.Component {
 }
 
 AllDevelopersCard.propTypes = {
+  devID: PropTypes.string.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
   developers: PropTypes.object.isRequired,
 };
-
 export default AllDevelopersCard;

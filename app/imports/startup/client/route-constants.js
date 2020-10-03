@@ -29,4 +29,5 @@ export const ROUTES = {
   EDIT_CHALLENGE: '/edit-challenge/:_id',
   EDIT_TOOL: '/edit-tool/:_id',
   EDIT_SKILL: '/edit-skill/:_id',
+  TEAM_INVITATIONS: '/team-invitations',
 };

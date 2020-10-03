@@ -104,7 +104,9 @@ class AllDevelopers extends React.Component {
           <Grid.Column>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
-              {this.props.developers.map((developers) => <AllDevelopersCard key={developers._id} developers={developers}
+              {this.props.developers.map((developers) => <AllDevelopersCard key={developers._id}
+                                     devID={developers._id}
+                                     developers={developers}
                    skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
                    tools={getDeveloperTools(developers._id, this.props.developerTools)}
                    challenges={getDeveloperChallenges(developers._id, this.props.developerChallenges)}
