@@ -4,7 +4,7 @@ import {
   Header,
   Loader,
   Item,
-  Icon,
+  Icon, Segment, Input, Dropdown,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { _ } from 'lodash';
@@ -18,12 +18,24 @@ import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
 import AllDevelopersCard from '../../components/AllDevelopersCard';
+import AllDevelopersFilter from '../../components/AllDevelopersFilter';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
  * @memberOf ui/pages
  */
 class AllDevelopers extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: '',
+      challenges: [],
+      tools: [],
+      skills: [],
+      result: _.orderBy(this.props.developers, ['name'], ['asc']),
+    };
+  }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
@@ -45,6 +57,80 @@ class AllDevelopers extends React.Component {
           </div>
       );
     }
+
+    // eslint-disable-next-line no-unused-vars
+    const sortBy = [
+      { key: 'teams', text: 'teams', value: 'teams' },
+      { key: 'challenges', text: 'challenges', value: 'challenges' },
+      { key: 'skills', text: 'skills', value: 'skills' },
+      { key: 'tools', text: 'tools', value: 'tools' },
+    ];
+
+    const sticky = {
+      position: '-webkit-sticky',
+      // eslint-disable-next-line no-dupe-keys
+      position: 'sticky',
+      top: '6.5rem',
+    };
+
+    const filters = new AllDevelopersFilter();
+
+    const setFilters = () => {
+      const searchResults = filters.filterBySearch(this.props.developers, this.state.search);
+      // eslint-disable-next-line max-len
+      const skillResults = filters.filterBySkills(this.state.skills, this.props.skills, this.props.developerSkills, searchResults);
+      // eslint-disable-next-line max-len
+      const toolResults = filters.filterByTools(this.state.tools, this.props.tools, this.props.developerTools, skillResults);
+      // eslint-disable-next-line max-len
+      const challengeResults = filters.filterByChallenge(this.state.challenges, this.props.challenges, this.props.developerChallenges, toolResults);
+      const sorted = filters.sortBy(challengeResults, 'devs');
+      this.setState({
+        result: sorted,
+      }, () => {
+      });
+    };
+
+    const handleSearchChange = (event) => {
+      this.setState({
+        search: event.target.value,
+      }, () => {
+        setFilters();
+      });
+      // this.setState({ search: event.target.value });
+      // setFilters();
+    };
+
+    // const getSort = (event, { value }) => {
+    //   this.setState({
+    //     sortBy: value,
+    //   }, () => {
+    //     setFilters();
+    //   });
+    // };
+
+    const getSkills = (event, { value }) => {
+      this.setState({
+        skills: value,
+      }, () => {
+        setFilters();
+      });
+    };
+
+    const getTools = (event, { value }) => {
+      this.setState({
+        tools: value,
+      }, () => {
+        setFilters();
+      });
+    };
+
+    const getChallenge = (event, { value }) => {
+      this.setState({
+        challenges: value,
+      }, () => {
+        setFilters();
+      });
+    };
 
     const universalSkills = this.props.skills;
 
@@ -100,11 +186,80 @@ class AllDevelopers extends React.Component {
               All Developers
             </Header>
           </Grid.Row>
-          <Grid.Row>
-          <Grid.Column>
+          <Grid.Column width={4}>
+            <Segment style={sticky}>
+              <div style={{ paddingTop: '2rem' }}>
+                <Header>
+                  <Header.Content>
+                    Total Developers: {this.state.result.length}
+                  </Header.Content>
+                </Header>
+              </div>
+              {/* <div style={{ paddingTop: '2rem' }}> */}
+              {/*  <Header> */}
+              {/*    <Header.Content> */}
+              {/*      Sort by {' '} */}
+              {/*      <Dropdown */}
+              {/*          inline */}
+              {/*          header='Sort by...' */}
+              {/*          options={sortBy} */}
+              {/*          defaultValue={sortBy[0].value} */}
+              {/*          onChange={getSort} */}
+              {/*      /> */}
+              {/*    </Header.Content> */}
+              {/*  </Header> */}
+              {/* </div> */}
+              <div style={{ paddingTop: '2rem' }}>
+                <Input icon='search'
+                       iconPosition='left'
+                       placeholder='Search by developer name...'
+                       onChange={handleSearchChange}
+                       fluid
+                />
+
+                <div style={{ paddingTop: '2rem' }}>
+                  <Header>Challenges</Header>
+                  <Dropdown
+                      placeholder='Challenges'
+                      fluid
+                      multiple
+                      search
+                      selection
+                      options={filters.dropdownValues(this.props.challenges, 'title')}
+                      onChange={getChallenge}
+                  />
+                </div>
+              </div>
+              <div style={{ paddingTop: '2rem' }}>
+                <Header>Skills</Header>
+                <Dropdown placeholder='Skills'
+                          fluid
+                          multiple
+                          search
+                          selection
+                          options={filters.dropdownValues(this.props.skills, 'name')}
+                          onChange={getSkills}
+                />
+              </div>
+
+              <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+                <Header>Tools</Header>
+                <Dropdown
+                    placeholder='Tools'
+                    fluid
+                    multiple
+                    search
+                    selection
+                    options={filters.dropdownValues(this.props.tools, 'name')}
+                    onChange={getTools}
+                />
+              </div>
+            </Segment>
+          </Grid.Column>
+          <Grid.Column width={12}>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
-              {this.props.developers.map((developers) => <AllDevelopersCard key={developers._id}
+              {this.state.result.map((developers) => <AllDevelopersCard key={developers._id}
                                      devID={developers._id}
                                      developers={developers}
                    skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
@@ -113,7 +268,6 @@ class AllDevelopers extends React.Component {
                   />)}
             </Item.Group>
           </Grid.Column>
-          </Grid.Row>
         </Grid>
     );
   }
