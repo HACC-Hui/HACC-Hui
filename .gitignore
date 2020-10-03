@@ -3,3 +3,6 @@
 .DS_Store
 node_modules
 settings.production.json
+
+# MUP deploy file containing passwords
+app/.deploy/mup.js
