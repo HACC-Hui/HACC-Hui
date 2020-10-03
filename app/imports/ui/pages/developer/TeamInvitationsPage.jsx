@@ -19,7 +19,7 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Developers } from '../../../api/user/DeveloperCollection';
-import TeamFinderCard from '../../components/TeamFinderCard';
+import TeamInvitationCard from '../../components/TeamInvitationCard';
 import { InterestedDevs } from '../../../api/team/InterestedDeveloperCollection';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 
@@ -146,7 +146,7 @@ class TeamInvitationsPage extends React.Component {
           <Grid.Column width={12}>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
-              {getTeamInvitations(this.props.teamInvitations).map((teams) => <TeamFinderCard key={teams._id} teams={teams}
+              {getTeamInvitations(this.props.teamInvitations).map((teams) => <TeamInvitationCard key={teams._id} teams={teams}
                                   skills={getTeamSkills(teams._id, this.props.teamSkills)}
                                   tools={getTeamTools(teams._id, this.props.teamTools)}
                                   challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
