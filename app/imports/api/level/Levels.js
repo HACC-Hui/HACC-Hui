@@ -9,6 +9,7 @@ import faker from 'faker';
  * @memberOf api/level
  */
 export const demographicLevel = {
+  MIDDLE_SCHOOL: 'Middle school',
   HIGH_SCHOOL: 'High school',
   COLLEGE: 'College',
   PROFESSIONAL: 'Professional',
