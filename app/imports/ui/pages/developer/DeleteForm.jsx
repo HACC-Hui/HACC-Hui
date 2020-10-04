@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Grid, Segment, Header } from 'semantic-ui-react';
 import { AutoForm, ErrorsField, LongTextField, SelectField } from 'uniforms-semantic';
@@ -8,7 +7,7 @@ import SimpleSchema from 'simpl-schema';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { Developers } from '../../../api/user/DeveloperCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 import { removeItMethod } from '../../../api/base/BaseCollection.methods';
 import { deleteAccountMethod, userInteractionDefineMethod } from '../../../api/user/UserInteractionCollection.methods';
 import { USER_INTERACTIONS } from '../../../startup/client/user-interaction-constants';
@@ -40,7 +39,7 @@ class DeleteForm extends React.Component {
                   // Meteor.logout();
                 })
     ));
-    const collectionName = Developers.getCollectionName();
+    const collectionName = Participants.getCollectionName();
     const instance = this.props.doc._id;
     // console.log(collectionName, instance);
     removeItMethod.call({ collectionName, instance });
@@ -125,10 +124,10 @@ DeleteForm.propTypes = {
 export default withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
-  // Get access to Developer documents.
-  const subscription = Meteor.subscribe('Developers');
+  // Get access to Participants documents.
+  const subscription = Participants.subscribe();
   return {
-    doc: Developers.findOne(documentId),
+    doc: Participants.findOne(documentId),
     ready: subscription.ready(),
   };
 })(DeleteForm);

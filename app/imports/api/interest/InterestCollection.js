@@ -76,7 +76,7 @@ class InterestCollection extends BaseSlugCollection {
    */
   removeIt(instance) {
     const docID = this.getID(instance);
-    // Check that this interest is not referenced by any Team, Developer, or Challenge.
+    // Check that this interest is not referenced by any Team, Participant, or Challenge.
 
     // OK, clear to delete.
     super.removeIt(docID);

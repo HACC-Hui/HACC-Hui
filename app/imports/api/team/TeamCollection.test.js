@@ -8,9 +8,9 @@ import { Teams } from './TeamCollection';
 import { makeSampleChallengeSlugArray } from '../challenge/SampleChallenges';
 import { makeSampleToolSlugArray } from '../tool/SampleTools';
 import { makeSampleSkillSlugArray } from '../skill/SampleSkills';
-import { makeSampleDeveloper } from '../user/SampleDevelopers';
+import { makeSampleParticipant } from '../user/SampleParticipants';
 import { TeamChallenges } from './TeamChallengeCollection';
-import { TeamDevelopers } from './TeamDeveloperCollection';
+import { TeamParticipants } from './TeamParticipantCollection';
 import { TeamSkills } from './TeamSkillCollection';
 import { TeamTools } from './TeamToolCollection';
 
@@ -34,7 +34,7 @@ if (Meteor.isServer) {
           fc.property(fc.lorem(3), fc.lorem(24), fc.boolean(), fc.float(),
               (fcName, description, open, num) => {
                 const name = `${num}${fcName}${moment().format('YYYYMMDDHHmmssSSS')}`;
-                const { profileID } = makeSampleDeveloper();
+                const { profileID } = makeSampleParticipant();
                 const owner = profileID;
                 const challenges = makeSampleChallengeSlugArray();
                 const tools = makeSampleToolSlugArray();
@@ -51,13 +51,13 @@ if (Meteor.isServer) {
                 expect(doc.description).to.equal(description);
                 const selector = { teamID: docID };
                 expect(TeamChallenges.find(selector).fetch()).to.have.lengthOf(challenges.length);
-                expect(TeamDevelopers.find(selector).fetch()).to.have.lengthOf(1);
+                expect(TeamParticipants.find(selector).fetch()).to.have.lengthOf(1);
                 expect(TeamSkills.find(selector).fetch()).to.have.lengthOf(skills.length);
                 expect(TeamTools.find(selector).fetch()).to.have.lengthOf(tools.length);
                 Teams.removeIt(docID);
                 expect(Teams.isDefined(docID)).to.be.false;
                 expect(TeamChallenges.find(selector).fetch()).to.have.lengthOf(0);
-                expect(TeamDevelopers.find(selector).fetch()).to.have.lengthOf(0);
+                expect(TeamParticipants.find(selector).fetch()).to.have.lengthOf(0);
                 expect(TeamSkills.find(selector).fetch()).to.have.lengthOf(0);
                 expect(TeamTools.find(selector).fetch()).to.have.lengthOf(0);
               }),

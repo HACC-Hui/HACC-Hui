@@ -81,7 +81,7 @@ class TeamChallengeCollection extends BaseCollection {
    * @param userId {String} the user ID.
    */
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.PARTICIPANT]);
   }
 
 }

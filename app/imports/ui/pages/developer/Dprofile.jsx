@@ -14,12 +14,12 @@ import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
-import { Developers } from '../../../api/user/DeveloperCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
-import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
-import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
+import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
+import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 // Create a schema to specify the structure of the data to appear in the form.
 const schema = new SimpleSchema({
@@ -68,8 +68,8 @@ class Dprofile extends React.Component {
     this.toolset = [];
   }
 
-  getDeveloper() {
-    return Developers._collection.findOne({ username: Meteor.user().username });
+  getParticipant() {
+    return Participants._collection.findOne({ username: Meteor.user().username });
   }
 
   renderChallenge() {
@@ -253,8 +253,8 @@ class Dprofile extends React.Component {
 
   submit(data, formRef) {
 
-    const developer = this.getDeveloper();
-    const docID = developer._id;
+    const participant = this.getParticipant();
+    const docID = participant._id;
     console.log(docID);
     // const docID = Meteor.userId();
     const {
@@ -284,39 +284,39 @@ class Dprofile extends React.Component {
 
     console.log(updateData);
     let success_base = false;
-    if (updateMethod.call({ collectionName: 'DeveloperCollection', updateData })) {
+    if (updateMethod.call({ collectionName: 'ParticipantCollection', updateData })) {
       console.log('sucess');
       success_base = true;
     } else {
       console.log('fail');
     }
-    const deskill = DeveloperSkills._collection.find({ developerID: docID }).fetch();
+    const deskill = ParticipantSkills._collection.find({ participantID: docID }).fetch();
     _.each(deskill, function (skill_level) {
       const updateskillLevel = _.filter(this.skillSet, function (skill) {
         return skill_level.skillID === skill.docID;
       });
       console.log(skill_level._id, updateskillLevel[0]);
       updateMethod.call({
-        collectionName: 'DeveloperSkillCollection', updateData: {
+        collectionName: 'ParticipantSkillCollection', updateData: {
           id: skill_level._id,
           skillLevel: updateskillLevel[0].level,
         },
       });
     }, this);
-    const detool = DeveloperTools._collection.find({ developerID: docID }).fetch();
+    const detool = ParticipantTools._collection.find({ participantID: docID }).fetch();
     _.each(detool, function (tool_level) {
       const updatetoolLevel = _.filter(this.toolset, function (tool) {
         return tool_level.toolID === tool.docID;
       });
       updateMethod.call({
-        collectionName: 'DeveloperToolCollection', updateData: {
+        collectionName: 'ParticipantToolCollection', updateData: {
           id: tool_level._id,
           toolLevel: updatetoolLevel[0].level,
         },
       });
     }, this);
 
-    /* Developers.update(docID, { challenges: challengesID, skills: skillsID, tools: toolsID,
+    /* Participants.update(docID, { challenges: challengesID, skills: skillsID, tools: toolsID,
            linkedIn, gitHub, website, aboutMe, isCompliant: Agree },
          (error) => { */
     if (!success_base) {
@@ -328,7 +328,7 @@ class Dprofile extends React.Component {
 
     // eslint-disable-next-line max-len
 
-    // const test = DeveloperSkills._collection.find({ developerID: docID }).fetch();
+    // const test = ParticipantSkills._collection.find({ participantID: docID }).fetch();
     // console.log(test);
   }
 
@@ -339,11 +339,11 @@ class Dprofile extends React.Component {
 
   renderPage() {
     // const ChallengesOptions = this.props.challenges;
-    const developer = this.getDeveloper();
+    const participant = this.getParticipant();
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(schema);
 
-    const firstname = developer.firstName;
+    const firstname = participant.firstName;
 
     return (
         <Grid container centered>
@@ -410,7 +410,7 @@ export default withTracker(() => {
 
   const subscription = Skills.subscribe();
   const subscription2 = Challenges.subscribe();
-  const subscription3 = Developers.subscribe();
+  const subscription3 = Participants.subscribe();
   const subscription4 = Tools.subscribe();
   return {
 

@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import fc from 'fast-check';
 import faker from 'faker';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
-import { makeSampleDeveloper } from './SampleDevelopers';
+import { makeSampleParticipant } from './SampleParticipants';
 import { UserInteractions } from './UserInteractionCollection';
-import { Developers } from './DeveloperCollection';
+import { Participants } from './ParticipantCollection';
 
 /* eslint prefer-arrow-callback: "off", no-unused-expressions: "off" */
 /* eslint-env mocha */
@@ -15,8 +15,8 @@ if (Meteor.isServer) {
     let username;
     before(function setup() {
       resetDatabase();
-      const { profileID } = makeSampleDeveloper();
-      username = Developers.findDoc(profileID).username;
+      const { profileID } = makeSampleParticipant();
+      username = Participants.findDoc(profileID).username;
     });
 
     after(function teardown() {

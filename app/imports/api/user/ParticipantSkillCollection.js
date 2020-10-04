@@ -1,20 +1,20 @@
 import SimpleSchema from 'simpl-schema';
 import BaseCollection from '../base/BaseCollection';
-import { Developers } from './DeveloperCollection';
+import { Participants } from './ParticipantCollection';
 import { Skills } from '../skill/SkillCollection';
 import { skillAndToolLevels } from '../level/Levels';
 import { ROLE } from '../role/Role';
 
 /**
- * DeveloperSkillCollection, collection of developer-skill-skillLevel tuples.
+ * ParticipantSkillCollection, collection of participant-skill-skillLevel tuples.
  * @extends api/base.BaseCollection
  * @memberOf api/user
  */
-class DeveloperSkillCollection extends BaseCollection {
+class ParticipantSkillCollection extends BaseCollection {
   constructor() {
-    super('DeveloperSkill', new SimpleSchema({
+    super('ParticipantSkill', new SimpleSchema({
       skillID: { type: SimpleSchema.RegEx.Id },
-      developerID: { type: SimpleSchema.RegEx.Id },
+      participantID: { type: SimpleSchema.RegEx.Id },
       skillLevel: { type: String, allowedValues: skillAndToolLevels, optional: true },
     }));
   }
@@ -22,28 +22,28 @@ class DeveloperSkillCollection extends BaseCollection {
   /**
    * Defines a new tuple.
    * @param skill {String} the skill slug or ID.
-   * @param developer {String} the developer slug or ID.
+   * @param participant {String} the participant slug or ID.
    * @return {String} the ID of the tuple.
    */
-  define({ skill, developer }) {
+  define({ skill, participant }) {
     const skillID = Skills.findIdBySlug(skill);
-    const developerID = Developers.findIdBySlug(developer);
-    return this._collection.insert({ skillID, developerID });
+    const participantID = Participants.findIdBySlug(participant);
+    return this._collection.insert({ skillID, participantID });
   }
 
   /**
    * Updates the given tuple.
    * @param docID {String} the ID of the tuple.
    * @param skill {String} the new skill slug or ID (optional).
-   * @param developer {String} the new developer slug or ID (optional).
+   * @param participant {String} the new participant slug or ID (optional).
    * @param skillLevel {String} the new skillLevel (optional).
    * @throws {Meteor.Error} if docID is not defined.
    */
-  update(docID, { skill, developer, skillLevel }) {
+  update(docID, { skill, participant, skillLevel }) {
     this.assertDefined(docID);
     const updateData = {};
-    if (developer) {
-      updateData.developerID = Developers.getID(developer);
+    if (participant) {
+      updateData.participantID = Participants.getID(participant);
     }
     if (skill) {
       updateData.skillID = Skills.getID(skill);
@@ -64,13 +64,13 @@ class DeveloperSkillCollection extends BaseCollection {
   }
 
   /**
-   * Removes all the tuples for the given developer.
-   * @param developer {String} the developer slug or ID to remove.
-   * @throws {Meteor.Error} if developer is not defined.
+   * Removes all the tuples for the given participant.
+   * @param participant {String} the participant slug or ID to remove.
+   * @throws {Meteor.Error} if participant is not defined.
    */
-  removeDeveloper(developer) {
-    const developerID = Developers.getID(developer);
-    this._collection.remove({ developerID });
+  removeParticipant(participant) {
+    const participantID = Participants.getID(participant);
+    this._collection.remove({ participantID });
   }
 
   /**
@@ -84,14 +84,14 @@ class DeveloperSkillCollection extends BaseCollection {
   }
 
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.PARTICIPANT]);
   }
 
 }
 
 /**
- * Singleton instance of the DeveloperSkillCollection.
- * @type {api/user.DeveloperSkillCollection}
+ * Singleton instance of the ParticipantSkillCollection.
+ * @type {api/user.ParticipantSkillCollection}
  * @memberOf api/user
  */
-export const DeveloperSkills = new DeveloperSkillCollection();
+export const ParticipantSkills = new ParticipantSkillCollection();

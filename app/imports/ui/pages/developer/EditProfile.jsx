@@ -11,16 +11,16 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import { demographicLevels } from '../../../api/level/Levels';
 import MultiSelectField from '../../components/form-fields/MultiSelectField';
-import { Developers } from '../../../api/user/DeveloperCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
-import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
-import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
-import { DeveloperChallenges } from '../../../api/user/DeveloperChallengeCollection';
+import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
+import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
+import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 
-// added challenges, skills, tools fields to the Developers schema
+// added challenges, skills, tools fields to the Participants schema
 const schema = new SimpleSchema({
   username: { type: String },
   slugID: { type: String },
@@ -43,7 +43,7 @@ const schema = new SimpleSchema({
 });
 
 /**
- * A simple edit page thats prefilled with any info about the developer.
+ * A simple edit page thats prefilled with any info about the participant.
  * @memberOf ui/pages
  */
 class EditProfile extends React.Component {
@@ -108,7 +108,7 @@ class EditProfile extends React.Component {
       website,
       aboutMe,
     };
-    updateMethod.call({ collectionName: Developers.getCollectionName(), updateData: updateData }, (error) => (error ?
+    updateMethod.call({ collectionName: Participants.getCollectionName(), updateData: updateData }, (error) => (error ?
         swal('Error', error.message, 'error') :
         swal('Success', 'Item updated successfully', 'success')));
   }
@@ -124,11 +124,11 @@ class EditProfile extends React.Component {
     const challengeList = _.map(this.props.challenges, 'title');
     const skillList = _.map(this.props.skills, 'name');
     const toolList = _.map(this.props.tools, 'name');
-    const dev = Developers.findOne();
+    const dev = Participants.findOne();
     const devChal = [];
     const devSkill = [];
     const devTool = [];
-    // add the developers challenges, skills, tools in the edit form
+    // add the participants challenges, skills, tools in the edit form
     _.forEach(this.props.devChallenges, (c) => _.forEach(this.props.challenges, (p) => {
       // eslint-disable-next-line no-unused-expressions
           (c.challengeID === p._id) ? devChal.push(p.title) : '';
@@ -188,7 +188,7 @@ class EditProfile extends React.Component {
 EditProfile.propTypes = {
   tools: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
-  developer: PropTypes.array.isRequired,
+  participants: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
   devTools: PropTypes.array.isRequired,
   devSkills: PropTypes.array.isRequired,
@@ -201,21 +201,21 @@ export default withTracker(() => {
   // Get access to documents.
   const toolsSubscription = Tools.subscribe();
   const skillsSubscription = Skills.subscribe();
-  const developersSubscription = Developers.subscribe();
+  const participantsSubscription = Participants.subscribe();
   const challengesSubscription = Challenges.subscribe();
-  const devToolsSubscription = DeveloperTools.subscribe();
-  const devSkillsSubscription = DeveloperSkills.subscribe();
-  const devChallengesSubscription = DeveloperChallenges.subscribe();
+  const devToolsSubscription = ParticipantTools.subscribe();
+  const devSkillsSubscription = ParticipantSkills.subscribe();
+  const devChallengesSubscription = ParticipantChallenges.subscribe();
   return {
     tools: Tools.find({}).fetch(),
     skills: Skills.find({}).fetch(),
-    developer: Developers.find({}).fetch(),
+    participants: Participants.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
-    devTools: DeveloperTools.find({}).fetch(),
-    devSkills: DeveloperSkills.find({}).fetch(),
-    devChallenges: DeveloperChallenges.find({}).fetch(),
+    devTools: ParticipantTools.find({}).fetch(),
+    devSkills: ParticipantSkills.find({}).fetch(),
+    devChallenges: ParticipantChallenges.find({}).fetch(),
     ready: toolsSubscription.ready() && skillsSubscription.ready() &&
-        developersSubscription.ready() && challengesSubscription.ready() &&
+        participantsSubscription.ready() && challengesSubscription.ready() &&
         devToolsSubscription.ready() && devSkillsSubscription.ready() &&
         devChallengesSubscription.ready(),
   };

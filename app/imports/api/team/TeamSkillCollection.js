@@ -83,7 +83,7 @@ class TeamSkillCollection extends BaseCollection {
   }
 
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.PARTICIPANT]);
   }
 
 }

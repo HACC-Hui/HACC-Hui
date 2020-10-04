@@ -15,14 +15,14 @@ import { ROUTES } from '../../startup/client/route-constants';
 class NavBar extends React.Component {
   render() {
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
-    const isDeveloper = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.DEVELOPER);
+    const isParticipant = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
     const menuStyle = { marginBottom: '10px' };
     return (
         <Menu style={menuStyle} attached="top" borderless inverted>
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
             <Header inverted as='h1'>HACC-Hui</Header>
           </Menu.Item>
-          {isDeveloper ? (
+          {isParticipant ? (
               [<Menu.Item as={NavLink} activeClassName="active" exact
                           to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.EDIT_PROFILE} key='edit-profile'>Edit
@@ -50,7 +50,7 @@ class NavBar extends React.Component {
                 <Dropdown text={this.props.currentUser} pointing="top right" icon={'user'}>
                   <Dropdown.Menu>
                     <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact to={ROUTES.SIGN_OUT} />
-                    {isDeveloper ? (
+                    {isParticipant ? (
                         <Dropdown.Item icon="user delete" text="Delete Account" as={NavLink} exact
                                        to={ROUTES.DELETE_ACCOUNT} />) : ''}
                   </Dropdown.Menu>

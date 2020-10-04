@@ -7,15 +7,15 @@ import { Skills } from '../skill/SkillCollection';
 import { Slugs } from '../slug/SlugCollection';
 import { Teams } from '../team/TeamCollection';
 import { TeamChallenges } from '../team/TeamChallengeCollection';
-import { TeamDevelopers } from '../team/TeamDeveloperCollection';
+import { TeamParticipants } from '../team/TeamParticipantCollection';
 import { TeamSkills } from '../team/TeamSkillCollection';
 import { TeamTools } from '../team/TeamToolCollection';
 import { Tools } from '../tool/ToolCollection';
-import { Developers } from '../user/DeveloperCollection';
-import { DeveloperChallenges } from '../user/DeveloperChallengeCollection';
-import { DeveloperInterests } from '../user/DeveloperInterestCollection';
-import { DeveloperSkills } from '../user/DeveloperSkillCollection';
-import { DeveloperTools } from '../user/DeveloperToolCollection';
+import { Participants } from '../user/ParticipantCollection';
+import { ParticipantChallenges } from '../user/ParticipantChallengeCollection';
+import { ParticipantInterests } from '../user/ParticipantInterestCollection';
+import { ParticipantSkills } from '../user/ParticipantSkillCollection';
+import { ParticipantTools } from '../user/ParticipantToolCollection';
 import { Administrators } from '../user/AdministratorCollection';
 import { SlackUsers } from '../slackbot/SlackUserCollection';
 import { WantsToJoin } from '../team/WantToJoinCollection';
@@ -33,18 +33,18 @@ class HACCHuiClass {
         Administrators,
         Challenges,
         ChallengeInterests,
-        Developers,
-        DeveloperChallenges,
-        DeveloperInterests,
-        DeveloperSkills,
-        DeveloperTools,
+        Participants,
+        ParticipantChallenges,
+        ParticipantInterests,
+        ParticipantSkills,
+        ParticipantTools,
         Interests,
         Skills,
         SlackUsers,
         Slugs,
         Teams,
         TeamChallenges,
-        TeamDevelopers,
+        TeamParticipants,
         TeamSkills,
         TeamTools,
         Tools,
@@ -57,7 +57,7 @@ class HACCHuiClass {
         Skills,
         Tools,
         Challenges,
-        Developers,
+        Participants,
         Teams,
         SlackUsers,
     ];

@@ -6,7 +6,7 @@ import { AutoForm, BoolField, SubmitField, TextField } from 'uniforms-semantic';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { ROUTES } from '../../../startup/client/route-constants';
-import { Developers } from '../../../api/user/DeveloperCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { userInteractionDefineMethod } from '../../../api/user/UserInteractionCollection.methods';
 import { USER_INTERACTIONS } from '../../../startup/client/user-interaction-constants';
@@ -30,15 +30,15 @@ class ParticipationForm extends React.Component {
   submit(formData) {
     const { firstName, lastName, agree } = formData;
     if (agree) {
-      const dev = Developers.findDoc({ userID: Meteor.userId() });
-      const collectionName = Developers.getCollectionName();
+      const dev = Participants.findDoc({ userID: Meteor.userId() });
+      const collectionName = Participants.getCollectionName();
       const updateData = {
         id: dev._id,
         isCompliant: agree,
       };
       updateMethod.call({ collectionName, updateData }, (error) => {
         if (error) {
-          console.error('Could not update Developer', error);
+          console.error('Could not update Participant', error);
         }
       });
       const interactionData = {

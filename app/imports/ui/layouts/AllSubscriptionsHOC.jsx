@@ -11,15 +11,15 @@ import { Slugs } from '../../api/slug/SlugCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { Tools } from '../../api/tool/ToolCollection';
 import { TeamChallenges } from '../../api/team/TeamChallengeCollection';
-import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
+import { TeamParticipants } from '../../api/team/TeamParticipantCollection';
 import { TeamSkills } from '../../api/team/TeamSkillCollection';
 import { TeamTools } from '../../api/team/TeamToolCollection';
 import { Administrators } from '../../api/user/AdministratorCollection';
-import { DeveloperChallenges } from '../../api/user/DeveloperChallengeCollection';
-import { DeveloperInterests } from '../../api/user/DeveloperInterestCollection';
-import { DeveloperTools } from '../../api/user/DeveloperToolCollection';
-import { DeveloperSkills } from '../../api/user/DeveloperSkillCollection';
-import { Developers } from '../../api/user/DeveloperCollection';
+import { ParticipantChallenges } from '../../api/user/ParticipantChallengeCollection';
+import { ParticipantInterests } from '../../api/user/ParticipantInterestCollection';
+import { ParticipantTools } from '../../api/user/ParticipantToolCollection';
+import { ParticipantSkills } from '../../api/user/ParticipantSkillCollection';
+import { Participants } from '../../api/user/ParticipantCollection';
 
 // cacheLimit default is 10, so increased to handle all our subscriptions.
 // expireLimit set to 30 minutes because: why not.
@@ -46,16 +46,16 @@ function withAllSubscriptions(WrappedComponent) {
       allSubs.subscribe(Administrators.getCollectionName()),
       allSubs.subscribe(Challenges.getCollectionName()),
       allSubs.subscribe(ChallengeInterests.getCollectionName()),
-      allSubs.subscribe(DeveloperChallenges.getCollectionName()),
-      allSubs.subscribe(DeveloperInterests.getCollectionName()),
-      allSubs.subscribe(DeveloperSkills.getCollectionName()),
-      allSubs.subscribe(Developers.getCollectionName()),
-      allSubs.subscribe(DeveloperTools.getCollectionName()),
+      allSubs.subscribe(ParticipantChallenges.getCollectionName()),
+      allSubs.subscribe(ParticipantInterests.getCollectionName()),
+      allSubs.subscribe(ParticipantSkills.getCollectionName()),
+      allSubs.subscribe(Participants.getCollectionName()),
+      allSubs.subscribe(ParticipantTools.getCollectionName()),
       allSubs.subscribe(Interests.getCollectionName()),
       allSubs.subscribe(Skills.getCollectionName()),
       allSubs.subscribe(Slugs.getCollectionName()),
       allSubs.subscribe(TeamChallenges.getCollectionName()),
-      allSubs.subscribe(TeamDevelopers.getCollectionName()),
+      allSubs.subscribe(TeamParticipants.getCollectionName()),
       allSubs.subscribe(Teams.getCollectionName()),
       allSubs.subscribe(TeamSkills.getCollectionName()),
       allSubs.subscribe(TeamTools.getCollectionName()),

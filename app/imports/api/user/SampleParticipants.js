@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { Developers } from './DeveloperCollection';
+import { Participants } from './ParticipantCollection';
 import { getRandomDemographicLevel } from '../level/Levels';
 import { makeSampleInterestSlugArray } from '../interest/SampleInterests';
 import { makeSampleToolSlugArray } from '../tool/SampleTools';
@@ -7,11 +7,11 @@ import { makeSampleChallengeSlugArray } from '../challenge/SampleChallenges';
 import { makeSampleSkillSlugArray } from '../skill/SampleSkills';
 
 /**
- * Creates a sample developer.
+ * Creates a sample participant.
  * @return {*}
  * @memberOf test-utilities
  */
-export const makeSampleDeveloper = () => {
+export const makeSampleParticipant = () => {
   const username = faker.internet.email();
   const firstName = faker.name.firstName();
   const lastName = faker.name.lastName();
@@ -25,6 +25,6 @@ export const makeSampleDeveloper = () => {
   const gitHub = faker.internet.url();
   const website = faker.internet.url();
   const aboutMe = faker.lorem.paragraph();
-  return Developers.define({ username, firstName, lastName, demographicLevel,
+  return Participants.define({ username, firstName, lastName, demographicLevel,
     lookingForTeam, challenges, interests, skills, tools, linkedIn, gitHub, website, aboutMe });
 };

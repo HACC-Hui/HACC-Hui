@@ -1,46 +1,46 @@
 import SimpleSchema from 'simpl-schema';
 import BaseCollection from '../base/BaseCollection';
-import { Developers } from './DeveloperCollection';
+import { Participants } from './ParticipantCollection';
 import { Interests } from '../interest/InterestCollection';
 import { ROLE } from '../role/Role';
 
 /**
- * DeveloperInterestCollection, collection of developer-interest pairs.
+ * ParticipantInterestCollection, collection of participant-interest pairs.
  * @extends api/base.BaseCollection
  * @memberOf api/user
  */
-class DeveloperInterestCollection extends BaseCollection {
+class ParticipantInterestCollection extends BaseCollection {
   constructor() {
-    super('DeveloperInterest', new SimpleSchema({
+    super('ParticipantInterest', new SimpleSchema({
       interestID: { type: SimpleSchema.RegEx.Id },
-      developerID: { type: SimpleSchema.RegEx.Id },
+      participantID: { type: SimpleSchema.RegEx.Id },
     }));
   }
 
   /**
    * Defines a new pair.
    * @param interest {String} the interest slug or ID.
-   * @param developer {String} the developer slug or ID.
+   * @param participant {String} the participant slug or ID.
    * @return {String} the ID of the pair.
    */
-  define({ interest, developer }) {
+  define({ interest, participant }) {
     const interestID = Interests.findIdBySlug(interest);
-    const developerID = Developers.findIdBySlug(developer);
-    return this._collection.insert({ interestID, developerID });
+    const participantID = Participants.findIdBySlug(participant);
+    return this._collection.insert({ interestID, participantID });
   }
 
   /**
    * Updates the given pair.
    * @param docID {String} the ID of the pair to update.
    * @param interest {String} the new interest slug or ID.
-   * @param developer {String} the new developer slug or ID.
+   * @param participant {String} the new participant slug or ID.
    * @throws {Meteor.Error} if docID is not defined.
    */
-  update(docID, { interest, developer }) {
+  update(docID, { interest, participant }) {
     this.assertDefined(docID);
     const updateData = {};
-    if (developer) {
-      updateData.developerID = Developers.getID(developer);
+    if (participant) {
+      updateData.participantID = Participants.getID(participant);
     }
     if (interest) {
       updateData.interestID = Interests.getID(interest);
@@ -58,13 +58,13 @@ class DeveloperInterestCollection extends BaseCollection {
   }
 
   /**
-   * Removes all pairs for the given developer.
-   * @param developer {String} the developer slug or ID.
-   * @throws {Meteor.Error} if developer is not defined.
+   * Removes all pairs for the given participant.
+   * @param participant {String} the participant slug or ID.
+   * @throws {Meteor.Error} if participant is not defined.
    */
-  removeDeveloper(developer) {
-    const developerID = Developers.getID(developer);
-    this._collection.remove({ developerID });
+  removeParticipant(participant) {
+    const participantID = Participants.getID(participant);
+    this._collection.remove({ participantID });
   }
 
   /**
@@ -78,14 +78,14 @@ class DeveloperInterestCollection extends BaseCollection {
   }
 
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.PARTICIPANT]);
   }
 
 }
 
 /**
- * Singleton instance of DeveloperInterestCollection
- * @type {api/user.DeveloperInterestCollection}
+ * Singleton instance of ParticipantInterestCollection
+ * @type {api/user.ParticipantInterestCollection}
  * @memberOf api/user
  */
-export const DeveloperInterests = new DeveloperInterestCollection();
+export const ParticipantInterests = new ParticipantInterestCollection();

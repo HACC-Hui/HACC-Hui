@@ -42,18 +42,18 @@ export const sendDM2AdministratorsMethod = new ValidatedMethod({
 });
 
 /**
- * Meteor method used to send direct messages to an individual developer.
- * @param developer {string} the developer's Slack userID.
+ * Meteor method used to send direct messages to an individual participant.
+ * @param participant {string} the participant's Slack userID.
  * @param message {string} the message to send.
  * @type {ValidatedMethod}
  * @memberOf api/slackbot
  */
-export const sendDM2DeveloperMethod = new ValidatedMethod({
-  name: 'slack.sendToDeveloper',
+export const sendDM2ParticipantMethod = new ValidatedMethod({
+  name: 'slack.sendToParticipant',
   mixins: [CallPromiseMixin],
   validate: null,
-  run({ developer, message }) {
-    const { slackUser, dmChannel } = SlackUsers.findDoc({ username: developer });
+  run({ participant, message }) {
+    const { slackUser, dmChannel } = SlackUsers.findDoc({ username: participant });
     const text = `<@${slackUser}> ${message}`;
     (async () => {
       await slackBot.client.chat.postMessage({

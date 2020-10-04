@@ -61,16 +61,16 @@ export const getTeamsWithoutDevpostPageMethod = new ValidatedMethod({
   },
 });
 
-export const developerIsInterestedInJoiningTeamMethod = new ValidatedMethod({
-  name: 'DeveloperInterestedInTeam.method',
+export const participantIsInterestedInJoiningTeamMethod = new ValidatedMethod({
+  name: 'ParticipantInterestedInTeam.method',
   mixins: [CallPromiseMixin],
   validate: null,
-  run({ developer, team }) {
+  run({ participant, team }) {
     if (!this.userId) {
       throw new Meteor.Error('unauthorized', 'You must be logged in to indicate you are interested in a team.');
     }
     if (Meteor.isServer) {
-      WantsToJoin.define({ team, developer });
+      WantsToJoin.define({ team, participant });
     }
   },
 });

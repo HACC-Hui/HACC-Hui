@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid, Header } from 'semantic-ui-react';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
-import { Developers } from '../../../api/user/DeveloperCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import { Teams } from '../../../api/team/TeamCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
@@ -14,10 +14,10 @@ class ListTeamExampleWidget extends React.Component {
     const collectionName = WantsToJoin.getCollectionName();
     const teamDoc = Teams.findDoc(inst.id);
     const team = Slugs.getNameFromID(teamDoc.slugID);
-    const developer = Developers.findDoc({ userID: Meteor.userId() }).username;
+    const participant = Participants.findDoc({ userID: Meteor.userId() }).username;
     const definitionData = {
       team,
-      developer,
+      participant,
     };
     console.log(collectionName, definitionData);
     defineMethod.call({ collectionName, definitionData }, (error) => {

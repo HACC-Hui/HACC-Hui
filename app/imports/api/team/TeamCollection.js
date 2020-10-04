@@ -5,9 +5,9 @@ import { slugify, Slugs } from '../slug/SlugCollection';
 import { TeamChallenges } from './TeamChallengeCollection';
 import { TeamSkills } from './TeamSkillCollection';
 import { TeamTools } from './TeamToolCollection';
-import { TeamDevelopers } from './TeamDeveloperCollection';
+import { TeamParticipants } from './TeamParticipantCollection';
 import { Challenges } from '../challenge/ChallengeCollection';
-import { Developers } from '../user/DeveloperCollection';
+import { Participants } from '../user/ParticipantCollection';
 import { Skills } from '../skill/SkillCollection';
 import { Tools } from '../tool/ToolCollection';
 import { ROLE } from '../role/Role';
@@ -39,15 +39,15 @@ class TeamCollection extends BaseSlugCollection {
    * @param gitHubRepo {String} The team's GitHub Repository, optional.
    * @param devPostPage {String} The team's devpost page, optional.
    * @param owner {String} The team owner.
-   * @param open {boolean} is the team open for developers?
+   * @param open {boolean} is the team open for participants?
    * @param challenges {string[]} the challenges this team wants to work on.
    * @param skills {string[]} the skills this team is looking for.
    * @param tools {string[]} the tools this team wants to use.
-   * @param developers {string[]} the developers on the team.
+   * @param participants {string[]} the participants on the team.
    * @return {string} the id of the team.
    */
   define({ name, description = '', gitHubRepo = '', devPostPage = '',
-           owner, open = true, challenges, skills, tools, developers = [] }) {
+           owner, open = true, challenges, skills, tools, participants = [] }) {
     const team = slugify(name);
     const slugID = Slugs.define({ name: team });
     // check to see if owner is a slug
@@ -64,8 +64,8 @@ class TeamCollection extends BaseSlugCollection {
     _.forEach(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
     _.forEach(skills, (skill) => TeamSkills.define({ team, skill }));
     _.forEach(tools, (tool) => TeamTools.define({ team, tool }));
-    _.forEach(developers, (developer) => TeamDevelopers.define({ team, developer }));
-    TeamDevelopers.define({ team, developer: owner });
+    _.forEach(participants, (participant) => TeamParticipants.define({ team, participant }));
+    TeamParticipants.define({ team, participant: owner });
     return teamID;
   }
 
@@ -78,9 +78,9 @@ class TeamCollection extends BaseSlugCollection {
    * @param challenges {String[]} the new set of challenges (optional).
    * @param skills {String[]} the new set of skills (optional).
    * @param tools {String[]} the new set of tools (optional).
-   * @param developers {String[]} the new set of developers (optional).
+   * @param participants {String[]} the new set of participants (optional).
    */
-  update(docID, { name, description, open, challenges, skills, tools, developers }) {
+  update(docID, { name, description, open, challenges, skills, tools, participants }) {
     this.assertDefined(docID);
     const updateData = {};
     if (name) {
@@ -109,12 +109,12 @@ class TeamCollection extends BaseSlugCollection {
       _.forEach(teamTools, (tT) => TeamTools.removeIt(tT._id));
       _.forEach(tools, (tool) => TeamTools.define({ team, tool }));
     }
-    if (developers) {
+    if (participants) {
       const owner = this.findDoc(docID).owner;
-      const teamDevelopers = TeamDevelopers.find(selector).fetch();
-      _.forEach(teamDevelopers, (tD) => TeamDevelopers.removeIt(tD._id));
-      _.forEach(developers, (developer) => TeamDevelopers.define({ team, developer }));
-      TeamDevelopers.define({ team, developer: owner });
+      const teamParticipants = TeamParticipants.find(selector).fetch();
+      _.forEach(teamParticipants, (tD) => TeamParticipants.removeIt(tD._id));
+      _.forEach(participants, (participant) => TeamParticipants.define({ team, participant }));
+      TeamParticipants.define({ team, participant: owner });
     }
   }
 
@@ -127,20 +127,20 @@ class TeamCollection extends BaseSlugCollection {
     this.assertDefined(docID);
     const team = this.findSlugByID(docID);
     TeamChallenges.removeTeam(team);
-    TeamDevelopers.removeTeam(team);
+    TeamParticipants.removeTeam(team);
     TeamSkills.removeTeam(team);
     TeamTools.removeTeam(team);
     this._collection.remove({ _id: docID });
   }
 
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.PARTICIPANT]);
   }
 
   /**
    * Returns an object representing the given team.
    * @param docID {string} the ID of the team.
-   * @return {{owner: *, skills: Array, challenges: Array, developers: Array, name: *,
+   * @return {{owner: *, skills: Array, challenges: Array, participants: Array, name: *,
    *   description: *, tools: Array, open: *}}
    * @throws {Meteor.Error} if the team isn't defined.
    */
@@ -150,14 +150,14 @@ class TeamCollection extends BaseSlugCollection {
     const selector = { teamID: docID };
     const teamChallenges = TeamChallenges.find(selector).fetch();
     const challenges = _.map(teamChallenges, (tC) => Challenges.findSlugByID(tC.challengeID));
-    const teamDevelopers = TeamDevelopers.find(selector).fetch();
-    const developers = _.map(teamDevelopers, (tD) => Developers.findSlugByID(tD.developerID));
-    const ownerSlug = Developers.findSlugByID(owner);
+    const teamParticipants = TeamParticipants.find(selector).fetch();
+    const participants = _.map(teamParticipants, (tD) => Participants.findSlugByID(tD.participantID));
+    const ownerSlug = Participants.findSlugByID(owner);
     const teamSkills = TeamSkills.find(selector).fetch();
     const skills = _.map(teamSkills, (tS) => Skills.findSlugByID(tS.skillID));
     const teamTools = TeamTools.find(selector).fetch();
     const tools = _.map(teamTools, (tT) => Tools.findSlugByID(tT.toolID));
-    return { name, description, owner: ownerSlug, open, challenges, developers, skills, tools };
+    return { name, description, owner: ownerSlug, open, challenges, participants, skills, tools };
   }
 }
 

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { App } from '@slack/bolt';
 import { isAdminEmail } from '../../api/user/helpers';
-import { Developers } from '../../api/user/DeveloperCollection';
+import { Participants } from '../../api/user/ParticipantCollection';
 import { Administrators } from '../../api/user/AdministratorCollection';
 import { SlackUsers } from '../../api/slackbot/SlackUserCollection';
 
@@ -31,12 +31,12 @@ if (!Meteor.isAppTest) {
       // console.log(profile);
       const { email, first_name, last_name } = profile;
       // console.log(email, first_name, last_name);
-      if (!isAdminEmail(email)) { // they are a developer
-        if (!Developers.isDefined(email)) {
+      if (!isAdminEmail(email)) { // they are a participant
+        if (!Participants.isDefined(email)) {
           const firstName = first_name;
           const lastName = last_name;
           const username = email;
-          const { password } = Developers.define({ username, firstName, lastName });
+          const { password } = Participants.define({ username, firstName, lastName });
           // record this user
           SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
           await say(`

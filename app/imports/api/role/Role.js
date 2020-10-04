@@ -5,13 +5,13 @@ import { Meteor } from 'meteor/meteor';
 /** @namespace api/role */
 
 /**
- * ROLE Provides ROLE.ADMIN and ROLE.DEVELOPER.
- * @type {{DEVELOPER: string, ADMIN: string}}
+ * ROLE Provides ROLE.ADMIN and ROLE.PARTICIPANT.
+ * @type {{PARTICIPANT: string, ADMIN: string}}
  * @memberOf api/role
  */
 export const ROLE = {
   ADMIN: 'ADMIN',
-  DEVELOPER: 'DEVELOPER',
+  PARTICIPANT: 'PARTICIPANT',
 };
 
 /**

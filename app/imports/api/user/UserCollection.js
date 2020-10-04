@@ -2,7 +2,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
-import { Developers } from './DeveloperCollection';
+import { Participants } from './ParticipantCollection';
 import { Administrators } from './AdministratorCollection';
 
 const xkpasswd = require('xkpasswd');
@@ -47,7 +47,7 @@ class UserCollection {
    */
   hasProfile(user) {
     const userID = this.getID(user);
-    return Developers.hasProfile(userID) || Administrators.hasProfile(userID);
+    return Participants.hasProfile(userID) || Administrators.hasProfile(userID);
   }
 
   getProfile(user) {

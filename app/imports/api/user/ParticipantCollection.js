@@ -6,23 +6,23 @@ import { demographicLevels } from '../level/Levels';
 import { Slugs } from '../slug/SlugCollection';
 import { ROLE } from '../role/Role';
 import { Users } from './UserCollection';
-import { DeveloperChallenges } from './DeveloperChallengeCollection';
-import { DeveloperInterests } from './DeveloperInterestCollection';
-import { DeveloperSkills } from './DeveloperSkillCollection';
-import { DeveloperTools } from './DeveloperToolCollection';
+import { ParticipantChallenges } from './ParticipantChallengeCollection';
+import { ParticipantInterests } from './ParticipantInterestCollection';
+import { ParticipantSkills } from './ParticipantSkillCollection';
+import { ParticipantTools } from './ParticipantToolCollection';
 import { Challenges } from '../challenge/ChallengeCollection';
 import { Interests } from '../interest/InterestCollection';
 import { Skills } from '../skill/SkillCollection';
 import { Tools } from '../tool/ToolCollection';
 
 /**
- * DeveloperCollection, collection of HACC-Hui developers.
+ * ParticipantCollection, collection of HACC-Hui participants.
  * @extends api/base.BaseSlugCollection
  * @memberOf api/user
  */
-class DeveloperCollection extends BaseSlugCollection {
+class ParticipantCollection extends BaseSlugCollection {
   constructor() {
-    super('Developer', new SimpleSchema({
+    super('Participant', new SimpleSchema({
       username: { type: String },
       slugID: { type: String },
       firstName: { type: String },
@@ -39,21 +39,21 @@ class DeveloperCollection extends BaseSlugCollection {
   }
 
   /**
-   * Creates a new developer.
-   * @param username {String} the developer's username.
-   * @param firstName {String} the developer's first name.
-   * @param lastName {String} the developer's last name.
-   * @param demographicLevel {String} the developer's demographic level.
-   * @param lookingForTeam {Boolean} if the developer is looking for a team.
-   * @param challenges {String[]} the challenges the developer is interested in.
-   * @param interests {String[]} the developer's interests.
-   * @param skills {String[]} the developer's skills.
-   * @param tools {String[]} the tools the developer is interested in.
-   * @param linkedIn {String} the developer's LinkedIn page (optional).
-   * @param gitHub {String} the developer's GitHub page (optional).
-   * @param website {String} the developer's website (optional).
+   * Creates a new participant.
+   * @param username {String} the participant's username.
+   * @param firstName {String} the participant's first name.
+   * @param lastName {String} the participant's last name.
+   * @param demographicLevel {String} the participant's demographic level.
+   * @param lookingForTeam {Boolean} if the participant is looking for a team.
+   * @param challenges {String[]} the challenges the participant is interested in.
+   * @param interests {String[]} the participant's interests.
+   * @param skills {String[]} the participant's skills.
+   * @param tools {String[]} the tools the participant is interested in.
+   * @param linkedIn {String} the participant's LinkedIn page (optional).
+   * @param gitHub {String} the participant's GitHub page (optional).
+   * @param website {String} the participant's website (optional).
    * @param aboutMe {String} a short description.
-   * @param isCompliant {Boolean} is the developer compliant.
+   * @param isCompliant {Boolean} is the participant compliant.
    * @return {{password: *, profileID: any}|undefined}
    */
   define({
@@ -63,7 +63,7 @@ class DeveloperCollection extends BaseSlugCollection {
            isCompliant = false,
          }) {
     if (Meteor.isServer) {
-      const role = ROLE.DEVELOPER;
+      const role = ROLE.PARTICIPANT;
       const slugID = Slugs.define({ name: username }); // ensure the usernames are unique
       const profileID = this._collection.insert({
         username, slugID, firstName, lastName, demographicLevel,
@@ -72,18 +72,18 @@ class DeveloperCollection extends BaseSlugCollection {
       Slugs.updateEntityID(slugID, profileID);
       const { userID, password } = Users.define({ username, role });
       this._collection.update(profileID, { $set: { userID } });
-      _.forEach(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer: username }));
-      _.forEach(interests, (interest) => DeveloperInterests.define({ interest, developer: username }));
-      _.forEach(skills, (skill) => DeveloperSkills.define({ skill, developer: username }));
-      _.forEach(tools, (tool) => DeveloperTools.define({ tool, developer: username }));
+      _.forEach(challenges, (challenge) => ParticipantChallenges.define({ challenge, participant: username }));
+      _.forEach(interests, (interest) => ParticipantInterests.define({ interest, participant: username }));
+      _.forEach(skills, (skill) => ParticipantSkills.define({ skill, participant: username }));
+      _.forEach(tools, (tool) => ParticipantTools.define({ tool, participant: username }));
       return { profileID, password };
     }
     return undefined;
   }
 
   /**
-   * Updates the developer.
-   * @param docID {String} the ID of the developer to update.
+   * Updates the participant.
+   * @param docID {String} the ID of the participant to update.
    * @param firstName {String} the new first name (optional).
    * @param lastName {String} the new last name (optional).
    * @param demographicLevel {String} the new demographic level (optional).
@@ -132,43 +132,43 @@ class DeveloperCollection extends BaseSlugCollection {
       updateData.isCompliant = isCompliant;
     }
     this._collection.update(docID, { $set: updateData });
-    const developer = this.findSlugByID(docID);
+    const participant = this.findSlugByID(docID);
     if (challenges) {
-      DeveloperChallenges.removeDeveloper(developer);
-      _.forEach(challenges, (challenge) => DeveloperChallenges.define({ challenge, developer }));
+      ParticipantChallenges.removeParticipant(participant);
+      _.forEach(challenges, (challenge) => ParticipantChallenges.define({ challenge, participant }));
     }
     if (interests) {
-      DeveloperInterests.removeDeveloper(developer);
-      _.forEach(interests, (interest) => DeveloperInterests.define({ interest, developer }));
+      ParticipantInterests.removeParticipant(participant);
+      _.forEach(interests, (interest) => ParticipantInterests.define({ interest, participant }));
     }
     if (skills) {
-      DeveloperSkills.removeDeveloper(developer);
-      _.forEach(skills, (skill) => DeveloperSkills.define({ skill, developer }));
+      ParticipantSkills.removeParticipant(participant);
+      _.forEach(skills, (skill) => ParticipantSkills.define({ skill, participant }));
     }
     if (tools) {
-      DeveloperTools.removeDeveloper(developer);
-      _.forEach(tools, (tool) => DeveloperTools.define({ tool, developer }));
+      ParticipantTools.removeParticipant(participant);
+      _.forEach(tools, (tool) => ParticipantTools.define({ tool, participant }));
     }
   }
 
   /**
-   * Removes the developer.
-   * @param docID {String} the ID of the developer.
+   * Removes the participant.
+   * @param docID {String} the ID of the participant.
    * @throws {Meteor.Error} if the docID is not defined.
    */
   removeIt(docID) {
     this.assertDefined(docID);
-    const developer = this.findSlugByID(docID);
-    DeveloperChallenges.removeDeveloper(developer);
-    DeveloperInterests.removeDeveloper(developer);
-    DeveloperSkills.removeDeveloper(developer);
-    DeveloperTools.removeDeveloper(developer);
+    const participant = this.findSlugByID(docID);
+    ParticipantChallenges.removeParticipant(participant);
+    ParticipantInterests.removeParticipant(participant);
+    ParticipantSkills.removeParticipant(participant);
+    ParticipantTools.removeParticipant(participant);
     super.removeIt(docID);
   }
 
   /**
-   * Returns an object representing the developer.
-   * @param docID {String} the ID of the developer.
+   * Returns an object representing the participant.
+   * @param docID {String} the ID of the participant.
    * @return {{lastName: *, website: *, gitHub: *, challenges: Array, demographicLevel: *,
    * lookingForTeam: *, linkedIn: *, tools: Array, isCompliant: *, aboutMe: *, skills: Array,
    * firstName: *, interests: Array, username: *}}
@@ -179,14 +179,14 @@ class DeveloperCollection extends BaseSlugCollection {
       username, firstName, lastName, demographicLevel, lookingForTeam,
       linkedIn, gitHub, website, aboutMe, isCompliant,
     } = this.findDoc(docID);
-    const selector = { developerID: docID };
-    const devChallenges = DeveloperChallenges.find(selector).fetch();
+    const selector = { participantID: docID };
+    const devChallenges = ParticipantChallenges.find(selector).fetch();
     const challenges = _.map(devChallenges, (dC) => Challenges.findSlugByID(dC.challengeID));
-    const devInterests = DeveloperInterests.find(selector).fetch();
+    const devInterests = ParticipantInterests.find(selector).fetch();
     const interests = _.map(devInterests, (dI) => Interests.findSlugByID(dI.interestID));
-    const devSkills = DeveloperSkills.find(selector).fetch();
+    const devSkills = ParticipantSkills.find(selector).fetch();
     const skills = _.map(devSkills, (dS) => Skills.findSlugByID(dS.skillID));
-    const devTools = DeveloperTools.find(selector).fetch();
+    const devTools = ParticipantTools.find(selector).fetch();
     const tools = _.map(devTools, (dT) => Tools.findSlugByID(dT.toolID));
     return {
       username, firstName, lastName, demographicLevel, lookingForTeam, isCompliant,
@@ -206,7 +206,7 @@ class DeveloperCollection extends BaseSlugCollection {
   }
 
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.PARTICIPANT]);
   }
 
   /**
@@ -229,8 +229,8 @@ class DeveloperCollection extends BaseSlugCollection {
 }
 
 /**
- * Singleton instance of the DeveloperCollection.
- * @type {api/user.DeveloperCollection}
+ * Singleton instance of the ParticipantCollection.
+ * @type {api/user.participantCollection}
  * @memberOf api/user
  */
-export const Developers = new DeveloperCollection();
+export const Participants = new ParticipantCollection();

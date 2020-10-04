@@ -1,6 +1,6 @@
 import './TeamChallengeCollection';
 import './TeamCollection';
 import './TeamCollection.methods';
-import './TeamDeveloperCollection';
+import './TeamParticipantCollection';
 import './TeamSkillCollection';
 import './TeamToolCollection';

@@ -4,17 +4,21 @@ import { Participants } from '../user/ParticipantCollection';
 import { Teams } from './TeamCollection';
 import { ROLE } from '../role/Role';
 
-class WantToJoinCollection extends BaseCollection {
-
+/**
+ * Collection of team-participant pairs.
+ * @extends api/base.BaseCollection
+ * @memberOf api/team
+ */
+class TeamParticipantCollection extends BaseCollection {
   constructor() {
-    super('WantToJoin', new SimpleSchema({
+    super('TeamParticipant', new SimpleSchema({
       teamID: { type: SimpleSchema.RegEx.Id },
       participantID: { type: SimpleSchema.RegEx.Id },
     }));
   }
 
   /**
-   * Defines a participant - team pair indicating the participant wishes to join the team.
+   * Creates a team-participant pair.
    * @param team {String} team slug or ID.
    * @param participant {String} participant slug or ID.
    * @return {String} the ID of the pair.
@@ -78,4 +82,9 @@ class WantToJoinCollection extends BaseCollection {
 
 }
 
-export const WantsToJoin = new WantToJoinCollection();
+/**
+ * Singleton instance of the TeamParticipantCollection.
+ * @type {api/team.TeamParticipantCollection}
+ * @memberOf api/team
+ */
+export const TeamParticipants = new TeamParticipantCollection();

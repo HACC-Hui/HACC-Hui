@@ -21,7 +21,7 @@ import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
-import { Developers } from '../../../api/user/DeveloperCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
@@ -67,7 +67,7 @@ class TeamCreation extends React.Component {
     const challengesArr = this.props.challenges;
     const challengesObj = [];
 
-    const owner = Developers.findDoc({ userID: Meteor.userId() }).username;
+    const owner = Participants.findDoc({ userID: Meteor.userId() }).username;
 
     const {
       name, description, challenges, skills, tools, image,
@@ -208,7 +208,7 @@ TeamCreation.propTypes = {
   challenges: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
-  developers: PropTypes.array.isRequired,
+  participants: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
 
 };
@@ -217,14 +217,14 @@ export default withTracker(() => {
   const subscriptionChallenges = Challenges.subscribe();
   const subscriptionSkills = Skills.subscribe();
   const subscriptionTools = Tools.subscribe();
-  const subscriptionDevelopers = Developers.subscribe();
+  const subscriptionParticipants = Participants.subscribe();
 
   return {
     challenges: Challenges.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
-    developers: Developers.find({}).fetch(),
+    participants: Participants.find({}).fetch(),
     // eslint-disable-next-line max-len
-    ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready() && subscriptionDevelopers.ready(),
+    ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready() && subscriptionParticipants.ready(),
   };
 })(TeamCreation);

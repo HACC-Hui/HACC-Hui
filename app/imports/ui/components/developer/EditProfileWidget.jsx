@@ -8,15 +8,15 @@ import SimpleSchema from 'simpl-schema';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, BoolField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
 import Swal from 'sweetalert2';
-import { Developers } from '../../../api/user/DeveloperCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Interests } from '../../../api/interest/InterestCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
-import { DeveloperChallenges } from '../../../api/user/DeveloperChallengeCollection';
-import { DeveloperInterests } from '../../../api/user/DeveloperInterestCollection';
-import { DeveloperSkills } from '../../../api/user/DeveloperSkillCollection';
-import { DeveloperTools } from '../../../api/user/DeveloperToolCollection';
+import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
+import { ParticipantInterests } from '../../../api/user/ParticipantInterestCollection';
+import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
+import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 import { demographicLevels, skillAndToolLevels } from '../../../api/level/Levels';
 import MultiSelectField from '../form-fields/MultiSelectField';
@@ -62,7 +62,7 @@ class EditProfileWidget extends React.Component {
   }
 
   buildTheModel() {
-    const model = this.props.developer;
+    const model = this.props.participant;
     model.challenges = _.map(this.props.devChallenges, (challenge) => {
       const c = Challenges.findDoc(challenge.challengeID);
       return Slugs.getNameFromID(c.slugID);
@@ -92,7 +92,7 @@ class EditProfileWidget extends React.Component {
 
   submit(data) {
     // console.log('submit', data);
-    let collectionName = Developers.getCollectionName();
+    let collectionName = Participants.getCollectionName();
     let updateData = {};
     // firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
     //     skills, tools, linkedIn, gitHub, website, aboutMe,
@@ -151,13 +151,13 @@ class EditProfileWidget extends React.Component {
         });
       }
     });
-    const developerID = data._id;
+    const participantID = data._id;
     if (data.skills) {
       // update the level of the tools
       data.skills.forEach((s) => {
         const skillID = Slugs.getEntityID(s.slug);
-        const doc = DeveloperSkills.findDoc({ developerID, skillID });
-        collectionName = DeveloperSkills.getCollectionName();
+        const doc = ParticipantSkills.findDoc({ participantID, skillID });
+        collectionName = ParticipantSkills.getCollectionName();
         updateData = {};
         updateData.id = doc._id;
         updateData.skillLevel = s.level;
@@ -172,8 +172,8 @@ class EditProfileWidget extends React.Component {
       // update the level of the tools
       data.tools.forEach((t) => {
         const toolID = Slugs.getEntityID(t.slug);
-        const doc = DeveloperTools.findDoc({ developerID, toolID });
-        collectionName = DeveloperTools.getCollectionName();
+        const doc = ParticipantTools.findDoc({ participantID, toolID });
+        collectionName = ParticipantTools.getCollectionName();
         updateData = {};
         updateData.id = doc._id;
         updateData.toolLevel = t.level;
@@ -370,7 +370,7 @@ class EditProfileWidget extends React.Component {
     // console.log(model, schema);
     return (
         <Segment>
-          <Header dividing>Edit Developer Profile</Header>
+          <Header dividing>Edit Profile</Header>
           <AutoForm schema={formSchema} model={model} onSubmit={this.submit}>
             <Form.Group widths="equal">
               <TextField name="username" disabled />
@@ -418,7 +418,7 @@ EditProfileWidget.propTypes = {
   allTools: PropTypes.arrayOf(
       PropTypes.object,
   ),
-  developer: PropTypes.object.isRequired,
+  participant: PropTypes.object.isRequired,
   devChallenges: PropTypes.arrayOf(
       PropTypes.object,
   ),
@@ -438,18 +438,18 @@ export default withTracker(() => {
   const allInterests = Interests.find({}).fetch();
   const allSkills = Skills.find({}).fetch();
   const allTools = Tools.find({}).fetch();
-  const developer = Developers.findDoc({ userID: Meteor.userId() });
-  const developerID = developer._id;
-  const devChallenges = DeveloperChallenges.find({ developerID }).fetch();
-  const devInterests = DeveloperInterests.find({ developerID }).fetch();
-  const devSkills = DeveloperSkills.find({ developerID }).fetch();
-  const devTools = DeveloperTools.find({ developerID }).fetch();
+  const participant = Participants.findDoc({ userID: Meteor.userId() });
+  const participantID = participant._id;
+  const devChallenges = ParticipantChallenges.find({ participantID }).fetch();
+  const devInterests = ParticipantInterests.find({ participantID }).fetch();
+  const devSkills = ParticipantSkills.find({ participantID }).fetch();
+  const devTools = ParticipantTools.find({ participantID }).fetch();
   return {
     allChallenges,
     allInterests,
     allSkills,
     allTools,
-    developer,
+    participant,
     devChallenges,
     devInterests,
     devSkills,

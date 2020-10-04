@@ -1,20 +1,20 @@
 import SimpleSchema from 'simpl-schema';
 import BaseCollection from '../base/BaseCollection';
-import { Developers } from './DeveloperCollection';
+import { Participants } from './ParticipantCollection';
 import { Tools } from '../tool/ToolCollection';
 import { skillAndToolLevels } from '../level/Levels';
 import { ROLE } from '../role/Role';
 
 /**
- * DeveloperToolCollection, collection of developer-tool-toolLevel tuples.
+ * ParticipantToolCollection, collection of participant-tool-toolLevel tuples.
  * @extends api/base.BaseCollection
  * @memberOf api/user
  */
-class DeveloperToolCollection extends BaseCollection {
+class ParticipantToolCollection extends BaseCollection {
   constructor() {
-    super('DeveloperTool', new SimpleSchema({
+    super('ParticipantTool', new SimpleSchema({
       toolID: { type: SimpleSchema.RegEx.Id },
-      developerID: { type: SimpleSchema.RegEx.Id },
+      participantID: { type: SimpleSchema.RegEx.Id },
       toolLevel: { type: String, allowedValues: skillAndToolLevels, optional: true },
     }));
   }
@@ -22,28 +22,28 @@ class DeveloperToolCollection extends BaseCollection {
   /**
    * Defines a new tuple.
    * @param tool {String} tool slug or ID.
-   * @param developer {String} developer slug or ID.
+   * @param participant {String} participant slug or ID.
    * @return {String} the ID of the new tuple.
    */
-  define({ tool, developer }) {
+  define({ tool, participant }) {
     const toolID = Tools.findIdBySlug(tool);
-    const developerID = Developers.findIdBySlug(developer);
-    return this._collection.insert({ toolID, developerID });
+    const participantID = Participants.findIdBySlug(participant);
+    return this._collection.insert({ toolID, participantID });
   }
 
   /**
    * Updates the given tuple.
    * @param docID {String} the ID of the tuple to update.
    * @param tool {String} the new tool slug or ID (optional).
-   * @param developer {String} the new developer slug or ID (optional).
+   * @param participant {String} the new participant slug or ID (optional).
    * @param toolLevel {String} the new toolLevel (optional).
    * @throws {Meteor.Error} if docID is not defined.
    */
-  update(docID, { tool, developer, toolLevel }) {
+  update(docID, { tool, participant, toolLevel }) {
     this.assertDefined(docID);
     const updateData = {};
-    if (developer) {
-      updateData.developerID = Developers.getID(developer);
+    if (participant) {
+      updateData.participantID = Participants.getID(participant);
     }
     if (tool) {
       updateData.toolID = Tools.getID(tool);
@@ -64,13 +64,13 @@ class DeveloperToolCollection extends BaseCollection {
   }
 
   /**
-   * Removes all tuples for the given developer.
-   * @param developer {String} the developer slug or ID.
-   * @throws {Meteor.Error} if developer is not defined.
+   * Removes all tuples for the given participant.
+   * @param participant {String} the participant slug or ID.
+   * @throws {Meteor.Error} if participant is not defined.
    */
-  removeDeveloper(developer) {
-    const developerID = Developers.getID(developer);
-    this._collection.remove({ developerID });
+  removeParticipant(participant) {
+    const participantID = Participants.getID(participant);
+    this._collection.remove({ participantID });
   }
 
   /**
@@ -84,14 +84,14 @@ class DeveloperToolCollection extends BaseCollection {
   }
 
   assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.PARTICIPANT]);
   }
 
 }
 
 /**
- * Singleton instance of DeveloperToolCollection.
- * @type {api/user.DeveloperToolCollection}
+ * Singleton instance of ParticipantToolCollection.
+ * @type {api/user.ParticipantToolCollection}
  * @memberOf api/user
  */
-export const DeveloperTools = new DeveloperToolCollection();
+export const ParticipantTools = new ParticipantToolCollection();
