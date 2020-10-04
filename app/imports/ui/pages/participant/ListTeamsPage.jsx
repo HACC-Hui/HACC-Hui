@@ -1,6 +1,6 @@
 import React from 'react';
 import withAllSubscriptions from '../../layouts/AllSubscriptionsHOC';
-import ListTeamsWidget from '../../components/developer/ListTeamsWidget';
+import ListTeamsWidget from '../../components/participant/ListTeamsWidget';
 
 class ListTeamsPage extends React.Component {
   render() {

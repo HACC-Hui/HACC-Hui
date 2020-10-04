@@ -16,20 +16,20 @@ import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
 import withAllSubscriptions from './AllSubscriptionsHOC';
 import { ROLE } from '../../api/role/Role';
-import AgePage from '../pages/developer/AgePage';
-import ParticipationForm from '../pages/developer/ParticipationForm';
-import UnderParticipationForm from '../pages/developer/UnderParticipationForm';
-import Dprofile from '../pages/developer/Dprofile';
-import TeamCreation from '../pages/developer/TeamCreation';
+import AgePage from '../pages/participant/AgePage';
+import ParticipationForm from '../pages/participant/ParticipationForm';
+import UnderParticipationForm from '../pages/participant/UnderParticipationForm';
+import Dprofile from '../pages/participant/Dprofile';
+import TeamCreation from '../pages/participant/TeamCreation';
 import { ROUTES } from '../../startup/client/route-constants';
-import DeleteForm from '../pages/developer/DeleteForm';
+import DeleteForm from '../pages/participant/DeleteForm';
 import ConfigureHACC from '../pages/administrator/ConfigureHACC';
 import AddChallenge from '../pages/administrator/AddChallenge';
 import AddSkill from '../pages/administrator/AddSkill';
 import AddTool from '../pages/administrator/AddTool';
 import DumpDatabase from '../pages/administrator/DumpDatabase';
-import EditProfilePage from '../pages/developer/EditProfilePage';
-import ListTeamsPage from '../pages/developer/ListTeamsPage';
+import EditProfilePage from '../pages/participant/EditProfilePage';
+import ListTeamsPage from '../pages/participant/ListTeamsPage';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
