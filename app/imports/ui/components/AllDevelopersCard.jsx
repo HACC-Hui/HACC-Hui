@@ -9,12 +9,14 @@ import {
   Button,
     Dropdown,
 } from 'semantic-ui-react';
+import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { Developers } from '../../api/user/DeveloperCollection';
+import { TeamDevelopers } from '../../api/team/TeamDeveloperCollection';
 
 class AllDevelopersCard extends React.Component {
   /*
@@ -28,32 +30,6 @@ class AllDevelopersCard extends React.Component {
    */
 
   state = {};
-
-  handleChange(dID, { value }, e) {
-    console.log(e);
-    console.log(e.value);
-    console.log(dID);
-    if (e.value !== 'Select a Team') {
-      // console.log(tID);
-      // console.log(dID);
-      const thisTeam = Teams.findDoc({ name: e.value })._id;
-      const devID = Developers.findDoc({ _id: dID }).username;
-      // console.log(thisTeam);
-      const definitionData = { team: thisTeam, developer: devID };
-      const collectionName = TeamInvitations.getCollectionName();
-      // console.log(collectionName);
-      defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
-          (error) => {
-            if (error) {
-              swal('Error', error.message, 'error');
-              console.error(error.message);
-            } else {
-              swal('Success', 'Invitation sent successfully', 'success');
-              console.log('Success');
-            }
-          });
-    }
-  }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
@@ -81,6 +57,74 @@ class AllDevelopersCard extends React.Component {
     }
 
     const options = setOptions();
+
+    function handleChange(dID, { value }, e) {
+      console.log(e);
+      console.log(e.value);
+      console.log(dID);
+      if (e.value !== 'Select a Team') {
+        // console.log(tID);
+        // console.log(dID);
+        const thisTeam = Teams.findDoc({ name: e.value })._id;
+        const devID = Developers.findDoc({ _id: dID }).username;
+        // console.log(thisTeam);
+        const definitionData = { team: thisTeam, developer: devID };
+        const collectionName = TeamInvitations.getCollectionName();
+        // console.log(collectionName);
+        console.log(thisTeam);
+        if (typeof TeamDevelopers.findOne({
+          teamID: thisTeam,
+          developerID: dID,
+        }) !== 'undefined') {
+          console.log('already in team');
+          swal('Error',
+              `Sorry, participant ${devID} is already in this team!`,
+              'error');
+          return;
+        }
+        /* console.log(typeof TeamDevelopers.findOne({
+          teamID: thisTeam,
+          developerID: dID,
+        }) !== 'undefined');
+        console.log(typeof TeamDevelopers.findOne({
+          teamID: thisTeam,
+          developerID: dID,
+        }));
+         */
+
+        if (typeof TeamInvitations.findOne({
+          teamID: thisTeam,
+          developerID: dID,
+        }) !== 'undefined') {
+          console.log('already invited');
+          swal('Error',
+              `Sorry, participant ${devID} has already been sent an invitation!`,
+              'error');
+          return;
+        }
+
+        console.log(typeof TeamInvitations.findOne({
+          teamID: thisTeam,
+          developerID: dID,
+        }) !== 'undefined');
+
+        console.log(typeof TeamInvitations.findOne({
+          teamID: thisTeam,
+          developerID: dID,
+        }));
+
+        defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+            (error) => {
+              if (error) {
+                swal('Error', error.message, 'error');
+                console.error(error.message);
+              } else {
+                swal('Success', 'Invitation sent successfully', 'success');
+                console.log('Success');
+              }
+            });
+      }
+    }
 
     return (
         <Item onMouseEnter={changeBackground} onMouseLeave={onLeave}
@@ -124,7 +168,7 @@ class AllDevelopersCard extends React.Component {
                         <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
                         <Dropdown
                             className='button icon'
-                            onChange={this.handleChange.bind(this, this.props.devID)}
+                            onChange={handleChange.bind(this, this.props.devID)}
                             options={options}
                             trigger={<></>}
                             style={{ backgroundColor: 'transparent' }}
@@ -182,7 +226,7 @@ class AllDevelopersCard extends React.Component {
                 <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
                 <Dropdown
                     className='button icon'
-                    onChange={this.handleChange.bind(this, this.props.devID)}
+                    onChange={handleChange.bind(this, this.props.devID)}
                     options={options}
                     trigger={<></>}
                     style={{ backgroundColor: 'transparent' }}
@@ -204,4 +248,12 @@ AllDevelopersCard.propTypes = {
   challenges: PropTypes.array.isRequired,
   developers: PropTypes.object.isRequired,
 };
-export default AllDevelopersCard;
+export default withTracker(() => {
+  const invitationSub = TeamInvitations.subscribe();
+
+  return {
+    teamInvitation: TeamInvitations.find({}).fetch(),
+    // eslint-disable-next-line max-len
+    ready: invitationSub.ready(),
+  };
+})(AllDevelopersCard);
