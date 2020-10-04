@@ -7,10 +7,6 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
-import ListStuff from '../pages/ListStuff';
-import ListStuffAdmin from '../pages/ListStuffAdmin';
-import AddStuff from '../pages/AddStuff';
-import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
@@ -23,13 +19,16 @@ import Dprofile from '../pages/participant/Dprofile';
 import TeamCreation from '../pages/participant/TeamCreation';
 import { ROUTES } from '../../startup/client/route-constants';
 import DeleteForm from '../pages/participant/DeleteForm';
-import ConfigureHACC from '../pages/administrator/ConfigureHACC';
 import AddChallenge from '../pages/administrator/AddChallenge';
 import AddSkill from '../pages/administrator/AddSkill';
 import AddTool from '../pages/administrator/AddTool';
 import DumpDatabase from '../pages/administrator/DumpDatabase';
 import EditProfilePage from '../pages/participant/EditProfilePage';
 import ListTeamsPage from '../pages/participant/ListTeamsPage';
+import ConfigureHaccPage from '../pages/administrator/ConfigureHaccPage';
+import EditChallengePage from '../pages/administrator/EditChallengePage';
+import EditToolPage from '../pages/administrator/EditToolPage';
+import EditSkillPage from '../pages/administrator/EditSkillPage';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -52,14 +51,13 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreation} />
               <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
-              <ProtectedRoute path="/list" component={ListStuff} />
-              <ProtectedRoute path="/add" component={AddStuff} />
-              <ProtectedRoute path="/edit/:_id" component={EditStuff} />
-              <AdminProtectedRoute path="/admin" component={ListStuffAdmin} />
-              <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHACC} />
+              <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
               <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
               <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
               <AdminProtectedRoute path={ROUTES.ADD_TOOL} component={AddTool} />
+              <AdminProtectedRoute path={ROUTES.EDIT_CHALLENGE} component={EditChallengePage}/>
+              <AdminProtectedRoute path={ROUTES.EDIT_TOOL} component={EditToolPage}/>
+              <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkillPage}/>
               <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
               <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
               <Route component={NotFound} />
