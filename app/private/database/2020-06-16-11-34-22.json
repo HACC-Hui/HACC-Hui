@@ -1,6 +1,6 @@
 {
   "timestamp": "2020-06-16T21:34:22.874Z",
-  "collections" : [
+  "collections": [
     {
       "name": "AdministratorCollection",
       "contents": []
@@ -11,36 +11,40 @@
         {
           "title": "HGIA Green Loan Portal",
           "description": "Leveraging and integrating existing solutions (such as Salesforce, etc.) to provide our applicants with a more intuitive, customer friendly and timely experience with government loan programs.",
-          "interests": ["community-engagement"],
+          "interests": [
+            "community-engagement"
+          ],
           "submissionDetail": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/Challenge-Submission-Form_2019_HGIA_Final.pdf",
           "pitch": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/HGIA_Green_Loan.pdf"
         },
         {
           "title": "ETS/HGG Community Engagement & Digital Storytelling",
           "description": "Using data to better communicate a story and foster community engagement and participation in achieving the goals of the Aloha+ Dashboard.",
-          "interests": ["community-engagement"],
+          "interests": [
+            "community-engagement"
+          ],
           "submissionDetail": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/ETS-HGG-HACC-Challenge-Submission-Form-2019-community-engagement-resilience_v2.pdf",
           "pitch": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/HGG-ETS_Digital_Story.pdf"
         },
         {
           "title": "Energy/HECO Electric Vehicle Charging Analysis",
           "description": "a dashboard displaying health of charging station shall be updated every 5-10 minutes using key metrics developed from charging data analysis. A utilization tracker shall include a “congestion” threshold at which a new station in the same location is needed. The impact from EV charging would better inform stakeholders the amount of power used during various times of day by EVs and the corresponding reductions in fossil fuel use and in GHG emissions.",
-          "interests": ["sustainability"],
+          "interests": [
+            "sustainability"
+          ],
           "submissionDetail": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/HECOChallengeSubmissionForm_2019.pdf",
           "pitch": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/EV-charge-station.pdf"
         },
         {
           "title": "DOE Aloha+ Curricular Database",
           "description": "Curricular development is often done in silos and the resources generated from that are scattered across platforms and websites. We also lack a process to certify content to standards and career pathways. If we could construct an OER that enables specialists to certify materials (cross-walked to standards and HĀ policy, aligned to pathways) that would be accessible across educational systems, we could eliminate those silos and potentially create a resource with global impact.",
-          "interests": ["education"],
+          "interests": [
+            "education"
+          ],
           "submissionDetail": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/DOE-HACC-Challenge-Submission-Form_2019.pdf",
           "pitch": "https://hacc.hawaii.gov/wp-content/uploads/2019/10/Aloha-Curricular-Database.pdf"
         }
       ]
-    },
-    {
-      "name": "DeveloperCollection",
-      "contents": []
     },
     {
       "name": "InterestCollection",
@@ -58,6 +62,10 @@
           "description": "Avoidance of the depletion of natural resources in order to maintain an ecological balance."
         }
       ]
+    },
+    {
+      "name": "ParticipantCollection",
+      "contents": []
     },
     {
       "name": "SkillCollection",

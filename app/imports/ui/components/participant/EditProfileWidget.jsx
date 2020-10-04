@@ -65,11 +65,11 @@ class EditProfileWidget extends React.Component {
     const model = this.props.participant;
     model.challenges = _.map(this.props.devChallenges, (challenge) => {
       const c = Challenges.findDoc(challenge.challengeID);
-      return Slugs.getNameFromID(c.slugID);
+      return c.title;
     });
     model.interests = _.map(this.props.devInterests, (interest) => {
       const i = Interests.findDoc(interest.interestID);
-      return Slugs.getNameFromID(i.slugID);
+      return i.name;
     });
     model.skills = _.map(this.props.devSkills, (skill) => {
       // console.log(skill);
@@ -90,8 +90,8 @@ class EditProfileWidget extends React.Component {
     return model;
   }
 
-  submit(data) {
-    // console.log('submit', data);
+  submitData(data) {
+    console.log('submit', data);
     let collectionName = Participants.getCollectionName();
     let updateData = {};
     // firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
@@ -134,7 +134,7 @@ class EditProfileWidget extends React.Component {
     if (data.aboutMe) {
       updateData.aboutMe = data.aboutMe;
     }
-    // console.log(collectionName, updateData);
+    console.log(collectionName, updateData);
     updateMethod.call({ collectionName, updateData }, (error) => {
       if (error) {
         console.error(error);
@@ -151,6 +151,7 @@ class EditProfileWidget extends React.Component {
         });
       }
     });
+    // console.log('after update', data);
     const participantID = data._id;
     if (data.skills) {
       // update the level of the tools
@@ -168,11 +169,13 @@ class EditProfileWidget extends React.Component {
         });
       });
     }
+    // console.log(data.tools);
     if (data.tools) {
       // update the level of the tools
       data.tools.forEach((t) => {
         const toolID = Slugs.getEntityID(t.slug);
         const doc = ParticipantTools.findDoc({ participantID, toolID });
+        // console.log(doc);
         collectionName = ParticipantTools.getCollectionName();
         updateData = {};
         updateData.id = doc._id;
@@ -209,7 +212,7 @@ class EditProfileWidget extends React.Component {
           value: level,
         }
     ));
-    const handleChange = (e, data) => {
+    const handleToolChange = (e, data) => {
       // console.log(e, data);
       const { id, value } = data;
       // change the model.skills with slug = id to value.
@@ -223,12 +226,12 @@ class EditProfileWidget extends React.Component {
       // console.log(model.skills);
       this.setState({ model });
     };
-    const handleDelete = (slug) => () => {
+    const handleToolDelete = (slug) => () => {
       model.tools = _.filter(model.tools, (skill) => skill.slug !== slug);
       // console.log(model.tools);
       this.setState({ model });
     };
-    const handleAdd = () => {
+    const handleToolAdd = () => {
       // console.log('handleAdd');
       // console.log(this.newSkillRef.current.state.value, this.newSkillLevelRef.current.state.value);
       const newTool = this.newToolRef.current.state.value;
@@ -251,11 +254,12 @@ class EditProfileWidget extends React.Component {
     return (
         <React.Fragment>
           <Header dividing size="small">Your tools</Header>
-          {model.tools.map((skill) => (
-              <Form.Group key={skill.slug}>
-                <Form.Field label={getToolName(skill.slug)} />
-                <Dropdown id={skill.slug} options={levelChoices} value={skill.level} onChange={handleChange} />
-                <Button style={style} size="mini" color="red" onClick={handleDelete(skill.slug)}>Delete Tool</Button>
+          {model.tools.map((tool) => (
+              <Form.Group key={tool.slug}>
+                <Form.Field label={getToolName(tool.slug)} />
+                <Dropdown id={tool.slug} options={levelChoices} value={tool.level} onChange={handleToolChange} />
+                <Button style={style} size="mini" color="red"
+                        onClick={handleToolDelete(tool.slug)}>Delete Tool</Button>
               </Form.Group>
           ))}
           {restChoices.length > 0 ? (
@@ -264,7 +268,7 @@ class EditProfileWidget extends React.Component {
                 <Form.Group widths="equal">
                   <Dropdown ref={this.newToolRef} options={restChoices} placeholder="Choose a tool" />
                   <Dropdown ref={this.newToolLevelRef} options={levelChoices} placeholder="Choose a tool level" />
-                  <Button style={style} size="mini" color="teal" onClick={handleAdd}>Add tool</Button>
+                  <Button style={style} size="mini" color="teal" onClick={handleToolAdd}>Add tool</Button>
                 </Form.Group>
               </React.Fragment>
           ) : ''}
@@ -300,7 +304,7 @@ class EditProfileWidget extends React.Component {
         }
     ));
     // console.log(chosen, rest, levelChoices);
-    const handleChange = (e, data) => {
+    const handleSkillChange = (e, data) => {
       // console.log(e, data);
       const { id, value } = data;
       // change the model.skills with slug = id to value.
@@ -318,10 +322,11 @@ class EditProfileWidget extends React.Component {
       const instanceID = Slugs.getEntityID(slug);
       return Skills.findDoc(instanceID).name;
     };
-    const handleAdd = () => {
+    const handleSkillAdd = () => {
       // console.log(this.newSkillRef.current.state.value, this.newSkillLevelRef.current.state.value);
       const newSkill = this.newSkillRef.current.state.value;
       const newLevel = this.newSkillLevelRef.current.state.value;
+      // console.log('handleSkillAdd', newSkill, newLevel);
       if (newSkill && newLevel) {
         const skillDoc = Skills.findDoc({ name: newSkill });
         const skillSlug = Slugs.getNameFromID(skillDoc.slugID);
@@ -332,7 +337,7 @@ class EditProfileWidget extends React.Component {
         this.setState({ model });
       }
     };
-    const handleDelete = (slug) => () => {
+    const handleSkillDelete = (slug) => () => {
       model.skills = _.filter(model.skills, (skill) => skill.slug !== slug);
       this.setState({ model });
     };
@@ -343,8 +348,9 @@ class EditProfileWidget extends React.Component {
           {model.skills.map((skill) => (
               <Form.Group key={skill.slug}>
                 <Form.Field label={getSkillName(skill.slug)} />
-                <Dropdown id={skill.slug} options={levelChoices} value={skill.level} onChange={handleChange} />
-                <Button style={style} size="mini" color="red" onClick={handleDelete(skill.slug)}>Delete Skill</Button>
+                <Dropdown id={skill.slug} options={levelChoices} value={skill.level} onChange={handleSkillChange} />
+                <Button style={style} size="mini" color="red"
+                        onClick={handleSkillDelete(skill.slug)}>Delete Skill</Button>
               </Form.Group>
           ))}
           {restChoices.length > 0 ? (
@@ -353,7 +359,7 @@ class EditProfileWidget extends React.Component {
                 <Form.Group widths="equal">
                   <Dropdown ref={this.newSkillRef} options={restChoices} placeholder="Choose a skill" />
                   <Dropdown ref={this.newSkillLevelRef} options={levelChoices} placeholder="Choose a skill level" />
-                  <Button style={style} size="mini" color="teal" onClick={handleAdd}>Add skill</Button>
+                  <Button style={style} size="mini" color="teal" onClick={handleSkillAdd}>Add skill</Button>
                 </Form.Group>
               </React.Fragment>
           ) : ''}
@@ -367,11 +373,14 @@ class EditProfileWidget extends React.Component {
     const model = this.buildTheModel();
     const schema = this.buildTheFormSchema();
     const formSchema = new SimpleSchema2Bridge(schema);
-    // console.log(model, schema);
+    // console.log('render', model, schema);
     return (
         <Segment>
           <Header dividing>Edit Profile</Header>
-          <AutoForm schema={formSchema} model={model} onSubmit={this.submit}>
+          <AutoForm schema={formSchema} model={model} onSubmit={data => {
+            // console.log(data);
+            this.submitData(data);
+          }}>
             <Form.Group widths="equal">
               <TextField name="username" disabled />
               <BoolField name="isCompliant" disabled />

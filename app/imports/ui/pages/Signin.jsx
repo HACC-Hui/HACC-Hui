@@ -47,10 +47,11 @@ class Signin extends React.Component {
 
   // Render the signin form.
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     let pathname = ROUTES.LANDING;
     if (Participants.isDefined(Meteor.userId())) {
       const dev = Participants.findDoc({ userID: Meteor.userId() });
+      // console.log(dev);
       if (dev.isCompliant) {
         pathname = ROUTES.CREATE_PROFILE;
       } else {

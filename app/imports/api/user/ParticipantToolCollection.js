@@ -40,6 +40,7 @@ class ParticipantToolCollection extends BaseCollection {
    * @throws {Meteor.Error} if docID is not defined.
    */
   update(docID, { tool, participant, toolLevel }) {
+    // console.log('ParticipantTool.update', tool, participant, toolLevel);
     this.assertDefined(docID);
     const updateData = {};
     if (participant) {
