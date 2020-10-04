@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { expect } from 'chai';
+import faker from 'faker';
 import { Participants } from './ParticipantCollection';
 import { demographicLevels } from '../level/Levels';
 import { makeSampleSkillSlugArray } from '../skill/SampleSkills';
@@ -27,9 +28,10 @@ if (Meteor.isServer) {
       const participant = Participants.findOne();
       // console.log(participant);
       const skills = makeSampleSkillSlugArray(3);
+      const firstName = faker.name.firstName();
       const docID = participant._id;
       expect(Participants.isDefined(participant._id)).to.be.true;
-      Participants.update(docID, { skills });
+      Participants.update(docID, { firstName, skills });
       expect(ParticipantSkills.find({ participantID: docID }).fetch()).to.have.lengthOf(3);
     });
   });
