@@ -29,6 +29,7 @@ class TeamCollection extends BaseSlugCollection {
       devPostPage: { type: String, optional: true },
       owner: { type: SimpleSchema.RegEx.Id },
       open: { type: Boolean },
+      affiliation: { type: String, optional: true },
     }));
   }
 
@@ -44,10 +45,13 @@ class TeamCollection extends BaseSlugCollection {
    * @param skills {string[]} the skills this team is looking for.
    * @param tools {string[]} the tools this team wants to use.
    * @param participants {string[]} the participants on the team.
+   * @param affiliation {string} the affiliation for this team, optional.
    * @return {string} the id of the team.
    */
   define({ name, description = '', gitHubRepo = '', devPostPage = '',
-           owner, open = true, challenges, skills, tools, participants = [] }) {
+           owner, open = true, challenges, skills, tools,
+           participants = [], affiliation = '' }) {
+    console.log('TeamCollection.define', name, description, skills, tools, affiliation);
     const team = slugify(name);
     const slugID = Slugs.define({ name: team });
     // check to see if owner is a slug
@@ -58,7 +62,7 @@ class TeamCollection extends BaseSlugCollection {
       ownerID = owner;
     }
     const teamID = this._collection.insert({ name, slugID, description, gitHubRepo, devPostPage,
-      owner: ownerID, open });
+      owner: ownerID, open, affiliation });
     // Connect the Slug to this Interest
     Slugs.updateEntityID(slugID, teamID);
     _.forEach(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
@@ -79,8 +83,9 @@ class TeamCollection extends BaseSlugCollection {
    * @param skills {String[]} the new set of skills (optional).
    * @param tools {String[]} the new set of tools (optional).
    * @param participants {String[]} the new set of participants (optional).
+   * @param affiliation {string} the affiliation for this team, optional.
    */
-  update(docID, { name, description, open, challenges, skills, tools, participants }) {
+  update(docID, { name, description, open, challenges, skills, tools, participants, affiliation }) {
     this.assertDefined(docID);
     const updateData = {};
     if (name) {
@@ -91,6 +96,9 @@ class TeamCollection extends BaseSlugCollection {
     }
     if (_.isBoolean(open)) {
       updateData.open = open;
+    }
+    if (affiliation) {
+      updateData.affiliation = affiliation;
     }
     this._collection.update(docID, { $set: updateData });
     const selector = { teamID: docID };
@@ -146,7 +154,7 @@ class TeamCollection extends BaseSlugCollection {
    */
   dumpOne(docID) {
     this.assertDefined(docID);
-    const { name, description, owner, open } = this.findDoc(docID);
+    const { name, description, owner, open, affiliation } = this.findDoc(docID);
     const selector = { teamID: docID };
     const teamChallenges = TeamChallenges.find(selector).fetch();
     const challenges = _.map(teamChallenges, (tC) => Challenges.findSlugByID(tC.challengeID));
@@ -157,7 +165,7 @@ class TeamCollection extends BaseSlugCollection {
     const skills = _.map(teamSkills, (tS) => Skills.findSlugByID(tS.skillID));
     const teamTools = TeamTools.find(selector).fetch();
     const tools = _.map(teamTools, (tT) => Tools.findSlugByID(tT.toolID));
-    return { name, description, owner: ownerSlug, open, challenges, participants, skills, tools };
+    return { name, description, owner: ownerSlug, open, affiliation, challenges, participants, skills, tools };
   }
 }
 
