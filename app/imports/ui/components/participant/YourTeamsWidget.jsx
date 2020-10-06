@@ -43,10 +43,10 @@ class YourTeamsWidget extends React.Component {
           }
         }
       }
-      console.log(data);
       return data;
     }
 
+    console.log(this.props.teamInvitation)
     if (this.props.teams.length === 0) {
       return (
           <div align={'center'}>
@@ -60,9 +60,7 @@ class YourTeamsWidget extends React.Component {
           </div>
       );
     }
-    console.log(this.props.teams);
-    console.log(this.props.teamInvitation);
-    console.log(this.props.teamParticipants);
+
     return (
         <Grid container doubling relaxed stackable>
           <Grid.Row centered>

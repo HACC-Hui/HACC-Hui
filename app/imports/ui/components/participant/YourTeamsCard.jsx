@@ -101,6 +101,8 @@ class YourTeamsCard extends React.Component {
     const selfUser = Participants.findDoc({ userID: Meteor.userId() }).username;
     for (let i = 0; i < participantList.length; i++) {
       const participantDoc = Participants.findDoc({ username: participantList[i] });
+      console.log(participantDoc)
+      console.log(this.props.teamInvitation)
 
       if (selfUser === participantList[i]) {
         swal('Error',
@@ -120,7 +122,7 @@ class YourTeamsCard extends React.Component {
 
       for (let j = 0; j < this.props.teamInvitation.length; j++) {
         if (this.props.teamInvitation[j].teamID === this.props.teams._id &&
-            this.props.teamInvitation[j].developerID === participantDoc._id) {
+            this.props.teamInvitation[j].participantID === participantDoc._id) {
           swal('Error',
               `Sorry, an invitation to ${participantList[i]} was already issued!`,
               'error');
@@ -131,14 +133,14 @@ class YourTeamsCard extends React.Component {
       // const collectionName = WantsToJoin.getCollectionName();
       const teamDoc = Teams.findDoc(this.props.teams._id);
       const team = Slugs.getNameFromID(teamDoc.slugID);
-      const developer = participantList[i];
+      const participant = participantList[i];
 
       // console.log(developerDoc);
       // console.log(developer);
 
       const definitionData = {
         team,
-        developer,
+        participant,
       };
 
       const collectionName2 = TeamInvitations.getCollectionName();
@@ -184,9 +186,6 @@ class YourTeamsCard extends React.Component {
   render() {
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(schema);
-    console.log(this.props.teams)
-    console.log(this.props.teamParticipants)
-    console.log(this.props.teamInvitation)
 
     return (
         <Item style={{ padding: '0rem 2rem 0rem 2rem' }}>
