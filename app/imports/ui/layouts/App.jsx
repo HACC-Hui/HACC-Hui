@@ -29,6 +29,7 @@ import EditChallengePage from '../pages/administrator/EditChallengePage';
 import EditToolPage from '../pages/administrator/EditToolPage';
 import EditSkillPage from '../pages/administrator/EditSkillPage';
 import CreateTeamPage from '../pages/participant/CreateTeamPage';
+import YourTeams from '../pages/participant/YourTeams';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -51,6 +52,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
               <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
+              <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
               <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
               <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
               <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
