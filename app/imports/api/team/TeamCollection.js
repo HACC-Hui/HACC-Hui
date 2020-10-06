@@ -51,7 +51,7 @@ class TeamCollection extends BaseSlugCollection {
   define({ name, description = '', gitHubRepo = '', devPostPage = '',
            owner, open = true, challenges, skills, tools,
            participants = [], affiliation = '' }) {
-    console.log('TeamCollection.define', name, description, skills, tools, affiliation);
+    // console.log('TeamCollection.define', name, description, skills, tools, affiliation);
     const team = slugify(name);
     const slugID = Slugs.define({ name: team });
     // check to see if owner is a slug
