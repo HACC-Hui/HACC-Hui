@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header, Divider, Loader, Form, Dropdown, Button } from 'semantic-ui-react';
+import { Grid, Segment, Header, Divider, Form, Dropdown, Button } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
@@ -20,11 +20,12 @@ import { Teams } from '../../../api/team/TeamCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
-import { defineMethod } from '../../../api/base/BaseCollection.methods';
+import { defineMethod, updateMethod } from '../../../api/base/BaseCollection.methods';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 import { skillAndToolLevels } from '../../../api/level/Levels';
 import { TeamSkills } from '../../../api/team/TeamSkillCollection';
+import { TeamTools } from '../../../api/team/TeamToolCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -81,14 +82,6 @@ class CreateTeamWidget extends React.Component {
   submit(formData, formRef) {
 
     console.log('CreateTeam.submit', formData, this.props);
-    const skillsArr = this.props.skills;
-    const skillsObj = [];
-
-    const toolsArr = this.props.tools;
-    const toolsObj = [];
-
-    const challengesArr = this.props.challenges;
-    const challengesObj = [];
 
     const owner = Participants.findDoc({ userID: Meteor.userId() }).username;
 
@@ -104,28 +97,28 @@ class CreateTeamWidget extends React.Component {
       // console.log('FALSE');
     }
 
-    _.forEach(formData.skills, (s) => skillsObj.push(s.slug));
-    _.forEach(formData.tools, (t) => toolsObj.push(t.slug));
-    _.forEach((formData.challenges, (c) => {
+    const skillsArr = _.map(skills, (s) => s.slug);
+    const toolsArr = _.map(tools, (t) => t.slug);
+    const challengesArr = _.map(challenges, (c) => {
       const challengeDoc = Challenges.findDoc({ title: c });
-      challengesObj.push(Slugs.getNameFromID(challengeDoc.slugID));
-    }));
+      return Slugs.getNameFromID(challengeDoc.slugID);
+    });
 
     // If the name has special character or space, throw a swal error and return early.
     if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
       swal('Error', 'Sorry, no special characters or space allowed.', 'error');
       return;
     }
-    const collectionName = Teams.getCollectionName();
+    let collectionName = Teams.getCollectionName();
     const definitionData = {
       name,
       description,
       owner,
       open,
       image,
-      challenges: challengesObj,
-      skills: skillsObj,
-      tools: toolsObj,
+      challenges: challengesArr,
+      skills: skillsArr,
+      tools: toolsArr,
     };
     // console.log(collectionName, definitionData);
     defineMethod.call({
@@ -139,20 +132,41 @@ class CreateTeamWidget extends React.Component {
           } else {
             swal('Success', 'Team created successfully', 'success');
             formRef.reset();
-            console.log(result);
-            if (formData.skills) {
-              formData.skills.forEach((s) => {
+            // console.log(result);
+            const teamID = result;
+            if (skills) {
+              skills.forEach((s) => {
                 const skillID = Slugs.getEntityID(s.slug);
-                // const doc = TeamSkills.findDoc()
+                const doc = TeamSkills.findDoc({ teamID, skillID });
+                collectionName = TeamSkills.getCollectionName();
+                const updateData = {};
+                updateData.id = doc._id;
+                updateData.skillLevel = s.level;
+                updateMethod.call({ collectionName, updateData }, (err) => {
+                  if (err) {
+                    console.error(error);
+                  }
+                });
+
               });
             }
-
+            if (tools) {
+              tools.forEach((t) => {
+                const toolID = Slugs.getEntityID(t.slug);
+                const doc = TeamTools.findDoc({ teamID, toolID });
+                collectionName = TeamTools.getCollectionName();
+                const updateData = {};
+                updateData.id = doc._id;
+                updateData.toolLevel = t.level;
+                updateMethod.call({ collectionName, updateData }, (err) => {
+                  if (err) {
+                    console.error(error);
+                  }
+                });
+              });
+            }
           }
         });
-    if (formData.tools) {
-
-    }
-    // console.log(docID);
   }
 
   renderSkills() {
