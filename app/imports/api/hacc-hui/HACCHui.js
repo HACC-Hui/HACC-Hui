@@ -19,6 +19,7 @@ import { ParticipantTools } from '../user/ParticipantToolCollection';
 import { Administrators } from '../user/AdministratorCollection';
 import { SlackUsers } from '../slackbot/SlackUserCollection';
 import { WantsToJoin } from '../team/WantToJoinCollection';
+import { TeamInvitations } from '../team/TeamInvitationCollection';
 
 /** @namespace api/hacc-hui */
 
@@ -30,36 +31,38 @@ class HACCHuiClass {
   constructor() {
     /** Holds all the collections. */
     this.collections = [
-        Administrators,
-        Challenges,
-        ChallengeInterests,
-        Participants,
-        ParticipantChallenges,
-        ParticipantInterests,
-        ParticipantSkills,
-        ParticipantTools,
-        Interests,
-        Skills,
-        SlackUsers,
-        Slugs,
-        Teams,
-        TeamChallenges,
-        TeamParticipants,
-        TeamSkills,
-        TeamTools,
-        Tools,
-        WantsToJoin,
+      Administrators,
+      Challenges,
+      ChallengeInterests,
+      Participants,
+      ParticipantChallenges,
+      ParticipantInterests,
+      ParticipantSkills,
+      ParticipantTools,
+      Interests,
+      Skills,
+      SlackUsers,
+      Slugs,
+      Teams,
+      TeamChallenges,
+      TeamParticipants,
+      TeamSkills,
+      TeamTools,
+      Tools,
+      WantsToJoin,
+      TeamInvitations,
+
     ];
     /** The load sequence for loading fixtures. */
     this.collectionLoadSequence = [
-        Administrators,
-        Interests,
-        Skills,
-        Tools,
-        Challenges,
-        Participants,
-        Teams,
-        SlackUsers,
+      Administrators,
+      Interests,
+      Skills,
+      Tools,
+      Challenges,
+      Participants,
+      Teams,
+      SlackUsers,
     ];
     /** Maps collection name to the collection. */
     this.collectionAssociation = {};
