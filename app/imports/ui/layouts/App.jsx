@@ -30,6 +30,7 @@ import EditToolPage from '../pages/administrator/EditToolPage';
 import EditSkillPage from '../pages/administrator/EditSkillPage';
 import CreateTeamPage from '../pages/participant/CreateTeamPage';
 import YourTeams from '../pages/participant/YourTeams';
+import ProfilePage from '../pages/participant/ProfilePage';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -48,6 +49,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
               <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm} />
               <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={Dprofile} />
+              <ProtectedRoute path={ROUTES.YOUR_PROFILE} component={ProfilePage} />
               <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
               <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
