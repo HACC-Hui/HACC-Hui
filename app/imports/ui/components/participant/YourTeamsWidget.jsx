@@ -46,7 +46,6 @@ class YourTeamsWidget extends React.Component {
       return data;
     }
 
-    console.log(this.props.teamInvitation)
     if (this.props.teams.length === 0) {
       return (
           <div align={'center'}>
@@ -92,7 +91,7 @@ export default withTracker(() => {
   const subscriptionDevelopers = Participants.subscribe();
   const subscriptionTeam = Teams.subscribe();
   const teamDev = TeamParticipants.subscribe();
-  const intivationSub = TeamInvitations.subscribe();
+  const teamInv = TeamInvitations.subscribe();
 
   return {
     teams: Teams.find({ owner: Participants.findDoc({ userID: Meteor.userId() })._id }).fetch(),
@@ -100,6 +99,6 @@ export default withTracker(() => {
     teamParticipants: TeamParticipants.find({}).fetch(),
     teamInvitation: TeamInvitations.find({}).fetch(),
     // eslint-disable-next-line max-len
-    ready: subscriptionDevelopers.ready() && subscriptionTeam.ready() && teamDev.ready() && intivationSub.ready(),
+    ready: subscriptionDevelopers.ready() && subscriptionTeam.ready() && teamDev.ready() && teamInv.ready(),
   };
 })(YourTeamsWidget);

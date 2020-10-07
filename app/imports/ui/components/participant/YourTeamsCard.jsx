@@ -25,7 +25,6 @@ import { Participants } from '../../../api/user/ParticipantCollection';
 import { Teams } from '../../../api/team/TeamCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
-import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 
 const schema = new SimpleSchema({
@@ -67,6 +66,7 @@ class YourTeamsCard extends React.Component {
     const foundParticipants = [];
     const participantList = [];
 
+    // get all participant email and also the ones listed in form
     for (let i = 0; i < participants.length; i++) {
       participantList.push(participants[i].email);
       for (let j = 0; j < participantCollection.length; j++) {
@@ -76,6 +76,7 @@ class YourTeamsCard extends React.Component {
       }
     }
 
+    // difference should be 0 if all the inputted participants are registered via slack
     const notFoundParticipants = _.difference(participantList, foundParticipants);
 
     // console.log('Not Found:', notFoundParticipants);
@@ -101,8 +102,6 @@ class YourTeamsCard extends React.Component {
     const selfUser = Participants.findDoc({ userID: Meteor.userId() }).username;
     for (let i = 0; i < participantList.length; i++) {
       const participantDoc = Participants.findDoc({ username: participantList[i] });
-      console.log(participantDoc)
-      console.log(this.props.teamInvitation)
 
       if (selfUser === participantList[i]) {
         swal('Error',
@@ -120,6 +119,7 @@ class YourTeamsCard extends React.Component {
         return;
       }
 
+      // check to see if the invitation was already issued
       for (let j = 0; j < this.props.teamInvitation.length; j++) {
         if (this.props.teamInvitation[j].teamID === this.props.teams._id &&
             this.props.teamInvitation[j].participantID === participantDoc._id) {
