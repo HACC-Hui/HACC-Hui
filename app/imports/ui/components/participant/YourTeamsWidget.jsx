@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Grid,
   Header,
-  Loader,
   Item,
   Icon,
 } from 'semantic-ui-react';
@@ -17,17 +16,12 @@ import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 import YourTeamsCard from './YourTeamsCard';
 
 /**
- * Renders the Page for adding stuff. **deprecated**
+ * Widget to list teams
  * @memberOf ui/pages
  */
 class YourTeamsWidget extends React.Component {
 
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
-  }
-
-  renderPage() {
 
     const allParticipants = this.props.participants;
     function getTeamParticipants(teamID, teamParticipants) {
@@ -80,7 +74,6 @@ class YourTeamsWidget extends React.Component {
 
 YourTeamsWidget.propTypes = {
   teams: PropTypes.array.isRequired,
-  ready: PropTypes.bool.isRequired,
   teamParticipants: PropTypes.array.isRequired,
   participants: PropTypes.array.isRequired,
   teamInvitation: PropTypes.array.isRequired,
@@ -88,17 +81,16 @@ YourTeamsWidget.propTypes = {
 };
 
 export default withTracker(() => {
-  const subscriptionDevelopers = Participants.subscribe();
-  const subscriptionTeam = Teams.subscribe();
-  const teamDev = TeamParticipants.subscribe();
-  const teamInv = TeamInvitations.subscribe();
+
+  const teams = Teams.find({ owner: Participants.findDoc({ userID: Meteor.userId() })._id }).fetch();
+  const participants = Participants.find({}).fetch();
+  const teamParticipants = TeamParticipants.find({}).fetch();
+  const teamInvitation = TeamInvitations.find({}).fetch();
 
   return {
-    teams: Teams.find({ owner: Participants.findDoc({ userID: Meteor.userId() })._id }).fetch(),
-    participants: Participants.find({}).fetch(),
-    teamParticipants: TeamParticipants.find({}).fetch(),
-    teamInvitation: TeamInvitations.find({}).fetch(),
-    // eslint-disable-next-line max-len
-    ready: subscriptionDevelopers.ready() && subscriptionTeam.ready() && teamDev.ready() && teamInv.ready(),
+    teams,
+    participants,
+    teamParticipants,
+    teamInvitation,
   };
 })(YourTeamsWidget);
