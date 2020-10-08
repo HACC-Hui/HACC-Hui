@@ -32,22 +32,8 @@ class EditProfileWidget extends React.Component {
       const i = Interests.findDoc(interest.interestID);
       return i.name;
     });
-    model.skills = _.map(this.props.devSkills, (skill) => {
-      // console.log(skill);
-      const s = Skills.findDoc(skill.skillID);
-      const ret = {};
-      ret.slug = Slugs.getNameFromID(s.slugID);
-      ret.level = skill.skillLevel;
-      // console.log(ret);
-      return ret;
-    });
-    model.tools = _.map(this.props.devTools, (tool) => {
-      const t = Tools.findDoc(tool.toolID);
-      const ret = {};
-      ret.slug = Slugs.getNameFromID(t.slugID);
-      ret.level = tool.toolLevel;
-      return ret;
-    });
+    model.skills = this.props.devSkills;
+    model.tools = this.props.devTools;
     return model;
   }
 
@@ -59,7 +45,7 @@ class EditProfileWidget extends React.Component {
           <Segment style={paleBlueStyle}>
             <Header dividing>Your Profile</Header>
             <ProfileCard model={model} />
-            <Button><Link to={ROUTES.EDIT_PROFILE}>Edit Profile</Link></Button>
+            <Button color="olive"><Link to={ROUTES.EDIT_PROFILE}>Edit Profile</Link></Button>
           </Segment>
           <Segment>
             <Header dividing>Team Membership</Header>

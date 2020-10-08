@@ -12,7 +12,8 @@ class TeamMembershipWidget extends React.Component {
   render() {
     return (
         <React.Fragment>
-          {this.props.teams.map((team) => (<TeamCard team={team} key={team._id}/>))}
+          {this.props.teams.map((team) => <TeamCard team={team}
+                                                    key={team._id} participantID={this.props.participantID}/>)}
         </React.Fragment>
     );
   }
@@ -22,14 +23,15 @@ TeamMembershipWidget.propTypes = {
   teams: PropTypes.arrayOf(
       PropTypes.object,
   ),
+  participantID: PropTypes.string,
 };
 
 export default withTracker(() => {
   const participantID = Participants.findDoc({ userID: Meteor.userId() })._id;
   const teamParts = TeamParticipants.find({ participantID }).fetch();
   const teams = _.map(teamParts, (tP) => Teams.findDoc(tP.teamID));
-  console.log(Meteor.userId(), teams);
   return {
     teams,
+    participantID,
   };
 })(TeamMembershipWidget);

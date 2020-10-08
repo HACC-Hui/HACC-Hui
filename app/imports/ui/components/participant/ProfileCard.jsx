@@ -1,23 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import { Card, Grid, Header, Icon } from 'semantic-ui-react';
-import { Slugs } from '../../../api/slug/SlugCollection';
-import { Skills } from '../../../api/skill/SkillCollection';
-import { Tools } from '../../../api/tool/ToolCollection';
+import { Card, Grid, Header, Icon, List } from 'semantic-ui-react';
+import SkillItem from './SkillItem';
+import ToolItem from './ToolItem';
 
 class ProfileCard extends React.Component {
   render() {
-    const skillNames = _.map(this.props.model.skills, (s) => {
-      const skillID = Slugs.getEntityID(s.slug);
-      const name = Skills.findDoc(skillID).name;
-      return `${name}: ${s.level}`;
-    });
-    const toolNames = _.map(this.props.model.tools, (t) => {
-      const toolID = Slugs.getEntityID(t.slug);
-      const name = Tools.findDoc(toolID).name;
-      return `${name}: ${t.level}`;
-    });
     return (
         <Card fluid>
           <Card.Content>
@@ -57,11 +45,15 @@ class ProfileCard extends React.Component {
               <Grid.Row>
                 <Grid.Column>
                   <Header size="tiny">Skills</Header>
-                  {skillNames.join(', ')}
+                  <List bulleted>
+                    {this.props.model.skills.map((item) => <SkillItem item={item} key={item._id} />)}
+                  </List>
                 </Grid.Column>
                 <Grid.Column>
                   <Header size="tiny">Tools</Header>
-                  {toolNames.join(', ')}
+                  <List bulleted>
+                    {this.props.model.tools.map((item) => <ToolItem item={item} key={item._id} />)}
+                  </List>
                 </Grid.Column>
               </Grid.Row>
             </Grid>

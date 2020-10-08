@@ -226,6 +226,11 @@ class ParticipantCollection extends BaseSlugCollection {
         || !!this._collection.findOne({ userID: name }));
   }
 
+  getFullName(docID) {
+    this.assertDefined(docID);
+    const { firstName, lastName } = this.findDoc(docID);
+    return `${firstName} ${lastName}`;
+  }
 }
 
 /**
