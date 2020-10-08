@@ -53,7 +53,7 @@ class YourTeamsWidget extends React.Component {
           </div>
       );
     }
-    
+
     return (
         <Grid container doubling relaxed stackable>
           <Grid.Row centered>
