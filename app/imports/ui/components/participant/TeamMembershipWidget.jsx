@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Segment } from 'semantic-ui-react';
 import _ from 'lodash';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 import TeamCard from './TeamCard';
@@ -12,9 +11,9 @@ import { Teams } from '../../../api/team/TeamCollection';
 class TeamMembershipWidget extends React.Component {
   render() {
     return (
-        <Segment>
+        <React.Fragment>
           {this.props.teams.map((team) => (<TeamCard team={team} key={team._id}/>))}
-        </Segment>
+        </React.Fragment>
     );
   }
 }
