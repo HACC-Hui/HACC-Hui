@@ -3,8 +3,9 @@ import { expect } from 'chai';
 import faker from 'faker';
 import { Participants } from './ParticipantCollection';
 import { demographicLevels } from '../level/Levels';
-import { makeSampleSkillSlugArray } from '../skill/SampleSkills';
+import { makeSampleSkillLevelArray, makeSampleSkillSlugArray } from '../skill/SampleSkills';
 import { ParticipantSkills } from './ParticipantSkillCollection';
+import { makeSampleToolLevelArray } from '../tool/SampleTools';
 
 /* eslint prefer-arrow-callback: "off", no-unused-expressions: "off" */
 /* eslint-env mocha */
@@ -17,9 +18,10 @@ if (Meteor.isServer) {
       const lastName = 'Moore';
       const demographicLevel = demographicLevels[0];
       const lookingForTeam = true;
-      const skills = makeSampleSkillSlugArray(2);
+      const skills = makeSampleSkillLevelArray(2);
+      const tools = makeSampleToolLevelArray();
       const { profileID } = Participants.define({ username, firstName, lastName, demographicLevel,
-        lookingForTeam, skills });
+        lookingForTeam, skills, tools });
       expect(Participants.isDefined(profileID)).to.be.true;
       expect(ParticipantSkills.find({ participantID: profileID }).fetch()).to.have.lengthOf(2);
     });

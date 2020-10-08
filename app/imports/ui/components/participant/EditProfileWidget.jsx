@@ -92,8 +92,8 @@ class EditProfileWidget extends React.Component {
 
   submitData(data) {
     console.log('submit', data);
-    let collectionName = Participants.getCollectionName();
-    let updateData = {};
+    const collectionName = Participants.getCollectionName();
+    const updateData = {};
     // firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
     //     skills, tools, linkedIn, gitHub, website, aboutMe,
     updateData.id = data._id;
@@ -117,10 +117,24 @@ class EditProfileWidget extends React.Component {
       });
     }
     if (data.skills) {
-      updateData.skills = data.skills.map((s) => s.slug);
+      updateData.skills = data.skills.map((s) => {
+        const skill = s.slug;
+        const skillLevel = s.level;
+        return {
+          skill,
+          skillLevel,
+        };
+      });
     }
     if (data.tools) {
-      updateData.tools = data.tools.map((t) => t.slug);
+      updateData.tools = data.tools.map((t) => {
+        const tool = t.slug;
+        const toolLevel = t.level;
+        return {
+          tool,
+          toolLevel,
+        };
+      });
     }
     if (data.linkedIn) {
       updateData.linkedIn = data.linkedIn;
@@ -152,41 +166,6 @@ class EditProfileWidget extends React.Component {
       }
     });
     // console.log('after update', data);
-    const participantID = data._id;
-    if (data.skills) {
-      // update the level of the tools
-      data.skills.forEach((s) => {
-        const skillID = Slugs.getEntityID(s.slug);
-        const doc = ParticipantSkills.findDoc({ participantID, skillID });
-        collectionName = ParticipantSkills.getCollectionName();
-        updateData = {};
-        updateData.id = doc._id;
-        updateData.skillLevel = s.level;
-        updateMethod.call({ collectionName, updateData }, (error) => {
-          if (error) {
-            console.error(error);
-          }
-        });
-      });
-    }
-    // console.log(data.tools);
-    if (data.tools) {
-      // update the level of the tools
-      data.tools.forEach((t) => {
-        const toolID = Slugs.getEntityID(t.slug);
-        const doc = ParticipantTools.findDoc({ participantID, toolID });
-        // console.log(doc);
-        collectionName = ParticipantTools.getCollectionName();
-        updateData = {};
-        updateData.id = doc._id;
-        updateData.toolLevel = t.level;
-        updateMethod.call({ collectionName, updateData }, (error) => {
-          if (error) {
-            console.error(error);
-          }
-        });
-      });
-    }
   }
 
   renderTools() {
@@ -378,7 +357,7 @@ class EditProfileWidget extends React.Component {
         <Segment>
           <Header dividing>Edit Profile</Header>
           <AutoForm schema={formSchema} model={model} onSubmit={data => {
-            // console.log(data);
+            console.log(data);
             this.submitData(data);
           }}>
             <Form.Group widths="equal">

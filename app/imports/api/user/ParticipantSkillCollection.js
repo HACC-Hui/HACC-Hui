@@ -23,12 +23,14 @@ class ParticipantSkillCollection extends BaseCollection {
    * Defines a new tuple.
    * @param skill {String} the skill slug or ID.
    * @param participant {String} the participant slug or ID.
+   * @param skillLevel {String} one of the valid skill levels, optional.
    * @return {String} the ID of the tuple.
    */
-  define({ skill, participant }) {
+  define({ skill, participant, skillLevel }) {
+    // console.log('ParticipantSkills.define', skill, participant, skillLevel);
     const skillID = Skills.findIdBySlug(skill);
     const participantID = Participants.findIdBySlug(participant);
-    return this._collection.insert({ skillID, participantID });
+    return this._collection.insert({ skillID, participantID, skillLevel });
   }
 
   /**

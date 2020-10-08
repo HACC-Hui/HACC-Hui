@@ -23,12 +23,14 @@ class TeamToolCollection extends BaseCollection {
    * Defines a new tuple.
    * @param team {String} the team slug or ID.
    * @param tool {String} the tool slug or ID.
+   * @param toolLevel {String} one of the valid tool levels, optional.
    * @return {String} the ID of the new tuple.
    */
-  define({ team, tool }) {
+  define({ team, tool, toolLevel }) {
+    // console.log('TeamTools.define', team, tool, toolLevel);
     const teamID = Teams.findIdBySlug(team);
     const toolID = Tools.findIdBySlug(tool);
-    return this._collection.insert({ teamID, toolID });
+    return this._collection.insert({ teamID, toolID, toolLevel });
   }
 
   /**

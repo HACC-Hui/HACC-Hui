@@ -47,8 +47,8 @@ class ParticipantCollection extends BaseSlugCollection {
    * @param lookingForTeam {Boolean} if the participant is looking for a team.
    * @param challenges {String[]} the challenges the participant is interested in.
    * @param interests {String[]} the participant's interests.
-   * @param skills {String[]} the participant's skills.
-   * @param tools {String[]} the tools the participant is interested in.
+   * @param skills {Object[]} the participant's skills.
+   * @param tools {Object[]} the tools the participant is interested in.
    * @param linkedIn {String} the participant's LinkedIn page (optional).
    * @param gitHub {String} the participant's GitHub page (optional).
    * @param website {String} the participant's website (optional).
@@ -74,8 +74,16 @@ class ParticipantCollection extends BaseSlugCollection {
       this._collection.update(profileID, { $set: { userID } });
       _.forEach(challenges, (challenge) => ParticipantChallenges.define({ challenge, participant: username }));
       _.forEach(interests, (interest) => ParticipantInterests.define({ interest, participant: username }));
-      _.forEach(skills, (skill) => ParticipantSkills.define({ skill, participant: username }));
-      _.forEach(tools, (tool) => ParticipantTools.define({ tool, participant: username }));
+      _.forEach(skills, (s) => {
+        const skill = s.skill;
+        const skillLevel = s.skillLevel;
+        ParticipantSkills.define({ skill, participant: username, skillLevel });
+      });
+      _.forEach(tools, (t) => {
+        const tool = t.tool;
+        const toolLevel = t.toolLevel;
+        ParticipantTools.define({ tool, participant: username, toolLevel });
+      });
       return { profileID, password };
     }
     return undefined;
@@ -90,8 +98,8 @@ class ParticipantCollection extends BaseSlugCollection {
    * @param lookingForTeam {Boolean} the new looking for team value (optional).
    * @param challenges {String[]} the new challenges (optional).
    * @param interests {String[]} the new interests (optional).
-   * @param skills {String[]} the new skills (optional).
-   * @param tools {String[]} the new tools (optional).
+   * @param skills {Object[]} the new skills (optional).
+   * @param tools {Object[]} the new tools (optional).
    * @param linkedIn {String} the new LinkedIn page (optional).
    * @param gitHub {String} the new GitHub page (optional).
    * @param website {String} the new website (optional).
@@ -99,9 +107,11 @@ class ParticipantCollection extends BaseSlugCollection {
    * @param isCompliant {Boolean} the new is compliant value (optional).
    */
   update(docID, {
-    firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
-    skills, tools, linkedIn, gitHub, website, aboutMe, isCompliant,
+    firstName, lastName, demographicLevel, lookingForTeam, challenges,
+    interests, skills, tools, linkedIn, gitHub, website,
+    aboutMe, isCompliant,
   }) {
+    // console.log('Participants.update', skills, tools);
     this.assertDefined(docID);
     const updateData = {};
     if (firstName) {
@@ -143,11 +153,19 @@ class ParticipantCollection extends BaseSlugCollection {
     }
     if (skills) {
       ParticipantSkills.removeParticipant(participant);
-      _.forEach(skills, (skill) => ParticipantSkills.define({ skill, participant }));
+      _.forEach(skills, (s) => {
+        const skill = s.skill;
+        const skillLevel = s.skillLevel;
+        ParticipantSkills.define({ skill, participant, skillLevel });
+      });
     }
     if (tools) {
       ParticipantTools.removeParticipant(participant);
-      _.forEach(tools, (tool) => ParticipantTools.define({ tool, participant }));
+      _.forEach(tools, (t) => {
+        const tool = t.tool;
+        const toolLevel = t.toolLevel;
+        ParticipantTools.define({ tool, participant, toolLevel });
+      });
     }
   }
 
@@ -176,18 +194,33 @@ class ParticipantCollection extends BaseSlugCollection {
   dumpOne(docID) {
     this.assertDefined(docID);
     const {
-      username, firstName, lastName, demographicLevel, lookingForTeam,
+      _id, username, firstName, lastName, demographicLevel, lookingForTeam,
       linkedIn, gitHub, website, aboutMe, isCompliant,
     } = this.findDoc(docID);
-    const selector = { participantID: docID };
+    const selector = { participantID: _id };
     const devChallenges = ParticipantChallenges.find(selector).fetch();
     const challenges = _.map(devChallenges, (dC) => Challenges.findSlugByID(dC.challengeID));
     const devInterests = ParticipantInterests.find(selector).fetch();
     const interests = _.map(devInterests, (dI) => Interests.findSlugByID(dI.interestID));
     const devSkills = ParticipantSkills.find(selector).fetch();
-    const skills = _.map(devSkills, (dS) => Skills.findSlugByID(dS.skillID));
+    const skills = _.map(devSkills, (dS) => {
+      const skill = Skills.findSlugByID(dS.skillID);
+      const skillLevel = dS.skillLevel;
+      return {
+        skill,
+        skillLevel,
+      };
+    });
     const devTools = ParticipantTools.find(selector).fetch();
-    const tools = _.map(devTools, (dT) => Tools.findSlugByID(dT.toolID));
+    const tools = _.map(devTools, (dT) => {
+      const tool = Tools.findSlugByID(dT.toolID);
+      const toolLevel = dT.toolLevel;
+      return {
+        tool,
+        toolLevel,
+      };
+    });
+    // console.log('Participants.dumpOne', docID, skills, tools);
     return {
       username, firstName, lastName, demographicLevel, lookingForTeam, isCompliant,
       linkedIn, gitHub, website, aboutMe, challenges, interests, skills, tools,

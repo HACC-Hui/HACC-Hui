@@ -6,8 +6,8 @@ import faker from 'faker';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Teams } from './TeamCollection';
 import { makeSampleChallengeSlugArray } from '../challenge/SampleChallenges';
-import { makeSampleToolSlugArray } from '../tool/SampleTools';
-import { makeSampleSkillSlugArray } from '../skill/SampleSkills';
+import { makeSampleToolLevelArray } from '../tool/SampleTools';
+import { makeSampleSkillLevelArray } from '../skill/SampleSkills';
 import { makeSampleParticipant } from '../user/SampleParticipants';
 import { TeamChallenges } from './TeamChallengeCollection';
 import { TeamParticipants } from './TeamParticipantCollection';
@@ -37,8 +37,8 @@ if (Meteor.isServer) {
                 const { profileID } = makeSampleParticipant();
                 const owner = profileID;
                 const challenges = makeSampleChallengeSlugArray();
-                const tools = makeSampleToolSlugArray();
-                const skills = makeSampleSkillSlugArray();
+                const tools = makeSampleToolLevelArray();
+                const skills = makeSampleSkillLevelArray();
                 const gitHubRepo = faker.internet.url();
                 const devPostPage = faker.internet.url();
                 const docID = Teams.define({
@@ -46,6 +46,7 @@ if (Meteor.isServer) {
                   devPostPage, challenges, tools, skills,
                 });
                 expect(Teams.isDefined(docID)).to.be.true;
+                // console.log('dump', JSON.stringify(Teams.dumpOne(docID)));
                 const doc = Teams.findDoc(docID);
                 expect(doc.name).to.equal(name);
                 expect(doc.description).to.equal(description);

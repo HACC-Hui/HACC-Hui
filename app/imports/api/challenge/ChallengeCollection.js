@@ -104,10 +104,10 @@ class ChallengeCollection extends BaseSlugCollection {
 
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const { title, description, submissionDetails, pitch } = doc;
-    const challengeInterests = ChallengeInterests.find({ challengeID: docID }).fetch();
+    const { _id, title, description, submissionDetail, pitch } = doc;
+    const challengeInterests = ChallengeInterests.find({ challengeID: _id }).fetch();
     const interests = _.map(challengeInterests, (ci) => Interests.findSlugByID(ci.interestID));
-    return { title, description, interests, submissionDetails, pitch };
+    return { title, description, interests, submissionDetail, pitch };
   }
 }
 

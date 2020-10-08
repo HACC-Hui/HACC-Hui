@@ -20,12 +20,10 @@ import { Teams } from '../../../api/team/TeamCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
-import { defineMethod, updateMethod } from '../../../api/base/BaseCollection.methods';
+import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 import { skillAndToolLevels } from '../../../api/level/Levels';
-import { TeamSkills } from '../../../api/team/TeamSkillCollection';
-import { TeamTools } from '../../../api/team/TeamToolCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -89,7 +87,7 @@ class CreateTeamWidget extends React.Component {
       name, description, challenges, skills, tools, image,
     } = formData;
     let { open } = formData;
-    // console.log(challenges, skills, tools, open);
+    console.log(challenges, skills, tools, open);
     if (open === 'Open') {
       open = true;
     } else {
@@ -97,8 +95,22 @@ class CreateTeamWidget extends React.Component {
       // console.log('FALSE');
     }
 
-    const skillsArr = _.map(skills, (s) => s.slug);
-    const toolsArr = _.map(tools, (t) => t.slug);
+    const skillsArr = _.map(skills, (s) => {
+      const skill = s.slug;
+      const skillLevel = s.level;
+      return {
+        skill,
+        skillLevel,
+      };
+    });
+    const toolsArr = _.map(tools, (t) => {
+      const tool = t.slug;
+      const toolLevel = t.level;
+      return {
+        tool,
+        toolLevel,
+      };
+    });
     const challengesArr = _.map(challenges, (c) => {
       const challengeDoc = Challenges.findDoc({ title: c });
       return Slugs.getNameFromID(challengeDoc.slugID);
@@ -109,7 +121,7 @@ class CreateTeamWidget extends React.Component {
       swal('Error', 'Sorry, no special characters or space allowed.', 'error');
       return;
     }
-    let collectionName = Teams.getCollectionName();
+    const collectionName = Teams.getCollectionName();
     const definitionData = {
       name,
       description,
@@ -120,12 +132,12 @@ class CreateTeamWidget extends React.Component {
       skills: skillsArr,
       tools: toolsArr,
     };
-    // console.log(collectionName, definitionData);
+    console.log(collectionName, definitionData);
     defineMethod.call({
           collectionName,
           definitionData,
         },
-        (error, result) => {
+        (error) => {
           if (error) {
             swal('Error', error.message, 'error');
             // console.error(error.message);
@@ -133,38 +145,6 @@ class CreateTeamWidget extends React.Component {
             swal('Success', 'Team created successfully', 'success');
             formRef.reset();
             // console.log(result);
-            const teamID = result;
-            if (skills) {
-              skills.forEach((s) => {
-                const skillID = Slugs.getEntityID(s.slug);
-                const doc = TeamSkills.findDoc({ teamID, skillID });
-                collectionName = TeamSkills.getCollectionName();
-                const updateData = {};
-                updateData.id = doc._id;
-                updateData.skillLevel = s.level;
-                updateMethod.call({ collectionName, updateData }, (err) => {
-                  if (err) {
-                    console.error(error);
-                  }
-                });
-
-              });
-            }
-            if (tools) {
-              tools.forEach((t) => {
-                const toolID = Slugs.getEntityID(t.slug);
-                const doc = TeamTools.findDoc({ teamID, toolID });
-                collectionName = TeamTools.getCollectionName();
-                const updateData = {};
-                updateData.id = doc._id;
-                updateData.toolLevel = t.level;
-                updateMethod.call({ collectionName, updateData }, (err) => {
-                  if (err) {
-                    console.error(error);
-                  }
-                });
-              });
-            }
           }
         });
   }

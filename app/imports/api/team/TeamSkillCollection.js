@@ -23,12 +23,13 @@ class TeamSkillCollection extends BaseCollection {
    * Defines a new tuple.
    * @param team {String} the team slug or ID.
    * @param skill {String} the skill slug or ID.
+   * @param skillLevel {String} one of the valid skill levels, optional.
    * @return {String} the ID of the new pair.
    */
-  define({ team, skill }) {
+  define({ team, skill, skillLevel }) {
     const teamID = Teams.findIdBySlug(team);
     const skillID = Skills.findIdBySlug(skill);
-    return this._collection.insert({ teamID, skillID });
+    return this._collection.insert({ teamID, skillID, skillLevel });
   }
 
   /**

@@ -3,6 +3,7 @@ import faker from 'faker';
 import _ from 'lodash';
 import { Tools } from './ToolCollection';
 import { Slugs } from '../slug/SlugCollection';
+import { getRandomSkillAndToolLevel } from '../level/Levels';
 
 /**
  * Creates an Tool with a unique slug and returns its docID.
@@ -42,4 +43,15 @@ export function makeSampleToolSlugArray(numTools = 1) {
     const doc = Tools.findDoc(id);
     return Slugs.getNameFromID(doc.slugID);
   });
+}
+
+export function makeSampleToolLevelArray(numTools = 1) {
+  const slugs = makeSampleToolSlugArray(numTools);
+  return _.map(slugs, (slug) => {
+        const retVal = {
+          slug,
+          toolLevel: getRandomSkillAndToolLevel(),
+        };
+        return retVal;
+      });
 }

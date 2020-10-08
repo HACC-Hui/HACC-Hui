@@ -55,7 +55,7 @@ class TeamCard extends React.Component {
                 <Grid.Column>
                   <Header size="tiny">Members</Header>
                   <List>
-                    {team.members.map((member) => <List.Item key={member}>{member}</List.Item>)}
+                    {team.members.map((member, index) => <List.Item key={`${index}${member}`}>{member}</List.Item>)}
                   </List>
                 </Grid.Column>
                 <Grid.Column>

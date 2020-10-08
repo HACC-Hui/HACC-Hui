@@ -23,12 +23,13 @@ class ParticipantToolCollection extends BaseCollection {
    * Defines a new tuple.
    * @param tool {String} tool slug or ID.
    * @param participant {String} participant slug or ID.
+   * @param toolLevel {String} one of the valid tool levels, optional.
    * @return {String} the ID of the new tuple.
    */
-  define({ tool, participant }) {
+  define({ tool, participant, toolLevel }) {
     const toolID = Tools.findIdBySlug(tool);
     const participantID = Participants.findIdBySlug(participant);
-    return this._collection.insert({ toolID, participantID });
+    return this._collection.insert({ toolID, participantID, toolLevel });
   }
 
   /**

@@ -41,11 +41,11 @@ class TeamCollection extends BaseSlugCollection {
    * @param devPostPage {String} The team's devpost page, optional.
    * @param owner {String} The team owner.
    * @param open {boolean} is the team open for participants?
-   * @param challenges {string[]} the challenges this team wants to work on.
-   * @param skills {string[]} the skills this team is looking for.
-   * @param tools {string[]} the tools this team wants to use.
-   * @param participants {string[]} the participants on the team.
-   * @param affiliation {string} the affiliation for this team, optional.
+   * @param challenges {String[]} the challenges this team wants to work on.
+   * @param skills {Object[]} the skills this team is looking for.
+   * @param tools {Object[]} the tools this team wants to use.
+   * @param participants {String[]} the participants on the team.
+   * @param affiliation {String} the affiliation for this team, optional.
    * @return {string} the id of the team.
    */
   define({ name, description = '', gitHubRepo = '', devPostPage = '',
@@ -66,10 +66,21 @@ class TeamCollection extends BaseSlugCollection {
     // Connect the Slug to this Interest
     Slugs.updateEntityID(slugID, teamID);
     _.forEach(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
-    _.forEach(skills, (skill) => TeamSkills.define({ team, skill }));
-    _.forEach(tools, (tool) => TeamTools.define({ team, tool }));
+    _.forEach(skills, (s) => {
+      const skill = s.skill;
+      const skillLevel = s.skillLevel;
+      TeamSkills.define({ team, skill, skillLevel });
+    });
+    _.forEach(tools, (t) => {
+      // console.log('TeamCollection defining tools', t);
+      const tool = t.tool;
+      const toolLevel = t.toolLevel;
+      TeamTools.define({ team, tool, toolLevel });
+    });
     _.forEach(participants, (participant) => TeamParticipants.define({ team, participant }));
-    TeamParticipants.define({ team, participant: owner });
+    if (!_.includes(participants, owner)) {
+      TeamParticipants.define({ team, participant: owner });
+    }
     return teamID;
   }
 
@@ -80,8 +91,8 @@ class TeamCollection extends BaseSlugCollection {
    * @param description {String} the new team description (optional).
    * @param open {boolean} the new open value (optional).
    * @param challenges {String[]} the new set of challenges (optional).
-   * @param skills {String[]} the new set of skills (optional).
-   * @param tools {String[]} the new set of tools (optional).
+   * @param skills {Object[]} the new set of skills (optional).
+   * @param tools {Object[]} the new set of tools (optional).
    * @param participants {String[]} the new set of participants (optional).
    * @param affiliation {string} the affiliation for this team, optional.
    */
@@ -110,12 +121,20 @@ class TeamCollection extends BaseSlugCollection {
     if (skills) {
       const teamSkills = TeamSkills.find(selector).fetch();
       _.forEach(teamSkills, (tS) => TeamSkills.removeIt(tS._id));
-      _.forEach(skills, (skill) => TeamSkills.define({ team, skill }));
+      _.forEach(skills, (s) => {
+        const skill = s.skill;
+        const skillLevel = s.skillLevel;
+        TeamSkills.define({ team, skill, skillLevel });
+      });
     }
     if (tools) {
       const teamTools = TeamTools.find(selector).fetch();
       _.forEach(teamTools, (tT) => TeamTools.removeIt(tT._id));
-      _.forEach(tools, (tool) => TeamTools.define({ team, tool }));
+      _.forEach(tools, (t) => {
+        const tool = t.tool;
+        const toolLevel = t.toolLevel;
+        TeamTools.define({ team, tool, toolLevel });
+      });
     }
     if (participants) {
       const owner = this.findDoc(docID).owner;
@@ -154,17 +173,33 @@ class TeamCollection extends BaseSlugCollection {
    */
   dumpOne(docID) {
     this.assertDefined(docID);
-    const { name, description, owner, open, affiliation } = this.findDoc(docID);
-    const selector = { teamID: docID };
+    // console.log('Teams.dumpOne', docID);
+    const { _id, name, description, owner, open, affiliation } = this.findDoc(docID);
+    const selector = { teamID: _id };
     const teamChallenges = TeamChallenges.find(selector).fetch();
     const challenges = _.map(teamChallenges, (tC) => Challenges.findSlugByID(tC.challengeID));
     const teamParticipants = TeamParticipants.find(selector).fetch();
     const participants = _.map(teamParticipants, (tD) => Participants.findSlugByID(tD.participantID));
     const ownerSlug = Participants.findSlugByID(owner);
     const teamSkills = TeamSkills.find(selector).fetch();
-    const skills = _.map(teamSkills, (tS) => Skills.findSlugByID(tS.skillID));
+    const skills = _.map(teamSkills, (tS) => {
+      const skill = Skills.findSlugByID(tS.skillID);
+      const skillLevel = tS.skillLevel;
+      return {
+        skill,
+        skillLevel,
+      };
+    });
     const teamTools = TeamTools.find(selector).fetch();
-    const tools = _.map(teamTools, (tT) => Tools.findSlugByID(tT.toolID));
+    const tools = _.map(teamTools, (tT) => {
+      const tool = Tools.findSlugByID(tT.toolID);
+      const toolLevel = tT.toolLevel;
+      return {
+        tool,
+        toolLevel,
+      };
+    });
+    // console.log('Teams.dumpOne', skills, tools);
     return { name, description, owner: ownerSlug, open, affiliation, challenges, participants, skills, tools };
   }
 }
