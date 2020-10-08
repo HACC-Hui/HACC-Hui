@@ -53,7 +53,7 @@ class YourTeamsWidget extends React.Component {
           </div>
       );
     }
-
+    
     return (
         <Grid container doubling relaxed stackable>
           <Grid.Row centered>
@@ -74,7 +74,6 @@ class YourTeamsWidget extends React.Component {
 
 YourTeamsWidget.propTypes = {
   teams: PropTypes.array.isRequired,
-  ready: PropTypes.bool.isRequired,
   teamParticipants: PropTypes.array.isRequired,
   participants: PropTypes.array.isRequired,
   teamInvitation: PropTypes.array.isRequired,
