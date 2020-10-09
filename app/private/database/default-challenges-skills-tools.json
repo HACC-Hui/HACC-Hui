@@ -111,6 +111,10 @@
         {
           "name": "Map-based Interfaces",
           "description": "User interfaces based upon maps can be significantly more usable for some challenges. Having prior experience with a GIS toolkit can make the construction of these interfaces easier."
+        },
+        {
+          "name": "Public Speaking",
+          "description": "On judging day, you'll need to get up in front of over 100 people and talk about your challenge solution. The quality of your presentation can make a big difference in your final score!"
         }
       ]
     },
@@ -161,7 +165,8 @@
         { "name": "Jupyter", "description": "Data Visualization" },
         { "name": "Google Maps", "description": "Map-based Visualization" },
         { "name": "Open Layers", "description": "Map-based Visualization" },
-        { "name": "Leaflet", "description": "Map-based Visualization" }
+        { "name": "Leaflet", "description": "Map-based Visualization" },
+        { "name": "PowerPoint", "description": "Presentation" }
       ]
     }
   ]
