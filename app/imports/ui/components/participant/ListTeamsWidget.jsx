@@ -10,6 +10,8 @@ import { TeamSkills } from '../../../api/team/TeamSkillCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { TeamTools } from '../../../api/team/TeamToolCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
+import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 
 const getTeamChallenges = (team) => {
   const teamID = team._id;
@@ -32,11 +34,18 @@ const getTeamTools = (team) => {
   return toolNames;
 };
 
+const getTeamMembers = (team) => {
+  const teamID = team._id;
+  const teamParticipants = TeamParticipants.find({ teamID }).fetch();
+  const memberNames = teamParticipants.map((tp) => Participants.getFullName(tp.participantID));
+  return memberNames;
+}
+
 class ListTeamsWidget extends React.Component {
   render() {
     return (
         <Grid celled>
-          <Grid.Row columns={5}>
+          <Grid.Row columns={6}>
             <Grid.Column>
               <Header>Name</Header>
             </Grid.Column>
@@ -50,6 +59,9 @@ class ListTeamsWidget extends React.Component {
               <Header>Desired Tools</Header>
             </Grid.Column>
             <Grid.Column>
+              <Header>Members</Header>
+            </Grid.Column>
+            <Grid.Column>
               <Header>Join?</Header>
             </Grid.Column>
           </Grid.Row>
@@ -59,6 +71,7 @@ class ListTeamsWidget extends React.Component {
                                      teamChallenges={getTeamChallenges(team)}
                                      teamSkills={getTeamSkills(team)}
                                      teamTools={getTeamTools(team)}
+                                     teamMembers={getTeamMembers(team)}
               />
           ))}
         </Grid>

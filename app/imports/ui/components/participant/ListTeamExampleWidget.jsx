@@ -1,7 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid, Header } from 'semantic-ui-react';
+import { Button, Grid, Header, List } from 'semantic-ui-react';
+import _ from 'lodash';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
@@ -28,22 +29,37 @@ class ListTeamExampleWidget extends React.Component {
   }
 
   render() {
+    const participant = Participants.findDoc({ userID: Meteor.userId() });
+    const participantName = Participants.getFullName(participant._id);
+    const isAMember = _.includes(this.props.teamMembers, participantName);
     return (
-        <Grid.Row columns={5}>
+        <Grid.Row columns={6}>
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
           </Grid.Column>
           <Grid.Column>
-            <Header as="h3">{this.props.teamChallenges.join(',')}</Header>
+            <List bulleted>
+              {this.props.teamChallenges.map((c) => <List.Item key={c}>{c}</List.Item>)}
+            </List>
           </Grid.Column>
           <Grid.Column>
-            <Header as="h3">{this.props.teamSkills.join(',')}</Header>
+            <List bulleted>
+              {this.props.teamSkills.map((s) => <List.Item key={s}>{s}</List.Item>)}
+            </List>
           </Grid.Column>
           <Grid.Column>
-            <Header as="h3">{this.props.teamTools.join(',')}</Header>
+            <List bulleted>
+              {this.props.teamTools.map((t) => <List.Item key={t}>{t}</List.Item>)}
+            </List>
           </Grid.Column>
           <Grid.Column>
-            <Button id={this.props.team._id} color="green" onClick={this.handleClick}>Request to Join</Button>
+            <List bulleted>
+              {this.props.teamMembers.map((t) => <List.Item key={t}>{t}</List.Item>)}
+            </List>
+          </Grid.Column>
+          <Grid.Column>
+            <Button id={this.props.team._id} color="green"
+                    onClick={this.handleClick} disabled={isAMember}>Request to Join</Button>
           </Grid.Column>
         </Grid.Row>
     );
@@ -51,16 +67,19 @@ class ListTeamExampleWidget extends React.Component {
 }
 
 ListTeamExampleWidget.propTypes = {
-  team: PropTypes.object,
+  team: PropTypes.object.isRequired,
   teamChallenges: PropTypes.arrayOf(
       PropTypes.string,
-  ),
+  ).isRequired,
   teamSkills: PropTypes.arrayOf(
       PropTypes.string,
-  ),
+  ).isRequired,
   teamTools: PropTypes.arrayOf(
       PropTypes.string,
-  ),
+  ).isRequired,
+  teamMembers: PropTypes.arrayOf(
+      PropTypes.string,
+  ).isRequired,
 };
 
 export default ListTeamExampleWidget;
