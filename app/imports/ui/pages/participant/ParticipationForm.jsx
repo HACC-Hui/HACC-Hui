@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Form, Header, Image, Segment } from 'semantic-ui-react';
+import { Form, Header, Message, Segment } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { AutoForm, BoolField, SubmitField, TextField } from 'uniforms-semantic';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
@@ -10,6 +10,7 @@ import { Participants } from '../../../api/user/ParticipantCollection';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { userInteractionDefineMethod } from '../../../api/user/UserInteractionCollection.methods';
 import { USER_INTERACTIONS } from '../../../startup/client/user-interaction-constants';
+import { darkerBlueStyle } from '../../styles';
 
 const schema = new SimpleSchema({
   lastName: String,
@@ -63,24 +64,24 @@ class ParticipationForm extends React.Component {
       return <Redirect to={from}/>;
     }
     return (
-        <div style={{ backgroundColor: '#393B44' }}>
-          <div align={'center'} style={{ backgroundColor: '#24252B' }}>
-            <Header inverted style={{ padding: '5rem 0rem 0rem 0rem' }} as={'h2'}>
-              Participation Form
-            </Header>
-            <Image style={{ padding: '0rem 5rem 5rem 5rem' }} src='images/participation.png' />
-            <AutoForm schema={formSchema} onSubmit={data => this.submit(data)}>
+        <Segment style={darkerBlueStyle}>
+          <Header>HACC Registration</Header>
+          <AutoForm schema={formSchema} onSubmit={data => this.submit(data)}>
               <Segment>
+                <Message>
+                  Read the <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a>.
+                  <br />
+                  Then agree to the terms.
+                </Message>
                 <Form.Group widths="equal">
                   <TextField name="firstName" />
                   <TextField name="lastName" />
                 </Form.Group>
-                <BoolField name="agree" label="I agree to the terms" />
+                <BoolField name="agree" label="I have read the rules and agree to the terms" />
                 <SubmitField />
               </Segment>
             </AutoForm>
-          </div>
-        </div>
+        </Segment>
     );
   }
 }

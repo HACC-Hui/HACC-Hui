@@ -1,56 +1,81 @@
 import React from 'react';
-import { Button, Header, Image } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { Button, Form, Header, Message, Segment } from 'semantic-ui-react';
+import { NavLink, Redirect } from 'react-router-dom';
+import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
+import SimpleSchema from 'simpl-schema';
+import { Meteor } from 'meteor/meteor';
 import { ROUTES } from '../../../startup/client/route-constants';
+import { darkerBlueStyle } from '../../styles';
+import { Participants } from '../../../api/user/ParticipantCollection';
+import { USER_INTERACTIONS } from '../../../startup/client/user-interaction-constants';
+import { userInteractionDefineMethod } from '../../../api/user/UserInteractionCollection.methods';
+import { AutoForm, SubmitField, TextField } from 'uniforms-semantic';
+
+const schema = new SimpleSchema({
+  yourLastName: String,
+  yourFirstName: String,
+  parentFirstName: String,
+  parentLastName: String,
+  parentEmail: String,
+});
 
 /**
  * A simple static component to render some text for the landing page.
  * @memberOf ui/pages
  */
 class UnderParticipationForm extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { redirectToReferer: false };
+  }
+
+  submit(formData) {
+    const { firstName, lastName, parentFirstName, parentLastName, parentEmail } = formData;
+    const dev = Participants.findDoc({ userID: Meteor.userId() });
+    const interactionData = {
+      username: dev.username,
+      type: USER_INTERACTIONS.SIGNED_CONSENT,
+      typeData: [firstName, lastName],
+    };
+    console.log(interactionData);
+    userInteractionDefineMethod.call(interactionData, (error) => {
+      if (error) {
+        console.error('Could not define user interaction', error);
+      }
+    });
+    this.setState({ redirectToReferer: true });
+  }
+
   render() {
+    const formSchema = new SimpleSchema2Bridge(schema);
+    if (this.state.redirectToReferer) {
+      const from = { pathname: ROUTES.CREATE_PROFILE };
+      return <Redirect to={from} />;
+    }
     return (
-        <div style={{ backgroundColor: '#393B44' }}>
-          <div align={'center'} style={{ backgroundColor: '#24252B' }}>
-            <Header inverted style={{ padding: '5rem 0rem 0rem 0rem' }} as={'h2'}>
-              Participation form for underage contestants
-            </Header>
-            <Image style={{ padding: '0rem 5rem 5rem 5rem' }} src='images/under-participation.png'/>
-            <div className="ui inverted segment">
-            <div className="ui inverted form">
-              <div className="two fields">
-                <div className="field">
-                  <label>First Name</label>
-                  <input placeholder="First Name" type="text"/>
-                </div>
-                <div className="field">
-                  <label>Last Name</label>
-                  <input placeholder="Last Name" type="text"/>
-                </div>
-              </div>
-              <div className="two fields">
-                <div className="field">
-                  <label>First Name</label>
-                  <input placeholder="First Name" type="text"/>
-                </div>
-                <div className="field">
-                  <label>Last Name</label>
-                  <input placeholder="Last Name" type="text"/>
-                </div>
-              </div>
-              <div className="inline field">
-                <div className="ui checkbox">
-                  <input type="checkbox" tabIndex="0" className="hidden"/>
-                  <label>I agree to the terms and conditions</label>
-                </div>
-              </div>
-              <Button as={NavLink} exact to={ROUTES.CREATE_PROFILE}>
-                SUBMIT
-              </Button>
-            </div>
-          </div>
-          </div>
-        </div>
+        <Segment style={darkerBlueStyle}>
+          <Header>HACC Registration</Header>
+          <AutoForm schema={formSchema} onSubmit={data => this.submit(data)}>
+            <Segment>
+              <Message>
+                Read the <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a>.
+                <br />
+                Then agree to the terms.
+              </Message>
+              <Form.Group widths="equal">
+                <TextField name='yourFirstName' />
+                <TextField name='yourLastName' />
+              </Form.Group>
+              <Form.Group widths="equal">
+                <TextField name='parentFirstName' label="Parent/Guardian First Name" />
+                <TextField name='parentLastName' label="Parent/Guardian Last Name" />
+                <TextField name='parentEmail' label="Parent/Guardian Email" />
+              </Form.Group>
+              <SubmitField />
+            </Segment>
+          </AutoForm>
+        </Segment>
     );
   }
 }
