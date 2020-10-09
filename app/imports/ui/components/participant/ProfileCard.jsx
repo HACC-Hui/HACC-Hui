@@ -34,23 +34,27 @@ class ProfileCard extends React.Component {
             <Grid container columns={2}>
               <Grid.Row>
                 <Grid.Column>
-                  <Header size="small">Challenges</Header>
-                  {this.props.model.challenges.join(', ')}
+                  <Header dividing size="small">Challenges</Header>
+                  <List bulleted>
+                  {this.props.model.challenges.map((item) => <List.Item key={item}>{item}</List.Item>)}
+                  </List>
                 </Grid.Column>
                 <Grid.Column>
-                  <Header size="small">Interests</Header>
-                  {this.props.model.interests.join(', ')}
+                  <Header dividing size="small">Interests</Header>
+                  <List>
+                    {this.props.model.interests.map((item) => <List.Item key={item}>{item}</List.Item>)}
+                  </List>
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column>
-                  <Header size="tiny">Skills</Header>
+                  <Header dividing size="tiny">Skills</Header>
                   <List bulleted>
                     {this.props.model.skills.map((item) => <SkillItem item={item} key={item._id} />)}
                   </List>
                 </Grid.Column>
                 <Grid.Column>
-                  <Header size="tiny">Tools</Header>
+                  <Header dividing size="tiny">Tools</Header>
                   <List bulleted>
                     {this.props.model.tools.map((item) => <ToolItem item={item} key={item._id} />)}
                   </List>

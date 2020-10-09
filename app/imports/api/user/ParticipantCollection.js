@@ -98,8 +98,8 @@ class ParticipantCollection extends BaseSlugCollection {
    * @param lookingForTeam {Boolean} the new looking for team value (optional).
    * @param challenges {String[]} the new challenges (optional).
    * @param interests {String[]} the new interests (optional).
-   * @param skills {Object[]} the new skills (optional).
-   * @param tools {Object[]} the new tools (optional).
+   * @param skills {String[]} the new skills (optional).
+   * @param tools {String[]} the new tools (optional).
    * @param linkedIn {String} the new LinkedIn page (optional).
    * @param gitHub {String} the new GitHub page (optional).
    * @param website {String} the new website (optional).
@@ -153,18 +153,14 @@ class ParticipantCollection extends BaseSlugCollection {
     }
     if (skills) {
       ParticipantSkills.removeParticipant(participant);
-      _.forEach(skills, (s) => {
-        const skill = s.skill;
-        const skillLevel = s.skillLevel;
-        ParticipantSkills.define({ skill, participant, skillLevel });
+      _.forEach(skills, (skill) => {
+        ParticipantSkills.define({ skill, participant });
       });
     }
     if (tools) {
       ParticipantTools.removeParticipant(participant);
-      _.forEach(tools, (t) => {
-        const tool = t.tool;
-        const toolLevel = t.toolLevel;
-        ParticipantTools.define({ tool, participant, toolLevel });
+      _.forEach(tools, (tool) => {
+        ParticipantTools.define({ tool, participant });
       });
     }
   }

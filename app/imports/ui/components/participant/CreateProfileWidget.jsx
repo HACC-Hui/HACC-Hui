@@ -1,44 +1,41 @@
 import React from 'react';
+import { Header, Segment, Form } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
+import {
+  AutoForm, BoolField,
+  LongTextField, SelectField,
+  SubmitField,
+  TextField,
+} from 'uniforms-semantic';
 import { Meteor } from 'meteor/meteor';
-import { Form, Header, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import SimpleSchema from 'simpl-schema';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
-import { AutoForm, BoolField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
+import SimpleSchema from 'simpl-schema';
+import _ from 'lodash';
 import Swal from 'sweetalert2';
-import { Participants } from '../../../api/user/ParticipantCollection';
+import { Redirect } from 'react-router-dom';
 import { Skills } from '../../../api/skill/SkillCollection';
+import { Challenges } from '../../../api/challenge/ChallengeCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Interests } from '../../../api/interest/InterestCollection';
-import { Challenges } from '../../../api/challenge/ChallengeCollection';
-import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
-import { ParticipantInterests } from '../../../api/user/ParticipantInterestCollection';
-import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
-import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
-import { Slugs } from '../../../api/slug/SlugCollection';
 import { demographicLevels } from '../../../api/level/Levels';
 import MultiSelectField from '../form-fields/MultiSelectField';
-import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { ROUTES } from '../../../startup/client/route-constants';
-import { Redirect } from 'react-router-dom';
+import { Slugs } from '../../../api/slug/SlugCollection';
+import { updateMethod } from '../../../api/base/BaseCollection.methods';
 
-class EditProfileWidget extends React.Component {
+class CreateProfileWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = { redirectToReferer: false };
-    this.newSkillRef = React.createRef();
-    this.newSkillLevelRef = React.createRef();
-    this.newToolRef = React.createRef();
-    this.newToolLevelRef = React.createRef();
   }
 
   buildTheFormSchema() {
-    const challengeNames = _.map(this.props.allChallenges, (c) => c.title);
-    const interestNames = _.map(this.props.allInterests, (i) => i.name);
-    const skillNames = _.map(this.props.allSkills, (s) => s.name);
-    const toolNames = _.map(this.props.allTools, (t) => t.name);
+    const challengeNames = _.map(this.props.challenges, (c) => c.title);
+    const interestNames = _.map(this.props.interests, (i) => i.name);
+    const skillNames = _.map(this.props.skills, (s) => s.name);
+    const toolNames = _.map(this.props.tools, (t) => t.name);
     const schema = new SimpleSchema({
       firstName: String,
       lastName: String,
@@ -63,30 +60,8 @@ class EditProfileWidget extends React.Component {
     return schema;
   }
 
-  buildTheModel() {
-    const model = this.props.participant;
-    model.challenges = _.map(this.props.devChallenges, (challenge) => {
-      const c = Challenges.findDoc(challenge.challengeID);
-      return c.title;
-    });
-    model.interests = _.map(this.props.devInterests, (interest) => {
-      const i = Interests.findDoc(interest.interestID);
-      return i.name;
-    });
-    model.skills = _.map(this.props.devSkills, (skill) => {
-      // console.log(skill);
-      const s = Skills.findDoc(skill.skillID);
-      return s.name;
-    });
-    model.tools = _.map(this.props.devTools, (tool) => {
-      const t = Tools.findDoc(tool.toolID);
-      return t.name;
-    });
-    return model;
-  }
-
-  submitData(data) {
-    console.log('submit', data);
+  submit(data) {
+    // console.log('CreateProfileWidget.submit', data);
     const collectionName = Participants.getCollectionName();
     const updateData = {};
     // firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
@@ -157,20 +132,21 @@ class EditProfileWidget extends React.Component {
 
   render() {
     // console.log(this.props);
+    const model = this.props.participant;
+    // console.log(model);
+    const schema = this.buildTheFormSchema();
+    const formSchema = new SimpleSchema2Bridge(schema);
+    const firstname = model.firstName;
     if (this.state.redirectToReferer) {
       const from = { pathname: ROUTES.YOUR_PROFILE };
       return <Redirect to={from}/>;
     }
-    const model = this.buildTheModel();
-    const schema = this.buildTheFormSchema();
-    const formSchema = new SimpleSchema2Bridge(schema);
-    // console.log('render', model, schema);
     return (
         <Segment>
-          <Header dividing>Edit Profile</Header>
+          <Header dividing>Hello {firstname}, this is your first time to login, so please fill out your profile</Header>
           <AutoForm schema={formSchema} model={model} onSubmit={data => {
-            console.log(data);
-            this.submitData(data);
+            // console.log(data);
+            this.submit(data);
           }}>
             <Form.Group widths="equal">
               <TextField name="username" disabled />
@@ -204,54 +180,33 @@ class EditProfileWidget extends React.Component {
   }
 }
 
-EditProfileWidget.propTypes = {
-  allChallenges: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
-  allInterests: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
-  allSkills: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
-  allTools: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
+CreateProfileWidget.propTypes = {
   participant: PropTypes.object.isRequired,
-  devChallenges: PropTypes.arrayOf(
+  interests: PropTypes.arrayOf(
       PropTypes.object,
-  ),
-  devInterests: PropTypes.arrayOf(
+  ).isRequired,
+  skills: PropTypes.arrayOf(
       PropTypes.object,
-  ),
-  devSkills: PropTypes.arrayOf(
+  ).isRequired,
+  challenges: PropTypes.arrayOf(
       PropTypes.object,
-  ),
-  devTools: PropTypes.arrayOf(
+  ).isRequired,
+  tools: PropTypes.arrayOf(
       PropTypes.object,
-  ),
+  ).isRequired,
 };
 
 export default withTracker(() => {
-  const allChallenges = Challenges.find({}).fetch();
-  const allInterests = Interests.find({}).fetch();
-  const allSkills = Skills.find({}).fetch();
-  const allTools = Tools.find({}).fetch();
   const participant = Participants.findDoc({ userID: Meteor.userId() });
-  const participantID = participant._id;
-  const devChallenges = ParticipantChallenges.find({ participantID }).fetch();
-  const devInterests = ParticipantInterests.find({ participantID }).fetch();
-  const devSkills = ParticipantSkills.find({ participantID }).fetch();
-  const devTools = ParticipantTools.find({ participantID }).fetch();
+  const challenges = Challenges.find({}).fetch();
+  const interests = Interests.find({}).fetch();
+  const skills = Skills.find({}).fetch();
+  const tools = Tools.find({}).fetch();
   return {
-    allChallenges,
-    allInterests,
-    allSkills,
-    allTools,
     participant,
-    devChallenges,
-    devInterests,
-    devSkills,
-    devTools,
+    challenges,
+    interests,
+    skills,
+    tools,
   };
-})(EditProfileWidget);
+})(CreateProfileWidget);

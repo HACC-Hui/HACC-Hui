@@ -15,7 +15,7 @@ import { ROLE } from '../../api/role/Role';
 import AgePage from '../pages/participant/AgePage';
 import ParticipationForm from '../pages/participant/ParticipationForm';
 import UnderParticipationForm from '../pages/participant/UnderParticipationForm';
-import Dprofile from '../pages/participant/Dprofile';
+// import Dprofile from '../pages/participant/Dprofile';
 import { ROUTES } from '../../startup/client/route-constants';
 import DeleteForm from '../pages/participant/DeleteForm';
 import AddChallenge from '../pages/administrator/AddChallenge';
@@ -31,6 +31,7 @@ import EditSkillPage from '../pages/administrator/EditSkillPage';
 import CreateTeamPage from '../pages/participant/CreateTeamPage';
 import YourTeams from '../pages/participant/YourTeams';
 import ProfilePage from '../pages/participant/ProfilePage';
+import CreateProfilePage from '../pages/participant/CreateProfilePage';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -48,7 +49,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
               <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
               <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm} />
-              <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={Dprofile} />
+              <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={CreateProfilePage} />
               <ProtectedRoute path={ROUTES.YOUR_PROFILE} component={ProfilePage} />
               <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
