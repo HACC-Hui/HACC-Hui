@@ -74,15 +74,11 @@ class ParticipantCollection extends BaseSlugCollection {
       this._collection.update(profileID, { $set: { userID } });
       _.forEach(challenges, (challenge) => ParticipantChallenges.define({ challenge, participant: username }));
       _.forEach(interests, (interest) => ParticipantInterests.define({ interest, participant: username }));
-      _.forEach(skills, (s) => {
-        const skill = s.skill;
-        const skillLevel = s.skillLevel;
-        ParticipantSkills.define({ skill, participant: username, skillLevel });
+      _.forEach(skills, (skill) => {
+        ParticipantSkills.define({ skill, participant: username });
       });
-      _.forEach(tools, (t) => {
-        const tool = t.tool;
-        const toolLevel = t.toolLevel;
-        ParticipantTools.define({ tool, participant: username, toolLevel });
+      _.forEach(tools, (tool) => {
+        ParticipantTools.define({ tool, participant: username });
       });
       return { profileID, password };
     }

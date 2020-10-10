@@ -6,8 +6,8 @@ import faker from 'faker';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Teams } from './TeamCollection';
 import { makeSampleChallengeSlugArray } from '../challenge/SampleChallenges';
-import { makeSampleToolLevelArray } from '../tool/SampleTools';
-import { makeSampleSkillLevelArray } from '../skill/SampleSkills';
+import { makeSampleToolSlugArray } from '../tool/SampleTools';
+import { makeSampleSkillSlugArray } from '../skill/SampleSkills';
 import { makeSampleParticipant } from '../user/SampleParticipants';
 import { TeamChallenges } from './TeamChallengeCollection';
 import { TeamParticipants } from './TeamParticipantCollection';
@@ -37,8 +37,8 @@ if (Meteor.isServer) {
                 const { profileID } = makeSampleParticipant();
                 const owner = profileID;
                 const challenges = makeSampleChallengeSlugArray();
-                const tools = makeSampleToolLevelArray();
-                const skills = makeSampleSkillLevelArray();
+                const tools = makeSampleToolSlugArray();
+                const skills = makeSampleSkillSlugArray();
                 const gitHubRepo = faker.internet.url();
                 const devPostPage = faker.internet.url();
                 const docID = Teams.define({

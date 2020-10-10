@@ -6,7 +6,6 @@ import faker from 'faker';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { makeSampleInterestSlugArray } from '../interest/SampleInterests';
 import { Challenges } from './ChallengeCollection';
-import { ChallengeInterests } from './ChallengeInterestCollection';
 /* eslint prefer-arrow-callback: "off", no-unused-expressions: "off" */
 /* eslint-env mocha */
 
@@ -31,11 +30,10 @@ if (Meteor.isServer) {
                 const interests = makeSampleInterestSlugArray(3);
                 const docID = Challenges.define({ title, description, pitch, interests, submissionDetail });
                 expect(Challenges.isDefined(docID)).to.be.true;
-                let cis = ChallengeInterests.find({ challengeID: docID }).fetch();
-                expect(cis).to.have.lengthOf(3);
+                const doc = Challenges.findDoc(docID);
+                expect(doc.interests).to.have.lengthOf(3);
                 Challenges.removeIt(docID);
-                cis = ChallengeInterests.find({ challengeID: docID }).fetch();
-                expect(cis).to.have.lengthOf(0);
+                expect(Challenges.isDefined(docID)).to.be.false;
               }),
       );
       done();

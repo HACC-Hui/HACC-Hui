@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import faker from 'faker';
 import { Participants } from './ParticipantCollection';
 import { demographicLevels } from '../level/Levels';
-import { makeSampleSkillLevelArray, makeSampleSkillSlugArray } from '../skill/SampleSkills';
+import { makeSampleSkillSlugArray } from '../skill/SampleSkills';
 import { ParticipantSkills } from './ParticipantSkillCollection';
-import { makeSampleToolLevelArray } from '../tool/SampleTools';
+import { makeSampleToolSlugArray } from '../tool/SampleTools';
 
 /* eslint prefer-arrow-callback: "off", no-unused-expressions: "off" */
 /* eslint-env mocha */
@@ -18,8 +18,8 @@ if (Meteor.isServer) {
       const lastName = 'Moore';
       const demographicLevel = demographicLevels[0];
       const lookingForTeam = true;
-      const skills = makeSampleSkillLevelArray(2);
-      const tools = makeSampleToolLevelArray();
+      const skills = makeSampleSkillSlugArray(2);
+      const tools = makeSampleToolSlugArray();
       const { profileID } = Participants.define({ username, firstName, lastName, demographicLevel,
         lookingForTeam, skills, tools });
       expect(Participants.isDefined(profileID)).to.be.true;
