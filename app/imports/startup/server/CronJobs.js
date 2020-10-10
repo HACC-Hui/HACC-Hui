@@ -5,7 +5,8 @@ import { WantsToJoin } from '../../api/team/WantToJoinCollection';
 import { Participants } from '../../api/user/ParticipantCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { TeamParticipants } from '../../api/team/TeamParticipantCollection';
-import { sendDM2ParticipantMethod } from '../../api/slackbot/Slack.methods';
+import { sendDM2AdministratorsMethod, sendDM2ParticipantMethod } from '../../api/slackbot/Slack.methods';
+import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
 
 SyncedCron.add({
   name: 'Check for participants wanting to join team',
@@ -36,6 +37,27 @@ SyncedCron.add({
         }
       });
       WantsToJoin.removeIt(join._id);
+    });
+  },
+});
+
+SyncedCron.add({
+  name: 'Check for minors signing up.',
+  schedule(parser) {
+    // parser is a later.parse object
+    const interval = Meteor.settings.pollingInterval || 5;
+    return parser.text(`every ${interval} minutes`);
+  },
+  job() {
+    const newMinors = MinorParticipants.find({ sentAdminDM: false }).fetch();
+    _.forEach(newMinors, (minor) => {
+      const docID = minor._id;
+      const { participantID, parentFirstName, parentLastName, parentEmail } = minor;
+      const minorFullName = Participants.getFullName(participantID);
+      const message = `A minor ${minorFullName} has joined HACC 2020. Their parent/guardian is
+      ${parentFirstName} ${parentLastName}, email address is ${parentEmail}.`;
+      sendDM2AdministratorsMethod.call({ message });
+      MinorParticipants.update(docID, { sentAdminDM: true });
     });
   },
 });

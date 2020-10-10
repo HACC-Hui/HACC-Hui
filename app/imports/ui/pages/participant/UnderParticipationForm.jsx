@@ -10,6 +10,8 @@ import { darkerBlueStyle } from '../../styles';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { USER_INTERACTIONS } from '../../../startup/client/user-interaction-constants';
 import { userInteractionDefineMethod } from '../../../api/user/UserInteractionCollection.methods';
+import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
+import { defineMethod } from '../../../api/base/BaseCollection.methods';
 
 const schema = new SimpleSchema({
   yourLastName: String,
@@ -33,6 +35,19 @@ class UnderParticipationForm extends React.Component {
   submit(formData) {
     const { firstName, lastName, parentFirstName, parentLastName, parentEmail } = formData;
     const dev = Participants.findDoc({ userID: Meteor.userId() });
+    const username = dev.username;
+    const collectionName = MinorParticipants.getCollectionName();
+    const definitionData = {
+      username,
+      parentFirstName,
+      parentLastName,
+      parentEmail,
+    };
+    defineMethod.call({ collectionName, definitionData }, (error) => {
+      if (error) {
+        console.error('Problem defining MinorParticipant', error);
+      }
+    });
     const interactionData = {
       username: dev.username,
       type: USER_INTERACTIONS.MINOR_SIGNED_CONSENT,
