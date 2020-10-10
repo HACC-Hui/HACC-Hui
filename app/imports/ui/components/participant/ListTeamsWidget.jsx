@@ -39,7 +39,7 @@ const getTeamMembers = (team) => {
   const teamParticipants = TeamParticipants.find({ teamID }).fetch();
   const memberNames = teamParticipants.map((tp) => Participants.getFullName(tp.participantID));
   return memberNames;
-}
+};
 
 class ListTeamsWidget extends React.Component {
   render() {

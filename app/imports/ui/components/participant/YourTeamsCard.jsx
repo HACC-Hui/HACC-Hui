@@ -93,7 +93,8 @@ class YourTeamsCard extends React.Component {
     if (notFoundParticipants.length > 0) {
       swal('Error',
           `Sorry, we could not find participant(s): \n${notFoundParticipants.join(', ')}
-          \n\nPlease double check that their emails are inputted correctly and that they have registered with the HACC-HUI Slackbot.`,
+          \n\nPlease double check that their emails are inputted correctly and that they 
+          have registered with the HACC-HUI Slackbot.`,
           'error');
       return;
     }
@@ -248,7 +249,7 @@ class YourTeamsCard extends React.Component {
                       </Header>
                       <Header as={'h4'} textAlign={'center'}
                               style={{ paddingBottom: '2rem', marginTop: '0rem' }}>
-                        Please make sure the email you input is the same as the ones they've used to
+                        Please make sure the email you input is the same as the ones they&apos;ve used to
                         make their Slack account.
                       </Header>
                       <ListField name="participants" label={'Enter each participant\'s email'}>

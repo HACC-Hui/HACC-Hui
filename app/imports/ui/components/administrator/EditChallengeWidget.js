@@ -13,11 +13,11 @@ import { withTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
 import { _ } from 'lodash';
 import SimpleSchema from 'simpl-schema';
+import { withRouter } from 'react-router';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import MultiSelectField from '../form-fields/MultiSelectField';
 import { Interests } from '../../../api/interest/InterestCollection';
-import { withRouter } from 'react-router';
 
 /**
  * Renders the Page for adding stuff. **deprecated**

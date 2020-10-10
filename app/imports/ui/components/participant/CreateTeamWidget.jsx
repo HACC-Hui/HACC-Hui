@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header, Divider, Form, Dropdown, Button } from 'semantic-ui-react';
+import { Grid, Segment, Header, Divider } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
@@ -23,7 +23,6 @@ import { Tools } from '../../../api/tool/ToolCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
-import { skillAndToolLevels } from '../../../api/level/Levels';
 
 /**
  * Renders the Page for adding stuff. **deprecated**

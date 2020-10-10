@@ -1,15 +1,15 @@
 import React from 'react';
-import { Button, Form, Header, Message, Segment } from 'semantic-ui-react';
-import { NavLink, Redirect } from 'react-router-dom';
+import { Form, Header, Message, Segment } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { Meteor } from 'meteor/meteor';
+import { AutoForm, SubmitField, TextField } from 'uniforms-semantic';
 import { ROUTES } from '../../../startup/client/route-constants';
 import { darkerBlueStyle } from '../../styles';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { USER_INTERACTIONS } from '../../../startup/client/user-interaction-constants';
 import { userInteractionDefineMethod } from '../../../api/user/UserInteractionCollection.methods';
-import { AutoForm, SubmitField, TextField } from 'uniforms-semantic';
 
 const schema = new SimpleSchema({
   yourLastName: String,
@@ -35,8 +35,8 @@ class UnderParticipationForm extends React.Component {
     const dev = Participants.findDoc({ userID: Meteor.userId() });
     const interactionData = {
       username: dev.username,
-      type: USER_INTERACTIONS.SIGNED_CONSENT,
-      typeData: [firstName, lastName],
+      type: USER_INTERACTIONS.MINOR_SIGNED_CONSENT,
+      typeData: [firstName, lastName, parentFirstName, parentLastName, parentEmail],
     };
     console.log(interactionData);
     userInteractionDefineMethod.call(interactionData, (error) => {

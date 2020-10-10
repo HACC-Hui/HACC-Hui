@@ -8,6 +8,7 @@ import SimpleSchema from 'simpl-schema';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, BoolField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
 import Swal from 'sweetalert2';
+import { Redirect } from 'react-router-dom';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
@@ -22,7 +23,6 @@ import { demographicLevels } from '../../../api/level/Levels';
 import MultiSelectField from '../form-fields/MultiSelectField';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { ROUTES } from '../../../startup/client/route-constants';
-import { Redirect } from 'react-router-dom';
 
 class EditProfileWidget extends React.Component {
   constructor(props) {
