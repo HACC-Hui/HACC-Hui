@@ -39,15 +39,13 @@ class NavBar extends React.Component {
     //   console.log(`developer`);
     //   console.log(developer);
     }
-
-
     // this.props.teamDevelopers.filter(teamDeveloper => {
     //   (teamDeveloper.developerID === this.props.currentUser)
     //   }
     // )
 
     return (
-        <Menu style={menuStyle} attached="top" borderless inverted>
+        <Menu style={menuStyle} attached="top" borderless stackable inverted>
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
             <Header inverted as='h1'>HACC-Hui</Header>
           </Menu.Item>
@@ -76,8 +74,6 @@ class NavBar extends React.Component {
             <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.TEAMMATES} key='list-teammates'>List the
                 Teams</Menu.Item>
           ) : ''} */}
-
-
           {isAdmin ? (
               [
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.CONFIGURE_HACC}
