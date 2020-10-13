@@ -11,11 +11,10 @@ import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
-import Swal from 'sweetalert2';
-import { Skills } from '../../../api/skill/SkillCollection';
+import swal from 'sweetalert';
 import { Participants } from '../../../api/user/ParticipantCollection';
-import { Tools } from '../../../api/tool/ToolCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
+import { Suggestions } from '../../../api/suggestions/SuggestionCollection';
 
 class SuggestToolSkillWidget extends React.Component {
   constructor(props) {
@@ -32,44 +31,31 @@ class SuggestToolSkillWidget extends React.Component {
     return schema;
   }
 
-  submit(data) {
+  submit(data, formRef) {
     // console.log('CreateProfileWidget.submit', data);
-    let collectionName;
+    const collectionName = Suggestions.getCollectionName();
     const newData = {};
-    // firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
-    //     skills, tools, linkedIn, gitHub, website, aboutMe,
-    newData.username = this.props.participant.username;
-    if (data.type === 'Tool') {
-      collectionName = Tools.getCollectionName();
-      newData.type = data.type;
-      newData.description = data.description;
-    }
-    if (data.type === 'Skill') {
-      collectionName = Skills.getCollectionName();
-      newData.type = data.type;
-      newData.description = data.description;
-    }
+    const model = this.props.participant;
+    newData.username = model.username;
+    newData.name = data.name;
+    newData.type = data.type;
+    newData.description = data.description;
 
-    defineMethod.call({ collectionName, newData }, (error) => {
-      if (error) {
-        console.error(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
-          footer: '<a href>Why do I have this issue?</a>',
+    defineMethod.call({ collectionName: collectionName, definitionData: newData },
+        (error) => {
+          if (error) {
+            swal('Error', error.message, 'error');
+            // console.error(error.message);
+          } else {
+            swal('Success', 'Thank you for your suggestion', 'success');
+            formRef.reset();
+            // console.log('Success');
+          }
         });
-      } else {
-        Swal.fire({
-          icon: 'success',
-          text: 'Your suggestion has been added.',
-        });
-      }
-    });
-    this.setState({ redirectToReferer: true });
   }
 
   render() {
+    let fRef = null;
     // console.log(this.props);
     const model = this.props.participant;
     // console.log(model);
@@ -79,10 +65,9 @@ class SuggestToolSkillWidget extends React.Component {
     return (
         <Segment>
           <Header dividing>Hello {firstname}, please fill out the form to suggest a new tool or skill. </Header>
-          <AutoForm schema={formSchema} model={model} onSubmit={data => {
-            // console.log(data);
-            this.submit(data);
-          }}>
+          <AutoForm ref={ref => {
+            fRef = ref;
+          }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}>
             <Form.Group widths="equal">
               <SelectField name="type" />
               <TextField name="name" />
@@ -97,21 +82,11 @@ class SuggestToolSkillWidget extends React.Component {
 
 SuggestToolSkillWidget.propTypes = {
   participant: PropTypes.object.isRequired,
-  skills: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
-  tools: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
 };
 
 export default withTracker(() => {
   const participant = Participants.findDoc({ userID: Meteor.userId() });
-  const skills = Skills.find({}).fetch();
-  const tools = Tools.find({}).fetch();
   return {
     participant,
-    skills,
-    tools,
   };
 })(SuggestToolSkillWidget);
