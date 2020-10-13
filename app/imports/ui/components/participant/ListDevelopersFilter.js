@@ -77,7 +77,7 @@ class ListDevelopersFilter {
     for (let i = 0; i < skillID.length; i++) {
       for (let j = 0; j < devSkill.length; j++) {
         if (skillID[i] === devSkill[j].skillID) {
-          devsWithSkill.push(devSkill[j].developerID);
+          devsWithSkill.push(devSkill[j].participantID);
         }
       }
     }
@@ -129,7 +129,7 @@ class ListDevelopersFilter {
     for (let i = 0; i < toolID.length; i++) {
       for (let j = 0; j < devTools.length; j++) {
         if (toolID[i] === devTools[j].toolID) {
-          devsWithTool.push(devTools[j].developerID);
+          devsWithTool.push(devTools[j].participantID);
         }
       }
     }
@@ -180,7 +180,7 @@ class ListDevelopersFilter {
     for (let i = 0; i < challengeID.length; i++) {
       for (let j = 0; j < devChallenge.length; j++) {
         if (challengeID[i] === devChallenge[j].challengeID) {
-          devsWithChallenge.push(devChallenge[j].developerID);
+          devsWithChallenge.push(devChallenge[j].participantID);
         }
       }
     }

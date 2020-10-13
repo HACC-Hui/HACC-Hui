@@ -7,6 +7,7 @@ import { Teams } from '../../api/team/TeamCollection';
 import { TeamParticipants } from '../../api/team/TeamParticipantCollection';
 import { sendDM2AdministratorsMethod, sendDM2ParticipantMethod } from '../../api/slackbot/Slack.methods';
 import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
+import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 
 SyncedCron.add({
   name: 'Check for participants wanting to join team',
@@ -58,6 +59,35 @@ SyncedCron.add({
       ${parentFirstName} ${parentLastName}, email address is ${parentEmail}.`;
       sendDM2AdministratorsMethod.call({ message });
       MinorParticipants.update(docID, { sentAdminDM: true });
+    });
+  },
+});
+
+SyncedCron.add({
+  name: 'Check for invitations from teams',
+  schedule(parser) {
+    // parser is a later.parse object
+    const interval = Meteor.settings.pollingInterval || 5;
+    return parser.text(`every ${interval} minutes`);
+  },
+  job() {
+    const teamInvite = TeamInvitations.find({}).fetch();
+    _.forEach(teamInvite, (join) => {
+      if (!join.sentDM) {
+        const { teamID, participantID } = join;
+        const developer = Participants.findDoc(participantID);
+        const team = Teams.findDoc(teamID);
+        const message = `Team ${team.name} has sent you an invitation. Check out your team invitations in HACC HUI!`;
+        if (Participants.isDefined(participantID)) {
+          const username = developer.username;
+          sendDM2ParticipantMethod.call({ participant: username, message }, (error) => {
+            if (error) {
+              console.error('Failed to send DM. ', error);
+            }
+          });
+        }
+        TeamInvitations.update(join._id, { team: join.teamID, participant: join.participantID, sentDM: true });
+      }
     });
   },
 });

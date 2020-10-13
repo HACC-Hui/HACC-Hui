@@ -136,11 +136,11 @@ class ListDevelopersWidget extends React.Component {
 
     function getDeveloperSkills(developerID, developerSkills) {
       const data = [];
-      const skills = _.filter(developerSkills, { developerID: developerID });
+      const skills = _.filter(developerSkills, { participantID: developerID });
       for (let i = 0; i < skills.length; i++) {
         for (let j = 0; j < universalSkills.length; j++) {
           if (skills[i].skillID === universalSkills[j]._id) {
-            data.push({ name: universalSkills[j].name, level: skills[i].skillLevel });
+            data.push({ name: universalSkills[j].name });
           }
         }
       }
@@ -152,11 +152,11 @@ class ListDevelopersWidget extends React.Component {
 
     function getDeveloperTools(developerID, developerTools) {
       const data = [];
-      const tools = _.filter(developerTools, { developerID: developerID });
+      const tools = _.filter(developerTools, { participantID: developerID });
       for (let i = 0; i < tools.length; i++) {
         for (let j = 0; j < universalTools.length; j++) {
           if (tools[i].toolID === universalTools[j]._id) {
-            data.push({ name: universalTools[j].name, level: tools[i].toolLevel });
+            data.push({ name: universalTools[j].name });
           }
         }
       }
@@ -168,7 +168,7 @@ class ListDevelopersWidget extends React.Component {
 
     function getDeveloperChallenges(developerID, developerChallenges) {
       const data = [];
-      const challenges = _.filter(developerChallenges, { developerID: developerID });
+      const challenges = _.filter(developerChallenges, { participantID: developerID });
       for (let i = 0; i < challenges.length; i++) {
         for (let j = 0; j < universalChallenges.length; j++) {
           if (challenges[i].challengeID === universalChallenges[j]._id) {

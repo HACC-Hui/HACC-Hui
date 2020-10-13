@@ -68,13 +68,13 @@ class ListDevelopersCard extends React.Component {
         const thisTeam = Teams.findDoc({ name: e.value })._id;
         const devID = Participants.findDoc({ _id: dID }).username;
         // console.log(thisTeam);
-        const definitionData = { team: thisTeam, developer: devID };
+        const definitionData = { team: thisTeam, participant: devID };
         const collectionName = TeamInvitations.getCollectionName();
         // console.log(collectionName);
         console.log(thisTeam);
         if (typeof TeamParticipants.findOne({
           teamID: thisTeam,
-          developerID: dID,
+          participantID: dID,
         }) !== 'undefined') {
           console.log('already in team');
           swal('Error',
@@ -94,7 +94,7 @@ class ListDevelopersCard extends React.Component {
 
         if (typeof TeamInvitations.findOne({
           teamID: thisTeam,
-          developerID: dID,
+          participantID: dID,
         }) !== 'undefined') {
           console.log('already invited');
           swal('Error',
@@ -105,12 +105,12 @@ class ListDevelopersCard extends React.Component {
 
         console.log(typeof TeamInvitations.findOne({
           teamID: thisTeam,
-          developerID: dID,
+          participantID: dID,
         }) !== 'undefined');
 
         console.log(typeof TeamInvitations.findOne({
           teamID: thisTeam,
-          developerID: dID,
+          participantID: dID,
         }));
 
         defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
@@ -211,12 +211,12 @@ class ListDevelopersCard extends React.Component {
                 <Header>Skills</Header>
                 <p>
                   {this.props.skills.map((skill) => <p key={skill}>
-                    {skill.name}: {skill.level}</p>)}
+                    {skill.name}</p>)}
                 </p>
                 <Header>Tools</Header>
                 <p>
                   {this.props.tools.map((tool) => <p key={tool}>
-                    {tool.name}: {tool.level}</p>)}
+                    {tool.name}</p>)}
                 </p>
               </Modal.Description>
             </Modal.Content>
