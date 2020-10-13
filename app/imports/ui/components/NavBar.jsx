@@ -34,6 +34,7 @@ class NavBar extends React.Component {
                 // eslint-disable-next-line max-len
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_DEVELOPERS} key='list-participants'>List the
                 Participants</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.SUGGEST_TOOL_SKILL} key='suggest-tool-skill'>Suggest Tool/Skill</Menu.Item>,
               ]
           ) : ''}
           {isAdmin ? (
