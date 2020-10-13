@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import 'semantic-ui-css/semantic.css';
 import { Roles } from 'meteor/alanning:roles';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Menu, Icon } from 'semantic-ui-react';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
@@ -33,17 +34,44 @@ import YourTeams from '../pages/participant/YourTeams';
 import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
 import ListDevelopersPage from '../pages/participant/ListDevelopersPage';
+import SideBar from '../components/SideBar';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
  * @memberOf ui/layouts
  */
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: true,
+    };
+  }
+
   render() {
+
+    const isMobile = true;
+
+    const setVisible = (state) => {
+
+      this.setState({ visible: state });
+    };
+
+    const mobileTop = () => (
+        <Menu attached="top" borderless inverted>
+          <Menu.Item onClick={() => setVisible(!this.state.visible)}>
+            <Icon name='bars'/>
+          </Menu.Item>
+        </Menu>
+    );
+
     return (
         <Router>
           <div>
-            <NavBar />
+
+            {/*<NavBar />*/}
+            {mobileTop()}
+            <SideBar visible={this.state.visible}>
             <Switch>
               <Route exact path={ROUTES.LANDING} component={Landing} />
               <Route path={ROUTES.SIGN_IN} component={Signin} />
@@ -70,6 +98,7 @@ class App extends React.Component {
               <Route component={NotFound} />
             </Switch>
             <Footer />
+            </SideBar>
           </div>
         </Router>
     );
