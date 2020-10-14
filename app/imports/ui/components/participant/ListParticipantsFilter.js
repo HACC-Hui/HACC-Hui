@@ -1,6 +1,6 @@
 import { _ } from 'lodash';
 
-class ListDevelopersFilter {
+class ListParticipantsFilter {
 
   /**
    * Filters through the inputted data based on user input. If the search query is empty, it returns
@@ -225,4 +225,4 @@ class ListDevelopersFilter {
   }
 }
 
-export default ListDevelopersFilter;
+export default ListParticipantsFilter;

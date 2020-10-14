@@ -32,7 +32,7 @@ import CreateTeamPage from '../pages/participant/CreateTeamPage';
 import YourTeams from '../pages/participant/YourTeams';
 import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
-import ListDevelopersPage from '../pages/participant/ListDevelopersPage';
+import ListParticipantsPage from '../pages/participant/ListParticipantsPage';
 import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 
 /**
@@ -58,7 +58,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
               <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
-              <ProtectedRoute path={ROUTES.LIST_DEVELOPERS} component={ListDevelopersPage} />
+              <ProtectedRoute path={ROUTES.LIST_PARTICIPANTS} component={ListParticipantsPage} />
               <ProtectedRoute path={ROUTES.TEAM_INVITATIONS} component={TeamInvitationsPage}/>
               <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
               <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />

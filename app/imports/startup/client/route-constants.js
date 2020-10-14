@@ -24,7 +24,7 @@ export const ROUTES = {
   ADD_TOOL: '/add-tool',
   TEAM_FINDER: '/team-finder',
   INTERESTED_DEVELOPERS: '/interested-developers/:_id',
-  LIST_DEVELOPERS: '/list-developers',
+  LIST_PARTICIPANTS: '/list-participants',
   DUMP_DATABASE: '/dump-database',
   YOUR_TEAMS: '/your-teams',
   EDIT_CHALLENGE: '/edit-challenge/:_id',
