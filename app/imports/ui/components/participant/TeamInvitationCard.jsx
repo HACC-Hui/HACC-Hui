@@ -140,8 +140,8 @@ class TeamInvitationCard extends React.Component {
                 {this.props.tools.map((tool) => <p key={tool}>
                   {tool}</p>)}
                 <Header>Members</Header>
-                {this.props.developers.map((developer) => <p key={developer}>
-                  {developer.firstName} {developer.lastName}</p>)}
+                {this.props.participants.map((participant) => <p key={participant}>
+                  {participant.firstName} {participant.lastName}</p>)}
 
               </Modal.Description>
             </Modal.Content>
@@ -182,7 +182,7 @@ TeamInvitationCard.propTypes = {
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
-  developers: PropTypes.array.isRequired,
+  participants: PropTypes.array.isRequired,
 };
 
 export default TeamInvitationCard;
