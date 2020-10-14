@@ -47,6 +47,7 @@ class SideBar extends React.Component {
                 icon='labeled'
                 inverted
                 vertical
+                onHide={() => setVisible(false)}
                 visible={this.state.visible}
                 width='thin'
             >
@@ -96,9 +97,13 @@ class SideBar extends React.Component {
                                key={ROUTES.SIGN_IN}
                                onClick={() => setVisible(!this.state.visible)}>Sign In</Menu.Item>
                 ) : (
-                    <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.SIGN_OUT}
+                    [<Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.SIGN_OUT}
                                key={ROUTES.SIGN_OUT}
-                               onClick={() => setVisible(!this.state.visible)}>Sign Out</Menu.Item>
+                               onClick={() => setVisible(!this.state.visible)}>Sign Out</Menu.Item>,
+                      <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.DELETE_ACCOUNT}
+                                 key={ROUTES.DELETE_ACCOUNT}
+                                 onClick={() => setVisible(!this.state.visible)}>Delete Account</Menu.Item>,
+                    ]
                 )}
               </Menu.Item>
             </Sidebar>
@@ -115,7 +120,7 @@ class SideBar extends React.Component {
 // Declare the types of all properties.
 SideBar.propTypes = {
   currentUser: PropTypes.string,
-  children: PropTypes.string,
+  children: PropTypes.array,
   visible: PropTypes.bool,
 };
 

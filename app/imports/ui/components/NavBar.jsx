@@ -16,7 +16,6 @@ class NavBar extends React.Component {
   render() {
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isParticipant = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
-    const menuStyle = { marginBottom: '10px' };
 
     return (
         <Menu attached="top" borderless inverted className={'navBar'} >
