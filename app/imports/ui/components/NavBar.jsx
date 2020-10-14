@@ -17,8 +17,9 @@ class NavBar extends React.Component {
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isParticipant = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
     const menuStyle = { marginBottom: '10px' };
+
     return (
-        <Menu style={menuStyle} attached="top" borderless inverted>
+        <Menu attached="top" borderless inverted className={'navBar'} >
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
             <Header inverted as='h1'>HACC-Hui</Header>
           </Menu.Item>

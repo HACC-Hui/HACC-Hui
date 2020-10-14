@@ -50,55 +50,74 @@ class App extends React.Component {
 
   render() {
 
-    const isMobile = true;
+    let isMobile = false;
 
     const setVisible = (state) => {
-
       this.setState({ visible: state });
     };
 
     const mobileTop = () => (
-        <Menu attached="top" borderless inverted>
-          <Menu.Item onClick={() => setVisible(!this.state.visible)}>
-            <Icon name='bars'/>
+        <Menu borderless inverted fixed={'top'} className={'mobileBar'}>
+          <Menu.Item position={'left'}>
+            <div onClick={() => setVisible(!this.state.visible)} style={{ padding: '5px' }}>
+              <Icon name='bars'/>
+            </div>
           </Menu.Item>
         </Menu>
+    );
+
+    const routes = () => (
+      <Switch>
+        <Route exact path={ROUTES.LANDING} component={Landing} />
+        <Route path={ROUTES.SIGN_IN} component={Signin} />
+        <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
+        <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
+        <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm} />
+        <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={CreateProfilePage} />
+        <ProtectedRoute path={ROUTES.YOUR_PROFILE} component={ProfilePage} />
+        <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
+        <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
+        <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
+        <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
+        <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
+        <ProtectedRoute path={ROUTES.LIST_DEVELOPERS} component={ListDevelopersPage} />
+        <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
+        <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
+        <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
+        <AdminProtectedRoute path={ROUTES.ADD_TOOL} component={AddTool} />
+        <AdminProtectedRoute path={ROUTES.EDIT_CHALLENGE} component={EditChallengePage}/>
+        <AdminProtectedRoute path={ROUTES.EDIT_TOOL} component={EditToolPage}/>
+        <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkillPage}/>
+        <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
+        <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
+        <Route component={NotFound} />
+      </Switch>
     );
 
     return (
         <Router>
           <div>
-
-            {/*<NavBar />*/}
+            <NavBar>
+              {routes()}
+              <Footer/>
+            </NavBar>
             {mobileTop()}
             <SideBar visible={this.state.visible}>
-            <Switch>
-              <Route exact path={ROUTES.LANDING} component={Landing} />
-              <Route path={ROUTES.SIGN_IN} component={Signin} />
-              <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
-              <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
-              <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm} />
-              <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={CreateProfilePage} />
-              <ProtectedRoute path={ROUTES.YOUR_PROFILE} component={ProfilePage} />
-              <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
-              <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
-              <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
-              <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
-              <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
-              <ProtectedRoute path={ROUTES.LIST_DEVELOPERS} component={ListDevelopersPage} />
-              <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
-              <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
-              <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
-              <AdminProtectedRoute path={ROUTES.ADD_TOOL} component={AddTool} />
-              <AdminProtectedRoute path={ROUTES.EDIT_CHALLENGE} component={EditChallengePage}/>
-              <AdminProtectedRoute path={ROUTES.EDIT_TOOL} component={EditToolPage}/>
-              <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkillPage}/>
-              <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
-              <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
-              <Route component={NotFound} />
-            </Switch>
-            <Footer />
+              {routes()}
+              <Footer/>
             </SideBar>
+            {/*{isMobile ? (*/}
+            {/*    <div>*/}
+            {/*      {mobileTop()}*/}
+            {/*      <SideBar visible={this.state.visible}>*/}
+            {/*        {routes()}*/}
+            {/*      <Footer />*/}
+            {/*    </SideBar>*/}
+            {/*    </div>*/}
+            {/*) : <div>*/}
+            {/*      <NavBar/>*/}
+            {/*      {routes()}*/}
+            {/*    </div>}*/}
           </div>
         </Router>
     );

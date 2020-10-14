@@ -9,38 +9,26 @@ import { ROLE } from '../../api/role/Role';
 import { ROUTES } from '../../startup/client/route-constants';
 
 /**
- * The NavBar appears at the top of every page. Rendered by the App Layout component.
+ * The SideBar appears on the side of every page. Rendered by the App Layout component.
  * @memberOf ui/components
  */
 class SideBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      visible: true,
-    };
-  }
 
   render() {
 
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isParticipant = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
-    console.log(isParticipant);
-    const menuStyle = { marginBottom: '10px' };
-
-    const setVisible = (state) => {
-
-      this.setState({ visible: state });
-    };
+    // console.log(isParticipant);
 
     return (
 
-        <Sidebar.Pushable as={Segment} style={{ margin: '0rem' }}>
+        <Sidebar.Pushable as={Segment} className={'sideBar'}>
           <Sidebar
+              style={{ paddingTop: '4rem' }}
               as={Menu}
               animation='overlay'
               icon='labeled'
               inverted
-              onHide={() => setVisible(false)}
               vertical
               visible={this.props.visible}
               width='thin'

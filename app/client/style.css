@@ -1,0 +1,35 @@
+.navBar {
+  margin-bottom: 10px;
+}
+
+.mobileBar {
+  display: none !important;
+}
+
+.sideBar {
+  display: none !important;
+}
+
+
+@media screen and (max-width: 750px) {
+  .navBar {
+    display: none !important;
+  }
+
+  .mobileBar {
+    display: block !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .sideBar {
+    display: block !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    padding-top: 6rem !important;
+  }
+
+  .ui .container{
+    padding-top: 6rem !important;
+  }
+}
