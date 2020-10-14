@@ -33,6 +33,7 @@ import YourTeams from '../pages/participant/YourTeams';
 import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
 import ListDevelopersPage from '../pages/participant/ListDevelopersPage';
+import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -58,6 +59,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
               <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
               <ProtectedRoute path={ROUTES.LIST_DEVELOPERS} component={ListDevelopersPage} />
+              <ProtectedRoute path={ROUTES.TEAM_INVITATIONS} component={TeamInvitationsPage}/>
               <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
               <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
               <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
