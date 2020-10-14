@@ -32,7 +32,7 @@ class NavBar extends React.Component {
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.YOUR_TEAMS} key='your-teams'>Your
                   Teams</Menu.Item>,
                 // eslint-disable-next-line max-len
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_DEVELOPERS} key='list-participants'>List the
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_PARTICIPANTS} key='list-participants'>List the
                 Participants</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active"
                            exact to={ROUTES.TEAM_INVITATIONS} key='team-invitations'>

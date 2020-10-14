@@ -99,7 +99,7 @@ class TeamInvitationCard extends React.Component {
                     <Grid.Column>
                       <Image src={this.props.teams.image} rounded size='small'/>
                       <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
-                        {this.props.challenges.map((challenge) => <p
+                        {this.props.challenges.slice(0, 3).map((challenge) => <p
                             style={{ color: 'rgb(89, 119, 199)' }}
                             key={challenge}>
                           {challenge}</p>)}
@@ -108,12 +108,12 @@ class TeamInvitationCard extends React.Component {
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Skills</Header>
-                      {this.props.skills.map((skill) => <p key={skill}>
+                      {this.props.skills.slice(0, 3).map((skill) => <p key={skill}>
                         {skill}</p>)}
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Tools</Header>
-                      {this.props.tools.map((tool) => <p key={tool}>
+                      {this.props.tools.slice(0, 3).map((tool) => <p key={tool}>
                         {tool}</p>)}
                     </Grid.Column>
                   </Grid>
