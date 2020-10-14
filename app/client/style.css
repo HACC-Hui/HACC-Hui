@@ -7,7 +7,9 @@
 }
 
 .sideBar {
-  display: none !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  padding-top: 6rem !important;
 }
 
 
@@ -29,7 +31,4 @@
     padding-top: 6rem !important;
   }
 
-  .ui .container{
-    padding-top: 6rem !important;
-  }
 }
