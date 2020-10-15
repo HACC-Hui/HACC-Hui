@@ -31,4 +31,5 @@ export const ROUTES = {
   EDIT_TOOL: '/edit-tool/:_id',
   EDIT_SKILL: '/edit-skill/:_id',
   TEAM_INVITATIONS: '/team-invitations',
+  ADMIN_EDIT_TEAM: '/admin-edit-team/:_id',
 };
