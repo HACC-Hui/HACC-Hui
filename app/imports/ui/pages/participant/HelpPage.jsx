@@ -31,7 +31,7 @@ class HelpPage extends React.Component {
             to login.
           </b>
         </p>
-        <div style={{ paddingTop: "60px" }}>
+        <div style={{ paddingTop: "40px" }}>
           <Header as="h1" textAlign="center">
             <b>What is HACC HUI?</b>
           </Header>
@@ -42,7 +42,7 @@ class HelpPage extends React.Component {
             </b>
           </h4>
         </div>
-        <Divider horizontal style={{ paddingTop: "60px" }}>
+        <Divider horizontal style={{ paddingTop: "40px" }}>
           TEAM MANAGEMENT
         </Divider>
         <Header as="h1" textAlign="center">
@@ -59,7 +59,7 @@ class HelpPage extends React.Component {
             page!
           </b>
         </p>
-        <div style={{ paddingTop: "60px" }}>
+        <div style={{ paddingTop: "40px" }}>
           <Header as="h1" textAlign="center">
             <b>How do I Leave/Delete my Team?</b>
           </Header>
@@ -74,7 +74,7 @@ class HelpPage extends React.Component {
             </b>
           </p>
         </div>
-        <div style={{ paddingTop: "60px" }}>
+        <div style={{ paddingTop: "40px" }}>
           <Header as="h1" textAlign="center">
             <b>How do I Create a Team?</b>
           </Header>
@@ -87,7 +87,7 @@ class HelpPage extends React.Component {
             <b>Make sure to fill out the team creation form fully</b>
           </p>
         </div>
-        <div style={{ paddingTop: "60px" }}>
+        <div style={{ paddingTop: "40px" }}>
           <Header as="h1" textAlign="center">
             <b>Can I be on Multiple Teams?</b>
           </Header>
@@ -101,7 +101,7 @@ class HelpPage extends React.Component {
             </b>
           </p>
         </div>
-        <Divider horizontal style={{ paddingTop: "60px" }}>
+        <Divider horizontal style={{ paddingTop: "40px" }}>
           UNEXPECTED ERRORS
         </Divider>
         <div style={{ paddingTop: "10px", paddingBottom: "30px" }}>
