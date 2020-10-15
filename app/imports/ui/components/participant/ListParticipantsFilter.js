@@ -201,6 +201,57 @@ class ListParticipantsFilter {
   }
 
   /**
+   * Filters through the data based on the user selection. By default, if no option is selected it
+   * returns the original data
+   * @param value The inputs given
+   * @param allInterests All the available interests
+   * @param devInterests Each devs' interest(s)
+   * @param dev The devs
+   * @returns {[]|*} Returns the filtered array
+   */
+  filterByInterest(value, allInterests, devInterests, dev) {
+
+    // if there are no tools selected
+    if (value.length === 0) {
+      return dev;
+    }
+
+    // convert from interestName --> interestID
+    const interestID = [];
+    for (let i = 0; i < value.length; i++) {
+      for (let j = 0; j < allInterests.length; j++) {
+        if (value[i] === allInterests[j].title) {
+          interestID.push(allInterests[j]._id);
+        }
+      }
+    }
+
+    // get devIDs for those that have the challenges
+    let devsWithInterest = [];
+    for (let i = 0; i < interestID.length; i++) {
+      for (let j = 0; j < devInterests.length; j++) {
+        if (interestID[i] === devInterests[j].interestID) {
+          devsWithInterest.push(devInterests[j].participantID);
+        }
+      }
+    }
+
+    // Ensure there's no duplicate teamIDs
+    devsWithInterest = _.uniq(devsWithInterest);
+
+    // Get the filtered devs
+    const devs = [];
+    for (let i = 0; i < devsWithInterest.length; i++) {
+      for (let j = 0; j < dev.length; j++) {
+        if (devsWithInterest[i] === dev[j]._id) {
+          devs.push(dev[j]);
+        }
+      }
+    }
+    return devs;
+  }
+
+  /**
    * Supplies all the possible values to make it work with semantic UI's dropdown
    * @param data The values
    * @returns {Array} Returns an array that can be used by semantic UI's dropdown

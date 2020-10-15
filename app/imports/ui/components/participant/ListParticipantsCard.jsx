@@ -8,6 +8,7 @@ import {
   Icon,
   Button,
   Dropdown,
+  List, Divider,
 } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -139,15 +140,21 @@ class ListParticipantsCard extends React.Component {
               </Item.Header>
               <Item.Meta>
                 <Item.Meta>
-                  <Grid doubling columns={6}>
+                  <Grid.Column>
+                    <Header>About Me</Header>
+                    {this.props.developers.aboutMe}
+                  </Grid.Column>
+                  <Divider hidden/>
+                  <Item.Meta>
+                  <Grid doubling columns={5}>
                     <Grid.Column>
+                      <Header>Challenges</Header>
                       <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
                         {this.props.challenges.slice(0, 3).map((challenge) => <p
                             style={{ color: 'rgb(89, 119, 199)' }}
                             key={challenge}>
                           {challenge}</p>)}
                       </Grid.Column>
-
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Skills</Header>
@@ -160,9 +167,13 @@ class ListParticipantsCard extends React.Component {
                         {tool.name}</p>)}
                     </Grid.Column>
                     <Grid.Column>
-                      <Header>Slack Username</Header>
-                      {this.props.developers.username}
+                      <Header>Interests</Header>
+                      {this.props.developers.interest}
                     </Grid.Column>
+                    <Grid.Column>
+                    <Header>Slack Username</Header>
+                    {this.props.developers.username}
+                  </Grid.Column>
                     <Grid.Column>
                       <Button.Group style={{ backgroundColor: 'transparent' }}>
                         <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
@@ -176,48 +187,57 @@ class ListParticipantsCard extends React.Component {
                       </Button.Group>
                     </Grid.Column>
                   </Grid>
+                  </Item.Meta>
                 </Item.Meta>
               </Item.Meta>
             </Item.Content>
           }>
-            <Modal.Header>{this.props.developers.firstName} {this.props.developers.lastName}</Modal.Header>
-            <Modal.Content image scrolling>
+            {/* eslint-disable-next-line max-len */}
+            <Modal.Header>{this.props.developers.firstName} {this.props.developers.lastName} <br /> {this.props.developers.demographicLevel}</Modal.Header>
+            <Modal.Content image>
               <Modal.Description>
-                <Header>About Me</Header>
-                <p>
-                  {this.props.developers.aboutMe}
-                </p>
-                <Header>Slack Username</Header>
-                <p>
-                  {this.props.developers.username}
-                </p>
-                <Header>LinkedIn</Header>
-                <p>
-                  {this.props.developers.linkedIn}
-                </p>
-                <Header>GitHub</Header>
-                <p>
-                  {this.props.developers.gitHub}
-                </p>
-                <Header>Website</Header>
-                <p>
-                  {this.props.developers.website}
-                </p>
-                <Header>Challenges</Header>
-                <p>
-                  {this.props.challenges.map((challenge) => <p key={challenge}>
-                    {challenge}</p>)}
-                </p>
-                <Header>Skills</Header>
-                <p>
-                  {this.props.skills.map((skill) => <p key={skill}>
-                    {skill.name}</p>)}
-                </p>
-                <Header>Tools</Header>
-                <p>
-                  {this.props.tools.map((tool) => <p key={tool}>
-                    {tool.name}</p>)}
-                </p>
+                <Grid container columns={2}>
+                  <Grid.Column><Icon name="github"/>GitHub:<br/>
+                    <a href={this.props.developers.gitHub}>{this.props.developers.gitHub}</a>
+                  </Grid.Column>
+                  <Grid.Column><Icon name="server"/>Website:<br/>
+                    <a href={this.props.developers.website}>{this.props.developers.website}</a>
+                  </Grid.Column>
+                  <Grid.Column><Icon name="linkedin"/>LinkedIn:<br/>
+                    <a href={this.props.developers.linkedIn}>{this.props.developers.linkedIn}</a>
+                  </Grid.Column>
+                  <Grid.Column><Icon name="slack"/>Slack Username:<br/>
+                    <a href={this.props.developers.username}>{this.props.developers.username}</a>
+                  </Grid.Column>
+                </Grid>
+                <Divider hidden/>
+                <Grid.Column>
+                  <Header dividing size="small">Challenges</Header>
+                  <List bulleted>
+                    {this.props.challenges.map((challenge) => <List.Item key={challenge}>{challenge}</List.Item>)}
+                  </List>
+                </Grid.Column>
+                <Divider hidden/>
+                <Grid.Column>
+                  <Header dividing size="small">Skills</Header>
+                  <List bulleted>
+                    {this.props.skills.map((skill) => <List.Item key={skill}>{skill.name}</List.Item>)}
+                  </List>
+                </Grid.Column>
+                <Divider hidden/>
+                <Grid.Column>
+                  <Header dividing size="small">Tools</Header>
+                  <List bulleted>
+                    {this.props.tools.map((tool) => <List.Item key={tool}>{tool.name}</List.Item>)}
+                  </List>
+                </Grid.Column>
+                <Divider hidden/>
+                <Grid.Column>
+                  <Header dividing size="small">Interests</Header>
+                  <List bulleted>
+                    {this.props.interests.map((interest) => <List.Item key={interest}>{interest.name}</List.Item>)}
+                  </List>
+                </Grid.Column>
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
@@ -245,6 +265,7 @@ ListParticipantsCard.propTypes = {
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
+  interests: PropTypes.array.isRequired,
   developers: PropTypes.object.isRequired,
 };
 export default withTracker(() => ({

@@ -15,10 +15,12 @@ import { Teams } from '../../../api/team/TeamCollection';
 import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
 import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
 import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
+import { ParticipantInterests } from '../../../api/user/ParticipantInterestCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
+import { Interests } from '../../../api/interest/InterestCollection';
 import ListParticipantsCard from './ListParticipantsCard';
 import ListParticipantsFilter from './ListParticipantsFilter';
 
@@ -31,6 +33,7 @@ class ListParticipantsWidget extends React.Component {
       challenges: [],
       tools: [],
       skills: [],
+      interests: [],
       result: _.orderBy(this.props.developers, ['name'], ['asc']),
     };
   }
@@ -64,10 +67,11 @@ class ListParticipantsWidget extends React.Component {
       { key: 'challenges', text: 'challenges', value: 'challenges' },
       { key: 'skills', text: 'skills', value: 'skills' },
       { key: 'tools', text: 'tools', value: 'tools' },
+      { key: 'interests', text: 'interests', value: 'interests' },
     ];
 
     const sticky = {
-      position: '-webkit-sticky',
+      position1: '-webkit-sticky',
       // eslint-disable-next-line no-dupe-keys
       position: 'sticky',
       top: '6.5rem',
@@ -83,6 +87,8 @@ class ListParticipantsWidget extends React.Component {
       const toolResults = filters.filterByTools(this.state.tools, this.props.tools, this.props.developerTools, skillResults);
       // eslint-disable-next-line max-len
       const challengeResults = filters.filterByChallenge(this.state.challenges, this.props.challenges, this.props.developerChallenges, toolResults);
+      // eslint-disable-next-line max-len
+      const interestResults = filters.filterByInterest(this.state.interests, this.props.interests, this.props.developerInterests, interestResults);
       const sorted = filters.sortBy(challengeResults, 'devs');
       this.setState({
         result: sorted,
@@ -132,6 +138,14 @@ class ListParticipantsWidget extends React.Component {
       });
     };
 
+    const getInterest = (event, { value }) => {
+      this.setState({
+        interests: value,
+      }, () => {
+        setFilters();
+      });
+    };
+
     const universalSkills = this.props.skills;
 
     function getDeveloperSkills(developerID, developerSkills) {
@@ -173,6 +187,21 @@ class ListParticipantsWidget extends React.Component {
         for (let j = 0; j < universalChallenges.length; j++) {
           if (challenges[i].challengeID === universalChallenges[j]._id) {
             data.push(universalChallenges[j].title);
+          }
+        }
+      }
+      return data;
+    }
+
+    const universalInterests = this.props.interests;
+
+    function getDeveloperInterests(developerID, developerInterests) {
+      const data = [];
+      const interests = _.filter(developerInterests, { participantID: developerID });
+      for (let i = 0; i < interests.length; i++) {
+        for (let j = 0; j < universalInterests.length; j++) {
+          if (interests[i].challengeID === universalInterests[j]._id) {
+            data.push(universalInterests[j].title);
           }
         }
       }
@@ -241,8 +270,7 @@ class ListParticipantsWidget extends React.Component {
                           onChange={getSkills}
                 />
               </div>
-
-              <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+              <div style={{ paddingTop: '2rem' }}>
                 <Header>Tools</Header>
                 <Dropdown
                     placeholder='Tools'
@@ -252,6 +280,18 @@ class ListParticipantsWidget extends React.Component {
                     selection
                     options={filters.dropdownValues(this.props.tools, 'name')}
                     onChange={getTools}
+                />
+              </div>
+              <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+                <Header>Interests</Header>
+                <Dropdown
+                    placeholder='Interests'
+                    fluid
+                    multiple
+                    search
+                    selection
+                    options={filters.dropdownValues(this.props.interests, 'name')}
+                    onChange={getInterest}
                 />
               </div>
             </Segment>
@@ -266,6 +306,7 @@ class ListParticipantsWidget extends React.Component {
                   skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
                   tools={getDeveloperTools(developers._id, this.props.developerTools)}
                   challenges={getDeveloperChallenges(developers._id, this.props.developerChallenges)}
+                  interests={getDeveloperInterests(developers._id, this.props.developerInterests)}
               />)}
             </Item.Group>
           </Grid.Column>
@@ -277,12 +318,14 @@ class ListParticipantsWidget extends React.Component {
 ListParticipantsWidget.propTypes = {
   developerChallenges: PropTypes.array.isRequired,
   developerSkills: PropTypes.array.isRequired,
+  developerInterests: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   developerTools: PropTypes.array.isRequired,
   teams: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
   developers: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
+  interests: PropTypes.array.isRequired,
   // ready: PropTypes.bool.isRequired,
 
 };
@@ -304,12 +347,15 @@ export default withTracker(() =>
     developerChallenges: ParticipantChallenges.find({}).fetch(),
     developerSkills: ParticipantSkills.find({}).fetch(),
     developerTools: ParticipantTools.find({}).fetch(),
+     developerInterests: ParticipantInterests.find({}).fetch(),
     teams: Teams.find({ open: true }).fetch(),
     skills: Skills.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     tools: Tools.find({}).fetch(),
     developers: Participants.find({}).fetch(),
-    // eslint-disable-next-line max-len
+     interests: Interests.find({}).fetch(),
+
+     // eslint-disable-next-line max-len
     /*
     ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready()
         && subscriptionDevelopers.ready() && subscriptionTeam.ready() && subSkills.ready() && subTools.ready()
