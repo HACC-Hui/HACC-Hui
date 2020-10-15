@@ -34,6 +34,7 @@ import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
 import ListDevelopersPage from '../pages/participant/ListDevelopersPage';
 import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
+import ViewTeamPage from '../pages/administrator/ViewTeamPage.jsx';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -68,6 +69,7 @@ class App extends React.Component {
               <AdminProtectedRoute path={ROUTES.EDIT_TOOL} component={EditToolPage}/>
               <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkillPage}/>
               <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
+              <AdminProtectedRoute path={ROUTES.VIEW_TEAM} component={ViewTeamPage} />
               <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
               <Route component={NotFound} />
             </Switch>
