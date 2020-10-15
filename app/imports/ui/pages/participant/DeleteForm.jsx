@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Segment, Header } from 'semantic-ui-react';
 import { AutoForm, ErrorsField, LongTextField, SelectField } from 'uniforms-semantic';
+import { Meteor } from 'meteor/meteor';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
@@ -11,6 +12,7 @@ import { Participants } from '../../../api/user/ParticipantCollection';
 import { removeItMethod } from '../../../api/base/BaseCollection.methods';
 import { deleteAccountMethod, userInteractionDefineMethod } from '../../../api/user/UserInteractionCollection.methods';
 import { USER_INTERACTIONS } from '../../../startup/client/user-interaction-constants';
+import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 
 /**
  * Renders the Page for deleting a user. **deprecated**
@@ -41,7 +43,7 @@ class DeleteForm extends React.Component {
     ));
     const collectionName = Participants.getCollectionName();
     const instance = this.props.doc._id;
-    // console.log(collectionName, instance);
+    TeamParticipants.removeParticipant(instance);
     removeItMethod.call({ collectionName, instance });
     deleteAccountMethod.call();
   }
@@ -121,9 +123,10 @@ DeleteForm.propTypes = {
 };
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
-export default withTracker(({ match }) => {
+export default withTracker(() => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
-  const documentId = match.params._id;
+  // const documentId = match.params._id;
+  const documentId = Participants.findDoc({ userID: Meteor.userId() })._id;
   // Get access to Participants documents.
   const subscription = Participants.subscribe();
   return {
