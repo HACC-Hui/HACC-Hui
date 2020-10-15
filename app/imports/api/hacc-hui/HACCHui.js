@@ -1,25 +1,25 @@
-import _ from 'lodash';
-import { Meteor } from 'meteor/meteor';
-import { Challenges } from '../challenge/ChallengeCollection';
-import { ChallengeInterests } from '../challenge/ChallengeInterestCollection';
-import { Interests } from '../interest/InterestCollection';
-import { Skills } from '../skill/SkillCollection';
-import { Slugs } from '../slug/SlugCollection';
-import { Teams } from '../team/TeamCollection';
-import { TeamChallenges } from '../team/TeamChallengeCollection';
-import { TeamParticipants } from '../team/TeamParticipantCollection';
-import { TeamSkills } from '../team/TeamSkillCollection';
-import { TeamTools } from '../team/TeamToolCollection';
-import { Tools } from '../tool/ToolCollection';
-import { Participants } from '../user/ParticipantCollection';
-import { ParticipantChallenges } from '../user/ParticipantChallengeCollection';
-import { ParticipantInterests } from '../user/ParticipantInterestCollection';
-import { ParticipantSkills } from '../user/ParticipantSkillCollection';
-import { ParticipantTools } from '../user/ParticipantToolCollection';
-import { Administrators } from '../user/AdministratorCollection';
-import { SlackUsers } from '../slackbot/SlackUserCollection';
-import { WantsToJoin } from '../team/WantToJoinCollection';
-import { TeamInvitations } from '../team/TeamInvitationCollection';
+import _ from "lodash";
+import { Meteor } from "meteor/meteor";
+import { Challenges } from "../challenge/ChallengeCollection";
+import { ChallengeInterests } from "../challenge/ChallengeInterestCollection";
+import { Interests } from "../interest/InterestCollection";
+import { Skills } from "../skill/SkillCollection";
+import { Slugs } from "../slug/SlugCollection";
+import { Teams } from "../team/TeamCollection";
+import { TeamChallenges } from "../team/TeamChallengeCollection";
+import { TeamParticipants } from "../team/TeamParticipantCollection";
+import { TeamSkills } from "../team/TeamSkillCollection";
+import { TeamTools } from "../team/TeamToolCollection";
+import { Tools } from "../tool/ToolCollection";
+import { Participants } from "../user/ParticipantCollection";
+import { ParticipantChallenges } from "../user/ParticipantChallengeCollection";
+import { ParticipantInterests } from "../user/ParticipantInterestCollection";
+import { ParticipantSkills } from "../user/ParticipantSkillCollection";
+import { ParticipantTools } from "../user/ParticipantToolCollection";
+import { Administrators } from "../user/AdministratorCollection";
+import { SlackUsers } from "../slackbot/SlackUserCollection";
+import { WantsToJoin } from "../team/WantToJoinCollection";
+import { TeamInvitations } from "../team/TeamInvitationCollection";
 
 /** @namespace api/hacc-hui */
 
@@ -50,13 +50,7 @@ class HACCHuiClass {
       TeamTools,
       Tools,
       WantsToJoin,
-      TeamInvitations,
-<<<<<<< HEAD
-      Suggestions,
-      LeavingTeams,
-=======
-
->>>>>>> added help page
+      TeamInvitations
     ];
     /** The load sequence for loading fixtures. */
     this.collectionLoadSequence = [
@@ -67,15 +61,11 @@ class HACCHuiClass {
       Challenges,
       Participants,
       Teams,
-      SlackUsers,
-<<<<<<< HEAD
-      Suggestions,
-=======
->>>>>>> added help page
+      SlackUsers
     ];
     /** Maps collection name to the collection. */
     this.collectionAssociation = {};
-    _.forEach(this.collections, (collection) => {
+    _.forEach(this.collections, collection => {
       this.collectionAssociation[collection.getCollectionName()] = collection;
     });
   }
@@ -89,7 +79,9 @@ class HACCHuiClass {
   getCollection(collectionName) {
     const collection = this.collectionAssociation[collectionName];
     if (!collection) {
-      throw new Meteor.Error(`Called HACCHui.getCollection with unknown collection name: ${collectionName}`);
+      throw new Meteor.Error(
+        `Called HACCHui.getCollection with unknown collection name: ${collectionName}`
+      );
     }
     return collection;
   }
