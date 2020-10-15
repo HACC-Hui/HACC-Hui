@@ -23,6 +23,7 @@ import AddSkill from '../pages/administrator/AddSkill';
 import AddTool from '../pages/administrator/AddTool';
 import DumpDatabase from '../pages/administrator/DumpDatabase';
 import EditProfilePage from '../pages/participant/EditProfilePage';
+import EditTeamPage from '../pages/participant/EditTeamPage';
 import ListTeamsPage from '../pages/participant/ListTeamsPage';
 import ConfigureHaccPage from '../pages/administrator/ConfigureHaccPage';
 import EditChallengePage from '../pages/administrator/EditChallengePage';
@@ -54,6 +55,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={CreateProfilePage} />
               <ProtectedRoute path={ROUTES.YOUR_PROFILE} component={ProfilePage} />
               <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
+              <ProtectedRoute path={ROUTES.EDIT_TEAM} component={EditTeamPage} />
               <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
               <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
