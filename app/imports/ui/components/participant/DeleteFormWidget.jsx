@@ -107,7 +107,13 @@ DeleteFormWidget.propTypes = {
 };
 
 const DeleteFormWidgetCon = withTracker(() => {
-    const participant = Participants.findDoc({ userID: Meteor.userId() });
+  const userID = Meteor.userId();
+  let participant;
+  if (Participants.isDefined(userID)) {
+    participant = Participants.findDoc({ userID: Meteor.userId() });
+  } else {
+    participant = {};
+  }
     return {
         participant,
     };
