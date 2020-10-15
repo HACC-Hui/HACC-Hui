@@ -30,16 +30,36 @@ class ViewTeamExampleWidget extends React.Component {
 
   render() {
     return (
-        <Grid.Row columns={2}>
+        <Grid container centered>
           <Grid.Column>
-            <Header as="h3">{this.props.team.name}</Header>
+            <div style={{
+              backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
+              borderRadius: '2rem',
+            }}>
+              <Header as="h1" textAlign="center" inverted>View Teams</Header>
+            </div>
+          <Grid celled>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              <Header as="h3">Team Name</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header as="h3">Members</Header>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              <Header as="h3">{this.props.team.name}</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <List bulleted>
+                {this.props.teamMembers.map((t) => <List.Item key={t}>{t}</List.Item>)}
+              </List>
+            </Grid.Column>
+          </Grid.Row>
+          </Grid>
           </Grid.Column>
-          <Grid.Column>
-            <List bulleted>
-              {this.props.teamMembers.map((t) => <List.Item key={t}>{t}</List.Item>)}
-            </List>
-          </Grid.Column>
-        </Grid.Row>
+        </Grid>
     );
   }
 }
