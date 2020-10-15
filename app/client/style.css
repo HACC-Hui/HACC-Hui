@@ -1,0 +1,37 @@
+.navBar {
+  margin-bottom: 10px;
+  background-color: #124884 !important;
+}
+
+.mobileBar {
+  display: none !important;
+  background-color: rgb(18, 72, 132) !important;
+}
+
+.sideBar {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  padding-top: 6rem !important;
+}
+
+
+@media screen and (max-width: 750px) {
+  .navBar {
+    display: none !important;
+  }
+
+  .mobileBar {
+    display: block !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    background-color: rgb(18, 72, 132) !important;
+  }
+
+  .sideBar {
+    display: block !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    padding-top: 6rem !important;
+  }
+
+}
