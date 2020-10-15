@@ -39,15 +39,18 @@ class ViewTeamExampleWidget extends React.Component {
               <Header as="h1" textAlign="center" inverted>View Teams</Header>
             </div>
           <Grid celled>
-          <Grid.Row columns={2}>
+          <Grid.Row columns={3}>
             <Grid.Column>
               <Header as="h3">Team Name</Header>
             </Grid.Column>
             <Grid.Column>
               <Header as="h3">Members</Header>
             </Grid.Column>
+            <Grid.Column>
+              <Header as="h3">Is the Team Compliant?</Header>
+            </Grid.Column>
           </Grid.Row>
-          <Grid.Row columns={2}>
+          <Grid.Row columns={3}>
             <Grid.Column>
               <Header as="h3">{this.props.team.name}</Header>
             </Grid.Column>
@@ -55,6 +58,9 @@ class ViewTeamExampleWidget extends React.Component {
               <List bulleted>
                 {this.props.teamMembers.map((t) => <List.Item key={t}>{t}</List.Item>)}
               </List>
+            </Grid.Column>
+            <Grid.Column>
+
             </Grid.Column>
           </Grid.Row>
           </Grid>
