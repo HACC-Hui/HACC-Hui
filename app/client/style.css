@@ -4,6 +4,7 @@
 
 .mobileBar {
   display: none !important;
+  background-color: rgb(18, 72, 132) !important;
 }
 
 .sideBar {
@@ -22,6 +23,7 @@
     display: block !important;
     margin: 0 !important;
     border-radius: 0 !important;
+    background-color: rgb(18, 72, 132) !important;
   }
 
   .sideBar {

@@ -41,7 +41,7 @@ class SideBar extends React.Component {
           </Menu>
           <Sidebar.Pushable as={Segment} className={'sideBar'}>
             <Sidebar
-                style={{ paddingTop: '4rem' }}
+                style={{ paddingTop: '4rem', backgroundColor: 'rgb(18, 72, 132)' }}
                 as={Menu}
                 animation='overlay'
                 icon='labeled'
