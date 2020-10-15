@@ -33,4 +33,5 @@ export const ROUTES = {
   SUGGEST_TOOL_SKILL: '/suggest-tool-skill',
   LIST_SUGGESTIONS: '/list-suggestions',
   TEAM_INVITATIONS: '/team-invitations',
+  ADMIN_EDIT_TEAM: '/admin-edit-team/:_id',
 };
