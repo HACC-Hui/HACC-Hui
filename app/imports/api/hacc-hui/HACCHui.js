@@ -20,6 +20,7 @@ import { Administrators } from '../user/AdministratorCollection';
 import { SlackUsers } from '../slackbot/SlackUserCollection';
 import { WantsToJoin } from '../team/WantToJoinCollection';
 import { TeamInvitations } from '../team/TeamInvitationCollection';
+import { Suggestions } from '../suggestions/SuggestionCollection';
 
 /** @namespace api/hacc-hui */
 
@@ -51,6 +52,7 @@ class HACCHuiClass {
       Tools,
       WantsToJoin,
       TeamInvitations,
+      Suggestions,
 
     ];
     /** The load sequence for loading fixtures. */
@@ -63,6 +65,7 @@ class HACCHuiClass {
       Participants,
       Teams,
       SlackUsers,
+      Suggestions,
     ];
     /** Maps collection name to the collection. */
     this.collectionAssociation = {};
