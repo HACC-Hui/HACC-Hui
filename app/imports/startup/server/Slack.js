@@ -65,9 +65,10 @@ if (!Meteor.isAppTest) {
         }
     }
     else if(event.text.includes('help')){
-      //window.location.href = "http://localhost:3400";
+      //url = '/signin';
       /* Could we add a hyperlink into slack? Need to check Slack API */
-      await say(`<@${event.user}> I can see that you need help, please refer to our help page at: {temp link}`);
+      //Need to wait for help page issue to be complete, talk to moore about this
+      await say(`<@${event.user}> I can see that you need help, please refer to our help page at: [temp url]`);
     }
     else {
       await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me. If you need help say help me.`);
