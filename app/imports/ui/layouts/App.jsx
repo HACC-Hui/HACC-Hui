@@ -33,6 +33,9 @@ import CreateTeamPage from '../pages/participant/CreateTeamPage';
 import YourTeams from '../pages/participant/YourTeams';
 import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
+import ListDevelopersPage from '../pages/participant/ListDevelopersPage';
+import SuggestToolSkillPage from '../pages/participant/SuggestToolSkillPage';
+import ListSuggestions from '../pages/administrator/ListSuggestions';
 import ListParticipantsPage from '../pages/participant/ListParticipantsPage';
 import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 import SideBar from '../components/SideBar';
@@ -83,6 +86,7 @@ class App extends React.Component {
           <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
           <ProtectedRoute path={ROUTES.LIST_PARTICIPANTS} component={ListParticipantsPage} />
           <ProtectedRoute path={ROUTES.TEAM_INVITATIONS} component={TeamInvitationsPage}/>
+          <ProtectedRoute path={ROUTES.SUGGEST_TOOL_SKILL} component={SuggestToolSkillPage} />
           <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
           <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
           <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
@@ -90,6 +94,7 @@ class App extends React.Component {
           <AdminProtectedRoute path={ROUTES.EDIT_CHALLENGE} component={EditChallengePage}/>
           <AdminProtectedRoute path={ROUTES.EDIT_TOOL} component={EditToolPage}/>
           <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkillPage}/>
+          <AdminProtectedRoute path={ROUTES.LIST_SUGGESTIONS} component={ListSuggestions}/>
           <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
           <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
           <Route component={NotFound} />
