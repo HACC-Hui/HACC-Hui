@@ -35,7 +35,6 @@ class ListSuggestionsCard extends React.Component {
 }
 
 ListSuggestionsCard.propTypes = {
-  key: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

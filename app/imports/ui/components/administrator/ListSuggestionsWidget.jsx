@@ -181,7 +181,6 @@ class ListSuggestionsWidget extends React.Component {
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
               {this.state.result.map((suggestions) => <ListSuggestionsCard
-                  key={suggestions._id}
                   type={suggestions.type}
                   username={suggestions.username}
                   name={suggestions.name}

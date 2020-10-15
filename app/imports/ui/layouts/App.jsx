@@ -33,7 +33,6 @@ import CreateTeamPage from '../pages/participant/CreateTeamPage';
 import YourTeams from '../pages/participant/YourTeams';
 import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
-import ListDevelopersPage from '../pages/participant/ListDevelopersPage';
 import SuggestToolSkillPage from '../pages/participant/SuggestToolSkillPage';
 import ListSuggestions from '../pages/administrator/ListSuggestions';
 import ListParticipantsPage from '../pages/participant/ListParticipantsPage';
