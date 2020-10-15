@@ -22,5 +22,3 @@
 
     import './styles/iframe.css';
 
-  import Component0 from '../app/imports/ui/pages/AddStuff.jsx';
-reactComponents['AddStuff'] = Component0;
