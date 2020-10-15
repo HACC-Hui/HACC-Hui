@@ -19,10 +19,10 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
-import ListDevelopersCard from './ListDevelopersCard';
-import ListDevelopersFilter from './ListDevelopersFilter';
+import ListParticipantsCard from './ListParticipantsCard';
+import ListParticipantsFilter from './ListParticipantsFilter';
 
-class ListDevelopersWidget extends React.Component {
+class ListParticipantsWidget extends React.Component {
 
   constructor(props) {
     super(props);
@@ -73,7 +73,7 @@ class ListDevelopersWidget extends React.Component {
       top: '6.5rem',
     };
 
-    const filters = new ListDevelopersFilter();
+    const filters = new ListParticipantsFilter();
 
     const setFilters = () => {
       const searchResults = filters.filterBySearch(this.props.developers, this.state.search);
@@ -259,7 +259,7 @@ class ListDevelopersWidget extends React.Component {
           <Grid.Column width={12}>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
-              {this.state.result.map((developers) => <ListDevelopersCard
+              {this.state.result.map((developers) => <ListParticipantsCard
                   key={developers._id}
                   devID={developers._id}
                   developers={developers}
@@ -274,7 +274,7 @@ class ListDevelopersWidget extends React.Component {
   }
 }
 
-ListDevelopersWidget.propTypes = {
+ListParticipantsWidget.propTypes = {
   developerChallenges: PropTypes.array.isRequired,
   developerSkills: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
@@ -315,4 +315,4 @@ export default withTracker(() =>
         && subscriptionDevelopers.ready() && subscriptionTeam.ready() && subSkills.ready() && subTools.ready()
         && subChallenges.ready(),
      */
-  }))(ListDevelopersWidget);
+  }))(ListParticipantsWidget);
