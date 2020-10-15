@@ -8,7 +8,6 @@ import { TeamParticipants } from '../../api/team/TeamParticipantCollection';
 import { sendDM2AdministratorsMethod, sendDM2ParticipantMethod } from '../../api/slackbot/Slack.methods';
 import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
 import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
-import { LeavingTeams } from '../../api/team/LeavingTeamCollection';
 
 SyncedCron.add({
   name: 'Check for participants wanting to join team',
@@ -92,6 +91,7 @@ SyncedCron.add({
     });
   },
 });
+<<<<<<< HEAD
 
 SyncedCron.add({
   name: 'Check for participants leaving teams',
@@ -118,3 +118,5 @@ SyncedCron.add({
     });
   },
 });
+=======
+>>>>>>> added help page

@@ -20,8 +20,6 @@ import { Administrators } from '../user/AdministratorCollection';
 import { SlackUsers } from '../slackbot/SlackUserCollection';
 import { WantsToJoin } from '../team/WantToJoinCollection';
 import { TeamInvitations } from '../team/TeamInvitationCollection';
-import { Suggestions } from '../suggestions/SuggestionCollection';
-import { LeavingTeams } from '../team/LeavingTeamCollection';
 
 /** @namespace api/hacc-hui */
 
@@ -53,8 +51,12 @@ class HACCHuiClass {
       Tools,
       WantsToJoin,
       TeamInvitations,
+<<<<<<< HEAD
       Suggestions,
       LeavingTeams,
+=======
+
+>>>>>>> added help page
     ];
     /** The load sequence for loading fixtures. */
     this.collectionLoadSequence = [
@@ -66,7 +68,10 @@ class HACCHuiClass {
       Participants,
       Teams,
       SlackUsers,
+<<<<<<< HEAD
       Suggestions,
+=======
+>>>>>>> added help page
     ];
     /** Maps collection name to the collection. */
     this.collectionAssociation = {};
