@@ -114,6 +114,7 @@ SyncedCron.add({
           LeavingTeams.update(l._id, { sentOwnerDM: true });
         }
       });
+      LeavingTeams.update(l._id, { sentOwnerDM: true });
     });
   },
 });
