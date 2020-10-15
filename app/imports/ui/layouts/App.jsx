@@ -33,6 +33,8 @@ import CreateTeamPage from '../pages/participant/CreateTeamPage';
 import YourTeams from '../pages/participant/YourTeams';
 import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
+import ListParticipantsPage from '../pages/participant/ListParticipantsPage';
+import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 import ListDevelopersPage from '../pages/participant/ListDevelopersPage';
 import SideBar from '../components/SideBar';
 
@@ -68,29 +70,30 @@ class App extends React.Component {
 
     const routes = () => (
         <Switch>
-          <Route exact path={ROUTES.LANDING} component={Landing}/>
-          <Route path={ROUTES.SIGN_IN} component={Signin}/>
-          <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage}/>
-          <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm}/>
-          <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm}/>
-          <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={CreateProfilePage}/>
-          <ProtectedRoute path={ROUTES.YOUR_PROFILE} component={ProfilePage}/>
-          <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage}/>
-          <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage}/>
-          <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage}/>
-          <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm}/>
-          <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams}/>
-          <ProtectedRoute path={ROUTES.LIST_DEVELOPERS} component={ListDevelopersPage}/>
-          <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage}/>
-          <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge}/>
-          <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill}/>
-          <AdminProtectedRoute path={ROUTES.ADD_TOOL} component={AddTool}/>
+          <Route exact path={ROUTES.LANDING} component={Landing} />
+          <Route path={ROUTES.SIGN_IN} component={Signin} />
+          <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
+          <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
+          <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm} />
+          <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={CreateProfilePage} />
+          <ProtectedRoute path={ROUTES.YOUR_PROFILE} component={ProfilePage} />
+          <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
+          <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
+          <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
+          <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
+          <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
+          <ProtectedRoute path={ROUTES.LIST_PARTICIPANTS} component={ListParticipantsPage} />
+          <ProtectedRoute path={ROUTES.TEAM_INVITATIONS} component={TeamInvitationsPage}/>
+          <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
+          <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
+          <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
+          <AdminProtectedRoute path={ROUTES.ADD_TOOL} component={AddTool} />
           <AdminProtectedRoute path={ROUTES.EDIT_CHALLENGE} component={EditChallengePage}/>
           <AdminProtectedRoute path={ROUTES.EDIT_TOOL} component={EditToolPage}/>
           <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkillPage}/>
-          <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase}/>
-          <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout}/>
-          <Route component={NotFound}/>
+          <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
+          <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
+          <Route component={NotFound} />
         </Switch>
     );
 
