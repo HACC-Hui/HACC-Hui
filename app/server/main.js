@@ -1,4 +1,5 @@
 import '../imports/startup/server';
+import '../imports/api/stuff/StuffCollection.methods';
 import '../imports/api/base';
 import '../imports/api/challenge';
 import '../imports/api/hacc-hui';
