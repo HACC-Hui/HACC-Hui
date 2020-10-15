@@ -153,7 +153,7 @@ class CreateTeamWidget extends React.Component {
                       }}>
               <Segment style={{
                 borderRadius: '10px',
-                backgroundColor: '#BDEDFF',
+                backgroundColor: '#9AFEFF',
               }} className={'createTeam'}>
                 <Grid columns={1} style={{ paddingTop: '20px' }}>
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
