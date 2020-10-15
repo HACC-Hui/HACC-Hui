@@ -35,7 +35,6 @@ import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
 import ListParticipantsPage from '../pages/participant/ListParticipantsPage';
 import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
-import ListDevelopersPage from '../pages/participant/ListDevelopersPage';
 import SideBar from '../components/SideBar';
 
 /**

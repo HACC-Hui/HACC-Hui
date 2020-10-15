@@ -74,7 +74,7 @@ class SideBar extends React.Component {
                       Teams</Menu.Item>,
                     // eslint-disable-next-line max-len
                     <Menu.Item as={NavLink} activeClassName="active" exact
-                               to={ROUTES.LIST_DEVELOPERS}
+                               to={ROUTES.LIST_PARTICIPANTS}
                                key='list-participants'
                                onClick={() => setVisible(!this.state.visible)}>List the
                       Participants</Menu.Item>,
