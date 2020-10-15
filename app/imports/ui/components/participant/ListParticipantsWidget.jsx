@@ -212,7 +212,7 @@ class ListParticipantsWidget extends React.Component {
         <Grid container doubling relaxed stackable>
           <Grid.Row centered>
             <Header as={'h2'} style={{ paddingTop: '2rem' }}>
-              All Developers
+              All Participants
             </Header>
           </Grid.Row>
           <Grid.Column width={4}>
@@ -220,7 +220,7 @@ class ListParticipantsWidget extends React.Component {
               <div style={{ paddingTop: '2rem' }}>
                 <Header>
                   <Header.Content>
-                    Total Developers: {this.state.result.length}
+                    Total Participants: {this.state.result.length}
                   </Header.Content>
                 </Header>
               </div>
@@ -241,7 +241,7 @@ class ListParticipantsWidget extends React.Component {
               <div style={{ paddingTop: '2rem' }}>
                 <Input icon='search'
                        iconPosition='left'
-                       placeholder='Search by developer name...'
+                       placeholder='Search by participants name...'
                        onChange={handleSearchChange}
                        fluid
                 />
