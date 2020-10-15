@@ -42,6 +42,13 @@ const getTeamMembers = (team) => {
   return memberNames;
 };
 
+// const getCompliance = (team) => {
+//   const teamID = team._id;
+//   const teamParticipants = TeamParticipants.find({ teamID }).fetch();
+//   const teamCompliance = teamParticipants.map((tp) => Participants.getCompliance(tp.participantID));
+//   return teamCompliance;
+// }
+
 class ViewTeamWidget extends React.Component {
   render() {
     return (
@@ -53,6 +60,7 @@ class ViewTeamWidget extends React.Component {
                                      teamSkills={getTeamSkills(team)}
                                      teamTools={getTeamTools(team)}
                                      teamMembers={getTeamMembers(team)}
+                                     // teamCompliance={getCompliance(team)}
               />
           ))}
         </Grid>
