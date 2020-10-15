@@ -2,14 +2,39 @@ import React from 'react';
 import {
   Header,
   Item,
+  Button,
 } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
+import swal from 'sweetalert';
+import { removeItMethod } from '../../../api/base/BaseCollection.methods';
+import { Suggestions } from '../../../api/suggestions/SuggestionCollection';
 
 class ListSuggestionsCard extends React.Component {
 
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
+  removeItem() {
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this suggestion!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    })
+        .then((willDelete) => {
+          console.log(this.props.suggestionObj);
+          if (willDelete) {
+            removeItMethod.call({
+              collectionName: Suggestions.getCollectionName(),
+              instance: this.props.suggestionObj._id,
+            }, (error) => (error ?
+                swal('Error', error.message, 'error') :
+                swal('Success', 'Suggestion removed', 'success')));
+          } else {
+            swal('You canceled the deletion!');
+          }
+        });
+  }
+
   render() {
 
     return (
@@ -28,6 +53,7 @@ class ListSuggestionsCard extends React.Component {
                 {this.props.description}
               </Item.Description>
               <Item.Extra>Suggested By: {this.props.username} </Item.Extra>
+              <Button negative onClick={() => this.removeItem()}>Delete</Button>
             </Item.Content>
         </Item>
     );
@@ -39,7 +65,8 @@ ListSuggestionsCard.propTypes = {
   username: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  suggestionObj: PropTypes.object.isRequired,
 };
 export default withTracker(() => ({
-    teamInvitation: TeamInvitations.find({}).fetch(),
+    suggestion: Suggestions.find({}).fetch(),
   }))(ListSuggestionsCard);
