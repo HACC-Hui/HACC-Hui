@@ -29,37 +29,15 @@ class ViewTeamExampleWidget extends React.Component {
   }
 
   render() {
-    const participant = Participants.findDoc({ userID: Meteor.userId() });
-    const participantName = Participants.getFullName(participant._id);
-    const isAMember = _.includes(this.props.teamMembers, participantName);
     return (
-        <Grid.Row columns={6}>
+        <Grid.Row columns={2}>
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
           </Grid.Column>
           <Grid.Column>
             <List bulleted>
-              {this.props.teamChallenges.map((c) => <List.Item key={c}>{c}</List.Item>)}
-            </List>
-          </Grid.Column>
-          <Grid.Column>
-            <List bulleted>
-              {this.props.teamSkills.map((s) => <List.Item key={s}>{s}</List.Item>)}
-            </List>
-          </Grid.Column>
-          <Grid.Column>
-            <List bulleted>
-              {this.props.teamTools.map((t) => <List.Item key={t}>{t}</List.Item>)}
-            </List>
-          </Grid.Column>
-          <Grid.Column>
-            <List bulleted>
               {this.props.teamMembers.map((t) => <List.Item key={t}>{t}</List.Item>)}
             </List>
-          </Grid.Column>
-          <Grid.Column>
-            <Button id={this.props.team._id} color="green"
-                    onClick={this.handleClick} disabled={isAMember}>Request to Join</Button>
           </Grid.Column>
         </Grid.Row>
     );

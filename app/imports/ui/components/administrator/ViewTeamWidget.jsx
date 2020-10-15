@@ -12,6 +12,7 @@ import { TeamTools } from '../../../api/team/TeamToolCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
+import ListTeamExampleWidget from '../participant/ListTeamExampleWidget';
 
 const getTeamChallenges = (team) => {
   const teamID = team._id;
@@ -41,25 +42,20 @@ const getTeamMembers = (team) => {
   return memberNames;
 };
 
-/**
- * Renders the Page for Managing HACC. **deprecated**
- * @memberOf ui/pages
- */
 class ViewTeamWidget extends React.Component {
   render() {
     return (
-        <div style={{ backgroundColor: '#C4C4C4', paddingBottom: '50px' }}>
-          <Grid container centered>
-            <Grid.Column>
-              <div style={{
-                backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
-                borderRadius: '2rem',
-              }}>
-                <Header as="h2" textAlign="center" inverted>View Teams</Header>
-              </div>
-            </Grid.Column>
-          </Grid>
-        </div>
+        <Grid celled>
+          {this.props.teams.map((team) => (
+              <ViewTeamExampleWidget key={team._id}
+                                     team={team}
+                                     teamChallenges={getTeamChallenges(team)}
+                                     teamSkills={getTeamSkills(team)}
+                                     teamTools={getTeamTools(team)}
+                                     teamMembers={getTeamMembers(team)}
+              />
+          ))}
+        </Grid>
     );
   }
 }
