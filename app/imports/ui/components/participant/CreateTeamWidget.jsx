@@ -166,14 +166,14 @@ class CreateTeamWidget extends React.Component {
                       />
                     </Grid>
                     <TextField name='image' placeholder={'Team Image URL'} />
-                    <LongTextField name='description' />
+                    <LongTextField name='description' placeholder={'Description of Team'}/>
                     <MultiSelectField name='challenges' />
                     <Grid columns={2}>
                       <Grid.Column><MultiSelectField name='skills' /></Grid.Column>
                       <Grid.Column><MultiSelectField name='tools' /></Grid.Column>
                     </Grid>
-                    <TextField name="github" />
-                    <TextField name="devpostPage" />
+                    <TextField name="github" placeholder={'Github URL'} />
+                    <TextField name="devpostPage" placeholder={'Devpost Page URL'} />
                     <TextField name="affiliation" />
                     <MultiSelectField name='participants' />
                   </Grid.Column>
