@@ -11,12 +11,10 @@ import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
-import { _ } from 'lodash';
 import SimpleSchema from 'simpl-schema';
 import { withRouter } from 'react-router';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { Teams } from '../../../api/team/TeamCollection';
-import MultiSelectField from '../form-fields/MultiSelectField';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -28,12 +26,12 @@ const schema = new SimpleSchema({
   description: String,
   gitHubRepo: String,
 });
+
 class AdminEditTeamWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = { redirectToReferer: false };
   }
-
 
   /** On submit, insert the data.
    * @param data {Object} the results from the form.
@@ -44,22 +42,21 @@ class AdminEditTeamWidget extends React.Component {
     const {
       name, description, gitHubRepo,
     } = data;
-    const id = this.props.doc._id;
 
     const updateData = {};
-	updateData.id = data._id;
-	updateData.name = data.name;
-	updateData.description = data.description;
-	updateData.gitHubRepo = data.gitHubRepo;
-	
+    updateData.id = data._id;
+    updateData.name = name;
+    updateData.description = description;
+    updateData.gitHubRepo = gitHubRepo;
+
     const collectionName = Teams.getCollectionName();
     console.log(updateData);
-	console.log(collectionName);
+    console.log(collectionName);
     updateMethod.call({ collectionName, updateData },
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
-            // console.error(error.message); 
+            // console.error(error.message);
           } else {
             swal('Success', 'Item edited successfully', 'success');
             // console.log('Success');
@@ -67,7 +64,8 @@ class AdminEditTeamWidget extends React.Component {
         });
   }
 
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms *//**{this.props.team.name}*/
+  // Render the form. Use Uniforms: https://github.com/vazco/uniforms
+  /* {this.props.team.name} */
   render() {
     const formSchema = new SimpleSchema2Bridge(schema);
     return (
@@ -90,7 +88,7 @@ class AdminEditTeamWidget extends React.Component {
                 }} className={'teamCreate'}>
                   <Grid container centered>
                     <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
-					  <TextField name='name' required/>
+                      <TextField name='name' required/>
                       <LongTextField name='description' required/>
                       <TextField name='gitHubRepo' required/>
                     </Grid.Column>

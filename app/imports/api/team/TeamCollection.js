@@ -48,9 +48,11 @@ class TeamCollection extends BaseSlugCollection {
    * @param affiliation {String} the affiliation for this team, optional.
    * @return {string} the id of the team.
    */
-  define({ name, description = '', gitHubRepo = '', devPostPage = '',
+  define({
+           name, description = '', gitHubRepo = '', devPostPage = '',
            owner, open = true, challenges, skills, tools,
-           participants = [], affiliation = '' }) {
+           participants = [], affiliation = '',
+         }) {
     // console.log('TeamCollection.define', name, description, skills, tools, affiliation);
     const team = slugify(name);
     const slugID = Slugs.define({ name: team });
@@ -61,8 +63,10 @@ class TeamCollection extends BaseSlugCollection {
     } else {
       ownerID = owner;
     }
-    const teamID = this._collection.insert({ name, slugID, description, gitHubRepo, devPostPage,
-      owner: ownerID, open, affiliation });
+    const teamID = this._collection.insert({
+      name, slugID, description, gitHubRepo, devPostPage,
+      owner: ownerID, open, affiliation,
+    });
     // Connect the Slug to this Interest
     Slugs.updateEntityID(slugID, teamID);
     _.forEach(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
@@ -93,7 +97,7 @@ class TeamCollection extends BaseSlugCollection {
    * @param affiliation {string} the affiliation for this team, optional.
    * @param gitHubRepo {String} The team's GitHub Repository, optional.
    */
-  update(docID, { name, description, open, challenges, skills, tools, participants, affiliation, gitHubRepo, }) {
+  update(docID, { name, description, open, challenges, skills, tools, participants, affiliation, gitHubRepo }) {
     this.assertDefined(docID);
     const updateData = {};
     if (name) {
@@ -108,14 +112,14 @@ class TeamCollection extends BaseSlugCollection {
     if (affiliation) {
       updateData.affiliation = affiliation;
     }
-	if (gitHubRepo) {
+    if (gitHubRepo) {
       updateData.gitHubRepo = gitHubRepo;
     }
     this._collection.update(docID, { $set: updateData });
     const selector = { teamID: docID };
     const team = this.findSlugByID(docID);
     if (challenges) {
-     TeamChallenges.removeTeam(team);
+      TeamChallenges.removeTeam(team);
       _.forEach(challenges, (challenge) => TeamChallenges.define({ team, challenge }));
     }
     if (skills) {
