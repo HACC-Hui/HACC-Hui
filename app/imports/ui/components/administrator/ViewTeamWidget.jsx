@@ -52,17 +52,38 @@ const getTeamMembers = (team) => {
 class ViewTeamWidget extends React.Component {
   render() {
     return (
-        <Grid celled>
-          {this.props.teams.map((team) => (
-              <ViewTeamExampleWidget key={team._id}
-                                     team={team}
-                                     teamChallenges={getTeamChallenges(team)}
-                                     teamSkills={getTeamSkills(team)}
-                                     teamTools={getTeamTools(team)}
-                                     teamMembers={getTeamMembers(team)}
-                                     // teamCompliance={getCompliance(team)}
-              />
-          ))}
+        <Grid container centered>
+          <Grid.Column>
+            <div style={{
+              backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
+              borderRadius: '2rem',
+            }}>
+              <Header as="h1" textAlign="center" inverted>View Teams</Header>
+            </div>
+            <Grid celled>
+              <Grid.Row columns={3}>
+                <Grid.Column>
+                  <Header>Team Name</Header>
+                </Grid.Column>
+                <Grid.Column>
+                  <Header>Members</Header>
+                </Grid.Column>
+                <Grid.Column>
+                  <Header>Is the Team Compliant?</Header>
+                </Grid.Column>
+              </Grid.Row>
+              {this.props.teams.map((team) => (
+                  <ViewTeamExampleWidget key={team._id}
+                                         team={team}
+                                         teamChallenges={getTeamChallenges(team)}
+                                         teamSkills={getTeamSkills(team)}
+                                         teamTools={getTeamTools(team)}
+                                         teamMembers={getTeamMembers(team)}
+                      // teamCompliance={getCompliance(team)}
+                  />
+              ))}
+            </Grid>
+          </Grid.Column>
         </Grid>
     );
   }
