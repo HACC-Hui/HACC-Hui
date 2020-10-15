@@ -16,9 +16,9 @@ class NavBar extends React.Component {
   render() {
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isParticipant = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
-    const menuStyle = { marginBottom: '10px' };
+
     return (
-        <Menu style={menuStyle} attached="top" borderless inverted>
+        <Menu attached="top" borderless inverted className={'navBar'} >
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
             <Header inverted as='h1'>HACC-Hui</Header>
           </Menu.Item>
@@ -32,14 +32,20 @@ class NavBar extends React.Component {
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.YOUR_TEAMS} key='your-teams'>Your
                   Teams</Menu.Item>,
                 // eslint-disable-next-line max-len
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_DEVELOPERS} key='list-participants'>List the
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_PARTICIPANTS} key='list-participants'>List the
                 Participants</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.SUGGEST_TOOL_SKILL} key='suggest-tool-skill'>Suggest Tool/Skill</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active"
+                           exact to={ROUTES.TEAM_INVITATIONS} key='team-invitations'>
+                  Your Invitations</Menu.Item>,
               ]
           ) : ''}
           {isAdmin ? (
               [
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.CONFIGURE_HACC}
                            key={ROUTES.CONFIGURE_HACC}>Configure HACC</Menu.Item>,
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_SUGGESTIONS}
+                           key={ROUTES.LIST_SUGGESTIONS}>Suggestions List</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.DUMP_DATABASE}
                            key={ROUTES.DUMP_DATABASE}>Dump Database</Menu.Item>,
               ]

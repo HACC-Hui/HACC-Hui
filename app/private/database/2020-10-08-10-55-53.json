@@ -76,6 +76,11 @@
       ]
     },
     {
+      "name": "SuggestionCollection",
+      "contents": [
+      ]
+    },
+    {
       "name": "ParticipantCollection",
       "contents": [
         {
