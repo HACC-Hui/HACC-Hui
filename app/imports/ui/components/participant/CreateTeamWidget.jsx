@@ -52,7 +52,7 @@ class CreateTeamWidget extends React.Component {
         allowedValues: ['Open', 'Close'],
         label: 'Availability',
       },
-      name: String,
+      name: { type: String, label: 'Team Name' },
       image: { type: String, optional: true },
       challenges: { type: Array, label: 'Challenges' },
       'challenges.$': { type: String, allowedValues: challengeNames },
@@ -158,8 +158,10 @@ class CreateTeamWidget extends React.Component {
                 <Grid columns={1} style={{ paddingTop: '20px' }}>
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
                     <Header as="h2" textAlign="center">Create a Team</Header>
+                    {/* eslint-disable-next-line max-len */}
+                    <Header as="h4" textAlign="center">Team name, Github, and Devpost page ALL have to use the same name</Header>
                     <Grid className='doubleLine'>
-                      <TextField name='name' />
+                      <TextField name='name'/>
                       <RadioField
                           name='open'
                           inline
