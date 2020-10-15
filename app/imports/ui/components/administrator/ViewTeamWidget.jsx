@@ -12,17 +12,25 @@ import { ROUTES } from '../../../startup/client/route-constants';
 import SkillsAdminWidget from './SkillsAdminWidget';
 import ChallengesAdminWidget from './ChallengesAdminWidget';
 import ToolsAdminWidget from './ToolsAdminWidget';
+import { Teams } from '../../../api/team/TeamCollection';
 
 /**
  * Renders the Page for Managing HACC. **deprecated**
  * @memberOf ui/pages
  */
 class ViewTeamWidget extends React.Component {
-
   render() {
     return (
         <div style={{ backgroundColor: '#C4C4C4', paddingBottom: '50px' }}>
           <Grid container centered>
+            <Grid.Column>
+              <div style={{
+                backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
+                borderRadius: '2rem',
+              }}>
+                <Header as="h2" textAlign="center" inverted>View Teams</Header>
+              </div>
+            </Grid.Column>
           </Grid>
         </div>
     );
@@ -30,20 +38,14 @@ class ViewTeamWidget extends React.Component {
 }
 
 ViewTeamWidget.propTypes = {
-  challenges: PropTypes.array.isRequired,
-  challengeInterests: PropTypes.array.isRequired,
-  interests: PropTypes.array.isRequired,
-  skills: PropTypes.array.isRequired,
-  tools: PropTypes.array.isRequired,
+  teams: PropTypes.arrayOf(
+      PropTypes.object,
+  ),
 };
 
-// withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-export default withTracker(() => (
-  {
-    challenges: Challenges.find({}).fetch(),
-    challengeInterests: ChallengeInterests.find({}).fetch(),
-    interests: Interests.find({}).fetch(),
-    skills: Skills.find({}).fetch(),
-    tools: Tools.find({}).fetch(),
-  }
-))(ViewTeamWidget);
+export default withTracker(() => {
+  const teams = Teams.find({}).fetch();
+  return {
+    teams,
+  };
+})(ViewTeamWidget);
