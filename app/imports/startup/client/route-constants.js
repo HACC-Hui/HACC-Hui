@@ -31,4 +31,5 @@ export const ROUTES = {
   EDIT_TOOL: '/edit-tool/:_id',
   EDIT_SKILL: '/edit-skill/:_id',
   SUGGEST_TOOL_SKILL: '/suggest-tool-skill',
+  LIST_SUGGESTIONS: '/list-suggestions',
 };

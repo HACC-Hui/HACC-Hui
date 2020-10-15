@@ -40,6 +40,7 @@ class SuggestToolSkillWidget extends React.Component {
     newData.name = data.name;
     newData.type = data.type;
     newData.description = data.description;
+    console.log(newData);
 
     defineMethod.call({ collectionName: collectionName, definitionData: newData },
         (error) => {

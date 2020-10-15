@@ -34,6 +34,7 @@ import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
 import ListDevelopersPage from '../pages/participant/ListDevelopersPage';
 import SuggestToolSkillPage from '../pages/participant/SuggestToolSkillPage';
+import ListSuggestions from '../pages/administrator/ListSuggestions';
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -67,6 +68,7 @@ class App extends React.Component {
               <AdminProtectedRoute path={ROUTES.EDIT_CHALLENGE} component={EditChallengePage}/>
               <AdminProtectedRoute path={ROUTES.EDIT_TOOL} component={EditToolPage}/>
               <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkillPage}/>
+              <AdminProtectedRoute path={ROUTES.LIST_SUGGESTIONS} component={ListSuggestions}/>
               <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
               <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
               <Route component={NotFound} />

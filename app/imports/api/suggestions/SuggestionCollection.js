@@ -16,6 +16,7 @@ class SuggestionCollection extends BaseSlugCollection {
    */
   constructor() {
     super('Suggestion', new SimpleSchema({
+      username: { type: String },
       name: { type: String },
       type: { type: String },
       slugID: { type: SimpleSchema.RegEx.Id },
