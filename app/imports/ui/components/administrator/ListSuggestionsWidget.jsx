@@ -26,6 +26,13 @@ class ListSuggestionsWidget extends React.Component {
     };
   }
 
+  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
+  /*
+  render() {
+    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+  }
+  */
+
   render() {
 
     if (this.props.suggestions.length === 0) {
@@ -179,7 +186,6 @@ class ListSuggestionsWidget extends React.Component {
                   username={suggestions.username}
                   name={suggestions.name}
                   description={suggestions.description}
-                  suggestionObj={suggestions}
               />)}
             </Item.Group>
           </Grid.Column>
