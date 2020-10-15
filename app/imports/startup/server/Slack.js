@@ -63,8 +63,14 @@ if (!Meteor.isAppTest) {
         } else {
           await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.`);
         }
-    } else {
-      await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me.`);
+    }
+    else if(event.text.includes('help')){
+      //window.location.href = "http://localhost:3400";
+      /* Could we add a hyperlink into slack? Need to check Slack API */
+      await say(`<@${event.user}> I can see that you need help, please refer to our help page at: {temp link}`);
+    }
+    else {
+      await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me. If you need help say help me.`);
     }
   });
 
