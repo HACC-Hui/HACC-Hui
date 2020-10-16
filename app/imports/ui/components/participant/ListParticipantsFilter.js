@@ -40,7 +40,7 @@ class ListParticipantsFilter {
    * @returns {Array|*} Returns the sorted array
    */
   sortBy(data, value) {
-    if (value === 'devs') {
+    if (value === 'participants') {
       return _.orderBy(data, ['name'], ['asc']);
     }
     return data;
