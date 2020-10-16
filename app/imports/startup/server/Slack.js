@@ -29,7 +29,11 @@ if (!Meteor.isAppTest) {
         user: event.user
       });
       // console.log(profile);
-      const { email, first_name, last_name } = profile;
+      const { email, real_name } = profile;
+      const names = real_name.split(' ');
+      // console.log(names);
+      const first_name = names[0];
+      const last_name = names[1];
       // console.log(email, first_name, last_name);
       if (!isAdminEmail(email)) {
         // they are a participant
