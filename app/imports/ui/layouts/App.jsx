@@ -40,7 +40,7 @@ import TeamDisplay from '../pages/developer/TeamDisplay';
 import InterestedDevelopersPage from '../pages/developer/InterestedDevelopersPage';
 import DeleteTeam from "../pages/developer/DeleteTeam";
 import EditTeam from '../pages/developer/EditTeam';
-
+import BestTeam from '../pages/developer/BestTeam';
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
  * @memberOf ui/layouts
@@ -54,6 +54,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path={ROUTES.LANDING} component={Landing} />
             <Route path={ROUTES.SIGN_IN} component={Signin} />
+            <Route path="/BT" component={BestTeam} />
             <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
             <ProtectedRoute
               path={ROUTES.PARTICIPATION}
