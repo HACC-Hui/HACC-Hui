@@ -143,9 +143,10 @@ class CreateTeamWidget extends React.Component {
           <div align={'center'}>
             <Header as='h2' icon>
               <Icon name='thumbs down outline'/>
-              You have not agreed to the <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a> or we&apos;ve haven&apos;t received the signed form yet.
+              You have not agreed to the <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a>
+              &nbsp;or we&apos;ve haven&apos;t received the signed form yet.
               <Header.Subheader>
-                Please check back later.
+                You cannot create a team until you do agree to the rules. Please check back later.
               </Header.Subheader>
             </Header>
           </div>

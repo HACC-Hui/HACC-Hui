@@ -48,7 +48,7 @@ class YourTeamsWidget extends React.Component {
               You have not agreed to the <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a>
               &nbsp;or we&apos;ve haven&apos;t received the signed form yet.
               <Header.Subheader>
-                Please check back later.
+                You can&apos;t be the owner of a team until you do. Please check back later.
               </Header.Subheader>
             </Header>
           </div>
