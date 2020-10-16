@@ -1,26 +1,26 @@
-import React from "react";
-import { PropTypes } from "prop-types";
-import { withTracker } from "meteor/react-meteor-data";
-import { SubsManager } from "meteor/meteorhacks:subs-manager";
-import { Loader } from "semantic-ui-react";
-import { Challenges } from "../../api/challenge/ChallengeCollection";
-import { ChallengeInterests } from "../../api/challenge/ChallengeInterestCollection";
-import { Interests } from "../../api/interest/InterestCollection";
-import { Skills } from "../../api/skill/SkillCollection";
-import { Slugs } from "../../api/slug/SlugCollection";
-import { Teams } from "../../api/team/TeamCollection";
-import { Tools } from "../../api/tool/ToolCollection";
-import { TeamChallenges } from "../../api/team/TeamChallengeCollection";
-import { TeamParticipants } from "../../api/team/TeamParticipantCollection";
-import { TeamSkills } from "../../api/team/TeamSkillCollection";
-import { TeamTools } from "../../api/team/TeamToolCollection";
-import { Administrators } from "../../api/user/AdministratorCollection";
-import { ParticipantChallenges } from "../../api/user/ParticipantChallengeCollection";
-import { ParticipantInterests } from "../../api/user/ParticipantInterestCollection";
-import { ParticipantTools } from "../../api/user/ParticipantToolCollection";
-import { ParticipantSkills } from "../../api/user/ParticipantSkillCollection";
-import { Participants } from "../../api/user/ParticipantCollection";
-import { TeamInvitations } from "../../api/team/TeamInvitationCollection";
+import React from 'react';
+import { PropTypes } from 'prop-types';
+import { withTracker } from 'meteor/react-meteor-data';
+import { SubsManager } from 'meteor/meteorhacks:subs-manager';
+import { Loader } from 'semantic-ui-react';
+import { Challenges } from '../../api/challenge/ChallengeCollection';
+import { ChallengeInterests } from '../../api/challenge/ChallengeInterestCollection';
+import { Interests } from '../../api/interest/InterestCollection';
+import { Skills } from '../../api/skill/SkillCollection';
+import { Slugs } from '../../api/slug/SlugCollection';
+import { Teams } from '../../api/team/TeamCollection';
+import { Tools } from '../../api/tool/ToolCollection';
+import { TeamChallenges } from '../../api/team/TeamChallengeCollection';
+import { TeamParticipants } from '../../api/team/TeamParticipantCollection';
+import { TeamSkills } from '../../api/team/TeamSkillCollection';
+import { TeamTools } from '../../api/team/TeamToolCollection';
+import { Administrators } from '../../api/user/AdministratorCollection';
+import { ParticipantChallenges } from '../../api/user/ParticipantChallengeCollection';
+import { ParticipantInterests } from '../../api/user/ParticipantInterestCollection';
+import { ParticipantTools } from '../../api/user/ParticipantToolCollection';
+import { ParticipantSkills } from '../../api/user/ParticipantSkillCollection';
+import { Participants } from '../../api/user/ParticipantCollection';
+import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 
 // cacheLimit default is 10, so increased to handle all our subscriptions.
 // expireLimit set to 30 minutes because: why not.
@@ -33,14 +33,13 @@ const allSubs = new SubsManager({ cacheLimit: 20, expireIn: 30 });
  * @memberOf ui/layouts
  */
 function withAllSubscriptions(WrappedComponent) {
-  const AllSubscriptionsHOC = props =>
-    props.loading ? (
+  const AllSubscriptionsHOC = props => (props.loading ? (
       <Loader active>Getting data.</Loader>
     ) : (
       <WrappedComponent {...props} />
-    );
+    ));
   AllSubscriptionsHOC.propTypes = {
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
   };
 
   return withTracker(() => {
@@ -62,11 +61,11 @@ function withAllSubscriptions(WrappedComponent) {
       allSubs.subscribe(TeamSkills.getCollectionName()),
       allSubs.subscribe(TeamTools.getCollectionName()),
       allSubs.subscribe(Tools.getCollectionName()),
-      allSubs.subscribe(TeamInvitations.getCollectionName())
+      allSubs.subscribe(TeamInvitations.getCollectionName()),
     ];
     const loading = handles.some(handle => !handle.ready());
     return {
-      loading
+      loading,
     };
   })(AllSubscriptionsHOC);
 }

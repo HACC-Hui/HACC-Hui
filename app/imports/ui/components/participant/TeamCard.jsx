@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Button, Card, Grid, Header, List } from "semantic-ui-react";
-import _ from "lodash";
-import { TeamChallenges } from "../../../api/team/TeamChallengeCollection";
-import { Challenges } from "../../../api/challenge/ChallengeCollection";
-import { TeamSkills } from "../../../api/team/TeamSkillCollection";
-import { TeamTools } from "../../../api/team/TeamToolCollection";
-import SkillItem from "./SkillItem";
-import ToolItem from "./ToolItem";
-import { TeamParticipants } from "../../../api/team/TeamParticipantCollection";
-import { Participants } from "../../../api/user/ParticipantCollection";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button, Card, Grid, Header, List } from 'semantic-ui-react';
+import _ from 'lodash';
+import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
+import { Challenges } from '../../../api/challenge/ChallengeCollection';
+import { TeamSkills } from '../../../api/team/TeamSkillCollection';
+import { TeamTools } from '../../../api/team/TeamToolCollection';
+import SkillItem from './SkillItem';
+import ToolItem from './ToolItem';
+import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 
 class TeamCard extends React.Component {
   buildTheTeam() {
@@ -18,15 +18,13 @@ class TeamCard extends React.Component {
     const tCs = TeamChallenges.find({ teamID }).fetch();
     const challengeTitles = _.map(
       tCs,
-      tc => Challenges.findDoc(tc.challengeID).title
+      tc => Challenges.findDoc(tc.challengeID).title,
     );
     team.challenges = challengeTitles;
     team.skills = TeamSkills.find({ teamID }).fetch();
     team.tools = TeamTools.find({ teamID }).fetch();
     const teamPs = TeamParticipants.find({ teamID }).fetch();
-    team.members = _.map(teamPs, tp =>
-      Participants.getFullName(tp.participantID)
-    );
+    team.members = _.map(teamPs, tp => Participants.getFullName(tp.participantID));
     return team;
   }
 
@@ -43,7 +41,7 @@ class TeamCard extends React.Component {
             <Grid columns={5}>
               <Grid.Column>
                 <Header size="tiny">Challenges</Header>
-                {team.challenges.join(", ")}
+                {team.challenges.join(', ')}
               </Grid.Column>
               <Grid.Column>
                 <Header size="tiny">Desired Skills</Header>
@@ -84,7 +82,7 @@ class TeamCard extends React.Component {
 
 TeamCard.propTypes = {
   team: PropTypes.object.isRequired,
-  participantID: PropTypes.string.isRequired
+  participantID: PropTypes.string.isRequired,
 };
 
 export default TeamCard;

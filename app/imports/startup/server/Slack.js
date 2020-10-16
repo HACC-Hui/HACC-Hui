@@ -1,32 +1,32 @@
-import { Meteor } from "meteor/meteor";
-import { App } from "@slack/bolt";
-import { isAdminEmail } from "../../api/user/helpers";
-import { Participants } from "../../api/user/ParticipantCollection";
-import { Administrators } from "../../api/user/AdministratorCollection";
-import { SlackUsers } from "../../api/slackbot/SlackUserCollection";
+import { Meteor } from 'meteor/meteor';
+import { App } from '@slack/bolt';
+import { isAdminEmail } from '../../api/user/helpers';
+import { Participants } from '../../api/user/ParticipantCollection';
+import { Administrators } from '../../api/user/AdministratorCollection';
+import { SlackUsers } from '../../api/slackbot/SlackUserCollection';
 
 let app;
 if (!Meteor.isAppTest) {
   let pathToDotEnv = `${process.cwd()}`;
-  pathToDotEnv = pathToDotEnv.substring(0, pathToDotEnv.indexOf(".meteor"));
+  pathToDotEnv = pathToDotEnv.substring(0, pathToDotEnv.indexOf('.meteor'));
   pathToDotEnv = `${pathToDotEnv}.env`;
   // console.log(pathToDotEnv);
   // const result = require('dotenv').config({ path: pathToDotEnv });
   // eslint-disable-next-line global-require
-  require("dotenv").config({ path: pathToDotEnv });
+  require('dotenv').config({ path: pathToDotEnv });
   // console.log(result);
 
   app = new App({
     signingSecret: process.env.SLACK_SIGNING_SECRET,
-    token: process.env.SLACK_BOT_TOKEN
+    token: process.env.SLACK_BOT_TOKEN,
   });
 
-  app.event("message", async ({ event, say, context }) => {
+  app.event('message', async ({ event, say, context }) => {
     // console.log('message', event, context);
-    if (event.text.includes("register")) {
+    if (event.text.includes('register')) {
       const { profile } = await app.client.users.profile.get({
         token: context.botToken,
-        user: event.user
+        user: event.user,
       });
       // console.log(profile);
       const { email, real_name } = profile;
@@ -38,7 +38,7 @@ if (!Meteor.isAppTest) {
       if (!isAdminEmail(email)) {
         // they are a participant
         if (!Participants.isDefined(email)) {
-          if (last_name !== "") {
+          if (last_name !== '') {
             // last name is provided
             const firstName = first_name;
             const lastName = last_name;
@@ -46,13 +46,13 @@ if (!Meteor.isAppTest) {
             const { password } = Participants.define({
               username,
               firstName,
-              lastName
+              lastName,
             });
             // record this user
             SlackUsers.define({
               username,
               slackUser: event.user,
-              dmChannel: event.channel
+              dmChannel: event.channel,
             });
             await say(`
         Welcome to HACC-Hui! Here are your credentials
@@ -65,11 +65,11 @@ You can do this by going to 'edit profile' and entering your full name under 'Fu
           }
         } else {
           await say(
-            `<@${event.user}> You've already registered. You can login to HACC-Hui.`
+            `<@${event.user}> You've already registered. You can login to HACC-Hui.`,
           );
         }
       } else if (!Administrators.isDefined(email)) {
-        if (last_name !== "") {
+        if (last_name !== '') {
           // last name is provided
           const firstName = first_name;
           const lastName = last_name;
@@ -77,13 +77,13 @@ You can do this by going to 'edit profile' and entering your full name under 'Fu
           const { password } = Administrators.define({
             username,
             firstName,
-            lastName
+            lastName,
           });
           // record this user
           SlackUsers.define({
             username,
             slackUser: event.user,
-            dmChannel: event.channel
+            dmChannel: event.channel,
           });
           await say(`
         Welcome to HACC-Hui! Here are your credentials
@@ -96,12 +96,12 @@ You can do this by going to 'edit profile' and entering your full name under 'Fu
         }
       } else {
         await say(
-          `<@${event.user}> You've already registered. You can login to HACC-Hui.`
+          `<@${event.user}> You've already registered. You can login to HACC-Hui.`,
         );
       }
     } else {
       await say(
-        `<@${event.user}> I don't understand '${event.text}'. To register say register me.`
+        `<@${event.user}> I don't understand '${event.text}'. To register say register me.`,
       );
     }
   });

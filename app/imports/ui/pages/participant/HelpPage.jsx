@@ -1,15 +1,15 @@
-import React from "react";
-import { Header, Divider } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Header, Divider } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class HelpPage extends React.Component {
   render() {
     return (
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: 'center' }}>
         <p
           style={{
-            fontSize: "40px",
-            paddingTop: "20px"
+            fontSize: '40px',
+            paddingTop: '20px',
           }}
         >
           Questions By Category
@@ -19,7 +19,7 @@ class HelpPage extends React.Component {
           <b>How do I Register?</b>
         </Header>
         <Header as="h2" textAlign="center">
-          <a href={"https://slack.com/signin#/signin"}>
+          <a href={'https://slack.com/signin#/signin'}>
             Join The Slack Workspace
           </a>
         </Header>
@@ -27,11 +27,11 @@ class HelpPage extends React.Component {
           <b>
             You will need to make a Slack account if you do not have a
             pre-existing one <br></br> Join the Slack Workspace and type
-            "register" <br></br> You will then be given a username and password
+            `&ldquo;register`&rdquo; <br></br> You will then be given a username and password
             to login.
           </b>
         </p>
-        <div style={{ paddingTop: "40px" }}>
+        <div style={{ paddingTop: '40px' }}>
           <Header as="h1" textAlign="center">
             <b>What is HACC HUI?</b>
           </Header>
@@ -42,7 +42,7 @@ class HelpPage extends React.Component {
             </b>
           </h4>
         </div>
-        <Divider horizontal style={{ paddingTop: "40px" }}>
+        <Divider horizontal style={{ paddingTop: '40px' }}>
           TEAM MANAGEMENT
         </Divider>
         <Header as="h1" textAlign="center">
@@ -59,7 +59,7 @@ class HelpPage extends React.Component {
             page!
           </b>
         </p>
-        <div style={{ paddingTop: "40px" }}>
+        <div style={{ paddingTop: '40px' }}>
           <Header as="h1" textAlign="center">
             <b>How do I Leave/Delete my Team?</b>
           </Header>
@@ -74,7 +74,7 @@ class HelpPage extends React.Component {
             </b>
           </p>
         </div>
-        <div style={{ paddingTop: "40px" }}>
+        <div style={{ paddingTop: '40px' }}>
           <Header as="h1" textAlign="center">
             <b>How do I Create a Team?</b>
           </Header>
@@ -87,7 +87,7 @@ class HelpPage extends React.Component {
             <b>Make sure to fill out the team creation form fully</b>
           </p>
         </div>
-        <div style={{ paddingTop: "40px" }}>
+        <div style={{ paddingTop: '40px' }}>
           <Header as="h1" textAlign="center">
             <b>Can I be on Multiple Teams?</b>
           </Header>
@@ -101,10 +101,10 @@ class HelpPage extends React.Component {
             </b>
           </p>
         </div>
-        <Divider horizontal style={{ paddingTop: "40px" }}>
+        <Divider horizontal style={{ paddingTop: '40px' }}>
           UNEXPECTED ERRORS
         </Divider>
-        <div style={{ paddingTop: "10px", paddingBottom: "30px" }}>
+        <div style={{ paddingTop: '10px', paddingBottom: '30px' }}>
           <Header as="h1" textAlign="center">
             <b>Site not Functioning Properly?</b>
           </Header>

@@ -1,12 +1,12 @@
-import { Meteor } from "meteor/meteor";
-import { ValidatedMethod } from "meteor/mdg:validated-method";
-import { DDP } from "meteor/ddp-client";
-import faker from "faker";
-import { Accounts } from "meteor/accounts-base";
-import { Roles } from "meteor/alanning:roles";
-import { CallPromiseMixin } from "meteor/didericis:callpromise-mixin";
-import { Stuffs } from "../api/stuff/StuffCollection";
-import { ROLE } from "../api/role/Role";
+import { Meteor } from 'meteor/meteor';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { DDP } from 'meteor/ddp-client';
+import faker from 'faker';
+import { Accounts } from 'meteor/accounts-base';
+import { Roles } from 'meteor/alanning:roles';
+import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
+import { Stuffs } from '../api/stuff/StuffCollection';
+import { ROLE } from '../api/role/Role';
 
 /** @namespace test-utilities */
 
@@ -29,7 +29,7 @@ export function withSubscriptions() {
  * @memberOf test-utilities
  */
 export const defineTestAdminUser = new ValidatedMethod({
-  name: "Test.defineAdminUser",
+  name: 'Test.defineAdminUser',
   mixins: [CallPromiseMixin],
   validate: null,
   run() {
@@ -41,14 +41,14 @@ export const defineTestAdminUser = new ValidatedMethod({
       const users = Accounts.createUser({
         username,
         email,
-        password
+        password,
       });
       Roles.createRole(ROLE.ADMIN, { unlessExists: true });
       Roles.addUsersToRoles([users], [ROLE.ADMIN]);
       return { username, email, password };
     }
-    throw new Meteor.Error("Need to be in test mode to call this method.");
-  }
+    throw new Meteor.Error('Need to be in test mode to call this method.');
+  },
 });
 
 /**
@@ -57,7 +57,7 @@ export const defineTestAdminUser = new ValidatedMethod({
  * @memberOf test-utilities
  */
 export const defineTestUser = new ValidatedMethod({
-  name: "Test.defineUser",
+  name: 'Test.defineUser',
   mixins: [CallPromiseMixin],
   validate: null,
   run() {
@@ -70,12 +70,12 @@ export const defineTestUser = new ValidatedMethod({
       Accounts.createUser({
         username,
         email,
-        password
+        password,
       });
       return { username, email, password };
     }
-    throw new Meteor.Error("Need to be in test mode to call this method.");
-  }
+    throw new Meteor.Error('Need to be in test mode to call this method.');
+  },
 });
 /**
  * Returns a Promise that resolves if one can successfully login with the passed credentials.
@@ -83,13 +83,13 @@ export const defineTestUser = new ValidatedMethod({
  * @memberOf test-utilities
  */
 export function withLoggedInUser({
-  username = "admin@foo.com",
-  password = "changeme"
+  username = 'admin@foo.com',
+  password = 'changeme',
 } = {}) {
   return new Promise((resolve, reject) => {
     Meteor.loginWithPassword(username, password, error => {
       if (error) {
-        console.log("Error: withLoggedInUser", error);
+        console.log('Error: withLoggedInUser', error);
         reject();
       } else {
         resolve();
@@ -107,7 +107,7 @@ export function logOutUser() {
   return new Promise((resolve, reject) => {
     Meteor.logout(error => {
       if (error) {
-        console.log("Error: logOutUser", error);
+        console.log('Error: logOutUser', error);
         reject();
       } else {
         resolve();

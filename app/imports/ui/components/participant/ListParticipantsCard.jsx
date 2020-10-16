@@ -1,5 +1,5 @@
-import React from "react";
-import { Meteor } from "meteor/meteor";
+import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import {
   Grid,
   Header,
@@ -7,16 +7,16 @@ import {
   Modal,
   Icon,
   Button,
-  Dropdown
-} from "semantic-ui-react";
-import { withTracker } from "meteor/react-meteor-data";
-import PropTypes from "prop-types";
-import swal from "sweetalert";
-import { defineMethod } from "../../../api/base/BaseCollection.methods";
-import { TeamInvitations } from "../../../api/team/TeamInvitationCollection";
-import { Teams } from "../../../api/team/TeamCollection";
-import { Participants } from "../../../api/user/ParticipantCollection";
-import { TeamParticipants } from "../../../api/team/TeamParticipantCollection";
+  Dropdown,
+} from 'semantic-ui-react';
+import { withTracker } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
+import swal from 'sweetalert';
+import { defineMethod } from '../../../api/base/BaseCollection.methods';
+import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
+import { Teams } from '../../../api/team/TeamCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
+import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 
 class ListParticipantsCard extends React.Component {
   /*
@@ -36,29 +36,29 @@ class ListParticipantsCard extends React.Component {
     const { value } = this.state;
 
     function changeBackground(e) {
-      e.currentTarget.style.backgroundColor = "#fafafa";
-      e.currentTarget.style.cursor = "pointer";
+      e.currentTarget.style.backgroundColor = '#fafafa';
+      e.currentTarget.style.cursor = 'pointer';
     }
 
     function onLeave(e) {
-      e.currentTarget.style.backgroundColor = "transparent";
+      e.currentTarget.style.backgroundColor = 'transparent';
     }
 
     function setOptions() {
       const teams = Teams.find({
-        owner: Participants.findDoc({ userID: Meteor.userId() })._id
+        owner: Participants.findDoc({ userID: Meteor.userId() })._id,
       }).fetch();
       const newOptions = [];
       newOptions.push({
-        key: "Select a Team",
-        text: "Select a Team",
-        value: "Select a Team"
+        key: 'Select a Team',
+        text: 'Select a Team',
+        value: 'Select a Team',
       });
       for (let i = 0; i < teams.length; i++) {
         newOptions.push({
           key: teams[i].name,
           text: teams[i].name,
-          value: teams[i].name
+          value: teams[i].name,
         });
       }
       console.log(newOptions);
@@ -67,11 +67,12 @@ class ListParticipantsCard extends React.Component {
 
     const options = setOptions();
 
-    function handleChange(dID, { value }, e) {
+    function handleChange(dID, { val }, e) {
       console.log(e);
       console.log(e.value);
       console.log(dID);
-      if (e.value !== "Select a Team") {
+      console.log(val);
+      if (e.value !== 'Select a Team') {
         // console.log(tID);
         // console.log(dID);
         const thisTeam = Teams.findDoc({ name: e.value })._id;
@@ -84,14 +85,14 @@ class ListParticipantsCard extends React.Component {
         if (
           typeof TeamParticipants.findOne({
             teamID: thisTeam,
-            participantID: dID
-          }) !== "undefined"
+            participantID: dID,
+          }) !== 'undefined'
         ) {
-          console.log("already in team");
+          console.log('already in team');
           swal(
-            "Error",
+            'Error',
             `Sorry, participant ${devID} is already in this team!`,
-            "error"
+            'error',
           );
           return;
         }
@@ -108,14 +109,14 @@ class ListParticipantsCard extends React.Component {
         if (
           typeof TeamInvitations.findOne({
             teamID: thisTeam,
-            participantID: dID
-          }) !== "undefined"
+            participantID: dID,
+          }) !== 'undefined'
         ) {
-          console.log("already invited");
+          console.log('already invited');
           swal(
-            "Error",
+            'Error',
             `Sorry, participant ${devID} has already been sent an invitation!`,
-            "error"
+            'error',
           );
           return;
         }
@@ -123,28 +124,28 @@ class ListParticipantsCard extends React.Component {
         console.log(
           typeof TeamInvitations.findOne({
             teamID: thisTeam,
-            participantID: dID
-          }) !== "undefined"
+            participantID: dID,
+          }) !== 'undefined',
         );
 
         console.log(
           typeof TeamInvitations.findOne({
             teamID: thisTeam,
-            participantID: dID
-          })
+            participantID: dID,
+          }),
         );
 
         defineMethod.call(
           { collectionName: collectionName, definitionData: definitionData },
           error => {
             if (error) {
-              swal("Error", error.message, "error");
+              swal('Error', error.message, 'error');
               console.error(error.message);
             } else {
-              swal("Success", "Invitation sent successfully", "success");
-              console.log("Success");
+              swal('Success', 'Invitation sent successfully', 'success');
+              console.log('Success');
             }
-          }
+          },
         );
       }
     }
@@ -153,7 +154,7 @@ class ListParticipantsCard extends React.Component {
       <Item
         onMouseEnter={changeBackground}
         onMouseLeave={onLeave}
-        style={{ padding: "0rem 2rem 0rem 2rem" }}
+        style={{ padding: '0rem 2rem 0rem 2rem' }}
       >
         <Modal
           closeIcon
@@ -161,11 +162,11 @@ class ListParticipantsCard extends React.Component {
             <Item.Content>
               <Item.Header>
                 <Header
-                  as={"h3"}
-                  style={{ color: "#263763", paddingTop: "2rem" }}
+                  as={'h3'}
+                  style={{ color: '#263763', paddingTop: '2rem' }}
                 >
                   <Icon name="user" size="tiny" />
-                  {this.props.developers.firstName}{" "}
+                  {this.props.developers.firstName}{' '}
                   {this.props.developers.lastName}
                 </Header>
               </Item.Header>
@@ -174,12 +175,12 @@ class ListParticipantsCard extends React.Component {
                   <Grid doubling columns={6}>
                     <Grid.Column>
                       <Grid.Column
-                        floated={"left"}
-                        style={{ paddingBottom: "0.3rem" }}
+                        floated={'left'}
+                        style={{ paddingBottom: '0.3rem' }}
                       >
                         {this.props.challenges.slice(0, 3).map(challenge => (
                           <p
-                            style={{ color: "rgb(89, 119, 199)" }}
+                            style={{ color: 'rgb(89, 119, 199)' }}
                             key={challenge}
                           >
                             {challenge}
@@ -204,8 +205,8 @@ class ListParticipantsCard extends React.Component {
                       {this.props.developers.username}
                     </Grid.Column>
                     <Grid.Column>
-                      <Button.Group style={{ backgroundColor: "transparent" }}>
-                        <Button style={{ backgroundColor: "transparent" }}>
+                      <Button.Group style={{ backgroundColor: 'transparent' }}>
+                        <Button style={{ backgroundColor: 'transparent' }}>
                           Send Invitation
                         </Button>
                         <Dropdown
@@ -213,7 +214,7 @@ class ListParticipantsCard extends React.Component {
                           onChange={handleChange.bind(this, this.props.devID)}
                           options={options}
                           trigger={<></>}
-                          style={{ backgroundColor: "transparent" }}
+                          style={{ backgroundColor: 'transparent' }}
                         />
                       </Button.Group>
                     </Grid.Column>
@@ -259,8 +260,8 @@ class ListParticipantsCard extends React.Component {
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>
-            <Button.Group style={{ backgroundColor: "transparent" }}>
-              <Button style={{ backgroundColor: "transparent" }}>
+            <Button.Group style={{ backgroundColor: 'transparent' }}>
+              <Button style={{ backgroundColor: 'transparent' }}>
                 Send Invitation
               </Button>
               <Dropdown
@@ -268,7 +269,7 @@ class ListParticipantsCard extends React.Component {
                 onChange={handleChange.bind(this, this.props.devID)}
                 options={options}
                 trigger={<></>}
-                style={{ backgroundColor: "transparent" }}
+                style={{ backgroundColor: 'transparent' }}
                 selection
                 value={value}
               />
@@ -285,8 +286,8 @@ ListParticipantsCard.propTypes = {
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
-  developers: PropTypes.object.isRequired
+  developers: PropTypes.object.isRequired,
 };
 export default withTracker(() => ({
-  teamInvitation: TeamInvitations.find({}).fetch()
+  teamInvitation: TeamInvitations.find({}).fetch(),
 }))(ListParticipantsCard);

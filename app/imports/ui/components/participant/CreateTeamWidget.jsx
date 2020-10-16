@@ -1,28 +1,28 @@
-import React from "react";
-import { Grid, Segment, Header, Divider } from "semantic-ui-react";
+import React from 'react';
+import { Grid, Segment, Header, Divider } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
   SubmitField,
   TextField,
-  LongTextField
-} from "uniforms-semantic";
-import swal from "sweetalert";
-import PropTypes from "prop-types";
-import { _ } from "lodash";
-import { Meteor } from "meteor/meteor";
-import { withTracker } from "meteor/react-meteor-data";
-import { SimpleSchema2Bridge } from "uniforms-bridge-simple-schema-2";
-import SimpleSchema from "simpl-schema";
-import MultiSelectField from "../../components/form-fields/MultiSelectField";
-import RadioField from "../../components/form-fields/RadioField";
-import { Teams } from "../../../api/team/TeamCollection";
-import { Challenges } from "../../../api/challenge/ChallengeCollection";
-import { Skills } from "../../../api/skill/SkillCollection";
-import { Tools } from "../../../api/tool/ToolCollection";
-import { defineMethod } from "../../../api/base/BaseCollection.methods";
-import { Participants } from "../../../api/user/ParticipantCollection";
-import { Slugs } from "../../../api/slug/SlugCollection";
+  LongTextField,
+} from 'uniforms-semantic';
+import swal from 'sweetalert';
+import PropTypes from 'prop-types';
+import { _ } from 'lodash';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
+import SimpleSchema from 'simpl-schema';
+import MultiSelectField from '../../components/form-fields/MultiSelectField';
+import RadioField from '../../components/form-fields/RadioField';
+import { Teams } from '../../../api/team/TeamCollection';
+import { Challenges } from '../../../api/challenge/ChallengeCollection';
+import { Skills } from '../../../api/skill/SkillCollection';
+import { Tools } from '../../../api/tool/ToolCollection';
+import { defineMethod } from '../../../api/base/BaseCollection.methods';
+import { Participants } from '../../../api/user/ParticipantCollection';
+import { Slugs } from '../../../api/slug/SlugCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -37,7 +37,7 @@ class CreateTeamWidget extends React.Component {
   buildTheModel() {
     return {
       skills: [],
-      tools: []
+      tools: [],
     };
   }
 
@@ -49,23 +49,23 @@ class CreateTeamWidget extends React.Component {
     const schema = new SimpleSchema({
       open: {
         type: String,
-        allowedValues: ["Open", "Close"],
-        label: "Availability"
+        allowedValues: ['Open', 'Close'],
+        label: 'Availability',
       },
       name: String,
       image: { type: String, optional: true },
-      challenges: { type: Array, label: "Challenges" },
-      "challenges.$": { type: String, allowedValues: challengeNames },
-      skills: { type: Array, label: "Skills", optional: true },
-      "skills.$": { type: String, allowedValues: skillNames },
-      tools: { type: Array, label: "Toolsets", optional: true },
-      "tools.$": { type: String, allowedValues: toolNames },
+      challenges: { type: Array, label: 'Challenges' },
+      'challenges.$': { type: String, allowedValues: challengeNames },
+      skills: { type: Array, label: 'Skills', optional: true },
+      'skills.$': { type: String, allowedValues: skillNames },
+      tools: { type: Array, label: 'Toolsets', optional: true },
+      'tools.$': { type: String, allowedValues: toolNames },
       participants: { type: Array, optional: true },
-      "participants.$": { type: String, allowedValues: participantNames }, // not sure about the allowed values
+      'participants.$': { type: String, allowedValues: participantNames }, // not sure about the allowed values
       description: String,
       github: { type: String, optional: true },
       devpostPage: { type: String, optional: true },
-      affiliation: { type: String, optional: true }
+      affiliation: { type: String, optional: true },
     });
     return schema;
   }
@@ -81,7 +81,7 @@ class CreateTeamWidget extends React.Component {
     const { name, description, challenges, skills, tools, image } = formData;
     let { open } = formData;
     // console.log(challenges, skills, tools, open);
-    if (open === "Open") {
+    if (open === 'Open') {
       open = true;
     } else {
       open = false;
@@ -103,7 +103,7 @@ class CreateTeamWidget extends React.Component {
 
     // If the name has special character or space, throw a swal error and return early.
     if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
-      swal("Error", "Sorry, no special characters or space allowed.", "error");
+      swal('Error', 'Sorry, no special characters or space allowed.', 'error');
       return;
     }
     const collectionName = Teams.getCollectionName();
@@ -115,24 +115,24 @@ class CreateTeamWidget extends React.Component {
       image,
       challenges: challengesArr,
       skills: skillsArr,
-      tools: toolsArr
+      tools: toolsArr,
     };
     // console.log(collectionName, definitionData);
     defineMethod.call(
       {
         collectionName,
-        definitionData
+        definitionData,
       },
       error => {
         if (error) {
-          swal("Error", error.message, "error");
+          swal('Error', error.message, 'error');
           // console.error(error.message);
         } else {
-          swal("Success", "Team created successfully", "success");
+          swal('Success', 'Team created successfully', 'success');
           formRef.reset();
           // console.log(result);
         }
-      }
+      },
     );
   }
 
@@ -153,19 +153,19 @@ class CreateTeamWidget extends React.Component {
             model={model}
             onSubmit={data => this.submit(data, fRef)}
             style={{
-              paddingBottom: "40px"
+              paddingBottom: '40px',
             }}
           >
             <Segment
               style={{
-                borderRadius: "10px",
-                backgroundColor: "#BDEDFF"
+                borderRadius: '10px',
+                backgroundColor: '#BDEDFF',
               }}
-              className={"createTeam"}
+              className={'createTeam'}
             >
-              <Grid columns={1} style={{ paddingTop: "20px" }}>
+              <Grid columns={1} style={{ paddingTop: '20px' }}>
                 <Grid.Column
-                  style={{ paddingLeft: "30px", paddingRight: "30px" }}
+                  style={{ paddingLeft: '30px', paddingRight: '30px' }}
                 >
                   <Header as="h2" textAlign="center">
                     Create a Team
@@ -174,7 +174,7 @@ class CreateTeamWidget extends React.Component {
                     <TextField name="name" />
                     <RadioField name="open" inline />
                   </Grid>
-                  <TextField name="image" placeholder={"Team Image URL"} />
+                  <TextField name="image" placeholder={'Team Image URL'} />
                   <LongTextField name="description" />
                   <MultiSelectField name="challenges" />
                   <Grid columns={2}>
@@ -195,9 +195,9 @@ class CreateTeamWidget extends React.Component {
                 <SubmitField
                   value="Submit"
                   style={{
-                    color: "white",
-                    backgroundColor: "#dd000a",
-                    margin: "20px 0px"
+                    color: 'white',
+                    backgroundColor: '#dd000a',
+                    margin: '20px 0px',
                   }}
                 />
               </div>
@@ -215,7 +215,7 @@ CreateTeamWidget.propTypes = {
   skills: PropTypes.arrayOf(PropTypes.object).isRequired,
   challenges: PropTypes.arrayOf(PropTypes.object).isRequired,
   tools: PropTypes.arrayOf(PropTypes.object).isRequired,
-  participants: PropTypes.arrayOf(PropTypes.object).isRequired
+  participants: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default withTracker(() => ({
@@ -223,5 +223,5 @@ export default withTracker(() => ({
   challenges: Challenges.find({}).fetch(),
   skills: Skills.find({}).fetch(),
   tools: Tools.find({}).fetch(),
-  participants: Participants.find({}).fetch()
+  participants: Participants.find({}).fetch(),
 }))(CreateTeamWidget);

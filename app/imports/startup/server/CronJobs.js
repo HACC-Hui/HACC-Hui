@@ -1,19 +1,19 @@
-import _ from "lodash";
-import { Meteor } from "meteor/meteor";
-import { SyncedCron } from "meteor/littledata:synced-cron";
-import { WantsToJoin } from "../../api/team/WantToJoinCollection";
-import { Participants } from "../../api/user/ParticipantCollection";
-import { Teams } from "../../api/team/TeamCollection";
-import { TeamParticipants } from "../../api/team/TeamParticipantCollection";
+import _ from 'lodash';
+import { Meteor } from 'meteor/meteor';
+import { SyncedCron } from 'meteor/littledata:synced-cron';
+import { WantsToJoin } from '../../api/team/WantToJoinCollection';
+import { Participants } from '../../api/user/ParticipantCollection';
+import { Teams } from '../../api/team/TeamCollection';
+import { TeamParticipants } from '../../api/team/TeamParticipantCollection';
 import {
   sendDM2AdministratorsMethod,
-  sendDM2ParticipantMethod
-} from "../../api/slackbot/Slack.methods";
-import { MinorParticipants } from "../../api/user/MinorParticipantCollection";
-import { TeamInvitations } from "../../api/team/TeamInvitationCollection";
+  sendDM2ParticipantMethod,
+} from '../../api/slackbot/Slack.methods';
+import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
+import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 
 SyncedCron.add({
-  name: "Check for participants wanting to join team",
+  name: 'Check for participants wanting to join team',
   schedule(parser) {
     // parser is a later.parse object
     const interval = Meteor.settings.pollingInterval || 5;
@@ -37,19 +37,19 @@ SyncedCron.add({
             { participant: username, message },
             error => {
               if (error) {
-                console.error("Failed to send DM. ", error);
+                console.error('Failed to send DM. ', error);
               }
-            }
+            },
           );
         }
       });
       WantsToJoin.removeIt(join._id);
     });
-  }
+  },
 });
 
 SyncedCron.add({
-  name: "Check for minors signing up.",
+  name: 'Check for minors signing up.',
   schedule(parser) {
     // parser is a later.parse object
     const interval = Meteor.settings.pollingInterval || 5;
@@ -63,7 +63,7 @@ SyncedCron.add({
         participantID,
         parentFirstName,
         parentLastName,
-        parentEmail
+        parentEmail,
       } = minor;
       const minorFullName = Participants.getFullName(participantID);
       const message = `A minor ${minorFullName} has joined HACC 2020. Their parent/guardian is
@@ -71,11 +71,11 @@ SyncedCron.add({
       sendDM2AdministratorsMethod.call({ message });
       MinorParticipants.update(docID, { sentAdminDM: true });
     });
-  }
+  },
 });
 
 SyncedCron.add({
-  name: "Check for invitations from teams",
+  name: 'Check for invitations from teams',
   schedule(parser) {
     // parser is a later.parse object
     const interval = Meteor.settings.pollingInterval || 5;
@@ -95,17 +95,17 @@ SyncedCron.add({
             { participant: username, message },
             error => {
               if (error) {
-                console.error("Failed to send DM. ", error);
+                console.error('Failed to send DM. ', error);
               }
-            }
+            },
           );
         }
         TeamInvitations.update(join._id, {
           team: join.teamID,
           participant: join.participantID,
-          sentDM: true
+          sentDM: true,
         });
       }
     });
-  }
+  },
 });

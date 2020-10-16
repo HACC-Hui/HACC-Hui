@@ -1,16 +1,16 @@
-import SimpleSchema from "simpl-schema";
-import _ from "lodash";
-import BaseSlugCollection from "../base/BaseSlugCollection";
-import { slugify, Slugs } from "../slug/SlugCollection";
-import { TeamChallenges } from "./TeamChallengeCollection";
-import { TeamSkills } from "./TeamSkillCollection";
-import { TeamTools } from "./TeamToolCollection";
-import { TeamParticipants } from "./TeamParticipantCollection";
-import { Challenges } from "../challenge/ChallengeCollection";
-import { Participants } from "../user/ParticipantCollection";
-import { Skills } from "../skill/SkillCollection";
-import { Tools } from "../tool/ToolCollection";
-import { ROLE } from "../role/Role";
+import SimpleSchema from 'simpl-schema';
+import _ from 'lodash';
+import BaseSlugCollection from '../base/BaseSlugCollection';
+import { slugify, Slugs } from '../slug/SlugCollection';
+import { TeamChallenges } from './TeamChallengeCollection';
+import { TeamSkills } from './TeamSkillCollection';
+import { TeamTools } from './TeamToolCollection';
+import { TeamParticipants } from './TeamParticipantCollection';
+import { Challenges } from '../challenge/ChallengeCollection';
+import { Participants } from '../user/ParticipantCollection';
+import { Skills } from '../skill/SkillCollection';
+import { Tools } from '../tool/ToolCollection';
+import { ROLE } from '../role/Role';
 
 /** @namespace api/team */
 
@@ -22,7 +22,7 @@ import { ROLE } from "../role/Role";
 class TeamCollection extends BaseSlugCollection {
   constructor() {
     super(
-      "Team",
+      'Team',
       new SimpleSchema({
         name: { type: String },
         slugID: { type: String },
@@ -31,8 +31,8 @@ class TeamCollection extends BaseSlugCollection {
         devPostPage: { type: String, optional: true },
         owner: { type: SimpleSchema.RegEx.Id },
         open: { type: Boolean },
-        affiliation: { type: String, optional: true }
-      })
+        affiliation: { type: String, optional: true },
+      }),
     );
   }
 
@@ -53,16 +53,16 @@ class TeamCollection extends BaseSlugCollection {
    */
   define({
     name,
-    description = "",
-    gitHubRepo = "",
-    devPostPage = "",
+    description = '',
+    gitHubRepo = '',
+    devPostPage = '',
     owner,
     open = true,
     challenges,
     skills,
     tools,
     participants = [],
-    affiliation = ""
+    affiliation = '',
   }) {
     // console.log('TeamCollection.define', name, description, skills, tools, affiliation);
     const team = slugify(name);
@@ -82,13 +82,11 @@ class TeamCollection extends BaseSlugCollection {
       devPostPage,
       owner: ownerID,
       open,
-      affiliation
+      affiliation,
     });
     // Connect the Slug to this Interest
     Slugs.updateEntityID(slugID, teamID);
-    _.forEach(challenges, challenge =>
-      TeamChallenges.define({ team, challenge })
-    );
+    _.forEach(challenges, challenge => TeamChallenges.define({ team, challenge }));
     _.forEach(skills, skill => {
       TeamSkills.define({ team, skill });
     });
@@ -96,9 +94,7 @@ class TeamCollection extends BaseSlugCollection {
       // console.log('TeamCollection defining tools', t);
       TeamTools.define({ team, tool });
     });
-    _.forEach(participants, participant =>
-      TeamParticipants.define({ team, participant })
-    );
+    _.forEach(participants, participant => TeamParticipants.define({ team, participant }));
     if (!_.includes(participants, owner)) {
       TeamParticipants.define({ team, participant: owner });
     }
@@ -127,8 +123,8 @@ class TeamCollection extends BaseSlugCollection {
       skills,
       tools,
       participants,
-      affiliation
-    }
+      affiliation,
+    },
   ) {
     this.assertDefined(docID);
     const updateData = {};
@@ -149,9 +145,7 @@ class TeamCollection extends BaseSlugCollection {
     const team = this.findSlugByID(docID);
     if (challenges) {
       TeamChallenges.removeTeam(team);
-      _.forEach(challenges, challenge =>
-        TeamChallenges.define({ team, challenge })
-      );
+      _.forEach(challenges, challenge => TeamChallenges.define({ team, challenge }));
     }
     if (skills) {
       const teamSkills = TeamSkills.find(selector).fetch();
@@ -171,9 +165,7 @@ class TeamCollection extends BaseSlugCollection {
       const owner = this.findDoc(docID).owner;
       const teamParticipants = TeamParticipants.find(selector).fetch();
       _.forEach(teamParticipants, tD => TeamParticipants.removeIt(tD._id));
-      _.forEach(participants, participant =>
-        TeamParticipants.define({ team, participant })
-      );
+      _.forEach(participants, participant => TeamParticipants.define({ team, participant }));
       if (!_.includes(participants, owner)) {
         TeamParticipants.define({ team, participant: owner });
       }
@@ -210,17 +202,13 @@ class TeamCollection extends BaseSlugCollection {
     this.assertDefined(docID);
     // console.log('Teams.dumpOne', docID);
     const { _id, name, description, owner, open, affiliation } = this.findDoc(
-      docID
+      docID,
     );
     const selector = { teamID: _id };
     const teamChallenges = TeamChallenges.find(selector).fetch();
-    const challenges = _.map(teamChallenges, tC =>
-      Challenges.findSlugByID(tC.challengeID)
-    );
+    const challenges = _.map(teamChallenges, tC => Challenges.findSlugByID(tC.challengeID));
     const teamParticipants = TeamParticipants.find(selector).fetch();
-    const participants = _.map(teamParticipants, tD =>
-      Participants.findSlugByID(tD.participantID)
-    );
+    const participants = _.map(teamParticipants, tD => Participants.findSlugByID(tD.participantID));
     const ownerSlug = Participants.findSlugByID(owner);
     const teamSkills = TeamSkills.find(selector).fetch();
     const skills = _.map(teamSkills, tS => {
@@ -228,7 +216,7 @@ class TeamCollection extends BaseSlugCollection {
       const skillLevel = tS.skillLevel;
       return {
         skill,
-        skillLevel
+        skillLevel,
       };
     });
     const teamTools = TeamTools.find(selector).fetch();
@@ -237,7 +225,7 @@ class TeamCollection extends BaseSlugCollection {
       const toolLevel = tT.toolLevel;
       return {
         tool,
-        toolLevel
+        toolLevel,
       };
     });
     // console.log('Teams.dumpOne', skills, tools);
@@ -250,7 +238,7 @@ class TeamCollection extends BaseSlugCollection {
       challenges,
       participants,
       skills,
-      tools
+      tools,
     };
   }
 }
