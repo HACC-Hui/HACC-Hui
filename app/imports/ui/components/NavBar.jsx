@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Meteor } from "meteor/meteor";
-import { withTracker } from "meteor/react-meteor-data";
-import { withRouter, NavLink } from "react-router-dom";
-import { Menu, Dropdown, Header } from "semantic-ui-react";
-import { Roles } from "meteor/alanning:roles";
-import { ROLE } from "../../api/role/Role";
-import { ROUTES } from "../../startup/client/route-constants";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import { withRouter, NavLink } from 'react-router-dom';
+import { Menu, Dropdown, Header } from 'semantic-ui-react';
+import { Roles } from 'meteor/alanning:roles';
+import { ROLE } from '../../api/role/Role';
+import { ROUTES } from '../../startup/client/route-constants';
 
 /**
  * The NavBar appears at the top of every page. Rendered by the App Layout component.
@@ -19,7 +19,7 @@ class NavBar extends React.Component {
     const isParticipant =
       this.props.currentUser &&
       Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
-    const menuStyle = { marginBottom: "10px", backgroundColor: "#124884" };
+    const menuStyle = { marginBottom: '10px', backgroundColor: '#124884' };
     return (
       <Menu style={menuStyle} attached="top" borderless inverted>
         <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
@@ -51,10 +51,10 @@ class NavBar extends React.Component {
                 as={NavLink}
                 activeClassName="active"
                 exact
-                to={ROUTES.LIST_TEAMS}
+                to={ROUTES.BEST_FIT}
                 key="list-teams"
               >
-                List the Teams
+                List the matched Teams
               </Menu.Item>,
               <Menu.Item
                 as={NavLink}
@@ -92,9 +92,9 @@ class NavBar extends React.Component {
                 key="help-page"
               >
                 Need Help?
-              </Menu.Item>
+              </Menu.Item>,
             ]
-          : ""}
+          : ''}
         {isAdmin
           ? [
               <Menu.Item
@@ -114,12 +114,12 @@ class NavBar extends React.Component {
                 key={ROUTES.DUMP_DATABASE}
               >
                 Dump Database
-              </Menu.Item>
+              </Menu.Item>,
             ]
-          : ""}
+          : ''}
         <Menu.Item position="right">
-          {this.props.currentUser === "" ? (
-            <Dropdown text="Login" pointing="top right" icon={"user"}>
+          {this.props.currentUser === '' ? (
+            <Dropdown text="Login" pointing="top right" icon={'user'}>
               <Dropdown.Menu>
                 <Dropdown.Item
                   icon="user"
@@ -134,7 +134,7 @@ class NavBar extends React.Component {
             <Dropdown
               text={this.props.currentUser}
               pointing="top right"
-              icon={"user"}
+              icon={'user'}
             >
               <Dropdown.Menu>
                 <Dropdown.Item
@@ -153,7 +153,7 @@ class NavBar extends React.Component {
                     to={ROUTES.DELETE_ACCOUNT}
                   />
                 ) : (
-                  ""
+                  ''
                 )}
               </Dropdown.Menu>
             </Dropdown>
@@ -166,12 +166,12 @@ class NavBar extends React.Component {
 
 // Declare the types of all properties.
 NavBar.propTypes = {
-  currentUser: PropTypes.string
+  currentUser: PropTypes.string,
 };
 
 // withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
 const NavBarContainer = withTracker(() => ({
-  currentUser: Meteor.user() ? Meteor.user().username : ""
+  currentUser: Meteor.user() ? Meteor.user().username : '',
 }))(NavBar);
 
 // Enable ReactRouter for this component. https://reacttraining.com/react-router/web/api/withRouter
