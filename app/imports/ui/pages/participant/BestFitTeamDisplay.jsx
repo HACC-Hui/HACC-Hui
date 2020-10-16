@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container,  Header, Loader, Grid, Dropdown } from 'semantic-ui-react';
+import { Container, Header, Loader, Grid, Dropdown } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
@@ -45,8 +45,6 @@ class BestTeam extends React.Component {
 
     const teams = Teams._collection.find({ open: true }).fetch();
 
-    console.log(teams);
-
     return teams;
     // console.log(this.AllOpenTeam);
   }
@@ -59,8 +57,13 @@ class BestTeam extends React.Component {
     const challengeTeams = this.getinit_team_priority();
     _.each(Dchallenges, function (Dchallenge) {
       const filterChallTeams = _.filter(Tchallenges,
+          // eslint-disable-next-line eqeqeq
           function (Tchallenge) { return Tchallenge.challengeID == Dchallenge.challengeID; });
-      console.log(filterChallTeams); _.each(filterChallTeams, function (team) { const teamIndex = challengeTeams.findIndex(pteam => pteam._id == team.teamID); challengeTeams[teamIndex].priority += Tools.count() + Skills.count() + 1; });
+       _.each(filterChallTeams, function (team) {
+         // eslint-disable-next-line eqeqeq
+         const teamIndex = challengeTeams.findIndex(pteam => pteam._id == team.teamID);
+         challengeTeams[teamIndex].priority += Tools.count() + Skills.count() + 1;
+});
     }, challengeTeams);
     this.challenge_priority = challengeTeams;
     const sortTeams = _.sortBy(challengeTeams, 'priority').reverse();
@@ -77,8 +80,13 @@ class BestTeam extends React.Component {
     const skillsTeams = this.getinit_team_priority();
     _.each(Dskills, function (Dskill) {
       const filterSkillTeams = _.filter(Tskills,
+          // eslint-disable-next-line eqeqeq
           function (Tskill) { return Tskill.skillID == Dskill.skillID; });
-      console.log(filterSkillTeams); _.each(filterSkillTeams, function (team) { const teamIndex = skillsTeams.findIndex(pteam => pteam._id == team.teamID); skillsTeams[teamIndex].priority++; });
+      console.log(filterSkillTeams); _.each(filterSkillTeams, function (team) {
+        // eslint-disable-next-line eqeqeq
+        const teamIndex = skillsTeams.findIndex(pteam => pteam._id == team.teamID);
+        skillsTeams[teamIndex].priority++;
+});
     }, skillsTeams);
     this.skill_priority = skillsTeams;
     const sortSkillsTeams = _.sortBy(skillsTeams, 'priority').reverse();
@@ -96,8 +104,13 @@ class BestTeam extends React.Component {
     const ToolsTeams = this.getinit_team_priority();
     _.each(Dtools, function (Dtool) {
       const filterToolsTeams = _.filter(Ttools,
+          // eslint-disable-next-line eqeqeq
           function (Ttool) { return Ttool.toolID == Dtool.toolID; });
-      console.log(filterToolsTeams); _.each(filterToolsTeams, function (team) { const teamIndex = ToolsTeams.findIndex(pteam => pteam._id == team.teamID); ToolsTeams[teamIndex].priority++; });
+      console.log(filterToolsTeams); _.each(filterToolsTeams, function (team) {
+        // eslint-disable-next-line eqeqeq
+        const teamIndex = ToolsTeams.findIndex(pteam => pteam._id == team.teamID);
+        ToolsTeams[teamIndex].priority++;
+});
     }, ToolsTeams);
     this.tool_priority = ToolsTeams;
     const sortToolsTeams = _.sortBy(ToolsTeams, 'priority').reverse();
@@ -202,14 +215,22 @@ let bestfitTeams = [];
 
     };
     const options = [
-      { key: 0, text: 'default (sort by challenge match)', value: 'default' },
+      { key: 0, text: 'sort the teams by the challenges that match your challenges', value: 'default' },
       { key: 1, text: 'sort by best fit teams', value: 'best' },
-      { key: 2, text: 'sort by skill match', value: 'skill' },
-      { key: 3, text: 'sort by tool match', value: 'tool' },
-      { key: 4, text: 'sort by name A to Z', value: 'AToZ' },
+      { key: 2, text: 'sort the teams by the skills that match your skills', value: 'skill' },
+      { key: 3, text: 'sort the teams by the tools that match your tools', value: 'tool' },
+      { key: 4, text: 'sort the teams by the name in alphabet order', value: 'AToZ' },
     ];
     return <div>
-      <Dropdown options={options} onChange={_select} placeholder="Select an option to reorder the team" />
+      <Grid columns={2}>
+        <Grid.Column width={7}>
+          <Header>Please select a filter to reorder the teams: </Header>
+        </Grid.Column>
+        <Grid.Column >
+      <Dropdown style={{ fontSize: `${20}px`, width: `${600}px` }} options={options} onChange={_select}
+                placeholder="Select an option to reorder the team" />
+        </Grid.Column>
+      </Grid>
     </div>;
   }
 
