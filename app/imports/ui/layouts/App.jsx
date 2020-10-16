@@ -20,6 +20,7 @@ import { ROLE } from '../../api/role/Role';
 import AgePage from '../pages/participant/AgePage';
 import ParticipationForm from '../pages/participant/ParticipationForm';
 import UnderParticipationForm from '../pages/participant/UnderParticipationForm';
+import BestFitTeamDisplay from '../pages/participant/BestFitTeamDisplay';
 // import Dprofile from '../pages/participant/Dprofile';
 import { ROUTES } from '../../startup/client/route-constants';
 import DeleteForm from '../pages/participant/DeleteForm';
@@ -54,6 +55,7 @@ class App extends React.Component {
             <Route exact path={ROUTES.LANDING} component={Landing} />
             <Route path={ROUTES.SIGN_IN} component={Signin} />
             <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
+            <ProtectedRoute path={ROUTES.BEST_FIT} component={BestFitTeamDisplay} />
             <ProtectedRoute
               path={ROUTES.PARTICIPATION}
               component={ParticipationForm}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { withTracker } from 'meteor/react-meteor-data';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Grid, Header } from 'semantic-ui-react';
 import { Teams } from '../../../api/team/TeamCollection';
@@ -41,6 +41,15 @@ const getTeamMembers = (team) => {
   return memberNames;
 };
 
+const addTeamName = (team) => {
+  const teamID = team._id;
+  const teamName = Teams._collection.findOne({ _id: teamID });
+  const name = teamName.name;
+  // eslint-disable-next-line no-param-reassign
+  team.name = name;
+  return team;
+};
+
 class ListTeamsWidget extends React.Component {
   render() {
     return (
@@ -67,7 +76,7 @@ class ListTeamsWidget extends React.Component {
           </Grid.Row>
           {this.props.teams.map((team) => (
               <ListTeamExampleWidget key={team._id}
-                                     team={team}
+                                     team={addTeamName(team)}
                                      teamChallenges={getTeamChallenges(team)}
                                      teamSkills={getTeamSkills(team)}
                                      teamTools={getTeamTools(team)}
@@ -84,10 +93,4 @@ ListTeamsWidget.propTypes = {
       PropTypes.object,
   ),
 };
-
-export default withTracker(() => {
-  const teams = Teams.find({}).fetch();
-  return {
-    teams,
-  };
-})(ListTeamsWidget);
+export default withRouter(ListTeamsWidget);
