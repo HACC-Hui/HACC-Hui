@@ -65,7 +65,6 @@ class NavBar extends React.Component {
                 as={NavLink}
                 activeClassName="active"
                 disabled={!isCompliant}
-                isActive={() => isCompliant}
                 exact
                 to={ROUTES.YOUR_TEAMS}
                 key="your-teams"
