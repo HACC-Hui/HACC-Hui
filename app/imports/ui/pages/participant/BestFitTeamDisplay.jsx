@@ -82,7 +82,7 @@ class BestTeam extends React.Component {
       const filterSkillTeams = _.filter(Tskills,
           // eslint-disable-next-line eqeqeq
           function (Tskill) { return Tskill.skillID == Dskill.skillID; });
-      console.log(filterSkillTeams); _.each(filterSkillTeams, function (team) {
+       _.each(filterSkillTeams, function (team) {
         // eslint-disable-next-line eqeqeq
         const teamIndex = skillsTeams.findIndex(pteam => pteam._id == team.teamID);
         skillsTeams[teamIndex].priority++;
@@ -97,7 +97,7 @@ class BestTeam extends React.Component {
   getTeamTool_priority() {
     const Did = this.getDeveloper()._id;
     const Dtools = ParticipantTools._collection.find({ participantID: Did }).fetch();
-    console.log(Dtools, Did);
+
     // const AllTeams = this.getAllOpenTeam();
     const Ttools = TeamTools._collection.find({}).fetch();
 
@@ -106,7 +106,7 @@ class BestTeam extends React.Component {
       const filterToolsTeams = _.filter(Ttools,
           // eslint-disable-next-line eqeqeq
           function (Ttool) { return Ttool.toolID == Dtool.toolID; });
-      console.log(filterToolsTeams); _.each(filterToolsTeams, function (team) {
+       _.each(filterToolsTeams, function (team) {
         // eslint-disable-next-line eqeqeq
         const teamIndex = ToolsTeams.findIndex(pteam => pteam._id == team.teamID);
         ToolsTeams[teamIndex].priority++;
@@ -120,7 +120,6 @@ class BestTeam extends React.Component {
 
   getinit_team_priority() {
     const allteams = this.getAllOpenTeam();
-    console.log(allteams);
     const init_team_priority = [];
     _.each(allteams, function (Team) {
       const temp_team_init = {}; temp_team_init._id = Team._id;
@@ -147,7 +146,6 @@ class BestTeam extends React.Component {
           return sumarray;
         };
 let bestfitTeams = [];
-    console.log(SumPriority(this.tool_priority, this.challenge_priority));
     bestfitTeams = SumPriority(this.tool_priority, this.challenge_priority);
     bestfitTeams = SumPriority(this.skill_priority, bestfitTeams);
     bestfitTeams = _.sortBy(bestfitTeams, 'priority').reverse();
@@ -159,7 +157,6 @@ let bestfitTeams = [];
 
   renderAToZ() {
     const allteams = this.getAllOpenTeam();
-    console.log(allteams);
     const sortAToZTeams = _.sortBy(allteams, function (i) { return i.name.toLowerCase(); });
     return <div>
       <ListTeamsWidget teams={sortAToZTeams}/>
@@ -182,7 +179,6 @@ let bestfitTeams = [];
 
   renderTeamTool_priority() {
     const TeamTool = this.getTeamTool_priority();
-    console.log(TeamTool);
     return <div>
       <ListTeamsWidget teams={TeamTool}/>
     </div>;
@@ -209,7 +205,6 @@ let bestfitTeams = [];
   renderDropDown() {
     const _select = (e, data) => {
       // eslint-disable-next-line eqeqeq
-      console.log(data);
       const newState = { select: data.value };
       this.setState(newState);
 
