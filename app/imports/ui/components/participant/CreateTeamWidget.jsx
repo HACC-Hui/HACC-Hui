@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header, Divider } from 'semantic-ui-react';
+import { Grid, Segment, Header, Divider, Icon } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
@@ -138,6 +138,19 @@ class CreateTeamWidget extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+    if (!this.props.participant.isCompliant) {
+      return (
+          <div align={'center'}>
+            <Header as='h2' icon>
+              <Icon name='thumbs down outline'/>
+              You have not agreed to the <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a> or we&apos;ve haven&apos;t received the signed form yet.
+              <Header.Subheader>
+                Please check back later.
+              </Header.Subheader>
+            </Header>
+          </div>
+      );
+    }
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(this.buildTheFormSchema());
     const model = this.buildTheModel();

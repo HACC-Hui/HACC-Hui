@@ -39,7 +39,7 @@ class ListTeamExampleWidget extends React.Component {
     const participantName = Participants.getFullName(participant._id);
     const isAMember = _.includes(this.props.teamMembers, participantName);
     const isCompliant = participant.isCompliant;
-    const disabled = isAMember || isCompliant || this.state.hasRequested;
+    const disabled = isAMember || !isCompliant || this.state.hasRequested;
     return (
         <Grid.Row columns={6}>
           <Grid.Column>

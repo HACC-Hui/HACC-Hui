@@ -15,13 +15,14 @@ import { Participants } from '../../api/user/ParticipantCollection';
  */
 class NavBar extends React.Component {
   render() {
-    const participant = Participants.findDoc({ userID: Meteor.userId() });
+    const participant = Participants.find({ userID: Meteor.userId() }).fetch()[0];
     const isCompliant = participant.isCompliant;
     const isAdmin =
       this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isParticipant =
       this.props.currentUser &&
       Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
+    console.log(`isCompliant: ${isCompliant}, isAdmin: ${isAdmin}, isParticipant: ${isParticipant}`);
     const menuStyle = { marginBottom: '10px', backgroundColor: '#124884' };
     return (
       <Menu style={menuStyle} attached="top" borderless inverted>
@@ -35,7 +36,7 @@ class NavBar extends React.Component {
               <Menu.Item
                 as={NavLink}
                 activeClassName="active"
-                disabled={isCompliant}
+                disabled={!isCompliant}
                 exact
                 to={ROUTES.CREATE_TEAM}
                 key="team-creation"
@@ -63,7 +64,8 @@ class NavBar extends React.Component {
               <Menu.Item
                 as={NavLink}
                 activeClassName="active"
-                disabled={isCompliant}
+                disabled={!isCompliant}
+                isActive={() => isCompliant}
                 exact
                 to={ROUTES.YOUR_TEAMS}
                 key="your-teams"
