@@ -214,8 +214,8 @@ class YourTeamsCard extends React.Component {
           </Item.Content>
 
           <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }}>
-            <Link to={`/interested-developers/${this.props.teams._id}`}>See interested
-              developers</Link>
+            <Link to={`/interested-participants/${this.props.teams._id}`}>See interested
+              participants</Link>
           </Button>
           <Modal
               closeIcon

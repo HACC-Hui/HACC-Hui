@@ -3,19 +3,37 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Dropdown, Header } from 'semantic-ui-react';
+import { Menu, Dropdown, Header, Loader } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 import { ROUTES } from '../../startup/client/route-constants';
+import { TeamParticipants } from '../../api/team/TeamParticipantCollection';
+import { Teams } from '../../api/team/TeamCollection';
+import { Participants } from '../../api/user/ParticipantCollection';
 
 /**
  * The NavBar appears at the top of every page. Rendered by the App Layout component.
  * @memberOf ui/components
  */
 class NavBar extends React.Component {
+
+  getUsersTeams(meteorUserID) {
+    const participantID = Participants.findDoc({ userID: meteorUserID })._id;
+    const userTeams = TeamParticipants.find({ participantID }).fetch();
+    let userTeamsDocs = userTeams.map(userTeam => Teams.findDoc({ '_id': userTeam.teamID }));
+    return userTeamsDocs;
+  };
+
+  /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
+    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+  }
+
+  /** Render the page once subscriptions have been received. */
+  renderPage() {
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isParticipant = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
+    const userTeamDocs = this.getUsersTeams(Meteor.userId());
 
     return (
         <Menu attached="top" borderless inverted className={'navBar'} >
@@ -35,11 +53,23 @@ class NavBar extends React.Component {
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_PARTICIPANTS} key='list-participants'>List the
                 Participants</Menu.Item>,
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.SUGGEST_TOOL_SKILL} key='suggest-tool-skill'>Suggest Tool/Skill</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active"
-                           exact to={ROUTES.TEAM_INVITATIONS} key='team-invitations'>
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.TEAM_INVITATIONS} key='team-invitations'>
                   Your Invitations</Menu.Item>,
               ]
           ) : ''}
+
+          {isParticipant && userTeamDocs.length > 0 ? (
+            <Menu.Item key='interested-participants'>
+              <Dropdown text="Interested Participants" pointing='top right'>
+                <Dropdown.Menu>
+                  {userTeamDocs.map(teamDoc => (
+                    <Dropdown.Item text={teamDoc.name} key={teamDoc._id} as={NavLink} exact to={`/interested-participants/${teamDoc._id}`} />
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Menu.Item>
+          ) : ''}
+
           {isAdmin ? (
               [
                 <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.CONFIGURE_HACC}
@@ -75,13 +105,28 @@ class NavBar extends React.Component {
 
 // Declare the types of all properties.
 NavBar.propTypes = {
+  teams: PropTypes.array.isRequired,
+  teamParticipants: PropTypes.array,
+  participants: PropTypes.array.isRequired,
   currentUser: PropTypes.string,
+  ready: PropTypes.bool.isRequired,
+
 };
 
 // withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-const NavBarContainer = withTracker(() => ({
-  currentUser: Meteor.user() ? Meteor.user().username : '',
-}))(NavBar);
+const NavBarContainer = withTracker(() => {
+  const teamsSubscription = Teams.subscribe();
+  const teamParticipantsSubscription = TeamParticipants.subscribe();
+  const participantsSubscription = Participants.subscribe();
+
+  return {
+    teams: Teams.find({}).fetch(),
+    teamParticipants: TeamParticipants.find({}).fetch(),
+    participants: Participants.find({}).fetch(),
+    currentUser: Meteor.user() ? Meteor.user().username : '',
+    ready: teamsSubscription.ready() && teamParticipantsSubscription.ready() && participantsSubscription.ready(),
+  };
+})(NavBar);
 
 // Enable ReactRouter for this component. https://reacttraining.com/react-router/web/api/withRouter
 export default withRouter(NavBarContainer);

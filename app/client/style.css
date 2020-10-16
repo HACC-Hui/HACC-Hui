@@ -15,7 +15,7 @@
 }
 
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 1300px) {
   .navBar {
     display: none !important;
   }

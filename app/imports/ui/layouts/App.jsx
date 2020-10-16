@@ -38,6 +38,8 @@ import ListSuggestions from '../pages/administrator/ListSuggestions';
 import ListParticipantsPage from '../pages/participant/ListParticipantsPage';
 import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 import SideBar from '../components/SideBar';
+import InterestedParticipantsPage from '../pages/participant/InterestedParticipantsPage';
+
 
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
@@ -62,7 +64,7 @@ class App extends React.Component {
   }
 
   updatePredicate() {
-    this.setState({ isDesktop: window.innerWidth > 750 });
+    this.setState({ isDesktop: window.innerWidth > 1300 });
   }
 
   render() {
@@ -83,6 +85,7 @@ class App extends React.Component {
           <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
           <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
           <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
+          <ProtectedRoute path={ROUTES.INTERESTED_PARTICIPANTS} component={InterestedParticipantsPage} />
           <ProtectedRoute path={ROUTES.LIST_PARTICIPANTS} component={ListParticipantsPage} />
           <ProtectedRoute path={ROUTES.TEAM_INVITATIONS} component={TeamInvitationsPage}/>
           <ProtectedRoute path={ROUTES.SUGGEST_TOOL_SKILL} component={SuggestToolSkillPage} />
