@@ -33,16 +33,19 @@ class ViewTeamExampleWidget extends React.Component {
   //   //create a function that maps through all the members of a team
   //   //if all members of the team .isCompliant return: "Team is compliant"
   //   //else return "Team is not compliant"
-  //   const compliantParticipants = _.map(Participants, );
-  //   if (compliantParticipants.isCompliant == true) {
-  //     console.log("Team compliant");
-  //   } else {
-  //     console.log("Team not compliant");
-  //   }
-  //
-  // }
+
 
   render() {
+    console.log(this.props.teamMembers);
+
+    // const part = Participants.findDoc({ userID: participantId });
+
+    if(this.props.teamMembers.isCompliant) {
+      console.log("compliant");
+    } else {
+      console.log("not");
+    }
+    
     return (
           <Grid celled>
           <Grid.Row columns={3}>
