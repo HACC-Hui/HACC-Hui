@@ -211,7 +211,8 @@ class BestTeam extends React.Component {
       { key: 4, text: 'sort by name A to Z', value: 'AToZ' },
     ];
     return <div>
-      <Dropdown options={options} onChange={_select} placeholder="Select an option to reorder the team" />
+      <Header as='h3'>Please select a filter to sort the matched teams</Header>
+      <Dropdown style={{ fontSize:20+'px' }} options={options} onChange={_select} placeholder="Select an option to reorder the team" />
     </div>;
   }
 
