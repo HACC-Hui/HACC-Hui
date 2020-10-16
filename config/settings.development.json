@@ -1,0 +1,12 @@
+{
+  "administrators": [
+    "carleton.moore@gmail.com"
+  ],
+  "slackbotPort": 3100,
+  "pollingInterval": 3,
+  "databaseRestoreFileName": "database/2020-10-08-10-55-53.json",
+  "defaultAccounts": [
+  ],
+  "defaultData": [
+  ]
+}

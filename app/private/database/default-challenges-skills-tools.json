@@ -1,0 +1,173 @@
+{
+  "timestamp": "",
+  "collections": [
+    {
+      "name": "AdministratorCollection",
+      "contents": []
+    },
+    {
+      "name": "ChallengeCollection",
+      "contents": [
+        {
+          "title": "UH Building Security",
+          "description": "Explore application designs to improve security for UH buildings with lower personnel costs.",
+          "interests": [
+            "security", "mobile"
+          ],
+          "submissionDetail": "/challenges/challenge-building-security-app.pdf",
+          "pitch": ""
+        },
+        {
+          "title": "COVID-19 ChatBot",
+          "description": "Implement a ChatBot to provide up-to-date information and encourage healthy behaviors regarding COVID-19.",
+          "interests": [
+            "security", "community health", "mobile", "AI", "COVID-19"
+          ],
+          "submissionDetail": "/challenges/challenge-covid-19-chatbot.pdf",
+          "pitch": ""
+        },
+        {
+          "title": "Family Resource Directory",
+          "description": "Provide an integrated portal to support services, resources, and benefits available to family and children by all governnment and non-profit agencies.",
+          "interests": [
+            "community health", "recommendation engine"
+          ],
+          "submissionDetail": "/challenges/challenge-family-resource-directory.pdf",
+          "pitch": ""
+        },
+        {
+          "title": "Gamify Hawaii Historical Records Indexing",
+          "description": "Design game mechanics to increase community interest in indexing historic records to improve research on personal history, heritage, and culture",
+          "interests": [
+            "game design", "hawaiian history", "Java", "PostgreSQL"
+          ],
+          "submissionDetail": "/challenges/challenge-gamification-of-crowdsourced-indexing.pdf",
+          "pitch": ""
+        },
+        {
+          "title": "Hawaii State IT Visualization",
+          "description": "Provide a visualization tool for public access to the State of Hawaii's portfolio of major IT software systems and application.",
+          "interests": [
+            "data visualization", "information technology"
+          ],
+          "submissionDetail": "/challenges/challenge-it-portfolio-and-mapping.pdf",
+          "pitch": ""
+        },
+        {
+          "title": "UH campus occupancy visualization",
+          "description": "Use WiFi access point data to visualize and interpret campus occupancy trends to better support health and safety during COVID-19.",
+          "interests": [
+            "data visualization", "data science", "privacy", "COVID-19"
+          ],
+          "submissionDetail": "/challenges/challenge-visualizing-occupancy-trends.pdf",
+          "pitch": ""
+        }
+      ]
+    },
+    {
+      "name": "InterestCollection",
+      "contents": [
+      ]
+    },
+    {
+      "name": "ParticipantCollection",
+      "contents": []
+    },
+    {
+      "name": "SkillCollection",
+      "contents": [
+        {
+          "name": "Videography",
+          "description": "Skill in the design and production of a short video to showcase your challenge solution is useful."
+        },
+        {
+          "name": "User Interface Design",
+          "description": "A successful challenge solution will provide a user interface that makes it easy and intuitive to use the application."
+        },
+        {
+          "name": "Database Management",
+          "description": "All challenges require manipulation of data, and so it is useful to have skills in the design of databases and how to effectively insert and retrieve data."
+        },
+        {
+          "name": "Data Science",
+          "description": "Many of the challenges require manipulating large amounts of 'real-world' data and drawing appropriate conclusions from them. These days, this is known as 'data science'. "
+        },
+        {
+          "name": "Team Management",
+          "description": "A successful team needs one or more people who understand how to break down large tasks into smaller ones, help team members work effectively in parallel, support good communication, and facilitate progress toward a successful solution in the time available."
+        },
+        {
+          "name": "Customer Discovery",
+          "description": "Who are the users of the system? What do they think of your solution? Customer discovery is the process of identifying who would benefit from your solution and engaging them in the process of development so that you build a solution that they will actually use."
+        },
+        {
+          "name": "Entrepreneurship",
+          "description": "All of these challenges pose problems whose solutions could become commercial products. That said, it is highly unlikely your team will develop a commercial product in just four weeks. Entrepreneurship skills can be helpful in determining a plan to move your challenge solution from 'concept' to 'commercial' status. "
+        },
+        {
+          "name": "Data Visualization",
+          "description": "With large datasets, an important component of a successful user interface is the approach to data visualization. Knowledge of a data visualization toolkit (such as Tableau or D3) can be useful."
+        },
+        {
+          "name": "Map-based Interfaces",
+          "description": "User interfaces based upon maps can be significantly more usable for some challenges. Having prior experience with a GIS toolkit can make the construction of these interfaces easier."
+        },
+        {
+          "name": "Public Speaking",
+          "description": "On judging day, you'll need to get up in front of over 100 people and talk about your challenge solution. The quality of your presentation can make a big difference in your final score!"
+        }
+      ]
+    },
+    {
+      "name": "SlackUserCollection",
+      "contents": []
+    },
+    {
+      "name": "TeamCollection",
+      "contents": []
+    },
+    {
+      "name": "ToolCollection",
+      "contents": [
+        { "name": "Java",  "description": "Programming Language" },
+        { "name": "Python",  "description": "Programming Language" },
+        { "name": "Javascript",  "description": "Programming Language" },
+        { "name": "C#",  "description": "Programming Language" },
+        { "name": "C/C++",  "description": "Programming Language" },
+        { "name": "Swift",  "description": "Programming Language" },
+        { "name": "PHP",  "description": "Programming Language" },
+        { "name": "Dart",  "description": "Programming Language" },
+        { "name": "Django",  "description": "Web Application Framework" },
+        { "name": "Rails",  "description": "Web Application Framework" },
+        { "name": "Angular",  "description": "Web Application Framework" },
+        { "name": "Laravel",  "description": "Web Application Framework" },
+        { "name": "Express",  "description": "Web Application Framework" },
+        { "name": "ASP/.NET",  "description": "Web Application Framework" },
+        { "name": "React",  "description": "Web Application Framework" },
+        { "name": "Vue",  "description": "Web Application Framework" },
+        { "name": "Spring",  "description": "Web Application Framework" },
+        { "name": "Meteor", "description": "Web Application Framework" },
+        { "name": "Postgres", "description": "Database" },
+        { "name": "Oracle", "description": "Database" },
+        { "name": "MySQL", "description": "Database" },
+        { "name": "MongoDB", "description": "Database" },
+        { "name": "MS Azure SQL", "description": "Database" },
+        { "name": "Flutter", "description": "Mobile Development" },
+        { "name": "React Native", "description": "Mobile Development" },
+        { "name": "Ionic", "description": "Mobile Development" },
+        { "name": "Android", "description": "Mobile Development" },
+        { "name": "Xamarin", "description": "Mobile Development" },
+        { "name": "Tableau", "description": "Data Visualization" },
+        { "name": "D3", "description": "Data Visualization" },
+        { "name": "Google Charts", "description": "Data Visualization" },
+        { "name": "Processing", "description": "Data Visualization" },
+        { "name": "R", "description": "Data Visualization" },
+        { "name": "Jupyter", "description": "Data Visualization" },
+        { "name": "Google Maps", "description": "Map-based Visualization" },
+        { "name": "Open Layers", "description": "Map-based Visualization" },
+        { "name": "Leaflet", "description": "Map-based Visualization" },
+        { "name": "PowerPoint", "description": "Presentation" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+import './AdministratorCollection';
+import './ParticipantChallengeCollection';
+import './ParticipantCollection';
+import './ParticipantInterestCollection';
+import './ParticipantSkillCollection';
+import './ParticipantToolCollection';
+import './UserCollection';
+import './UserInteractionCollection';
+import './UserInteractionCollection.methods';
