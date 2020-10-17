@@ -1,7 +1,6 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Header, List, } from 'semantic-ui-react';
+import { Grid, Header, List } from 'semantic-ui-react';
 import _ from 'lodash';
 import { withTracker } from 'meteor/react-meteor-data';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
