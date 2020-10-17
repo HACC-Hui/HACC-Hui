@@ -53,33 +53,33 @@ class ListParticipantsCard extends React.Component {
       for (let i = 0; i < teams.length; i++) {
         newOptions.push({ key: teams[i].name, text: teams[i].name, value: teams[i].name });
       }
-      console.log(newOptions);
+      // console.log(newOptions);
       return newOptions;
     }
 
     const options = setOptions();
 
     function handleChange(dID, { value }, e) {
-      console.log(e);
-      console.log(e.value);
-      console.log(dID);
+      // console.log(e);
+      // console.log(e.value);
+      // console.log(dID);
       if (e.value !== 'Select a Team') {
         // console.log(tID);
         // console.log(dID);
         const thisTeam = Teams.findDoc({ name: e.value })._id;
-        const devID = Participants.findDoc({ _id: dID }).username;
+        const participantID = Participants.findDoc({ _id: dID }).username;
         // console.log(thisTeam);
-        const definitionData = { team: thisTeam, participant: devID };
+        const definitionData = { team: thisTeam, participant: participantID };
         const collectionName = TeamInvitations.getCollectionName();
         // console.log(collectionName);
-        console.log(thisTeam);
+        // console.log(thisTeam);
         if (typeof TeamParticipants.findOne({
           teamID: thisTeam,
           participantID: dID,
         }) !== 'undefined') {
           console.log('already in team');
           swal('Error',
-              `Sorry, participant ${devID} is already in this team!`,
+              `Sorry, participant ${participantID} is already in this team!`,
               'error');
           return;
         }
@@ -99,7 +99,7 @@ class ListParticipantsCard extends React.Component {
         }) !== 'undefined') {
           console.log('already invited');
           swal('Error',
-              `Sorry, participant ${devID} has already been sent an invitation!`,
+              `Sorry, participant ${participantID} has already been sent an invitation!`,
               'error');
           return;
         }
@@ -150,25 +150,26 @@ class ListParticipantsCard extends React.Component {
                     <Grid.Column>
                       <Header>Challenges</Header>
                       <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
-                        {this.props.challenges.slice(0, 3).map((challenge) => <p
+                        {this.props.challenges.slice(0, 3).map((challenge, i) => <p
                             style={{ color: 'rgb(89, 119, 199)' }}
-                            key={challenge}>
+                            key={challenge + i}>
                           {challenge}</p>)}
                       </Grid.Column>
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Skills</Header>
-                      {this.props.skills.slice(0, 3).map((skill) => <p key={skill}>
+                      {this.props.skills.slice(0, 3).map((skill, i) => <p key={skill + i}>
                         {skill.name}</p>)}
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Tools</Header>
-                      {this.props.tools.slice(0, 3).map((tool) => <p key={tool}>
+                      {this.props.tools.slice(0, 3).map((tool, i) => <p key={tool + i}>
                         {tool.name}</p>)}
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Interests</Header>
-                      {this.props.participants.interest}
+                      {this.props.interests.slice(0, 3).map((interest, i) => <p key={interest + i}>
+                        {interest}</p>)}
                     </Grid.Column>
                     <Grid.Column>
                     <Header>Slack Username</Header>
@@ -179,7 +180,7 @@ class ListParticipantsCard extends React.Component {
                         <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
                         <Dropdown
                             className='button icon'
-                            onChange={handleChange.bind(this, this.props.devID)}
+                            onChange={handleChange.bind(this, this.props.participantID)}
                             options={options}
                             trigger={<></>}
                             style={{ backgroundColor: 'transparent' }}
@@ -214,28 +215,28 @@ class ListParticipantsCard extends React.Component {
                 <Grid.Column>
                   <Header dividing size="small">Challenges</Header>
                   <List bulleted>
-                    {this.props.challenges.map((challenge) => <List.Item key={challenge}>{challenge}</List.Item>)}
+                    {this.props.challenges.map((challenge, i) => <List.Item key={challenge + i}>{challenge}</List.Item>)}
                   </List>
                 </Grid.Column>
                 <Divider hidden/>
                 <Grid.Column>
                   <Header dividing size="small">Skills</Header>
                   <List bulleted>
-                    {this.props.skills.map((skill) => <List.Item key={skill}>{skill.name}</List.Item>)}
+                    {this.props.skills.map((skill, i) => <List.Item key={skill + i}>{skill.name}</List.Item>)}
                   </List>
                 </Grid.Column>
                 <Divider hidden/>
                 <Grid.Column>
                   <Header dividing size="small">Tools</Header>
                   <List bulleted>
-                    {this.props.tools.map((tool) => <List.Item key={tool}>{tool.name}</List.Item>)}
+                    {this.props.tools.map((tool, i) => <List.Item key={tool + i}>{tool.name}</List.Item>)}
                   </List>
                 </Grid.Column>
                 <Divider hidden/>
                 <Grid.Column>
                   <Header dividing size="small">Interests</Header>
                   <List bulleted>
-                    {this.props.interests.map((interest) => <List.Item key={interest}>{interest.name}</List.Item>)}
+                    {this.props.interests.map((interest, i) => <List.Item key={interest + i}>{interest}</List.Item>)}
                   </List>
                 </Grid.Column>
               </Modal.Description>
@@ -245,9 +246,9 @@ class ListParticipantsCard extends React.Component {
                 <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
                 <Dropdown
                     className='button icon'
-                    onChange={handleChange.bind(this, this.props.devID)}
+                    onChange={handleChange.bind(this, this.props.participantID)}
                     options={options}
-                    trigger={<></>}
+                    // trigger={<></>}
                     style={{ backgroundColor: 'transparent' }}
                     selection
                     value={value}
@@ -261,7 +262,7 @@ class ListParticipantsCard extends React.Component {
 }
 
 ListParticipantsCard.propTypes = {
-  devID: PropTypes.string.isRequired,
+  participantID: PropTypes.string.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,

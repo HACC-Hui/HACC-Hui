@@ -88,8 +88,8 @@ class ListParticipantsWidget extends React.Component {
       // eslint-disable-next-line max-len
       const challengeResults = filters.filterByChallenge(this.state.challenges, this.props.challenges, this.props.participantChallenges, toolResults);
       // eslint-disable-next-line max-len
-      const interestResults = filters.filterByInterest(this.state.interests, this.props.interests, this.props.participantInterests, interestResults);
-      const sorted = filters.sortBy(challengeResults, 'participants');
+      const interestResults = filters.filterByInterest(this.state.interests, this.props.interests, this.props.participantInterests, challengeResults);
+      const sorted = filters.sortBy(interestResults, 'participants');
       this.setState({
         result: sorted,
       }, () => {
@@ -158,7 +158,7 @@ class ListParticipantsWidget extends React.Component {
           }
         }
       }
-      console.log(data);
+      // console.log(data);
       return data;
     }
 
@@ -174,7 +174,6 @@ class ListParticipantsWidget extends React.Component {
           }
         }
       }
-      console.log(data);
       return data;
     }
 
@@ -200,8 +199,8 @@ class ListParticipantsWidget extends React.Component {
       const interests = _.filter(participantInterests, { participantID: participantID });
       for (let i = 0; i < interests.length; i++) {
         for (let j = 0; j < universalInterests.length; j++) {
-          if (interests[i].challengeID === universalInterests[j]._id) {
-            data.push(universalInterests[j].title);
+          if (interests[i].interestID === universalInterests[j]._id) {
+            data.push(universalInterests[j].name);
           }
         }
       }
@@ -335,12 +334,12 @@ export default withTracker(() =>
     participantChallenges: ParticipantChallenges.find({}).fetch(),
     participantSkills: ParticipantSkills.find({}).fetch(),
     participantTools: ParticipantTools.find({}).fetch(),
-     participantInterests: ParticipantInterests.find({}).fetch(),
+    participantInterests: ParticipantInterests.find({}).fetch(),
     teams: Teams.find({ open: true }).fetch(),
     skills: Skills.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     tools: Tools.find({}).fetch(),
     participants: Participants.find({}).fetch(),
-     interests: Interests.find({}).fetch(),
+    interests: Interests.find({}).fetch(),
 
   }))(ListParticipantsWidget);

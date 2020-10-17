@@ -220,7 +220,7 @@ class ListParticipantsFilter {
     const interestID = [];
     for (let i = 0; i < value.length; i++) {
       for (let j = 0; j < allInterests.length; j++) {
-        if (value[i] === allInterests[j].title) {
+        if (value[i] === allInterests[j].name) {
           interestID.push(allInterests[j]._id);
         }
       }
