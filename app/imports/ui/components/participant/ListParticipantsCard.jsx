@@ -58,10 +58,11 @@ class ListParticipantsCard extends React.Component {
 
     const options = setOptions();
 
-    function handleChange(dID, { value }, e) {
+    function handleChange(dID, { val }, e) {
       console.log(e);
       console.log(e.value);
       console.log(dID);
+      console.log(val);
       if (e.value !== 'Select a Team') {
         // console.log(tID);
         // console.log(dID);

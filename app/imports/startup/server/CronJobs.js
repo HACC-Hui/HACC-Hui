@@ -8,6 +8,7 @@ import { TeamParticipants } from '../../api/team/TeamParticipantCollection';
 import { sendDM2AdministratorsMethod, sendDM2ParticipantMethod } from '../../api/slackbot/Slack.methods';
 import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
 import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
+import { LeavingTeams } from '../../api/team/LeavingTeamCollection';
 
 SyncedCron.add({
   name: 'Check for participants wanting to join team',
@@ -88,6 +89,32 @@ SyncedCron.add({
         }
         TeamInvitations.update(join._id, { team: join.teamID, participant: join.participantID, sentDM: true });
       }
+    });
+  },
+});
+
+SyncedCron.add({
+  name: 'Check for participants leaving teams',
+  schedule(parser) {
+    // parser is a later.parse object
+    const interval = Meteor.settings.pollingInterval || 5;
+    return parser.text(`every ${interval} minutes`);
+  },
+  job() {
+    const leaving = LeavingTeams.find({ sentOwnerDM: false }).fetch();
+    _.forEach(leaving, (l) => {
+      const participantName = Participants.getFullName(l.participantID);
+      const team = Teams.findDoc(l.teamID);
+      const participant = Participants.findDoc(team.owner).username;
+      const message = `${participantName} has left your team, ${team.name}.`;
+      sendDM2ParticipantMethod.call({ participant, message }, (error) => {
+        if (error) {
+          console.error('Failed to send DM. ', error);
+        } else {
+          LeavingTeams.update(l._id, { sentOwnerDM: true });
+        }
+      });
+      LeavingTeams.update(l._id, { sentOwnerDM: true });
     });
   },
 });

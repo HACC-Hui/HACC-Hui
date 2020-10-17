@@ -51,6 +51,7 @@ class Signin extends React.Component {
     let pathname = ROUTES.LANDING;
     if (Participants.isDefined(Meteor.userId())) {
       const dev = Participants.findDoc({ userID: Meteor.userId() });
+      // console.log(dev);
       if (dev.isCompliant) {
         pathname = ROUTES.CREATE_PROFILE;
       } else {

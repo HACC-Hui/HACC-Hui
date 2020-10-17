@@ -1,27 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { DDP } from 'meteor/ddp-client';
 import faker from 'faker';
 import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
-import { Stuffs } from '../api/stuff/StuffCollection';
 import { ROLE } from '../api/role/Role';
-
-/** @namespace test-utilities */
-
-export function withSubscriptions() {
-  return new Promise((resolve => {
-    // Add the collections to subscribe to.
-    Stuffs.subscribeStuff();
-    const poll = Meteor.setInterval(() => {
-      if (DDP._allSubscriptionsReady()) {
-        Meteor.clearInterval(poll);
-        resolve();
-      }
-    }, 200);
-  }));
-}
 
 /**
  * Defines a test admin user.
