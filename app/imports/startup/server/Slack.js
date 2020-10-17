@@ -33,7 +33,8 @@ if (!Meteor.isAppTest) {
       // console.log(email, first_name, last_name);
       if (!isAdminEmail(email)) {
         // they are a participant
-        if (!Participants.isDefined(email)) {
+        // console.log(Participants.isDefined({ username: email }));
+        if (!Participants.isDefined({ username: email })) {
           if (last_name !== '') {
             // last name is provided
             const firstName = first_name;
@@ -64,7 +65,7 @@ You can do this by going to 'edit profile' and entering your full name under 'Fu
             `<@${event.user}> You've already registered. You can login to HACC-Hui.`,
           );
         }
-      } else if (!Administrators.isDefined(email)) {
+      } else if (!Administrators.isDefined({ username: email })) {
         if (last_name !== '') {
           // last name is provided
           const firstName = first_name;
