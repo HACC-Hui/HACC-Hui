@@ -33,11 +33,11 @@ const allSubs = new SubsManager({ cacheLimit: 20, expireIn: 30 });
  * @memberOf ui/layouts
  */
 function withAllSubscriptions(WrappedComponent) {
-  const AllSubscriptionsHOC = (props) => ((props.loading) ? (
-              <Loader active>Getting data.</Loader>
-          ) :
-          <WrappedComponent {...props} />
-  );
+  const AllSubscriptionsHOC = props => (props.loading ? (
+      <Loader active>Getting data.</Loader>
+    ) : (
+      <WrappedComponent {...props} />
+    ));
   AllSubscriptionsHOC.propTypes = {
     loading: PropTypes.bool,
   };
@@ -63,11 +63,10 @@ function withAllSubscriptions(WrappedComponent) {
       allSubs.subscribe(Tools.getCollectionName()),
       allSubs.subscribe(TeamInvitations.getCollectionName()),
     ];
-    const loading = handles.some((handle) => !handle.ready());
+    const loading = handles.some(handle => !handle.ready());
     return {
       loading,
     };
-
   })(AllSubscriptionsHOC);
 }
 

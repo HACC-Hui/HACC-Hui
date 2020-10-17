@@ -4,7 +4,7 @@ import { HACCHui } from '../../api/hacc-hui/HACCHui';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 
 // Publish all the collections you need.
-_.forEach(HACCHui.collections, (collection) => collection.publish());
+_.forEach(HACCHui.collections, collection => collection.publish());
 
 // Deprecated
 Stuffs.publish();

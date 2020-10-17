@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header, Divider } from 'semantic-ui-react';
+import { Grid, Segment, Header, Divider, Icon } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
@@ -42,10 +42,10 @@ class CreateTeamWidget extends React.Component {
   }
 
   buildTheFormSchema() {
-    const challengeNames = _.map(this.props.challenges, (c) => c.title);
-    const skillNames = _.map(this.props.skills, (s) => s.name);
-    const toolNames = _.map(this.props.tools, (t) => t.name);
-    const participantNames = _.map(this.props.participants, (p) => p.username);
+    const challengeNames = _.map(this.props.challenges, c => c.title);
+    const skillNames = _.map(this.props.skills, s => s.name);
+    const toolNames = _.map(this.props.tools, t => t.name);
+    const participantNames = _.map(this.props.participants, p => p.username);
     const schema = new SimpleSchema({
       open: {
         type: String,
@@ -78,9 +78,7 @@ class CreateTeamWidget extends React.Component {
   submit(formData, formRef) {
     // console.log('CreateTeam.submit', formData, this.props);
     const owner = this.props.participant.username;
-    const {
-      name, description, challenges, skills, tools, image,
-    } = formData;
+    const { name, description, challenges, skills, tools, image } = formData;
     let { open } = formData;
     // console.log(challenges, skills, tools, open);
     if (open === 'Open') {
@@ -90,15 +88,15 @@ class CreateTeamWidget extends React.Component {
       // console.log('FALSE');
     }
 
-    const skillsArr = _.map(skills, (n) => {
+    const skillsArr = _.map(skills, n => {
       const doc = Skills.findDoc({ name: n });
       return Slugs.getNameFromID(doc.slugID);
     });
-    const toolsArr = _.map(tools, (t) => {
+    const toolsArr = _.map(tools, t => {
       const doc = Tools.findDoc({ name: t });
       return Slugs.getNameFromID(doc.slugID);
     });
-    const challengesArr = _.map(challenges, (title) => {
+    const challengesArr = _.map(challenges, title => {
       const doc = Challenges.findDoc({ title });
       return Slugs.getNameFromID(doc.slugID);
     });
@@ -120,38 +118,60 @@ class CreateTeamWidget extends React.Component {
       tools: toolsArr,
     };
     // console.log(collectionName, definitionData);
-    defineMethod.call({
-          collectionName,
-          definitionData,
-        },
-        (error) => {
-          if (error) {
-            swal('Error', error.message, 'error');
-            // console.error(error.message);
-          } else {
-            swal('Success', 'Team created successfully', 'success');
-            formRef.reset();
-            // console.log(result);
-          }
-        });
+    defineMethod.call(
+      {
+        collectionName,
+        definitionData,
+      },
+      error => {
+        if (error) {
+          swal('Error', error.message, 'error');
+          // console.error(error.message);
+        } else {
+          swal('Success', 'Team created successfully', 'success');
+          formRef.reset();
+          // console.log(result);
+        }
+      },
+    );
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+    if (!this.props.participant.isCompliant) {
+      return (
+          <div align={'center'}>
+            <Header as='h2' icon>
+              <Icon name='thumbs down outline'/>
+              You have not agreed to the <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a>
+              &nbsp;or we&apos;ve haven&apos;t received the signed form yet.
+              <Header.Subheader>
+                You cannot create a team until you do agree to the rules. Please check back later.
+              </Header.Subheader>
+            </Header>
+          </div>
+      );
+    }
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(this.buildTheFormSchema());
     const model = this.buildTheModel();
     return (
-        <Grid container centered>
-          <Grid.Column>
-            <Divider hidden />
-            <AutoForm ref={ref => {
+      <Grid container centered>
+        <Grid.Column>
+          <Divider hidden />
+          <AutoForm
+            ref={ref => {
               fRef = ref;
-            }} schema={formSchema} model={model} onSubmit={data => this.submit(data, fRef)}
-                      style={{
-                        paddingBottom: '40px',
-                      }}>
-              <Segment style={{
+            }}
+            schema={formSchema}
+            model={model}
+            onSubmit={data => this.submit(data, fRef)}
+            style={{
+              paddingBottom: '40px',
+            }}
+          >
+            <Segment
+              style={{
                 borderRadius: '10px',
                 backgroundColor: '#E5F0FE',
               }} className={'createTeam'}>
@@ -198,18 +218,10 @@ class CreateTeamWidget extends React.Component {
 
 CreateTeamWidget.propTypes = {
   participant: PropTypes.object.isRequired,
-  skills: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
-  challenges: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
-  tools: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
-  participants: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
+  skills: PropTypes.arrayOf(PropTypes.object).isRequired,
+  challenges: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tools: PropTypes.arrayOf(PropTypes.object).isRequired,
+  participants: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default withTracker(() => ({

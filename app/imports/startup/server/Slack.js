@@ -10,11 +10,11 @@ if (!Meteor.isAppTest) {
   let pathToDotEnv = `${process.cwd()}`;
   pathToDotEnv = pathToDotEnv.substring(0, pathToDotEnv.indexOf('.meteor'));
   pathToDotEnv = `${pathToDotEnv}.env`;
-// console.log(pathToDotEnv);
-// const result = require('dotenv').config({ path: pathToDotEnv });
-// eslint-disable-next-line global-require
+  // console.log(pathToDotEnv);
+  // const result = require('dotenv').config({ path: pathToDotEnv });
+  // eslint-disable-next-line global-require
   require('dotenv').config({ path: pathToDotEnv });
-// console.log(result);
+  // console.log(result);
 
   app = new App({
     signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -31,50 +31,84 @@ if (!Meteor.isAppTest) {
       // console.log(profile);
       const { email, first_name, last_name } = profile;
       // console.log(email, first_name, last_name);
-      if (!isAdminEmail(email)) { // they are a participant
-        if (!Participants.isDefined(email)) {
+      if (!isAdminEmail(email)) {
+        // they are a participant
+        // console.log(Participants.isDefined({ username: email }));
+        if (!Participants.isDefined({ username: email })) {
+          if (last_name !== '') {
+            // last name is provided
+            const firstName = first_name;
+            const lastName = last_name;
+            const username = email;
+            const { password } = Participants.define({
+              username,
+              firstName,
+              lastName,
+            });
+            // record this user
+            SlackUsers.define({
+              username,
+              slackUser: event.user,
+              dmChannel: event.channel,
+            });
+            await say(`
+        Welcome to HACC-Hui! Here are your credentials
+        Host: https//hackhui.com
+        Username: ${username}
+        Password: ${password}`);
+          } else {
+            await say(`<@${event.user}> Please include a last name with your profile.
+You can do this by going to 'edit profile' and entering your full name under 'Full name' then try to register again.`);
+          }
+        } else {
+          await say(
+            `<@${event.user}> You've already registered. You can login to HACC-Hui.`,
+          );
+        }
+      } else if (!Administrators.isDefined({ username: email })) {
+        if (last_name !== '') {
+          // last name is provided
           const firstName = first_name;
           const lastName = last_name;
           const username = email;
-          const { password } = Participants.define({ username, firstName, lastName });
+          const { password } = Administrators.define({
+            username,
+            firstName,
+            lastName,
+          });
           // record this user
-          SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
+          SlackUsers.define({
+            username,
+            slackUser: event.user,
+            dmChannel: event.channel,
+          });
           await say(`
-      Welcome to HACC-Hui! Here are your credentials
-      Host: https//hackhui.com
-      Username: ${username}
-      Password: ${password}`);
+        Welcome to HACC-Hui! Here are your credentials
+        Host: https//hackhui.com
+        Username: ${username}
+        Password: ${password}`);
         } else {
-          await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.`);
+          await say(`<@${event.user}> Please include a last name with your profile.
+You can do this by going to 'edit profile' and entering your full name under 'Full name' then try to register again.`);
         }
-      } else
-        if (!Administrators.isDefined(email)) {
-          const firstName = first_name;
-          const lastName = last_name;
-          const username = email;
-          const { password } = Administrators.define({ username, firstName, lastName });
-          // record this user
-          SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
-          await say(`
-      Welcome to HACC-Hui! Here are your credentials
-      Host: https//hackhui.com
-      Username: ${username}
-      Password: ${password}`);
-        } else {
-          await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.`);
-        }
+      } else {
+        await say(
+          `<@${event.user}> You've already registered. You can login to HACC-Hui.`,
+        );
+      }
     } else {
-      await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me.`);
+      await say(
+        `<@${event.user}> I don't understand '${event.text}'. To register say register me.`,
+      );
     }
   });
 
-// Start your app
+  // Start your app
   (async () => {
     const port = Meteor.settings.slackbotPort || 3000;
     await app.start(port);
     console.log(`⚡️ Bolt app is running on port ${port}!`);
   })();
-
 }
 
 /**
