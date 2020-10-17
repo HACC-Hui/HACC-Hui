@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { App } from '@slack/bolt';
+import _ from 'lodash';
 import { isAdminEmail } from '../../api/user/helpers';
 import { Participants } from '../../api/user/ParticipantCollection';
 import { Administrators } from '../../api/user/AdministratorCollection';
@@ -29,13 +30,27 @@ if (!Meteor.isAppTest) {
         user: event.user,
       });
       // console.log(profile);
-      const { email, first_name, last_name } = profile;
+      const { email, first_name, last_name, real_name } = profile;
       // console.log(email, first_name, last_name);
       if (!isAdminEmail(email)) { // they are a participant
-        if (!Participants.isDefined(email)) {
+        if (!Participants.isDefined({ username: email })) {
           if (last_name !== '') { // last name is provided
-            const firstName = first_name;
-            const lastName = last_name;
+            let firstName = first_name;
+            let lastName = last_name;
+            if (_.isNil(firstName)) {
+              const names = real_name.split(' ');
+              firstName = names[0];
+            }
+            if (_.isNil(lastName)) {
+              const names = real_name.split(' ');
+              lastName = names[1];
+            }
+            if (_.isNil(firstName)) {
+              firstName = 'ChangeMe';
+            }
+            if (_.isNil(lastName)) {
+              lastName = 'ChangeMe';
+            }
             const username = email;
             const { password } = Participants.define({ username, firstName, lastName });
             // record this user
@@ -53,10 +68,24 @@ You can do this by going to 'edit profile' and entering your full name under 'Fu
           await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.`);
         }
       } else
-        if (!Administrators.isDefined(email)) {
+        if (!Administrators.isDefined({ username: email })) {
           if (last_name !== '') { // last name is provided
-            const firstName = first_name;
-            const lastName = last_name;
+            let firstName = first_name;
+            let lastName = last_name;
+            if (_.isNil(firstName)) {
+              const names = real_name.split(' ');
+              firstName = names[0];
+            }
+            if (_.isNil(lastName)) {
+              const names = real_name.split(' ');
+              lastName = names[1];
+            }
+            if (_.isNil(firstName)) {
+              firstName = 'ChangeMe';
+            }
+            if (_.isNil(lastName)) {
+              lastName = 'ChangeMe';
+            }
             const username = email;
             const { password } = Administrators.define({ username, firstName, lastName });
             // record this user
