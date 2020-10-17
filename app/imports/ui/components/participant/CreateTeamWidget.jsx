@@ -138,6 +138,7 @@ class CreateTeamWidget extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+    /*
     if (!this.props.participant.isCompliant) {
       return (
           <div align={'center'}>
@@ -152,6 +153,7 @@ class CreateTeamWidget extends React.Component {
           </div>
       );
     }
+    */
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(this.buildTheFormSchema());
     const model = this.buildTheModel();
