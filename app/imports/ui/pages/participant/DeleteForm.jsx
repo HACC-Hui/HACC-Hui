@@ -1,5 +1,4 @@
 import React from 'react';
-
 import withAllSubscriptions from '../../layouts/AllSubscriptionsHOC';
 import DeleteFormWidget from '../../components/participant/DeleteFormWidget';
 

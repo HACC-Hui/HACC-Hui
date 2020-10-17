@@ -1,10 +1,27 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { DDP } from 'meteor/ddp-client';
 import faker from 'faker';
 import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
+import { Stuffs } from '../api/stuff/StuffCollection';
 import { ROLE } from '../api/role/Role';
+
+/** @namespace test-utilities */
+
+export function withSubscriptions() {
+  return new Promise(resolve => {
+    // Add the collections to subscribe to.
+    Stuffs.subscribeStuff();
+    const poll = Meteor.setInterval(() => {
+      if (DDP._allSubscriptionsReady()) {
+        Meteor.clearInterval(poll);
+        resolve();
+      }
+    }, 200);
+  });
+}
 
 /**
  * Defines a test admin user.
@@ -65,9 +82,12 @@ export const defineTestUser = new ValidatedMethod({
  * Credentials default to the standard admin username and password.
  * @memberOf test-utilities
  */
-export function withLoggedInUser({ username = 'admin@foo.com', password = 'changeme' } = {}) {
+export function withLoggedInUser({
+  username = 'admin@foo.com',
+  password = 'changeme',
+} = {}) {
   return new Promise((resolve, reject) => {
-    Meteor.loginWithPassword(username, password, (error) => {
+    Meteor.loginWithPassword(username, password, error => {
       if (error) {
         console.log('Error: withLoggedInUser', error);
         reject();
@@ -85,7 +105,7 @@ export function withLoggedInUser({ username = 'admin@foo.com', password = 'chang
  */
 export function logOutUser() {
   return new Promise((resolve, reject) => {
-    Meteor.logout((error) => {
+    Meteor.logout(error => {
       if (error) {
         console.log('Error: logOutUser', error);
         reject();
