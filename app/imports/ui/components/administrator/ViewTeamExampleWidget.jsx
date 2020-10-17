@@ -43,7 +43,9 @@ class ViewTeamExampleWidget extends React.Component {
         }
       }
       return data;
-    }return (
+    }
+
+    return (
         <Grid celled>
           <Grid.Row columns={3}>
             <Grid.Column>
@@ -55,6 +57,12 @@ class ViewTeamExampleWidget extends React.Component {
               </List>
             </Grid.Column>
             <Grid.Column>
+              { (_.every(getTeamParticipants(this.props.team._id, this.props.teamParticipants),
+                  function (value) { return (value.compliant !== false); }))
+                  ? <Header>Team is Compliant</Header> : '' }
+              { (_.every(getTeamParticipants(this.props.team._id, this.props.teamParticipants),
+                  function (value) { return (value.compliant !== true); }))
+                  ? <Header>Team is Not Compliant</Header> : '' }
             </Grid.Column>
           </Grid.Row>
         </Grid>
