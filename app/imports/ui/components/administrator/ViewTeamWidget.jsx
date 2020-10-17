@@ -37,13 +37,13 @@ class ViewTeamWidget extends React.Component {
                   <Header>Is the Team Compliant?</Header>
                 </Grid.Column>
               </Grid.Row>
+            </Grid>
               {this.props.teams.map((team) => (
                   <ViewTeamExampleWidget key={team._id}
                                          team={team}
                                          teamMembers={getTeamMembers(team)}
                   />
               ))}
-            </Grid>
           </Grid.Column>
         </Grid>
     );
