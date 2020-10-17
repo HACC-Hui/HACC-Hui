@@ -51,7 +51,6 @@ class HACCHuiClass {
       Tools,
       WantsToJoin,
       TeamInvitations,
-
     ];
     /** The load sequence for loading fixtures. */
     this.collectionLoadSequence = [
@@ -66,7 +65,7 @@ class HACCHuiClass {
     ];
     /** Maps collection name to the collection. */
     this.collectionAssociation = {};
-    _.forEach(this.collections, (collection) => {
+    _.forEach(this.collections, collection => {
       this.collectionAssociation[collection.getCollectionName()] = collection;
     });
   }
@@ -80,7 +79,9 @@ class HACCHuiClass {
   getCollection(collectionName) {
     const collection = this.collectionAssociation[collectionName];
     if (!collection) {
-      throw new Meteor.Error(`Called HACCHui.getCollection with unknown collection name: ${collectionName}`);
+      throw new Meteor.Error(
+        `Called HACCHui.getCollection with unknown collection name: ${collectionName}`,
+      );
     }
     return collection;
   }

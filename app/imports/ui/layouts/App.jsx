@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import 'semantic-ui-css/semantic.css';
 import { Roles } from 'meteor/alanning:roles';
-import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
@@ -33,7 +38,6 @@ import CreateTeamPage from '../pages/participant/CreateTeamPage';
 import YourTeams from '../pages/participant/YourTeams';
 import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
-import ListDevelopersPage from '../pages/participant/ListDevelopersPage';
 import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 
 /**
@@ -60,7 +64,6 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
               <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
               <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
-              <ProtectedRoute path={ROUTES.LIST_DEVELOPERS} component={ListDevelopersPage} />
               <ProtectedRoute path={ROUTES.TEAM_INVITATIONS} component={TeamInvitationsPage}/>
               <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
               <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
@@ -89,16 +92,19 @@ class App extends React.Component {
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const WrappedComponent = withAllSubscriptions(Component);
   return (
-      <Route
-          {...rest}
-          render={(props) => {
-            const isLogged = Meteor.userId() !== null;
-            return isLogged ?
-                (<WrappedComponent {...props} />) :
-                (<Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-                );
-          }}
-      />
+    <Route
+      {...rest}
+      render={props => {
+        const isLogged = Meteor.userId() !== null;
+        return isLogged ? (
+          <WrappedComponent {...props} />
+        ) : (
+          <Redirect
+            to={{ pathname: '/signin', state: { from: props.location } }}
+          />
+        );
+      }}
+    />
   );
 };
 
@@ -111,17 +117,20 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 const AdminProtectedRoute = ({ component: Component, ...rest }) => {
   const WrappedComponent = withAllSubscriptions(Component);
   return (
-      <Route
-          {...rest}
-          render={(props) => {
-            const isLogged = Meteor.userId() !== null;
-            const isAdmin = Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
-            return (isLogged && isAdmin) ?
-                (<WrappedComponent {...props} />) :
-                (<Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-                );
-          }}
-      />
+    <Route
+      {...rest}
+      render={props => {
+        const isLogged = Meteor.userId() !== null;
+        const isAdmin = Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
+        return isLogged && isAdmin ? (
+          <WrappedComponent {...props} />
+        ) : (
+          <Redirect
+            to={{ pathname: '/signin', state: { from: props.location } }}
+          />
+        );
+      }}
+    />
   );
 };
 
@@ -143,4 +152,4 @@ AdminProtectedRoute.propTypes = {
   location: PropTypes.object,
 };
 
-export default App;
+export default withAllSubscriptions(App);

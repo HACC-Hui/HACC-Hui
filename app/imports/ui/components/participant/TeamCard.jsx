@@ -16,12 +16,15 @@ class TeamCard extends React.Component {
     const { team } = this.props;
     const teamID = team._id;
     const tCs = TeamChallenges.find({ teamID }).fetch();
-    const challengeTitles = _.map(tCs, (tc) => Challenges.findDoc(tc.challengeID).title);
+    const challengeTitles = _.map(
+      tCs,
+      tc => Challenges.findDoc(tc.challengeID).title,
+    );
     team.challenges = challengeTitles;
     team.skills = TeamSkills.find({ teamID }).fetch();
     team.tools = TeamTools.find({ teamID }).fetch();
     const teamPs = TeamParticipants.find({ teamID }).fetch();
-    team.members = _.map(teamPs, (tp) => Participants.getFullName(tp.participantID));
+    team.members = _.map(teamPs, tp => Participants.getFullName(tp.participantID));
     return team;
   }
 
@@ -31,40 +34,48 @@ class TeamCard extends React.Component {
     // console.log(team);
     const isOwner = team.owner === this.props.participantID;
     return (
-        <Card fluid>
-          <Card.Content>
-            <Card.Header>{team.name}</Card.Header>
-            <Card.Description>
-              <Grid columns={5}>
-                <Grid.Column>
-                  <Header size="tiny">Challenges</Header>
-                  {team.challenges.join(', ')}
-                </Grid.Column>
-                <Grid.Column>
-                  <Header size="tiny">Desired Skills</Header>
-                  <List bulleted>
-                    {team.skills.map((item) => <SkillItem item={item} key={item._id} />)}
-                  </List>
-                </Grid.Column>
-                <Grid.Column>
-                  <Header size="tiny">Desired Tools</Header>
-                  <List bulleted>
-                    {team.tools.map((item) => <ToolItem item={item} key={item._id} />)}
-                  </List>
-                </Grid.Column>
-                <Grid.Column>
-                  <Header size="tiny">Members</Header>
-                  <List>
-                    {team.members.map((member, index) => <List.Item key={`${index}${member}`}>{member}</List.Item>)}
-                  </List>
-                </Grid.Column>
-                <Grid.Column>
-                  <Button disabled={isOwner} color="red">Leave team</Button>
-                </Grid.Column>
-              </Grid>
-            </Card.Description>
-          </Card.Content>
-        </Card>
+      <Card fluid>
+        <Card.Content>
+          <Card.Header>{team.name}</Card.Header>
+          <Card.Description>
+            <Grid columns={5}>
+              <Grid.Column>
+                <Header size="tiny">Challenges</Header>
+                {team.challenges.join(', ')}
+              </Grid.Column>
+              <Grid.Column>
+                <Header size="tiny">Desired Skills</Header>
+                <List bulleted>
+                  {team.skills.map(item => (
+                    <SkillItem item={item} key={item._id} />
+                  ))}
+                </List>
+              </Grid.Column>
+              <Grid.Column>
+                <Header size="tiny">Desired Tools</Header>
+                <List bulleted>
+                  {team.tools.map(item => (
+                    <ToolItem item={item} key={item._id} />
+                  ))}
+                </List>
+              </Grid.Column>
+              <Grid.Column>
+                <Header size="tiny">Members</Header>
+                <List>
+                  {team.members.map((member, index) => (
+                    <List.Item key={`${index}${member}`}>{member}</List.Item>
+                  ))}
+                </List>
+              </Grid.Column>
+              <Grid.Column>
+                <Button disabled={isOwner} color="red">
+                  Leave team
+                </Button>
+              </Grid.Column>
+            </Grid>
+          </Card.Description>
+        </Card.Content>
+      </Card>
     );
   }
 }

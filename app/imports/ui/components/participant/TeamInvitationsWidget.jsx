@@ -113,14 +113,14 @@ class TeamInvitationsWidget extends React.Component {
       return data;
     }
 
-    const allDevelopers = this.props.developers;
+    const allDevelopers = this.props.participants;
 
-    function getTeamDevelopers(teamID, teamDevelopers) {
+    function getTeamDevelopers(teamID, teamParticipants) {
       const data = [];
-      const developers = _.filter(teamDevelopers, { teamID: teamID });
-      for (let i = 0; i < developers.length; i++) {
+      const participants = _.filter(teamParticipants, { teamID: teamID });
+      for (let i = 0; i < participants.length; i++) {
         for (let j = 0; j < allDevelopers.length; j++) {
-          if (developers[i].participantID === allDevelopers[j]._id) {
+          if (participants[i].participantID === allDevelopers[j]._id) {
             data.push({
               firstName: allDevelopers[j].firstName,
               lastName: allDevelopers[j].lastName,
@@ -146,7 +146,7 @@ class TeamInvitationsWidget extends React.Component {
                                       skills={getTeamSkills(teams._id, this.props.teamSkills)}
                                       tools={getTeamTools(teams._id, this.props.teamTools)}
                                       challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
-                                      developers={getTeamDevelopers(teams._id, this.props.teamDevelopers)}
+                                      participants={getTeamDevelopers(teams._id, this.props.teamParticipants)}
               />)}
             </Item.Group>
           </Grid.Column>
@@ -162,10 +162,10 @@ TeamInvitationsWidget.propTypes = {
   teamTools: PropTypes.array.isRequired,
   teams: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
-  developers: PropTypes.array.isRequired,
+  participants: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
-  teamDevelopers: PropTypes.array.isRequired,
+  teamParticipants: PropTypes.array.isRequired,
   teamInvitations: PropTypes.array.isRequired,
 
 };
@@ -181,7 +181,7 @@ export default withTracker(() => ({
     skills: Skills.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     tools: Tools.find({}).fetch(),
-    developers: Participants.find({}).fetch(),
-    teamDevelopers: TeamParticipants.find({}).fetch(),
+    participants: Participants.find({}).fetch(),
+    teamParticipants: TeamParticipants.find({}).fetch(),
     // eslint-disable-next-line max-len
   }))(TeamInvitationsWidget);

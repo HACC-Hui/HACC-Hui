@@ -10,6 +10,7 @@ import { ParticipantChallenges } from './ParticipantChallengeCollection';
 import { ParticipantInterests } from './ParticipantInterestCollection';
 import { ParticipantSkills } from './ParticipantSkillCollection';
 import { ParticipantTools } from './ParticipantToolCollection';
+import { TeamParticipants } from '../team/TeamParticipantCollection';
 import { Challenges } from '../challenge/ChallengeCollection';
 import { Interests } from '../interest/InterestCollection';
 import { Skills } from '../skill/SkillCollection';
@@ -173,6 +174,7 @@ class ParticipantCollection extends BaseSlugCollection {
     ParticipantInterests.removeParticipant(participant);
     ParticipantSkills.removeParticipant(participant);
     ParticipantTools.removeParticipant(participant);
+    TeamParticipants.removeParticipant(participant);
     super.removeIt(docID);
   }
 

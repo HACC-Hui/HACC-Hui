@@ -10,8 +10,13 @@ import { Teams } from '../../../api/team/TeamCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 
 class ListTeamExampleWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasRequested: false };
+  }
+
   handleClick(e, inst) {
-    console.log(e, inst);
+    // console.log(e, inst);
     const collectionName = WantsToJoin.getCollectionName();
     const teamDoc = Teams.findDoc(inst.id);
     const team = Slugs.getNameFromID(teamDoc.slugID);
@@ -26,12 +31,15 @@ class ListTeamExampleWidget extends React.Component {
         console.error('Failed to define', error);
       }
     });
+    this.setState({ hasRequested: true });
   }
 
   render() {
     const participant = Participants.findDoc({ userID: Meteor.userId() });
     const participantName = Participants.getFullName(participant._id);
     const isAMember = _.includes(this.props.teamMembers, participantName);
+    const isCompliant = participant.isCompliant;
+    const disabled = isAMember || !isCompliant || this.state.hasRequested;
     return (
         <Grid.Row columns={6}>
           <Grid.Column>
@@ -59,7 +67,7 @@ class ListTeamExampleWidget extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <Button id={this.props.team._id} color="green"
-                    onClick={this.handleClick} disabled={isAMember}>Request to Join</Button>
+                    onClick={this.handleClick} disabled={disabled}>Request to Join</Button>
           </Grid.Column>
         </Grid.Row>
     );
