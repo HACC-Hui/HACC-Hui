@@ -256,6 +256,12 @@ class ParticipantCollection extends BaseSlugCollection {
     const { firstName, lastName } = this.findDoc(docID);
     return `${firstName} ${lastName}`;
   }
+
+  // getCompliance(docID) {
+  //   this.assertDefined(docID);
+  //   const { isCompliant } = this.findDoc(docID);
+  //   return '${isCompliant}';
+  // }
 }
 
 /**

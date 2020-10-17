@@ -164,7 +164,7 @@ class TeamCreation extends React.Component {
                       }}>
               <Segment style={{
                 borderRadius: '10px',
-                backgroundColor: '#E5F0FE',
+                backgroundColor: '#5C93D1',
               }} className={'createTeam'}>
                 <Grid columns={1} style={{ paddingTop: '20px' }}>
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>

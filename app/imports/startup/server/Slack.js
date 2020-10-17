@@ -73,16 +73,9 @@ You can do this by going to 'edit profile' and entering your full name under 'Fu
         } else {
           await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.`);
         }
-    } else
-      if (event.text.includes('help')) {
-        // url = '/signin';
-        /* Could we add a hyperlink into slack? Need to check Slack API */
-        // Need to wait for help page issue to be complete, talk to moore about this
-        await say(`<@${event.user}> I can see that you need help, please refer to our help page at: [temp url]`);
-      } else {
-        await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me. 
-        If you need help say help me.`);
-      }
+    } else {
+      await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me.`);
+    }
   });
 
 // Start your app
