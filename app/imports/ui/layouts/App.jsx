@@ -15,7 +15,6 @@ import { ROLE } from '../../api/role/Role';
 import AgePage from '../pages/participant/AgePage';
 import ParticipationForm from '../pages/participant/ParticipationForm';
 import UnderParticipationForm from '../pages/participant/UnderParticipationForm';
-// import Dprofile from '../pages/participant/Dprofile';
 import { ROUTES } from '../../startup/client/route-constants';
 import DeleteForm from '../pages/participant/DeleteForm';
 import AddChallenge from '../pages/administrator/AddChallenge';
@@ -39,6 +38,7 @@ import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 import AdminEditTeamPage from '../pages/administrator/AdminEditTeamPage';
 import SideBar from '../components/SideBar';
 import ViewTeamPage from '../pages/administrator/ViewTeamPage';
+import BestFitTeamDisplay from '../pages/participant/BestFitTeamDisplay';
 
 /* global window */
 /**
@@ -83,6 +83,7 @@ class App extends React.Component {
           <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
           <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
           <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
+          <ProtectedRoute path={ROUTES.BEST_FIT} component={BestFitTeamDisplay} />
           <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
           <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
           <ProtectedRoute path={ROUTES.LIST_PARTICIPANTS} component={ListParticipantsPage} />

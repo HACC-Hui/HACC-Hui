@@ -35,4 +35,5 @@ export const ROUTES = {
   TEAM_INVITATIONS: '/team-invitations',
   ADMIN_EDIT_TEAM: '/admin-edit-team/:_id',
   VIEW_TEAM: '/view-team',
+  BEST_FIT: '/best-fit-team-display',
 };

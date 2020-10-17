@@ -1,8 +1,6 @@
 import React from 'react';
-import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Grid, Header } from 'semantic-ui-react';
-import { Teams } from '../../../api/team/TeamCollection';
 import ListTeamExampleWidget from './ListTeamExampleWidget';
 import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
@@ -12,6 +10,9 @@ import { TeamTools } from '../../../api/team/TeamToolCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
+import { Teams } from '../../../api/team/TeamCollection';
+
+const getTeam = (teamID) => Teams.findDoc(teamID);
 
 const getTeamChallenges = (team) => {
   const teamID = team._id;
@@ -67,7 +68,7 @@ class ListTeamsWidget extends React.Component {
           </Grid.Row>
           {this.props.teams.map((team) => (
               <ListTeamExampleWidget key={team._id}
-                                     team={team}
+                                     team={getTeam(team._id)}
                                      teamChallenges={getTeamChallenges(team)}
                                      teamSkills={getTeamSkills(team)}
                                      teamTools={getTeamTools(team)}
@@ -85,9 +86,4 @@ ListTeamsWidget.propTypes = {
   ),
 };
 
-export default withTracker(() => {
-  const teams = Teams.find({}).fetch();
-  return {
-    teams,
-  };
-})(ListTeamsWidget);
+export default ListTeamsWidget;

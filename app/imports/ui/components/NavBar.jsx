@@ -41,7 +41,7 @@ class NavBar extends React.Component {
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
-                           to={ROUTES.LIST_TEAMS}
+                           to={ROUTES.BEST_FIT}
                            key='list-teams'>List the Teams</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
