@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header, Divider, Icon } from 'semantic-ui-react';
+import { Grid, Segment, Header, Divider, Icon, Message } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
@@ -179,7 +179,10 @@ class CreateTeamWidget extends React.Component {
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
                     <Header as="h2" textAlign="center">Create a Team</Header>
                     {/* eslint-disable-next-line max-len */}
-                    <Header as="h4" textAlign="center">Team name, Github, and Devpost page ALL have to use the same name</Header>
+                    <Message>
+                      <Header as="h4" textAlign="center">Team name, Github, and Devpost page ALL
+                        have to use the same name</Header>
+                    </Message>
                     <Grid className='doubleLine'>
                       <TextField name='name'/>
                       <RadioField
