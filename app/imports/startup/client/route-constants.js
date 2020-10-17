@@ -15,6 +15,7 @@ export const ROUTES = {
   YOUR_PROFILE: '/your-profile',
   CREATE_TEAM: '/create-team',
   EDIT_TEAM: '/edit-team',
+  HELP_PAGE: '/help-page',
   DELETE_TEAM: '/delete-team',
   LIST_TEAMS: '/list-teams',
   DELETE_ACCOUNT: '/delete-account',
@@ -30,8 +31,6 @@ export const ROUTES = {
   EDIT_CHALLENGE: '/edit-challenge/:_id',
   EDIT_TOOL: '/edit-tool/:_id',
   EDIT_SKILL: '/edit-skill/:_id',
-  SUGGEST_TOOL_SKILL: '/suggest-tool-skill',
-  LIST_SUGGESTIONS: '/list-suggestions',
   TEAM_INVITATIONS: '/team-invitations',
-  ADMIN_EDIT_TEAM: '/admin-edit-team/:_id',
+  BEST_FIT: '/best-fit-team-display',
 };
