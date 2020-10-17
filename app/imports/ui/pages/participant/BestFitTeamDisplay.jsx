@@ -16,6 +16,7 @@ import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
 import ListTeamsWidget from '../../components/participant/ListTeamsWidget';
 import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
+import ListTeamsDefaultWidget from '../../components/participant/ListTeamsDefaultWidget';
 
 /** Renders a table containing all of the Book documents. Use <BookItem> to render each row. */
 class BestTeam extends React.Component {
@@ -159,7 +160,7 @@ class BestTeam extends React.Component {
     const allteams = this.getAllOpenTeam();
     const sortAToZTeams = _.sortBy(allteams, function (i) { return i.name.toLowerCase(); });
     return (<div>
-      <ListTeamsWidget teams={sortAToZTeams}/>
+      <ListTeamsDefaultWidget  teams={sortAToZTeams}/>
     </div>);
   }
 
