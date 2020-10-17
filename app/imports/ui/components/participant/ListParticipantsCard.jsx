@@ -22,8 +22,8 @@ import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 class ListParticipantsCard extends React.Component {
   /*
   isAdded(tID, dID) {
-    // console.log(typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined');
-    if (typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined') {
+    // console.log(typeof TeamParticipants.findOne({ teamID: tID, participantID: dID }) !== 'undefined');
+    if (typeof TeamParticipants.findOne({ teamID: tID, participantID: dID }) !== 'undefined') {
       return true;
     }
     return false;
@@ -83,13 +83,13 @@ class ListParticipantsCard extends React.Component {
               'error');
           return;
         }
-        /* console.log(typeof TeamDevelopers.findOne({
+        /* console.log(typeof TeamParticipants.findOne({
           teamID: thisTeam,
-          developerID: dID,
+          participantID: dID,
         }) !== 'undefined');
-        console.log(typeof TeamDevelopers.findOne({
+        console.log(typeof TeamParticipants.findOne({
           teamID: thisTeam,
-          developerID: dID,
+          participantID: dID,
         }));
          */
 
@@ -135,14 +135,14 @@ class ListParticipantsCard extends React.Component {
               <Item.Header>
                 <Header as={'h3'} style={{ color: '#263763', paddingTop: '2rem' }}>
                   <Icon name='user' size='tiny' />
-                  {this.props.developers.firstName} {this.props.developers.lastName}
+                  {this.props.participants.firstName} {this.props.participants.lastName}
                 </Header>
               </Item.Header>
               <Item.Meta>
                 <Item.Meta>
                   <Grid.Column>
                     <Header>About Me</Header>
-                    {this.props.developers.aboutMe}
+                    {this.props.participants.aboutMe}
                   </Grid.Column>
                   <Divider hidden/>
                   <Item.Meta>
@@ -168,11 +168,11 @@ class ListParticipantsCard extends React.Component {
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Interests</Header>
-                      {this.props.developers.interest}
+                      {this.props.participants.interest}
                     </Grid.Column>
                     <Grid.Column>
                     <Header>Slack Username</Header>
-                    {this.props.developers.username}
+                    {this.props.participants.username}
                   </Grid.Column>
                     <Grid.Column>
                       <Button.Group style={{ backgroundColor: 'transparent' }}>
@@ -193,21 +193,21 @@ class ListParticipantsCard extends React.Component {
             </Item.Content>
           }>
             {/* eslint-disable-next-line max-len */}
-            <Modal.Header>{this.props.developers.firstName} {this.props.developers.lastName} <br /> {this.props.developers.demographicLevel}</Modal.Header>
+            <Modal.Header>{this.props.participants.firstName} {this.props.participants.lastName} <br /> {this.props.participants.demographicLevel}</Modal.Header>
             <Modal.Content image>
               <Modal.Description>
                 <Grid container columns={2}>
                   <Grid.Column><Icon name="github"/>GitHub:<br/>
-                    <a href={this.props.developers.gitHub}>{this.props.developers.gitHub}</a>
+                    <a href={this.props.participants.gitHub}>{this.props.participants.gitHub}</a>
                   </Grid.Column>
                   <Grid.Column><Icon name="server"/>Website:<br/>
-                    <a href={this.props.developers.website}>{this.props.developers.website}</a>
+                    <a href={this.props.participants.website}>{this.props.participants.website}</a>
                   </Grid.Column>
                   <Grid.Column><Icon name="linkedin"/>LinkedIn:<br/>
-                    <a href={this.props.developers.linkedIn}>{this.props.developers.linkedIn}</a>
+                    <a href={this.props.participants.linkedIn}>{this.props.participants.linkedIn}</a>
                   </Grid.Column>
                   <Grid.Column><Icon name="slack"/>Slack Username:<br/>
-                    <a href={this.props.developers.username}>{this.props.developers.username}</a>
+                    <a href={this.props.participants.username}>{this.props.participants.username}</a>
                   </Grid.Column>
                 </Grid>
                 <Divider hidden/>
@@ -266,7 +266,7 @@ ListParticipantsCard.propTypes = {
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
   interests: PropTypes.array.isRequired,
-  developers: PropTypes.object.isRequired,
+  participants: PropTypes.object.isRequired,
 };
 export default withTracker(() => ({
     teamInvitation: TeamInvitations.find({}).fetch(),
