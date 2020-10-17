@@ -63,7 +63,6 @@ class CreateTeamWidget extends React.Component {
       participants: { type: Array, optional: true },
       'participants.$': { type: String, allowedValues: participantNames }, // not sure about the allowed values
       description: String,
-      github: { type: String, optional: true },
       devpostPage: { type: String, optional: true },
       affiliation: { type: String, optional: true },
     });
@@ -180,7 +179,7 @@ class CreateTeamWidget extends React.Component {
                     <Header as="h2" textAlign="center">Create a Team</Header>
                     {/* eslint-disable-next-line max-len */}
                     <Message>
-                      <Header as="h4" textAlign="center">Team name, Github, and Devpost page ALL
+                      <Header as="h4" textAlign="center">Team name and Devpost page ALL
                         have to use the same name</Header>
                     </Message>
                     <Grid className='doubleLine'>
@@ -197,7 +196,6 @@ class CreateTeamWidget extends React.Component {
                       <Grid.Column><MultiSelectField name='skills' /></Grid.Column>
                       <Grid.Column><MultiSelectField name='tools' /></Grid.Column>
                     </Grid>
-                    <TextField name="github" />
                     <TextField name="devpostPage" />
                     <TextField name="affiliation" />
                     <MultiSelectField name='participants' />
