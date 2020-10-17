@@ -52,7 +52,7 @@ class CreateTeamWidget extends React.Component {
         allowedValues: ['Open', 'Close'],
         label: 'Availability',
       },
-      name: String,
+      name: { type: String, label: 'Team Name' },
       image: { type: String, optional: true },
       challenges: { type: Array, label: 'Challenges' },
       'challenges.$': { type: String, allowedValues: challengeNames },
@@ -173,53 +173,45 @@ class CreateTeamWidget extends React.Component {
             <Segment
               style={{
                 borderRadius: '10px',
-                backgroundColor: '#BDEDFF',
-              }}
-              className={'createTeam'}
-            >
-              <Grid columns={1} style={{ paddingTop: '20px' }}>
-                <Grid.Column
-                  style={{ paddingLeft: '30px', paddingRight: '30px' }}
-                >
-                  <Header as="h2" textAlign="center">
-                    Create a Team
-                  </Header>
-                  <Grid className="doubleLine">
-                    <TextField name="name" />
-                    <RadioField name="open" inline />
-                  </Grid>
-                  <TextField name="image" placeholder={'Team Image URL'} />
-                  <LongTextField name="description" />
-                  <MultiSelectField name="challenges" />
-                  <Grid columns={2}>
-                    <Grid.Column>
-                      <MultiSelectField name="skills" />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <MultiSelectField name="tools" />
-                    </Grid.Column>
-                  </Grid>
-                  <TextField name="github" />
-                  <TextField name="devpostPage" />
-                  <TextField name="affiliation" />
-                  <MultiSelectField name="participants" />
-                </Grid.Column>
-              </Grid>
-              <div align="center">
-                <SubmitField
-                  value="Submit"
-                  style={{
-                    color: 'white',
-                    backgroundColor: '#dd000a',
-                    margin: '20px 0px',
-                  }}
-                />
-              </div>
-              <ErrorsField />
-            </Segment>
-          </AutoForm>
-        </Grid.Column>
-      </Grid>
+                backgroundColor: '#E5F0FE',
+              }} className={'createTeam'}>
+                <Grid columns={1} style={{ paddingTop: '20px' }}>
+                  <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
+                    <Header as="h2" textAlign="center">Create a Team</Header>
+                    {/* eslint-disable-next-line max-len */}
+                    <Header as="h4" textAlign="center">Team name, Github, and Devpost page ALL have to use the same name</Header>
+                    <Grid className='doubleLine'>
+                      <TextField name='name'/>
+                      <RadioField
+                          name='open'
+                          inline
+                      />
+                    </Grid>
+                    <TextField name='image' placeholder={'Team Image URL'} />
+                    <LongTextField name='description' />
+                    <MultiSelectField name='challenges' />
+                    <Grid columns={2}>
+                      <Grid.Column><MultiSelectField name='skills' /></Grid.Column>
+                      <Grid.Column><MultiSelectField name='tools' /></Grid.Column>
+                    </Grid>
+                    <TextField name="github" />
+                    <TextField name="devpostPage" />
+                    <TextField name="affiliation" />
+                    <MultiSelectField name='participants' />
+                  </Grid.Column>
+                </Grid>
+                <div align='center'>
+                  <SubmitField value='Submit'
+                               style={{
+                                 color: 'white', backgroundColor: '#dd000a',
+                                 margin: '20px 0px',
+                               }} />
+                </div>
+                <ErrorsField />
+              </Segment>
+            </AutoForm>
+          </Grid.Column>
+        </Grid>
     );
   }
 }
