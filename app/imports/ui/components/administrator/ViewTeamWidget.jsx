@@ -12,7 +12,6 @@ import { TeamTools } from '../../../api/team/TeamToolCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
-import ListTeamExampleWidget from '../participant/ListTeamExampleWidget';
 
 const getTeamChallenges = (team) => {
   const teamID = team._id;
@@ -41,13 +40,6 @@ const getTeamMembers = (team) => {
   const memberNames = teamParticipants.map((tp) => Participants.getFullName(tp.participantID));
   return memberNames;
 };
-
-// const getCompliance = (team) => {
-//   const teamID = team._id;
-//   const teamParticipants = TeamParticipants.find({ teamID }).fetch();
-//   const teamCompliance = teamParticipants.map((tp) => Participants.getCompliance(tp.participantID));
-//   return teamCompliance;
-// }
 
 class ViewTeamWidget extends React.Component {
   render() {
@@ -79,7 +71,6 @@ class ViewTeamWidget extends React.Component {
                                          teamSkills={getTeamSkills(team)}
                                          teamTools={getTeamTools(team)}
                                          teamMembers={getTeamMembers(team)}
-                      // teamCompliance={getCompliance(team)}
                   />
               ))}
             </Grid>
