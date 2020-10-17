@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Header } from 'semantic-ui-react';
+import { withTracker } from 'meteor/react-meteor-data';
 import ListTeamExampleWidget from './ListTeamExampleWidget';
 import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
@@ -86,4 +87,9 @@ ListTeamsWidget.propTypes = {
   ),
 };
 
-export default ListTeamsWidget;
+export default withTracker(() => {
+  const teams = Teams.find({}).fetch();
+  return {
+    teams,
+  };
+})(ListTeamsWidget);

@@ -4,7 +4,6 @@ import { Meteor } from 'meteor/meteor';
 import 'semantic-ui-css/semantic.css';
 import { Roles } from 'meteor/alanning:roles';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { Menu, Icon } from 'semantic-ui-react';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
@@ -16,7 +15,6 @@ import { ROLE } from '../../api/role/Role';
 import AgePage from '../pages/participant/AgePage';
 import ParticipationForm from '../pages/participant/ParticipationForm';
 import UnderParticipationForm from '../pages/participant/UnderParticipationForm';
-// import Dprofile from '../pages/participant/Dprofile';
 import { ROUTES } from '../../startup/client/route-constants';
 import DeleteForm from '../pages/participant/DeleteForm';
 import AddChallenge from '../pages/administrator/AddChallenge';
@@ -37,8 +35,12 @@ import SuggestToolSkillPage from '../pages/participant/SuggestToolSkillPage';
 import ListSuggestions from '../pages/administrator/ListSuggestions';
 import ListParticipantsPage from '../pages/participant/ListParticipantsPage';
 import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
+import AdminEditTeamPage from '../pages/administrator/AdminEditTeamPage';
 import SideBar from '../components/SideBar';
+import ViewTeamPage from '../pages/administrator/ViewTeamPage';
+import BestFitTeamDisplay from '../pages/participant/BestFitTeamDisplay';
 
+/* global window */
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
  * @memberOf ui/layouts
@@ -81,6 +83,7 @@ class App extends React.Component {
           <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
           <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
           <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
+          <ProtectedRoute path={ROUTES.BEST_FIT} component={BestFitTeamDisplay} />
           <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
           <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
           <ProtectedRoute path={ROUTES.LIST_PARTICIPANTS} component={ListParticipantsPage} />
@@ -95,6 +98,8 @@ class App extends React.Component {
           <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkillPage}/>
           <AdminProtectedRoute path={ROUTES.LIST_SUGGESTIONS} component={ListSuggestions}/>
           <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
+          <AdminProtectedRoute path={ROUTES.ADMIN_EDIT_TEAM} component={AdminEditTeamPage} />
+          <AdminProtectedRoute path={ROUTES.VIEW_TEAM} component={ViewTeamPage} />
           <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
           <Route component={NotFound} />
         </Switch>
@@ -186,4 +191,4 @@ AdminProtectedRoute.propTypes = {
   location: PropTypes.object,
 };
 
-export default App;
+export default withAllSubscriptions(App);
