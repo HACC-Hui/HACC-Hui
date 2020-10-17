@@ -15,11 +15,13 @@ import { Participants } from '../../api/user/ParticipantCollection';
  */
 class NavBar extends React.Component {
   render() {
-    const participant = Participants.findDoc({ userID: Meteor.userId() });
-    const isCompliant = participant.isCompliant;
+    let isCompliant = true;
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isParticipant = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
-
+    if (isParticipant) {
+      const participant = Participants.findDoc({ userID: Meteor.userId() });
+      isCompliant = participant.isCompliant;
+    }
     return (
         <Menu attached="top" borderless inverted className={'navBar'}>
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
