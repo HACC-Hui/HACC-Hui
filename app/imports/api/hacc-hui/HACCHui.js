@@ -20,6 +20,8 @@ import { Administrators } from '../user/AdministratorCollection';
 import { SlackUsers } from '../slackbot/SlackUserCollection';
 import { WantsToJoin } from '../team/WantToJoinCollection';
 import { TeamInvitations } from '../team/TeamInvitationCollection';
+import { Suggestions } from '../suggestions/SuggestionCollection';
+import { LeavingTeams } from '../team/LeavingTeamCollection';
 
 /** @namespace api/hacc-hui */
 
@@ -51,6 +53,8 @@ class HACCHuiClass {
       Tools,
       WantsToJoin,
       TeamInvitations,
+      Suggestions,
+      LeavingTeams,
     ];
     /** The load sequence for loading fixtures. */
     this.collectionLoadSequence = [
@@ -62,10 +66,11 @@ class HACCHuiClass {
       Participants,
       Teams,
       SlackUsers,
+      Suggestions,
     ];
     /** Maps collection name to the collection. */
     this.collectionAssociation = {};
-    _.forEach(this.collections, collection => {
+    _.forEach(this.collections, (collection) => {
       this.collectionAssociation[collection.getCollectionName()] = collection;
     });
   }
@@ -79,9 +84,7 @@ class HACCHuiClass {
   getCollection(collectionName) {
     const collection = this.collectionAssociation[collectionName];
     if (!collection) {
-      throw new Meteor.Error(
-        `Called HACCHui.getCollection with unknown collection name: ${collectionName}`,
-      );
+      throw new Meteor.Error(`Called HACCHui.getCollection with unknown collection name: ${collectionName}`);
     }
     return collection;
   }

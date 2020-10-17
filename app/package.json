@@ -54,7 +54,6 @@
     "start": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --settings ../config/settings.development.json --port 3400",
     "start2": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --settings ../config/settings.development.json --port 3500",
     "lint": "eslint --quiet --ext .jsx --ext .js ./imports",
-    "lint-fix": "eslint --quiet --fix --ext .jsx --ext .js ./imports",
     "pretest": "npm run lint",
     "test": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha --port 3500",
     "test-no-lint": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha --port 3500",
