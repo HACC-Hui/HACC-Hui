@@ -34,4 +34,5 @@ export const ROUTES = {
   LIST_SUGGESTIONS: '/list-suggestions',
   TEAM_INVITATIONS: '/team-invitations',
   ADMIN_EDIT_TEAM: '/admin-edit-team/:_id',
+  VIEW_TEAM: '/view-team',
 };

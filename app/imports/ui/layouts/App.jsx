@@ -38,6 +38,7 @@ import ListParticipantsPage from '../pages/participant/ListParticipantsPage';
 import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 import AdminEditTeamPage from '../pages/administrator/AdminEditTeamPage';
 import SideBar from '../components/SideBar';
+import ViewTeamPage from '../pages/administrator/ViewTeamPage';
 
 /* global window */
 /**
@@ -97,6 +98,7 @@ class App extends React.Component {
           <AdminProtectedRoute path={ROUTES.LIST_SUGGESTIONS} component={ListSuggestions}/>
           <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
           <AdminProtectedRoute path={ROUTES.ADMIN_EDIT_TEAM} component={AdminEditTeamPage} />
+          <AdminProtectedRoute path={ROUTES.VIEW_TEAM} component={ViewTeamPage} />
           <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
           <Route component={NotFound} />
         </Switch>
