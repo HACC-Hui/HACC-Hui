@@ -14,7 +14,7 @@ class ProfileCard extends React.Component {
               {this.props.model.username} <br /> {this.props.model.demographicLevel}
             </Card.Meta>
             <Card.Description>
-              <Grid stackable columns={3}>
+              <Grid container stackable columns={3}>
                 <Grid.Column><Icon name="github" /> GitHub:<br />
                   <a href={this.props.model.gitHub}>{this.props.model.gitHub}</a>
                 </Grid.Column>
@@ -31,7 +31,7 @@ class ProfileCard extends React.Component {
             </Card.Description>
           </Card.Content>
           <Card.Content>
-            <Grid stackable columns={2}>
+            <Grid container stackable columns={2}>
               <Grid.Row>
                 <Grid.Column>
                   <Header dividing size="small">Challenges</Header>
