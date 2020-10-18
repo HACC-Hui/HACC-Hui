@@ -41,7 +41,7 @@ if (!Meteor.isAppTest) {
           SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
           await say(`
       Welcome to HACC-Hui! Here are your credentials
-      Host: https//hackhui.com
+      Host: http://hacchui.ics.hawaii.edu:8888/#/signin
       Username: ${username}
       Password: ${password}`);
         } else {
@@ -57,7 +57,7 @@ if (!Meteor.isAppTest) {
           SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
           await say(`
       Welcome to HACC-Hui! Here are your credentials
-      Host: https//hackhui.com
+      Host: http://hacchui.ics.hawaii.edu:8888/#/signin
       Username: ${username}
       Password: ${password}`);
         } else {
@@ -68,7 +68,7 @@ if (!Meteor.isAppTest) {
       //url = '/signin';
       /* Could we add a hyperlink into slack? Need to check Slack API */
       //Need to wait for help page issue to be complete, talk to moore about this
-      await say(`<@${event.user}> I can see that you need help, please refer to our help page at: [temp url]`);
+      await say(`<@${event.user}> I can see that you need help, please refer to our help page at: http://hacchui.ics.hawaii.edu:8888/#/help-page`);
     }
     else {
       await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me. If you need help say help me.`);
