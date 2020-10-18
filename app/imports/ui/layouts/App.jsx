@@ -40,7 +40,6 @@ import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 import SideBar from '../components/SideBar';
 import InterestedParticipantsPage from '../pages/participant/InterestedParticipantsPage';
 
-
 /**
  * Top-level layout component for this application. Called in imports/startup/client/startup.jsx.
  * @memberOf ui/layouts

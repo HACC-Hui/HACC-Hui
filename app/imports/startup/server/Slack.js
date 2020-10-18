@@ -28,7 +28,7 @@ if (!Meteor.isAppTest) {
         token: context.botToken,
         user: event.user,
       });
-      // console.log(profile);
+      console.log(profile);
       const { email, first_name, last_name } = profile;
       // console.log(email, first_name, last_name);
       if (!isAdminEmail(email)) { // they are a participant

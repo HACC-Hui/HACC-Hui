@@ -26,6 +26,14 @@ import { Interests } from '../../../api/interest/InterestCollection';
 import ListParticipantsCard from '../../components/participant/ListParticipantsCard';
 import ListParticipantsFilter from '../../components/participant/ListParticipantsFilter';
 import InterestedParticipantsWidget from '../../components/participant/InterestedParticipantsWidget';
+import { ToAcceptWantsToJoin } from '../../../api/team/ToAcceptWantToJoinCollection';
+
+const getInterestedParticipants = (team) => {
+  const teamID = team._id;
+  const InterestedParticipants = ToAcceptWantsToJoin.find({ teamID }).fetch();
+  const interestedParticipants = InterestedParticipants.map((wd) => Participants.findDoc(wd.participantID));
+  return interestedParticipants;
+};
 
 class InterestedParticipantsPage extends React.Component {
 
@@ -328,9 +336,12 @@ InterestedParticipantsPage.propTypes = {
 const InterestedParticipantsContainer = withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
+  const teamDoc = Teams.findOne(documentId);
+  const participants = getInterestedParticipants(teamDoc);
 
   return {
-    teamDoc: Teams.findOne(documentId),
+    teamDoc,
+    participants,
     participantChallenges: ParticipantChallenges.find({}).fetch(),
     participantSkills: ParticipantSkills.find({}).fetch(),
     participantTools: ParticipantTools.find({}).fetch(),
@@ -339,7 +350,6 @@ const InterestedParticipantsContainer = withTracker(({ match }) => {
     skills: Skills.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
     tools: Tools.find({}).fetch(),
-    participants: Participants.find({}).fetch(),
     interests: Interests.find({}).fetch(),
   };
 })(InterestedParticipantsPage);

@@ -19,6 +19,7 @@ import { ParticipantTools } from '../user/ParticipantToolCollection';
 import { Administrators } from '../user/AdministratorCollection';
 import { SlackUsers } from '../slackbot/SlackUserCollection';
 import { WantsToJoin } from '../team/WantToJoinCollection';
+import { ToAcceptWantsToJoin } from '../team/ToAcceptWantToJoinCollection';
 import { TeamInvitations } from '../team/TeamInvitationCollection';
 import { Suggestions } from '../suggestions/SuggestionCollection';
 
@@ -51,6 +52,7 @@ class HACCHuiClass {
       TeamTools,
       Tools,
       WantsToJoin,
+      ToAcceptWantsToJoin,
       TeamInvitations,
       Suggestions,
 

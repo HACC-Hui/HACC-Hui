@@ -64,7 +64,6 @@ import { defineMethod } from '../../../api/base/BaseCollection.methods';
 //   return teammates;
 // };
 
-
 // const getInterestedParticipants = (team) => {
 //   const teamID = team._id;
 //   const InterestedParticipants = WantsToJoin.find({ teamID }).fetch();
@@ -72,16 +71,15 @@ import { defineMethod } from '../../../api/base/BaseCollection.methods';
 //   return interestedParticipants;
 // };
 
-
 class InterestedParticipantsWidget extends React.Component {
   state = {};
 
   accept = (e) => {
-    console.log('request accepted')
+    console.log('request accepted');
   }
 
   decline = (e) => {
-    console.log('request declined')
+    console.log('request declined');
   }
 
   render() {
@@ -107,7 +105,7 @@ class InterestedParticipantsWidget extends React.Component {
       return newOptions;
     }
 
-    const options = setOptions();
+    // const options = setOptions();
 
     return (
       <div>
@@ -139,7 +137,7 @@ class InterestedParticipantsWidget extends React.Component {
                         </Grid.Column>
                         <Grid.Column>
                           <Header>Skills</Header>
-                          {this.props.skills.slice(0, 3).map((skill, i) => <p key={skill+i}>
+                          {this.props.skills.slice(0, 3).map((skill, i) => <p key={skill + i}>
                             {skill.name}</p>)}
                         </Grid.Column>
                         <Grid.Column>
