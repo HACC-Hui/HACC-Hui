@@ -65,7 +65,7 @@ class TeamCard extends React.Component {
           <Card.Content>
             <Card.Header>{team.name}</Card.Header>
             <Card.Description>
-              <Grid columns={5}>
+              <Grid container stackable columns={5}>
                 <Grid.Column>
                   <Header size="tiny">Challenges</Header>
                   {team.challenges.join(', ')}

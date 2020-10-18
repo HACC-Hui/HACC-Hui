@@ -45,27 +45,7 @@ const getTeamMembers = (team) => {
 class ListTeamsWidget extends React.Component {
   render() {
     return (
-        <Grid celled>
-          <Grid.Row columns={6}>
-            <Grid.Column>
-              <Header>Name</Header>
-            </Grid.Column>
-            <Grid.Column>
-              <Header>Challenges</Header>
-            </Grid.Column>
-            <Grid.Column>
-              <Header>Desired Skills</Header>
-            </Grid.Column>
-            <Grid.Column>
-              <Header>Desired Tools</Header>
-            </Grid.Column>
-            <Grid.Column>
-              <Header>Members</Header>
-            </Grid.Column>
-            <Grid.Column>
-              <Header>Join?</Header>
-            </Grid.Column>
-          </Grid.Row>
+        <React.Fragment>
           {this.props.teams.map((team) => (
               <ListTeamExampleWidget key={team._id}
                                      team={getTeam(team._id)}
@@ -75,7 +55,7 @@ class ListTeamsWidget extends React.Component {
                                      teamMembers={getTeamMembers(team)}
               />
           ))}
-        </Grid>
+        </React.Fragment>
     );
   }
 }
