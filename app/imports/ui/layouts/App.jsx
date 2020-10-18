@@ -39,6 +39,7 @@ import AdminEditTeamPage from '../pages/administrator/AdminEditTeamPage';
 import SideBar from '../components/SideBar';
 import ViewTeamPage from '../pages/administrator/ViewTeamPage';
 import BestFitTeamDisplay from '../pages/participant/BestFitTeamDisplay';
+import UpdateMinorParticipantsCompliant from '../pages/administrator/UpdateMinorParticipantsCompliant';
 
 /* global window */
 /**
@@ -90,6 +91,7 @@ class App extends React.Component {
           <ProtectedRoute path={ROUTES.TEAM_INVITATIONS} component={TeamInvitationsPage}/>
           <ProtectedRoute path={ROUTES.SUGGEST_TOOL_SKILL} component={SuggestToolSkillPage} />
           <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
+          <AdminProtectedRoute path={ROUTES.UPDATE_MP} component={UpdateMinorParticipantsCompliant} />
           <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
           <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
           <AdminProtectedRoute path={ROUTES.ADD_TOOL} component={AddTool} />
