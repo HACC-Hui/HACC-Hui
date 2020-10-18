@@ -59,7 +59,8 @@ class ListTeamExampleWidget extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <Button id={this.props.team._id} color="green"
-                    onClick={this.handleClick} disabled={isAMember} style={{width:90+'px', height:60+'px', textAlign:'center'}} >Request to Join</Button>
+                    onClick={this.handleClick} disabled={isAMember} style={{ width: `${90}px`,
+              height: `${60}px`, textAlign: 'center' }} >Request to Join</Button>
           </Grid.Column>
         </Grid.Row>
     );
