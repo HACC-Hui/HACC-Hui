@@ -57,7 +57,7 @@ if (!Meteor.isAppTest) {
             SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
             await say(`
         Welcome to HACC-Hui! Here are your credentials
-        Host: https//hackhui.com
+        Host: http://hacchui.ics.hawaii.edu:8888/#/signin
         Username: ${username}
         Password: ${password}`);
           } else {
@@ -105,7 +105,7 @@ You can do this by going to 'edit profile' and entering your full name under 'Fu
             SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
             await say(`
         Welcome to HACC-Hui! Here are your credentials
-        Host: https//hackhui.com
+        Host: http://hacchui.ics.hawaii.edu:8888/#/signin
         Username: ${username}
         Password: ${password}`);
           } else {
