@@ -129,24 +129,22 @@ class ListParticipantsCard extends React.Component {
 
     return (
         <Item onMouseEnter={changeBackground} onMouseLeave={onLeave}
-              style={{ padding: '0rem 2rem 0rem 2rem' }}>
+              style={{ padding: '0rem 1.5rem 0.5rem 1.5rem' }}>
           <Modal closeIcon trigger={
             <Item.Content>
               <Item.Header>
-                <Header as={'h3'} style={{ color: '#263763', paddingTop: '2rem' }}>
+                <Header as={'h3'} style={{ color: '#263763', paddingTop: '1.5rem' }}>
                   <Icon name='user' size='tiny' />
                   {this.props.participants.firstName} {this.props.participants.lastName}
                 </Header>
               </Item.Header>
-              <Item.Meta>
-                <Item.Meta>
+              <Item.Description>
                   <Grid.Column>
                     <Header>About Me</Header>
                     {this.props.participants.aboutMe}
                   </Grid.Column>
                   <Divider hidden/>
-                  <Item.Meta>
-                  <Grid doubling columns={5}>
+                  <Grid doubling stackable columns={5}>
                     <Grid.Column>
                       <Header>Challenges</Header>
                       <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
@@ -172,9 +170,9 @@ class ListParticipantsCard extends React.Component {
                         {interest}</p>)}
                     </Grid.Column>
                     <Grid.Column>
-                    <Header>Slack Username</Header>
-                    {this.props.participants.username}
-                  </Grid.Column>
+                      <Header>Slack Username</Header>
+                      {this.props.participants.username}
+                    </Grid.Column>
                     <Grid.Column>
                       <Button.Group style={{ backgroundColor: 'transparent' }}>
                         <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
@@ -188,9 +186,7 @@ class ListParticipantsCard extends React.Component {
                       </Button.Group>
                     </Grid.Column>
                   </Grid>
-                  </Item.Meta>
-                </Item.Meta>
-              </Item.Meta>
+              </Item.Description>
             </Item.Content>
           }>
             {/* eslint-disable-next-line max-len */}
