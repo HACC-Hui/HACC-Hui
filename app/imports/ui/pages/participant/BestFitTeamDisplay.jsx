@@ -215,7 +215,7 @@ class BestTeam extends React.Component {
       { key: 4, text: 'sort the teams by the name in alphabet order', value: 'AToZ' },
     ];
     return <div>
-      <Grid columns={2}>
+      <Grid stackable columns={2}>
         <Grid.Column width={7}>
           <Header>Please select a filter to reorder the teams: </Header>
         </Grid.Column>
