@@ -1,6 +1,6 @@
 import { check } from 'meteor/check';
 import { Meteor } from 'meteor/meteor';
-import _ from 'lodash';
+import { _ } from 'lodash';
 import { Slugs } from '../slug/SlugCollection';
 import BaseCollection from './BaseCollection';
 

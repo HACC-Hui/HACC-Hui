@@ -1,7 +1,11 @@
 import SimpleSchema from 'simpl-schema';
 import { _ } from 'lodash';
 import BaseCollection from '../base/BaseCollection';
+<<<<<<< HEAD
 import { Participants } from '../user/ParticipantCollection';
+=======
+import { Developers } from '../user/DeveloperCollection';
+>>>>>>> US-D14JB
 import { Teams } from './TeamCollection';
 import { ROLE } from '../role/Role';
 
@@ -15,12 +19,17 @@ class TeamInvitationCollection extends BaseCollection {
   constructor() {
     super('TeamInvitation', new SimpleSchema({
       teamID: { type: SimpleSchema.RegEx.Id },
+<<<<<<< HEAD
       participantID: { type: SimpleSchema.RegEx.Id },
+=======
+      developerID: { type: SimpleSchema.RegEx.Id },
+>>>>>>> US-D14JB
       sentDM: { type: Boolean },
     }));
   }
 
   /**
+<<<<<<< HEAD
    * Defines a participant - team pair indicating the team wants the participant to join the team.
    * @param team {String} team slug or ID.
    * @param participant {String} participant slug or ID.
@@ -45,6 +54,32 @@ class TeamInvitationCollection extends BaseCollection {
     const updateData = {};
     if (participant) {
       updateData.participantID = Participants.getID(participant);
+=======
+   * Defines a developer - team pair indicating the team wants the developer to join the team.
+   * @param team {String} team slug or ID.
+   * @param developer {String} developer slug or ID.
+   * @return {String} the ID of the pair.
+   */
+  define({ team, developer, sentDM = false }) {
+    const teamID = Teams.getID(team);
+    const developerID = Developers.getID(developer);
+    return this._collection.insert({ teamID, developerID, sentDM });
+  }
+
+  /**
+   * Updates the given team-developer pair.
+   * @param docID {String} the ID of the pair to update.
+   * @param team {String} the slug or ID of the team (optional).
+   * @param developer {String} the slug or ID of the developer (optional).
+   * @throws {Meteor.Error} if docID is undefined.
+   */
+  update(docID, { team, developer, sentDM }) {
+    // console.log({ team, developer, sentDM });
+    this.assertDefined(docID);
+    const updateData = {};
+    if (developer) {
+      updateData.developerID = Developers.getID(developer);
+>>>>>>> US-D14JB
     }
     if (team) {
       updateData.teamID = Teams.getID(team);
@@ -56,7 +91,11 @@ class TeamInvitationCollection extends BaseCollection {
   }
 
   /**
+<<<<<<< HEAD
    * Removes the participant-team pair.
+=======
+   * Removes the developer-team pair.
+>>>>>>> US-D14JB
    * @param docID {String} the ID to remove.
    */
   removeIt(docID) {
@@ -64,6 +103,7 @@ class TeamInvitationCollection extends BaseCollection {
   }
 
   /**
+<<<<<<< HEAD
    * Removes all the pairs with the given participant.
    * @param participant {String} the slug or ID of the participant.
    * @throws {Meteor.Error} if the participant is undefined.
@@ -71,6 +111,15 @@ class TeamInvitationCollection extends BaseCollection {
   removeDeveloper(participant) {
     const participantID = Participants.getID(participant);
     this._collection.remove({ participantID });
+=======
+   * Removes all the pairs with the given developer.
+   * @param developer {String} the slug or ID of the developer.
+   * @throws {Meteor.Error} if the developer is undefined.
+   */
+  removeDeveloper(developer) {
+    const developerID = Developers.getID(developer);
+    this._collection.remove({ developerID });
+>>>>>>> US-D14JB
   }
 
   /**
@@ -84,7 +133,11 @@ class TeamInvitationCollection extends BaseCollection {
   }
 
   assertValidRoleForMethod(userId) {
+<<<<<<< HEAD
     this.assertRole(userId, [ROLE.ADMIN, ROLE.PARTICIPANT]);
+=======
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.DEVELOPER]);
+>>>>>>> US-D14JB
   }
 
 }
