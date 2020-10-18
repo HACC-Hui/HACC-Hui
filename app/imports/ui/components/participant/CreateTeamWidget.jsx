@@ -75,7 +75,7 @@ class CreateTeamWidget extends React.Component {
       'skills.$': { type: String, allowedValues: skillNames },
       tools: { type: Array, label: 'Toolsets', optional: true },
       'tools.$': { type: String, allowedValues: toolNames },
-      participants: { type: Array, optional: true },
+      participants: { type: String, optional: true },
       'participants.$': { type: String, allowedValues: participantNames }, // not sure about the allowed values
       description: String,
       devpostPage: { type: String, optional: true },
@@ -230,7 +230,7 @@ class CreateTeamWidget extends React.Component {
                     </Grid>
                     <TextField name="devpostPage" />
                     <TextField name="affiliation" />
-                    <MultiSelectField name='participants' />
+                    <TextField name='participants' />
                   </Grid.Column>
                 </Grid>
                 <div align='center'>
