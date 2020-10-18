@@ -61,18 +61,8 @@ class ListParticipantsWidget extends React.Component {
       );
     }
 
-    // eslint-disable-next-line no-unused-vars
-    const sortBy = [
-      { key: 'teams', text: 'teams', value: 'teams' },
-      { key: 'challenges', text: 'challenges', value: 'challenges' },
-      { key: 'skills', text: 'skills', value: 'skills' },
-      { key: 'tools', text: 'tools', value: 'tools' },
-      { key: 'interests', text: 'interests', value: 'interests' },
-    ];
-
     const sticky = {
       position1: '-webkit-sticky',
-      // eslint-disable-next-line no-dupe-keys
       position: 'sticky',
       top: '6.5rem',
     };
@@ -81,14 +71,14 @@ class ListParticipantsWidget extends React.Component {
 
     const setFilters = () => {
       const searchResults = filters.filterBySearch(this.props.participants, this.state.search);
-      // eslint-disable-next-line max-len
-      const skillResults = filters.filterBySkills(this.state.skills, this.props.skills, this.props.participantSkills, searchResults);
-      // eslint-disable-next-line max-len
-      const toolResults = filters.filterByTools(this.state.tools, this.props.tools, this.props.participantTools, skillResults);
-      // eslint-disable-next-line max-len
-      const challengeResults = filters.filterByChallenge(this.state.challenges, this.props.challenges, this.props.participantChallenges, toolResults);
-      // eslint-disable-next-line max-len
-      const interestResults = filters.filterByInterest(this.state.interests, this.props.interests, this.props.participantInterests, challengeResults);
+      const skillResults = filters.filterBySkills(this.state.skills,
+        this.props.skills, this.props.participantSkills, searchResults);
+      const toolResults = filters.filterByTools(this.state.tools,
+        this.props.tools, this.props.participantTools, skillResults);
+      const challengeResults = filters.filterByChallenge(this.state.challenges,
+        this.props.challenges, this.props.participantChallenges, toolResults);
+      const interestResults = filters.filterByInterest(this.state.interests,
+        this.props.interests, this.props.participantInterests, challengeResults);
       const sorted = filters.sortBy(interestResults, 'participants');
       this.setState({
         result: sorted,
@@ -105,14 +95,6 @@ class ListParticipantsWidget extends React.Component {
       // this.setState({ search: event.target.value });
       // setFilters();
     };
-
-    // const getSort = (event, { value }) => {
-    //   this.setState({
-    //     sortBy: value,
-    //   }, () => {
-    //     setFilters();
-    //   });
-    // };
 
     const getSkills = (event, { value }) => {
       this.setState({
@@ -297,7 +279,6 @@ class ListParticipantsWidget extends React.Component {
           </Grid.Column>
           <Grid.Column width={12}>
             <Item.Group divided>
-              {/* eslint-disable-next-line max-len */}
               {this.state.result.map((participants) => <ListParticipantsCard
                   key={participants._id}
                   participantID={participants._id}
@@ -329,17 +310,16 @@ ListParticipantsWidget.propTypes = {
 
 };
 
-export default withTracker(() =>
-   ({
-    participantChallenges: ParticipantChallenges.find({}).fetch(),
-    participantSkills: ParticipantSkills.find({}).fetch(),
-    participantTools: ParticipantTools.find({}).fetch(),
-    participantInterests: ParticipantInterests.find({}).fetch(),
-    teams: Teams.find({ open: true }).fetch(),
-    skills: Skills.find({}).fetch(),
-    challenges: Challenges.find({}).fetch(),
-    tools: Tools.find({}).fetch(),
-    participants: Participants.find({}).fetch(),
-    interests: Interests.find({}).fetch(),
+export default withTracker(() => ({
+  participantChallenges: ParticipantChallenges.find({}).fetch(),
+  participantSkills: ParticipantSkills.find({}).fetch(),
+  participantTools: ParticipantTools.find({}).fetch(),
+  participantInterests: ParticipantInterests.find({}).fetch(),
+  teams: Teams.find({ open: true }).fetch(),
+  skills: Skills.find({}).fetch(),
+  challenges: Challenges.find({}).fetch(),
+  tools: Tools.find({}).fetch(),
+  participants: Participants.find({}).fetch(),
+  interests: Interests.find({}).fetch(),
 
-  }))(ListParticipantsWidget);
+}))(ListParticipantsWidget);

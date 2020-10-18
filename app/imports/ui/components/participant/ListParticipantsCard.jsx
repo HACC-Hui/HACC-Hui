@@ -59,7 +59,7 @@ class ListParticipantsCard extends React.Component {
 
     const options = setOptions();
 
-    function handleChange(dID, { value }, e) {
+    function handleChange(dID, e) {
       // console.log(e);
       // console.log(e.value);
       // console.log(dID);
@@ -189,8 +189,10 @@ class ListParticipantsCard extends React.Component {
               </Item.Description>
             </Item.Content>
           }>
-            {/* eslint-disable-next-line max-len */}
-            <Modal.Header>{this.props.participants.firstName} {this.props.participants.lastName} <br /> {this.props.participants.demographicLevel}</Modal.Header>
+            <Modal.Header>
+              {this.props.participants.firstName} {this.props.participants.lastName}
+              <br /> {this.props.participants.demographicLevel}
+            </Modal.Header>
             <Modal.Content image>
               <Modal.Description>
                 <Grid container columns={2}>
@@ -211,7 +213,9 @@ class ListParticipantsCard extends React.Component {
                 <Grid.Column>
                   <Header dividing size="small">Challenges</Header>
                   <List bulleted>
-                    {this.props.challenges.map((challenge, i) => <List.Item key={challenge + i}>{challenge}</List.Item>)}
+                    {this.props.challenges.map((challenge, i) => (
+                      <List.Item key={challenge + i}>{challenge}</List.Item>
+                    ))}
                   </List>
                 </Grid.Column>
                 <Divider hidden/>
