@@ -220,7 +220,7 @@ class BestTeam extends React.Component {
           <Header>Please select a filter to reorder the teams: </Header>
         </Grid.Column>
         <Grid.Column >
-          <Dropdown style={{ fontSize: `${20}px`, width: `${600}px` }} options={options} onChange={_select}
+          <Dropdown style={{ fontSize: `${20}px`, width: 'device-width' }} options={options} onChange={_select}
                     placeholder="Select an option to reorder the team" />
         </Grid.Column>
       </Grid>
