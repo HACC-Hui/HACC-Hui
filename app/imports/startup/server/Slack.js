@@ -24,7 +24,7 @@ if (!Meteor.isAppTest) {
 
   app.event('message', async ({ event, say, context }) => {
         // console.log('message', event, context);
-        if (event.text.includes('register')) {
+        if (event.text.includes('register me')) {
           const { profile } = await app.client.users.profile.get({
             token: context.botToken,
             user: event.user,
@@ -55,13 +55,14 @@ if (!Meteor.isAppTest) {
               // record this user
               SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
               await say(`
-        Welcome to HACC-Hui! Here are your credentials
-        Host: http://hacchui.ics.hawaii.edu:8888/#/signin
-        Username: ${username}
-        Password: ${password}`);
+ <@${event.user}> Welcome to HACC-Hui! Here are your credentials.
+ Host: http://hacchui.ics.hawaii.edu:8888/#/signin
+ Username: ${username}
+ Password: ${password}`);
             } else {
-              await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.
-              Host: http://hacchui.ics.hawaii.edu:8888/#/signin`);
+              await say(`
+              <@${event.user}> You've already registered. You can login to HACC-Hui.
+ Host: http://hacchui.ics.hawaii.edu:8888/#/signin`);
             }
           } else
             if (!Administrators.isDefined({ username: email })) {
@@ -86,24 +87,25 @@ if (!Meteor.isAppTest) {
               // record this user
               SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
               await say(`
-        Welcome to HACC-Hui! Here are your credentials
-        Host: http://hacchui.ics.hawaii.edu:8888/#/signin
-        Username: ${username}
-        Password: ${password}`);
+ <@${event.user}> Welcome to HACC-Hui! Here are your credentials.
+ Host: http://hacchui.ics.hawaii.edu:8888/#/signin
+ Username: ${username}
+ Password: ${password}`);
             } else {
               await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.
-              Host: http://hacchui.ics.hawaii.edu:8888/#/signin`);
+ Host: http://hacchui.ics.hawaii.edu:8888/#/signin`);
             }
         } else
-          if (event.text.includes('help')) {
+          if (event.text.includes('help me')) { //if there is a help in chat
             // url = '/signin';
             /* Could we add a hyperlink into slack? Need to check Slack API */
             // Need to wait for help page issue to be complete, talk to moore about this
-            await say(`<@${event.user}> I can see that you need help, please refer to our help page at:
-             http://hacchui.ics.hawaii.edu:8888/#/help-page`);
+            await say(`<@${event.user}> I can see that you need help, please refer to our help page.
+ Help Page: http://hacchui.ics.hawaii.edu:8888/#/help-page`);
           } else {
-            await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me. 
-        If you need help say help me.`);
+            await say(`<@${event.user}> I don't understand '${event.text}'. 
+ To register for HACC-Hui, please type 'register me'. 
+ If you require assistance, please type 'help me'.`);
           }
       });
 
