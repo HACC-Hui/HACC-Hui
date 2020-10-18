@@ -204,7 +204,7 @@ class TeamCreationWidget extends React.Component {
   }
 }
 
-TeamCreation.propTypes = {
+TeamCreationWidget.propTypes = {
   challenges: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
