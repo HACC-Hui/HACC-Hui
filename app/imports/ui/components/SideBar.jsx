@@ -64,7 +64,7 @@ class SideBar extends React.Component {
                                key='edit-profile'
                                onClick={() => setVisible(!this.state.visible)}>
                       Your Profile</Menu.Item>,
-                    <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_TEAMS}
+                    <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.BEST_FIT}
                                key='list-teams'
                                onClick={() => setVisible(!this.state.visible)}>List the
                       Teams</Menu.Item>,
