@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header, Divider, Icon, Message } from 'semantic-ui-react';
+import { Grid, Segment, Header, Divider, Icon, Message, Form} from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
@@ -31,9 +31,24 @@ import { Slugs } from '../../../api/slug/SlugCollection';
 class CreateTeamWidget extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { redirectToReferer: false };
+    this.state = { newPerson: '', people:[], redirectToReferer: false };
+    console.log(this.state.people);
   }
 
+  handleChange = (e, { value }) => {
+    this.setState({ newPerson: value })
+    console.log(this.state.newPerson)
+  }
+
+  handleClick = () => {
+    this.setState({ people: this.state.people.push(this.state.newPerson) })
+    this.setState({ newPerson: '' })
+  }
+  handleSubmitName = () => {
+    this.state.people.push(this.state.newPerson);
+    this.setState({ newPerson: '' })
+    console.log(this.state.people)
+  }
   buildTheModel() {
     return {
       skills: [],
@@ -137,6 +152,7 @@ class CreateTeamWidget extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+    const { email } = this.state
     if (!this.props.participant.isCompliant) {
       return (
           <div align={'center'}>
@@ -155,9 +171,36 @@ class CreateTeamWidget extends React.Component {
     const formSchema = new SimpleSchema2Bridge(this.buildTheFormSchema());
     const model = this.buildTheModel();
     return (
+
         <Grid container centered>
           <Grid.Column>
             <Divider hidden />
+            <Segment
+                style={{
+                  borderRadius: '10px',
+                  backgroundColor: '#E5F0FE',
+                }} className={'createTeam'}>
+              <Header as="h2" textAlign="center">Create a Team</Header>
+              {/* eslint-disable-next-line max-len */}
+              <Message>
+                <Header as="h4" textAlign="center">Team name and Devpost page ALL
+                  have to use the same name</Header>
+              </Message>
+            <div>
+              <Form onSubmit={this.handleSubmitName}>
+                <Form.Group>
+                  <Form.Input
+                      name={'email'}
+                      value={email}
+                      placeholder={'add a team member'}
+                      onChange={this.handleChange}
+                      onSubmit={this.handleSubmitName}
+                  />
+                <Form.Button fluid
+                    content='submit'/>
+                </Form.Group>
+              </Form>
+            </div>
             <AutoForm
                 ref={ref => {
                   fRef = ref;
@@ -169,19 +212,8 @@ class CreateTeamWidget extends React.Component {
                   paddingBottom: '40px',
                 }}
             >
-              <Segment
-                  style={{
-                    borderRadius: '10px',
-                    backgroundColor: '#E5F0FE',
-                  }} className={'createTeam'}>
                 <Grid columns={1} style={{ paddingTop: '20px' }}>
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
-                    <Header as="h2" textAlign="center">Create a Team</Header>
-                    {/* eslint-disable-next-line max-len */}
-                    <Message>
-                      <Header as="h4" textAlign="center">Team name and Devpost page ALL
-                        have to use the same name</Header>
-                    </Message>
                     <Grid className='doubleLine'>
                       <TextField name='name'/>
                       <RadioField
@@ -209,8 +241,8 @@ class CreateTeamWidget extends React.Component {
                                }} />
                 </div>
                 <ErrorsField />
-              </Segment>
             </AutoForm>
+            </Segment>
           </Grid.Column>
         </Grid>
     );
