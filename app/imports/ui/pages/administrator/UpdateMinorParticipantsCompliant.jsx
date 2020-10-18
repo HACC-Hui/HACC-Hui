@@ -8,12 +8,6 @@ import { Participants } from '../../../api/user/ParticipantCollection';
 import UpdateMinorParticipantsWidget from '../../components/administrator/UpdateMinorParticipantsWidget';
 
 class UpdateMinorParticipantsCompliant extends React.Component {
-  MinorPaticipants;
-
-  constructor(props) {
-    super(props);
-    this.MinorPaticipants = [];
-  }
 
   getMinorParticipants() {
     const AllMinorParticipants = MinorParticipants._collection.find({}).fetch();
@@ -39,9 +33,9 @@ class UpdateMinorParticipantsCompliant extends React.Component {
     if (MinorCFParticipantsID.length == 0) {
       return <div><Header>No uncompilable underage participants yet</Header></div>;
     }
-    else {
+
       return <div><UpdateMinorParticipantsWidget MinorParticipantsID={MinorCFParticipantsID}/></div>;
-    }
+
   }
 
   render() {
@@ -51,7 +45,7 @@ class UpdateMinorParticipantsCompliant extends React.Component {
 
   renderPage() {
     return (<Container center>
-      <Header>List fot the uncompilable underage participants</Header>
+      <Header>List for the uncompilable underage participants</Header>
       {this.renderMinorCFParticipants()}
     </Container>);
   }
@@ -64,7 +58,7 @@ UpdateMinorParticipantsCompliant.propTypes = {
 };
 export default withTracker(() => {
 
-  const subscriptionPaticipant = Participants.subscribe();
+  const subscriptionParticipant = Participants.subscribe();
   const subscriptionMinor = MinorParticipants.subscribe();
 
   return {
@@ -72,6 +66,6 @@ export default withTracker(() => {
     // developerSkill: ParticipantSkills.find({}).fetch(),
    // teamSkills: TeamSkills.find({}).fetch(),
     // eslint-disable-next-line max-len
-    ready: subscriptionPaticipant.ready() && subscriptionMinor.ready(),
+    ready: subscriptionParticipant.ready() && subscriptionMinor.ready(),
   };
 })(UpdateMinorParticipantsCompliant);
