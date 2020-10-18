@@ -20,7 +20,7 @@ import AgePage from '../pages/developer/AgePage';
 import ParticipationForm from '../pages/developer/ParticipationForm';
 import UnderParticipationForm from '../pages/developer/UnderParticipationForm';
 import Dprofile from '../pages/developer/Dprofile';
-import TeamCreation from '../pages/developer/TeamCreation';
+import TeamCreationPage from '../pages/developer/TeamCreationPage';
 import EditTeam from '../pages/developer/EditTeam';
 import deleteTeam from '../pages/developer/deleteTeam';
 import { ROUTES } from '../../startup/client/route-constants';
@@ -59,7 +59,7 @@ class App extends React.Component {
               <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm} />
               <ProtectedRoute path={ROUTES.CREATE_PROFILE} component={Dprofile} />
               <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
-              <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreation} />
+              <ProtectedRoute path={ROUTES.CREATE_TEAM} component={TeamCreationPage} />
               <ProtectedRoute path={ROUTES.EDIT_TEAM} component={EditTeam} />
               <ProtectedRoute path={ROUTES.DELETE_TEAM} component={deleteTeam} />
               <ProtectedRoute path={ROUTES.TEAM_FINDER} component={TeamFinder}/>
