@@ -24,7 +24,7 @@ if (!Meteor.isAppTest) {
 
   app.event('message', async ({ event, say, context }) => {
         // console.log('message', event, context);
-        if (event.text.includes('register me')) {
+        if (event.text.includes('register')) {
           const { profile } = await app.client.users.profile.get({
             token: context.botToken,
             user: event.user,
@@ -96,7 +96,7 @@ if (!Meteor.isAppTest) {
  Host: http://hacchui.ics.hawaii.edu:8888/#/signin`);
             }
         } else
-          if (event.text.includes('help me')) { // user says help me to receive dialogue
+          if (event.text.includes('help')) { // user says help to receive dialogue
             await say(`<@${event.user}> I can see that you need help, please refer to our help page.
  Help Page: http://hacchui.ics.hawaii.edu:8888/#/help-page`);
           } else {
