@@ -15,10 +15,12 @@ import { Teams } from '../../../api/team/TeamCollection';
 import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
 import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
 import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
+import { ParticipantInterests } from '../../../api/user/ParticipantInterestCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
+import { Interests } from '../../../api/interest/InterestCollection';
 import ListParticipantsCard from './ListParticipantsCard';
 import ListParticipantsFilter from './ListParticipantsFilter';
 
@@ -31,7 +33,8 @@ class ListParticipantsWidget extends React.Component {
       challenges: [],
       tools: [],
       skills: [],
-      result: _.orderBy(this.props.developers, ['name'], ['asc']),
+      interests: [],
+      result: _.orderBy(this.props.participants, ['name'], ['asc']),
     };
   }
 
@@ -44,7 +47,7 @@ class ListParticipantsWidget extends React.Component {
 
   render() {
 
-    if (this.props.developers.length === 0) {
+    if (this.props.participants.length === 0) {
       return (
           <div align={'center'}>
             <Header as='h2' icon>
@@ -58,17 +61,8 @@ class ListParticipantsWidget extends React.Component {
       );
     }
 
-    // eslint-disable-next-line no-unused-vars
-    const sortBy = [
-      { key: 'teams', text: 'teams', value: 'teams' },
-      { key: 'challenges', text: 'challenges', value: 'challenges' },
-      { key: 'skills', text: 'skills', value: 'skills' },
-      { key: 'tools', text: 'tools', value: 'tools' },
-    ];
-
     const sticky = {
-      position: '-webkit-sticky',
-      // eslint-disable-next-line no-dupe-keys
+      position1: '-webkit-sticky',
       position: 'sticky',
       top: '6.5rem',
     };
@@ -76,14 +70,16 @@ class ListParticipantsWidget extends React.Component {
     const filters = new ListParticipantsFilter();
 
     const setFilters = () => {
-      const searchResults = filters.filterBySearch(this.props.developers, this.state.search);
-      // eslint-disable-next-line max-len
-      const skillResults = filters.filterBySkills(this.state.skills, this.props.skills, this.props.developerSkills, searchResults);
-      // eslint-disable-next-line max-len
-      const toolResults = filters.filterByTools(this.state.tools, this.props.tools, this.props.developerTools, skillResults);
-      // eslint-disable-next-line max-len
-      const challengeResults = filters.filterByChallenge(this.state.challenges, this.props.challenges, this.props.developerChallenges, toolResults);
-      const sorted = filters.sortBy(challengeResults, 'devs');
+      const searchResults = filters.filterBySearch(this.props.participants, this.state.search);
+      const skillResults = filters.filterBySkills(this.state.skills,
+        this.props.skills, this.props.participantSkills, searchResults);
+      const toolResults = filters.filterByTools(this.state.tools,
+        this.props.tools, this.props.participantTools, skillResults);
+      const challengeResults = filters.filterByChallenge(this.state.challenges,
+        this.props.challenges, this.props.participantChallenges, toolResults);
+      const interestResults = filters.filterByInterest(this.state.interests,
+        this.props.interests, this.props.participantInterests, challengeResults);
+      const sorted = filters.sortBy(interestResults, 'participants');
       this.setState({
         result: sorted,
       }, () => {
@@ -99,14 +95,6 @@ class ListParticipantsWidget extends React.Component {
       // this.setState({ search: event.target.value });
       // setFilters();
     };
-
-    // const getSort = (event, { value }) => {
-    //   this.setState({
-    //     sortBy: value,
-    //   }, () => {
-    //     setFilters();
-    //   });
-    // };
 
     const getSkills = (event, { value }) => {
       this.setState({
@@ -132,11 +120,19 @@ class ListParticipantsWidget extends React.Component {
       });
     };
 
+    const getInterest = (event, { value }) => {
+      this.setState({
+        interests: value,
+      }, () => {
+        setFilters();
+      });
+    };
+
     const universalSkills = this.props.skills;
 
-    function getDeveloperSkills(developerID, developerSkills) {
+    function getParticipantSkills(participantID, participantSkills) {
       const data = [];
-      const skills = _.filter(developerSkills, { participantID: developerID });
+      const skills = _.filter(participantSkills, { participantID: participantID });
       for (let i = 0; i < skills.length; i++) {
         for (let j = 0; j < universalSkills.length; j++) {
           if (skills[i].skillID === universalSkills[j]._id) {
@@ -144,15 +140,15 @@ class ListParticipantsWidget extends React.Component {
           }
         }
       }
-      console.log(data);
+      // console.log(data);
       return data;
     }
 
     const universalTools = this.props.tools;
 
-    function getDeveloperTools(developerID, developerTools) {
+    function getParticipantTools(participantID, participantTools) {
       const data = [];
-      const tools = _.filter(developerTools, { participantID: developerID });
+      const tools = _.filter(participantTools, { participantID: participantID });
       for (let i = 0; i < tools.length; i++) {
         for (let j = 0; j < universalTools.length; j++) {
           if (tools[i].toolID === universalTools[j]._id) {
@@ -160,15 +156,14 @@ class ListParticipantsWidget extends React.Component {
           }
         }
       }
-      console.log(data);
       return data;
     }
 
     const universalChallenges = this.props.challenges;
 
-    function getDeveloperChallenges(developerID, developerChallenges) {
+    function getParticipantChallenges(participantID, participantChallenges) {
       const data = [];
-      const challenges = _.filter(developerChallenges, { participantID: developerID });
+      const challenges = _.filter(participantChallenges, { participantID: participantID });
       for (let i = 0; i < challenges.length; i++) {
         for (let j = 0; j < universalChallenges.length; j++) {
           if (challenges[i].challengeID === universalChallenges[j]._id) {
@@ -179,11 +174,26 @@ class ListParticipantsWidget extends React.Component {
       return data;
     }
 
+    const universalInterests = this.props.interests;
+
+    function getParticipantInterests(participantID, participantInterests) {
+      const data = [];
+      const interests = _.filter(participantInterests, { participantID: participantID });
+      for (let i = 0; i < interests.length; i++) {
+        for (let j = 0; j < universalInterests.length; j++) {
+          if (interests[i].interestID === universalInterests[j]._id) {
+            data.push(universalInterests[j].name);
+          }
+        }
+      }
+      return data;
+    }
+
     return (
         <Grid container doubling relaxed stackable>
           <Grid.Row centered>
             <Header as={'h2'} style={{ paddingTop: '2rem' }}>
-              All Developers
+              All Participants
             </Header>
           </Grid.Row>
           <Grid.Column width={4}>
@@ -191,7 +201,7 @@ class ListParticipantsWidget extends React.Component {
               <div style={{ paddingTop: '2rem' }}>
                 <Header>
                   <Header.Content>
-                    Total Developers: {this.state.result.length}
+                    Total Participants: {this.state.result.length}
                   </Header.Content>
                 </Header>
               </div>
@@ -212,7 +222,7 @@ class ListParticipantsWidget extends React.Component {
               <div style={{ paddingTop: '2rem' }}>
                 <Input icon='search'
                        iconPosition='left'
-                       placeholder='Search by developer name...'
+                       placeholder='Search by participants name...'
                        onChange={handleSearchChange}
                        fluid
                 />
@@ -241,8 +251,7 @@ class ListParticipantsWidget extends React.Component {
                           onChange={getSkills}
                 />
               </div>
-
-              <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+              <div style={{ paddingTop: '2rem' }}>
                 <Header>Tools</Header>
                 <Dropdown
                     placeholder='Tools'
@@ -254,18 +263,30 @@ class ListParticipantsWidget extends React.Component {
                     onChange={getTools}
                 />
               </div>
+              <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+                <Header>Interests</Header>
+                <Dropdown
+                    placeholder='Interests'
+                    fluid
+                    multiple
+                    search
+                    selection
+                    options={filters.dropdownValues(this.props.interests, 'name')}
+                    onChange={getInterest}
+                />
+              </div>
             </Segment>
           </Grid.Column>
           <Grid.Column width={12}>
             <Item.Group divided>
-              {/* eslint-disable-next-line max-len */}
-              {this.state.result.map((developers) => <ListParticipantsCard
-                  key={developers._id}
-                  devID={developers._id}
-                  developers={developers}
-                  skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
-                  tools={getDeveloperTools(developers._id, this.props.developerTools)}
-                  challenges={getDeveloperChallenges(developers._id, this.props.developerChallenges)}
+              {this.state.result.map((participants) => <ListParticipantsCard
+                  key={participants._id}
+                  participantID={participants._id}
+                  participants={participants}
+                  skills={getParticipantSkills(participants._id, this.props.participantSkills)}
+                  tools={getParticipantTools(participants._id, this.props.participantTools)}
+                  challenges={getParticipantChallenges(participants._id, this.props.participantChallenges)}
+                  interests={getParticipantInterests(participants._id, this.props.participantInterests)}
               />)}
             </Item.Group>
           </Grid.Column>
@@ -275,44 +296,30 @@ class ListParticipantsWidget extends React.Component {
 }
 
 ListParticipantsWidget.propTypes = {
-  developerChallenges: PropTypes.array.isRequired,
-  developerSkills: PropTypes.array.isRequired,
+  participantChallenges: PropTypes.array.isRequired,
+  participantSkills: PropTypes.array.isRequired,
+  participantInterests: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
-  developerTools: PropTypes.array.isRequired,
+  participantTools: PropTypes.array.isRequired,
   teams: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
-  developers: PropTypes.array.isRequired,
+  participants: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
+  interests: PropTypes.array.isRequired,
   // ready: PropTypes.bool.isRequired,
 
 };
 
-export default withTracker(() =>
-  /*
-  const subscriptionChallenges = DeveloperChallenges.subscribe();
-  const subscriptionSkills = DeveloperSkills.subscribe();
-  const subscriptionTools = DeveloperTools.subscribe();
-  const subscriptionDevelopers = Developers.subscribe();
-  const subscriptionTeam = Teams.subscribe();
-  const subSkills = Skills.subscribe();
-  const subChallenges = Challenges.subscribe();
-  const subTools = Tools.subscribe();
-   */
+export default withTracker(() => ({
+  participantChallenges: ParticipantChallenges.find({}).fetch(),
+  participantSkills: ParticipantSkills.find({}).fetch(),
+  participantTools: ParticipantTools.find({}).fetch(),
+  participantInterests: ParticipantInterests.find({}).fetch(),
+  teams: Teams.find({ open: true }).fetch(),
+  skills: Skills.find({}).fetch(),
+  challenges: Challenges.find({}).fetch(),
+  tools: Tools.find({}).fetch(),
+  participants: Participants.find({}).fetch(),
+  interests: Interests.find({}).fetch(),
 
-    // eslint-disable-next-line implicit-arrow-linebreak
-   ({
-    developerChallenges: ParticipantChallenges.find({}).fetch(),
-    developerSkills: ParticipantSkills.find({}).fetch(),
-    developerTools: ParticipantTools.find({}).fetch(),
-    teams: Teams.find({ open: true }).fetch(),
-    skills: Skills.find({}).fetch(),
-    challenges: Challenges.find({}).fetch(),
-    tools: Tools.find({}).fetch(),
-    developers: Participants.find({}).fetch(),
-    // eslint-disable-next-line max-len
-    /*
-    ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready()
-        && subscriptionDevelopers.ready() && subscriptionTeam.ready() && subSkills.ready() && subTools.ready()
-        && subChallenges.ready(),
-     */
-  }))(ListParticipantsWidget);
+}))(ListParticipantsWidget);

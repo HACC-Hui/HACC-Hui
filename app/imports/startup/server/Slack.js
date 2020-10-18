@@ -23,96 +23,88 @@ if (!Meteor.isAppTest) {
   });
 
   app.event('message', async ({ event, say, context }) => {
-    // console.log('message', event, context);
-    if (event.text.includes('register')) {
-      const { profile } = await app.client.users.profile.get({
-        token: context.botToken,
-        user: event.user,
+        // console.log('message', event, context);
+        if (event.text.includes('register')) {
+          const { profile } = await app.client.users.profile.get({
+            token: context.botToken,
+            user: event.user,
+          });
+          // console.log(profile);
+          const { email, first_name, last_name, real_name } = profile;
+          // console.log(email, first_name, last_name);
+          if (!isAdminEmail(email)) { // they are a participant
+            if (!Participants.isDefined({ username: email })) {
+              let firstName = first_name;
+              let lastName = last_name;
+              if (_.isNil(firstName)) {
+                const names = real_name.split(' ');
+                firstName = names[0];
+              }
+              if (_.isNil(lastName)) {
+                const names = real_name.split(' ');
+                lastName = names[1];
+              }
+              if (_.isNil(firstName)) {
+                firstName = 'ChangeMe';
+              }
+              if (_.isNil(lastName)) {
+                lastName = 'ChangeMe';
+              }
+              const username = email;
+              const { password } = Participants.define({ username, firstName, lastName });
+              // record this user
+              SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
+              await say(`
+ <@${event.user}> Welcome to HACC-Hui! Here are your credentials.
+ Host: http://hacchui.ics.hawaii.edu:8888/#/signin
+ Username: ${username}
+ Password: ${password}`);
+            } else {
+              await say(`
+              <@${event.user}> You've already registered. You can login to HACC-Hui.
+ Host: http://hacchui.ics.hawaii.edu:8888/#/signin`);
+            }
+          } else
+            if (!Administrators.isDefined({ username: email })) {
+              let firstName = first_name;
+              let lastName = last_name;
+              if (_.isNil(firstName)) {
+                const names = real_name.split(' ');
+                firstName = names[0];
+              }
+              if (_.isNil(lastName)) {
+                const names = real_name.split(' ');
+                lastName = names[1];
+              }
+              if (_.isNil(firstName)) {
+                firstName = 'ChangeMe';
+              }
+              if (_.isNil(lastName)) {
+                lastName = 'ChangeMe';
+              }
+              const username = email;
+              const { password } = Administrators.define({ username, firstName, lastName });
+              // record this user
+              SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
+              await say(`
+ <@${event.user}> Welcome to HACC-Hui! Here are your credentials.
+ Host: http://hacchui.ics.hawaii.edu:8888/#/signin
+ Username: ${username}
+ Password: ${password}`);
+            } else {
+              await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.
+ Host: http://hacchui.ics.hawaii.edu:8888/#/signin`);
+            }
+        } else
+          if (event.text.includes('help')) { // user says help to receive dialogue
+            await say(`<@${event.user}> I can see that you need help, please refer to our help page.
+ Help Page: http://hacchui.ics.hawaii.edu:8888/#/help-page`);
+          } else {
+            await say(`<@${event.user}> I don't understand '${event.text}'. 
+ To register for HACC-Hui, please type 'register me'. 
+ If you require assistance, please type 'help me'.`);
+          }
       });
-      // console.log(profile);
-      const { email, first_name, last_name, real_name } = profile;
-      // console.log(email, first_name, last_name);
-      if (!isAdminEmail(email)) { // they are a participant
-        if (!Participants.isDefined({ username: email })) {
-          if (last_name !== '') { // last name is provided
-            let firstName = first_name;
-            let lastName = last_name;
-            if (_.isNil(firstName)) {
-              const names = real_name.split(' ');
-              firstName = names[0];
-            }
-            if (_.isNil(lastName)) {
-              const names = real_name.split(' ');
-              lastName = names[1];
-            }
-            if (_.isNil(firstName)) {
-              firstName = 'ChangeMe';
-            }
-            if (_.isNil(lastName)) {
-              lastName = 'ChangeMe';
-            }
-            const username = email;
-            const { password } = Participants.define({ username, firstName, lastName });
-            // record this user
-            SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
-            await say(`
-        Welcome to HACC-Hui! Here are your credentials
-        Host: https//hackhui.com
-        Username: ${username}
-        Password: ${password}`);
-          } else {
-            await say(`<@${event.user}> Please include a last name with your profile.
-You can do this by going to 'edit profile' and entering your full name under 'Full name' then try to register again.`);
-          }
-        } else {
-          await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.`);
-        }
-      } else
-        if (!Administrators.isDefined({ username: email })) {
-          if (last_name !== '') { // last name is provided
-            let firstName = first_name;
-            let lastName = last_name;
-            if (_.isNil(firstName)) {
-              const names = real_name.split(' ');
-              firstName = names[0];
-            }
-            if (_.isNil(lastName)) {
-              const names = real_name.split(' ');
-              lastName = names[1];
-            }
-            if (_.isNil(firstName)) {
-              firstName = 'ChangeMe';
-            }
-            if (_.isNil(lastName)) {
-              lastName = 'ChangeMe';
-            }
-            const username = email;
-            const { password } = Administrators.define({ username, firstName, lastName });
-            // record this user
-            SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
-            await say(`
-        Welcome to HACC-Hui! Here are your credentials
-        Host: https//hackhui.com
-        Username: ${username}
-        Password: ${password}`);
-          } else {
-            await say(`<@${event.user}> Please include a last name with your profile.
-You can do this by going to 'edit profile' and entering your full name under 'Full name' then try to register again.`);
-          }
-        } else {
-          await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.`);
-        }
-    } else
-      if (event.text.includes('help')) {
-        // url = '/signin';
-        /* Could we add a hyperlink into slack? Need to check Slack API */
-        // Need to wait for help page issue to be complete, talk to moore about this
-        await say(`<@${event.user}> I can see that you need help, please refer to our help page at: [temp url]`);
-      } else {
-        await say(`<@${event.user}> I don't understand '${event.text}'. To register say register me. 
-        If you need help say help me.`);
-      }
-  });
 
 // Start your app
   (async () => {
