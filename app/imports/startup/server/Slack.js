@@ -96,10 +96,7 @@ if (!Meteor.isAppTest) {
  Host: http://hacchui.ics.hawaii.edu:8888/#/signin`);
             }
         } else
-          if (event.text.includes('help me')) { //if there is a help in chat
-            // url = '/signin';
-            /* Could we add a hyperlink into slack? Need to check Slack API */
-            // Need to wait for help page issue to be complete, talk to moore about this
+          if (event.text.includes('help me')) { // user says help me to receive dialogue
             await say(`<@${event.user}> I can see that you need help, please refer to our help page.
  Help Page: http://hacchui.ics.hawaii.edu:8888/#/help-page`);
           } else {
