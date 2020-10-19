@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid, Header, List } from 'semantic-ui-react';
 import _ from 'lodash';
+import swal from 'sweetalert';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
@@ -23,8 +24,8 @@ class ListTeamExampleWidget extends React.Component {
     console.log(collectionName, definitionData);
     defineMethod.call({ collectionName, definitionData }, (error) => {
       if (error) {
-        console.error('Failed to define', error);
-      }
+        swal('sent request fail', error, 'error');
+      } else { swal('sent ', 'join request sent', 'success'); }
     });
   }
 
