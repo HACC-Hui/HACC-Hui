@@ -8,14 +8,14 @@ import { Grid, Image } from 'semantic-ui-react';
 class Landing extends React.Component {
   render() {
     return (
-        <Grid rows={'equal'}>
+        <Grid stackable rows={'equal'}>
           <Grid.Row style={{ margin: 50 }}>
             <Grid.Column width={8} style={{
               display: 'flex', flexDirection: 'column',
               justifyContent: 'center', alignItems: 'center',
             }}>
               <b style={{
-                color: '#0B2C52', fontSize: 30, alignSelf: 'flex-start',
+                color: '#0B2C52', fontSize: 28, alignSelf: 'flex-start',
                 paddingLeft: 20, marginBottom: 15,
               }}>Welcome to HACC-Hui</b>
                   <p style={{ fontSize: 20, paddingLeft: 20, color: '#0B2C52' }}>
