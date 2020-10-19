@@ -5,8 +5,8 @@ import {
   ErrorsField,
   SubmitField,
   TextField,
-  LongTextField,
-} from 'uniforms-semantic';
+  LongTextField, ListItemField, ListField
+} from "uniforms-semantic";
 import swal from 'sweetalert';
 import PropTypes from 'prop-types';
 import { _ } from 'lodash';
@@ -31,9 +31,9 @@ import { TeamInvitations } from "../../../api/team/TeamInvitationCollection";
  */
 class CreateTeamWidget extends React.Component {
 
-    constructor(props) {
+  constructor(props) {
     super(props);
-    this.state = { newPerson: '', people:[],redirectToReferer: false, errorModal: false, isRegistered: [], notRegistered: [] };
+    this.state = { redirectToReferer: false, errorModal: false, isRegistered: [], notRegistered: [] };
     console.log(this.state.people);
   }
 
@@ -77,13 +77,26 @@ class CreateTeamWidget extends React.Component {
       'skills.$': { type: String, allowedValues: skillNames },
       tools: { type: Array, label: 'Toolsets', optional: true },
       'tools.$': { type: String, allowedValues: toolNames },
-      participants: { type: String, label: 'participants' },
+      //participants: { type: String, label: 'participants' },
       description: String,
       devpostPage: { type: String, optional: true },
       affiliation: { type: String, optional: true },
+
+      participants: {
+        type: Array,
+        minCount: 1,
+      },
+      'participants.$': {
+        type: Object,
+      },
+      'participants.$.email': {
+        type: String,
+        min: 3,
+      },
     });
     return schema;
   }
+
 
   /** On submit, insert the data.
    * @param formData {Object} the results from the form.
@@ -95,37 +108,39 @@ class CreateTeamWidget extends React.Component {
     const owner = this.props.participant.username;
     const { name, description, challenges, skills, tools, image, participants } = formData;
 
+
     if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
       swal('Error', 'Sorry, no special characters or space allowed.', 'error');
       return;
     }
 
-    const partArray = participants.split(',');
+    const partArray = participants;
+    console.log(partArray);
     const currPart = Participants.find({}).fetch();
     let isRegistered = [];
     let notRegistered = [];
     for (let i = 0; i < partArray.length; i++) {
       let registered = false;
       for (let j = 0; j < currPart.length; j++) {
-        if (currPart[j].username === partArray[i]) {
+        if (currPart[j].username === partArray[i].email) {
           registered = true;
           this.setState({
             isRegistered: [
               this.state.isRegistered,
-              "-" + partArray[i] + "\n",
+              "-" + partArray[i].email + "\n",
             ]
           })
-          isRegistered.push(partArray[i]);
+          isRegistered.push(partArray[i].email);
         }
       }
       if (!registered) {
         this.setState({
           notRegistered: [
             this.state.notRegistered,
-            "-" + partArray[i] + "\n",
+            "-" + partArray[i].email + "\n",
           ]
         })
-        notRegistered.push(partArray[i]);
+        notRegistered.push(partArray[i].email);
       }
     }
     if (notRegistered.length != 0) {
@@ -193,14 +208,14 @@ class CreateTeamWidget extends React.Component {
       const inviteCollection = TeamInvitations.getCollectionName();
       const inviteData = { team: newTeamID._id, participant: isRegistered[i] };
       defineMethod.call({ collectionName: inviteCollection, definitionData: inviteData },
-        (error) => {
-          if (error) {
-            console.error(error.message);
-          } else {
-            console.log('Success');
-          }
-        });
-  }
+          (error) => {
+            if (error) {
+              console.error(error.message);
+            } else {
+              console.log('Success');
+            }
+          });
+    }
   }
   closeModal = () => {
     this.setState({ errorModal: false })
@@ -246,32 +261,17 @@ class CreateTeamWidget extends React.Component {
                 <Header as="h4" textAlign="center">Team name and Devpost page ALL
                   have to use the same name</Header>
               </Message>
-            <div>
-              <Form onSubmit={this.handleSubmitName}>
-                <Form.Group>
-                  <Form.Input
-                      name={'email'}
-                      value={email}
-                      placeholder={'add a team member'}
-                      onChange={this.handleChange}
-                      onSubmit={this.handleSubmitName}
-                  />
-                <Form.Button fluid
-                    content='submit'/>
-                </Form.Group>
-              </Form>
-            </div>
-            <AutoForm
-                ref={ref => {
-                  fRef = ref;
-                }}
-                schema={formSchema}
-                model={model}
-                onSubmit={data => this.submit(data, fRef)}
-                style={{
-                  paddingBottom: '40px',
-                }}
-            >
+              <AutoForm
+                  ref={ref => {
+                    fRef = ref;
+                  }}
+                  schema={formSchema}
+                  model={model}
+                  onSubmit={data => this.submit(data, fRef)}
+                  style={{
+                    paddingBottom: '40px',
+                  }}
+              >
                 <Grid columns={1} style={{ paddingTop: '20px' }}>
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
                     <Grid className='doubleLine'>
@@ -290,7 +290,16 @@ class CreateTeamWidget extends React.Component {
                     </Grid>
                     <TextField name="devpostPage" />
                     <TextField name="affiliation" />
-                    <TextField name='participants' />
+
+                    <ListField name="participants" label={'Enter each participant\'s email'}>
+                      <ListItemField name="$">
+                        <TextField showInlineError
+                                   iconLeft='mail'
+                                   name="email"
+                                   label={'Email'}/>
+                      </ListItemField>
+                    </ListField>
+
                   </Grid.Column>
                 </Grid>
                 <div align='center'>
@@ -301,7 +310,7 @@ class CreateTeamWidget extends React.Component {
                                }} />
                 </div>
                 <ErrorsField />
-            </AutoForm>
+              </AutoForm>
             </Segment>
             <Modal
                 onClose={this.close}
@@ -314,7 +323,7 @@ class CreateTeamWidget extends React.Component {
                   <p>Registered Members:</p>
                   {this.state.isRegistered.map((item) =>
                       <p >{item}</p>
-                        )}
+                  )}
                   <p>Not Registered Members:</p>
                   {this.state.notRegistered.map((item) =>
                       <p >{item}</p>
