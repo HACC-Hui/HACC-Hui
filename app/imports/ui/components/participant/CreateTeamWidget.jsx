@@ -34,23 +34,8 @@ class CreateTeamWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = { redirectToReferer: false, errorModal: false, isRegistered: [], notRegistered: [] };
-    console.log(this.state.people);
   }
 
-  handleChange = (e, { value }) => {
-    this.setState({ newPerson: value })
-    console.log(this.state.newPerson)
-  }
-
-  handleClick = () => {
-    this.setState({ people: this.state.people.push(this.state.newPerson) })
-    this.setState({ newPerson: '' })
-  }
-  handleSubmitName = () => {
-    this.state.people.push(this.state.newPerson);
-    this.setState({ newPerson: '' })
-    console.log(this.state.people)
-  }
   buildTheModel() {
     return {
       skills: [],
@@ -62,7 +47,6 @@ class CreateTeamWidget extends React.Component {
     const challengeNames = _.map(this.props.challenges, c => c.title);
     const skillNames = _.map(this.props.skills, s => s.name);
     const toolNames = _.map(this.props.tools, t => t.name);
-    // const participantNames = _.map(this.props.participants, p => p.username);
     const schema = new SimpleSchema({
       open: {
         type: String,
@@ -104,18 +88,13 @@ class CreateTeamWidget extends React.Component {
    */
   // eslint-disable-next-line no-unused-vars
   submit(formData, formRef) {
-    // console.log('CreateTeam.submit', formData, this.props);
     const owner = this.props.participant.username;
     const { name, description, challenges, skills, tools, image, participants } = formData;
-
-
     if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
       swal('Error', 'Sorry, no special characters or space allowed.', 'error');
       return;
     }
-
     const partArray = participants;
-    console.log(partArray);
     const currPart = Participants.find({}).fetch();
     let isRegistered = [];
     let notRegistered = [];
@@ -149,12 +128,10 @@ class CreateTeamWidget extends React.Component {
 
 
     let { open } = formData;
-    // console.log(challenges, skills, tools, open);
     if (open === 'Open') {
       open = true;
     } else {
       open = false;
-      // console.log('FALSE');
     }
 
     const skillsArr = _.map(skills, n => {
@@ -190,20 +167,17 @@ class CreateTeamWidget extends React.Component {
         error => {
           if (error) {
             swal('Error', error.message, 'error');
-            // console.error(error.message);
           } else {
             if (!this.state.errorModal) {
               swal('Success', 'Team created successfully', 'success');
             }
             formRef.reset();
-            // console.log(result);
           }
         },
     );
 
     //sending invites out to registered members
-    for (let i = 0; i < isRegistered.length; i++)
-    {
+    for (let i = 0; i < isRegistered.length; i++) {
       const newTeamID = Teams.find({ name: name }).fetch();
       const inviteCollection = TeamInvitations.getCollectionName();
       const inviteData = { team: newTeamID._id, participant: isRegistered[i] };
@@ -217,6 +191,7 @@ class CreateTeamWidget extends React.Component {
           });
     }
   }
+
   closeModal = () => {
     this.setState({ errorModal: false })
     swal('Success', 'Team created successfully', 'success');
@@ -243,10 +218,8 @@ class CreateTeamWidget extends React.Component {
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(this.buildTheFormSchema());
     const model = this.buildTheModel();
-    //const [open, setOpen] = React.useState(false);
 
     return (
-
         <Grid container centered>
           <Grid.Column>
             <Divider hidden />
