@@ -1,12 +1,12 @@
 import React from 'react';
-import {Modal, Grid, Segment, Header, Divider, Icon, Message, Button, Image, Form } from 'semantic-ui-react';
+import { Modal, Grid, Segment, Header, Divider, Icon, Message, Button } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
   SubmitField,
   TextField,
-  LongTextField, ListItemField, ListField
-} from "uniforms-semantic";
+  LongTextField, ListItemField, ListField,
+} from 'uniforms-semantic';
 import swal from 'sweetalert';
 import PropTypes from 'prop-types';
 import { _ } from 'lodash';
@@ -23,7 +23,7 @@ import { Tools } from '../../../api/tool/ToolCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
-import { TeamInvitations } from "../../../api/team/TeamInvitationCollection";
+import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -61,7 +61,7 @@ class CreateTeamWidget extends React.Component {
       'skills.$': { type: String, allowedValues: skillNames },
       tools: { type: Array, label: 'Toolsets', optional: true },
       'tools.$': { type: String, allowedValues: toolNames },
-      //participants: { type: String, label: 'participants' },
+      // participants: { type: String, label: 'participants' },
       description: String,
       devpostPage: { type: String, optional: true },
       affiliation: { type: String, optional: true },
@@ -81,13 +81,14 @@ class CreateTeamWidget extends React.Component {
     return schema;
   }
 
-
   /** On submit, insert the data.
    * @param formData {Object} the results from the form.
    * @param formRef {FormRef} reference to the form.
    */
   // eslint-disable-next-line no-unused-vars
   submit(formData, formRef) {
+    this.setState({ isRegistered: [] });
+    this.setState({ notRegistered: [] });
     const owner = this.props.participant.username;
     const { name, description, challenges, skills, tools, image, participants } = formData;
     if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
@@ -96,8 +97,9 @@ class CreateTeamWidget extends React.Component {
     }
     const partArray = participants;
     const currPart = Participants.find({}).fetch();
-    let isRegistered = [];
-    let notRegistered = [];
+    const isRegistered = [];
+    const notRegistered = [];
+
     for (let i = 0; i < partArray.length; i++) {
       let registered = false;
       for (let j = 0; j < currPart.length; j++) {
@@ -106,9 +108,9 @@ class CreateTeamWidget extends React.Component {
           this.setState({
             isRegistered: [
               this.state.isRegistered,
-              "-" + partArray[i].email + "\n",
-            ]
-          })
+              `-${partArray[i].email}\n`,
+            ],
+          });
           isRegistered.push(partArray[i].email);
         }
       }
@@ -116,16 +118,15 @@ class CreateTeamWidget extends React.Component {
         this.setState({
           notRegistered: [
             this.state.notRegistered,
-            "-" + partArray[i].email + "\n",
-          ]
-        })
+            `-${partArray[i].email}\n`,
+          ],
+        });
         notRegistered.push(partArray[i].email);
       }
     }
     if (notRegistered.length != 0) {
       this.setState({ errorModal: true });
     }
-
 
     let { open } = formData;
     if (open === 'Open') {
@@ -176,11 +177,13 @@ class CreateTeamWidget extends React.Component {
         },
     );
 
-    //sending invites out to registered members
+    // sending invites out to registered members
     for (let i = 0; i < isRegistered.length; i++) {
       const newTeamID = Teams.find({ name: name }).fetch();
+      const teamDoc = Teams.findDoc(newTeamID[0]._id);
+      const team = Slugs.getNameFromID(teamDoc.slugID);
       const inviteCollection = TeamInvitations.getCollectionName();
-      const inviteData = { team: newTeamID._id, participant: isRegistered[i] };
+      const inviteData = { team: team, participant: isRegistered[i] };
       defineMethod.call({ collectionName: inviteCollection, definitionData: inviteData },
           (error) => {
             if (error) {
@@ -193,13 +196,13 @@ class CreateTeamWidget extends React.Component {
   }
 
   closeModal = () => {
-    this.setState({ errorModal: false })
+    this.setState({ errorModal: false });
     swal('Success', 'Team created successfully', 'success');
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    const { email } = this.state
+    const { email } = this.state;
     if (!this.props.participant.isCompliant) {
       return (
           <div align={'center'}>
@@ -293,18 +296,17 @@ class CreateTeamWidget extends React.Component {
               <Modal.Content>
                 <Modal.Description>
                   <Header>Some Members you are trying to invite have not registered with SlackBot.</Header>
-                  <p>Registered Members:</p>
-                  {this.state.isRegistered.map((item) =>
-                      <p >{item}</p>
-                  )}
-                  <p>Not Registered Members:</p>
-                  {this.state.notRegistered.map((item) =>
-                      <p >{item}</p>
-                  )}
+                  <b>Registered Members:</b>
+                  <br />
+                  {this.state.isRegistered.map((item) => <p key={item}>{item}</p>)}
+                  <b>Not Registered Members:</b>
+                  <br />
+                  {this.state.notRegistered.map((item) => <p key={item}>{item}</p>)}
                 </Modal.Description>
               </Modal.Content>
               <Modal.Actions>
-                <Header>Slackbot will only send invites to registered members, please confirm.</Header>
+                {/* eslint-disable-next-line max-len */}
+                <b>Slackbot will only send invites to registered members, please confirm.</b>
                 <Button
                     content="I Understand"
                     labelPosition='right'

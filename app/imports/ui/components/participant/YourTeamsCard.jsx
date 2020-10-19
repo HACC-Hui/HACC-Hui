@@ -157,8 +157,11 @@ class YourTeamsCard extends React.Component {
     for (let i = 0; i < participantList.length; i++) {
       // const collectionName = WantsToJoin.getCollectionName();
       const teamDoc = Teams.findDoc(this.props.teams._id);
+      console.log(teamDoc);
       const team = Slugs.getNameFromID(teamDoc.slugID);
+      console.log(team);
       const participant = participantList[i];
+      console.log(participant);
 
       // console.log(developerDoc);
       // console.log(developer);
