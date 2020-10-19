@@ -79,7 +79,7 @@ class NavBar extends React.Component {
                            activeClassName="active"
                            exact
                            to={ROUTES.UPDATE_MP}
-                           key={ROUTES.CONFIGURE_HACC}>Update Minor Participants status</Menu.Item>,
+                           key={ROUTES.UPDATE_MP}>Update Minor Participants Status</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact

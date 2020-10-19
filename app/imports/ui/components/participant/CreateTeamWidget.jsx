@@ -124,7 +124,7 @@ class CreateTeamWidget extends React.Component {
         notRegistered.push(partArray[i].email);
       }
     }
-    if (notRegistered.length != 0) {
+    if (notRegistered.length !== 0) {
       this.setState({ errorModal: true });
     }
 
@@ -202,7 +202,7 @@ class CreateTeamWidget extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    const { email } = this.state;
+    // const { email } = this.state;
     if (!this.props.participant.isCompliant) {
       return (
           <div align={'center'}>

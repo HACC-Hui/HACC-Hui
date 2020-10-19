@@ -117,7 +117,7 @@ class App extends React.Component {
                   <Footer/>
                 </div>
             ) : (
-                <div style={{display: 'flex', padding: `${10}px` }}>
+                <div style={{ display: 'flex', padding: `${10}px` }}>
                   <meta name="viewport" content="width=device-width, maximum-scale=1.5"/>
                   <SideBar visible={this.state.visible}>
                     {routes()}
