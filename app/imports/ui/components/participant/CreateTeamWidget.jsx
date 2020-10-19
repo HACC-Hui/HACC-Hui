@@ -1,11 +1,11 @@
 import React from 'react';
-import { Grid, Segment, Header, Divider, Icon, Message } from 'semantic-ui-react';
+import { Modal, Grid, Segment, Header, Divider, Icon, Message, Button } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
   SubmitField,
   TextField,
-  LongTextField,
+  LongTextField, ListItemField, ListField,
 } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import PropTypes from 'prop-types';
@@ -23,15 +23,17 @@ import { Tools } from '../../../api/tool/ToolCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
+import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
  * @memberOf ui/pages
  */
 class CreateTeamWidget extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = { redirectToReferer: false };
+    this.state = { redirectToReferer: false, errorModal: false, isRegistered: [], notRegistered: [] };
   }
 
   buildTheModel() {
@@ -45,7 +47,6 @@ class CreateTeamWidget extends React.Component {
     const challengeNames = _.map(this.props.challenges, c => c.title);
     const skillNames = _.map(this.props.skills, s => s.name);
     const toolNames = _.map(this.props.tools, t => t.name);
-    const participantNames = _.map(this.props.participants, p => p.username);
     const schema = new SimpleSchema({
       open: {
         type: String,
@@ -60,11 +61,22 @@ class CreateTeamWidget extends React.Component {
       'skills.$': { type: String, allowedValues: skillNames },
       tools: { type: Array, label: 'Toolsets', optional: true },
       'tools.$': { type: String, allowedValues: toolNames },
-      participants: { type: Array, optional: true },
-      'participants.$': { type: String, allowedValues: participantNames }, // not sure about the allowed values
+      // participants: { type: String, label: 'participants' },
       description: String,
       devpostPage: { type: String, optional: true },
       affiliation: { type: String, optional: true },
+
+      participants: {
+        type: Array,
+        minCount: 1,
+      },
+      'participants.$': {
+        type: Object,
+      },
+      'participants.$.email': {
+        type: String,
+        min: 3,
+      },
     });
     return schema;
   }
@@ -75,16 +87,52 @@ class CreateTeamWidget extends React.Component {
    */
   // eslint-disable-next-line no-unused-vars
   submit(formData, formRef) {
-    // console.log('CreateTeam.submit', formData, this.props);
+    this.setState({ isRegistered: [] });
+    this.setState({ notRegistered: [] });
     const owner = this.props.participant.username;
-    const { name, description, challenges, skills, tools, image } = formData;
+    const { name, description, challenges, skills, tools, image, participants } = formData;
+    if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
+      swal('Error', 'Sorry, no special characters or space allowed.', 'error');
+      return;
+    }
+    const partArray = participants;
+    const currPart = Participants.find({}).fetch();
+    const isRegistered = [];
+    const notRegistered = [];
+
+    for (let i = 0; i < partArray.length; i++) {
+      let registered = false;
+      for (let j = 0; j < currPart.length; j++) {
+        if (currPart[j].username === partArray[i].email) {
+          registered = true;
+          this.setState({
+            isRegistered: [
+              this.state.isRegistered,
+              `-${partArray[i].email}\n`,
+            ],
+          });
+          isRegistered.push(partArray[i].email);
+        }
+      }
+      if (!registered) {
+        this.setState({
+          notRegistered: [
+            this.state.notRegistered,
+            `-${partArray[i].email}\n`,
+          ],
+        });
+        notRegistered.push(partArray[i].email);
+      }
+    }
+    if (notRegistered.length != 0) {
+      this.setState({ errorModal: true });
+    }
+
     let { open } = formData;
-    // console.log(challenges, skills, tools, open);
     if (open === 'Open') {
       open = true;
     } else {
       open = false;
-      // console.log('FALSE');
     }
 
     const skillsArr = _.map(skills, n => {
@@ -101,10 +149,6 @@ class CreateTeamWidget extends React.Component {
     });
 
     // If the name has special character or space, throw a swal error and return early.
-    if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
-      swal('Error', 'Sorry, no special characters or space allowed.', 'error');
-      return;
-    }
     const collectionName = Teams.getCollectionName();
     const definitionData = {
       name,
@@ -116,7 +160,6 @@ class CreateTeamWidget extends React.Component {
       skills: skillsArr,
       tools: toolsArr,
     };
-    // console.log(collectionName, definitionData);
     defineMethod.call(
         {
           collectionName,
@@ -125,18 +168,41 @@ class CreateTeamWidget extends React.Component {
         error => {
           if (error) {
             swal('Error', error.message, 'error');
-            // console.error(error.message);
           } else {
-            swal('Success', 'Team created successfully', 'success');
+            if (!this.state.errorModal) {
+              swal('Success', 'Team created successfully', 'success');
+            }
             formRef.reset();
-            // console.log(result);
           }
         },
     );
+
+    // sending invites out to registered members
+    for (let i = 0; i < isRegistered.length; i++) {
+      const newTeamID = Teams.find({ name: name }).fetch();
+      const teamDoc = Teams.findDoc(newTeamID[0]._id);
+      const team = Slugs.getNameFromID(teamDoc.slugID);
+      const inviteCollection = TeamInvitations.getCollectionName();
+      const inviteData = { team: team, participant: isRegistered[i] };
+      defineMethod.call({ collectionName: inviteCollection, definitionData: inviteData },
+          (error) => {
+            if (error) {
+              console.error(error.message);
+            } else {
+              console.log('Success');
+            }
+          });
+    }
+  }
+
+  closeModal = () => {
+    this.setState({ errorModal: false });
+    swal('Success', 'Team created successfully', 'success');
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+    const { email } = this.state;
     if (!this.props.participant.isCompliant) {
       return (
           <div align={'center'}>
@@ -151,37 +217,39 @@ class CreateTeamWidget extends React.Component {
           </div>
       );
     }
+
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(this.buildTheFormSchema());
     const model = this.buildTheModel();
+
     return (
         <Grid container centered>
           <Grid.Column>
             <Divider hidden />
-            <AutoForm
-                ref={ref => {
-                  fRef = ref;
-                }}
-                schema={formSchema}
-                model={model}
-                onSubmit={data => this.submit(data, fRef)}
+            <Segment
                 style={{
-                  paddingBottom: '40px',
-                }}
-            >
-              <Segment
+                  borderRadius: '10px',
+                  backgroundColor: '#E5F0FE',
+                }} className={'createTeam'}>
+              <Header as="h2" textAlign="center">Create a Team</Header>
+              {/* eslint-disable-next-line max-len */}
+              <Message>
+                <Header as="h4" textAlign="center">Team name and Devpost page ALL
+                  have to use the same name</Header>
+              </Message>
+              <AutoForm
+                  ref={ref => {
+                    fRef = ref;
+                  }}
+                  schema={formSchema}
+                  model={model}
+                  onSubmit={data => this.submit(data, fRef)}
                   style={{
-                    borderRadius: '10px',
-                    backgroundColor: '#E5F0FE',
-                  }} className={'createTeam'}>
+                    paddingBottom: '40px',
+                  }}
+              >
                 <Grid columns={1} style={{ paddingTop: '20px' }}>
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
-                    <Header as="h2" textAlign="center">Create a Team</Header>
-                    {/* eslint-disable-next-line max-len */}
-                    <Message>
-                      <Header as="h4" textAlign="center">Team name and Devpost page ALL
-                        have to use the same name</Header>
-                    </Message>
                     <Grid className='doubleLine'>
                       <TextField name='name'/>
                       <RadioField
@@ -198,7 +266,16 @@ class CreateTeamWidget extends React.Component {
                     </Grid>
                     <TextField name="devpostPage" />
                     <TextField name="affiliation" />
-                    <MultiSelectField name='participants' />
+
+                    <ListField name="participants" label={'Enter each participant\'s email'}>
+                      <ListItemField name="$">
+                        <TextField showInlineError
+                                   iconLeft='mail'
+                                   name="email"
+                                   label={'Email'}/>
+                      </ListItemField>
+                    </ListField>
+
                   </Grid.Column>
                 </Grid>
                 <div align='center'>
@@ -209,10 +286,39 @@ class CreateTeamWidget extends React.Component {
                                }} />
                 </div>
                 <ErrorsField />
-              </Segment>
-            </AutoForm>
+              </AutoForm>
+            </Segment>
+            <Modal
+                onClose={this.close}
+                open={this.state.errorModal}
+            >
+              <Modal.Header>Member Warning</Modal.Header>
+              <Modal.Content>
+                <Modal.Description>
+                  <Header>Some Members you are trying to invite have not registered with SlackBot.</Header>
+                  <b>Registered Members:</b>
+                  <br />
+                  {this.state.isRegistered.map((item) => <p key={item}>{item}</p>)}
+                  <b>Not Registered Members:</b>
+                  <br />
+                  {this.state.notRegistered.map((item) => <p key={item}>{item}</p>)}
+                </Modal.Description>
+              </Modal.Content>
+              <Modal.Actions>
+                {/* eslint-disable-next-line max-len */}
+                <b>Slackbot will only send invites to registered members, please confirm.</b>
+                <Button
+                    content="I Understand"
+                    labelPosition='right'
+                    icon='checkmark'
+                    onClick={() => this.closeModal()}
+                    positive
+                />
+              </Modal.Actions>
+            </Modal>
           </Grid.Column>
         </Grid>
+
     );
   }
 }
@@ -222,7 +328,6 @@ CreateTeamWidget.propTypes = {
   skills: PropTypes.arrayOf(PropTypes.object).isRequired,
   challenges: PropTypes.arrayOf(PropTypes.object).isRequired,
   tools: PropTypes.arrayOf(PropTypes.object).isRequired,
-  participants: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default withTracker(() => ({
@@ -230,5 +335,4 @@ export default withTracker(() => ({
   challenges: Challenges.find({}).fetch(),
   skills: Skills.find({}).fetch(),
   tools: Tools.find({}).fetch(),
-  participants: Participants.find({}).fetch(),
 }))(CreateTeamWidget);
