@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Header, List, Button, Label } from 'semantic-ui-react';
+import { Grid, Header, List, Button } from 'semantic-ui-react';
 import _ from 'lodash';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
@@ -61,10 +61,10 @@ class ViewTeamExampleWidget extends React.Component {
                   function (value) { return (value.compliant !== false); }))
                   ? <Header>Team is Compliant</Header> : <Header>Team is not Compliant</Header> }
             </Grid.Column>
-			<Grid.Column>
-			  {/* eslint-disable-next-line max-len */}
+            <Grid.Column>
+              {/* eslint-disable-next-line max-len */}
               <Button><Link to={`/admin-edit-team/${this.props.team._id}`} style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Edit</Link></Button>
-			</Grid.Column>
+            </Grid.Column>
           </Grid.Row>
         </Grid>
     );

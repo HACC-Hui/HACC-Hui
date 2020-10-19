@@ -36,9 +36,9 @@ class ViewTeamWidget extends React.Component {
                 <Grid.Column>
                   <Header>Is the Team Compliant?</Header>
                 </Grid.Column>
-				<Grid.Column>
-				  <Header>Edit Team</Header>
-				</Grid.Column>
+                <Grid.Column>
+                  <Header>Edit Team</Header>
+                </Grid.Column>
               </Grid.Row>
             </Grid>
               {this.props.teams.map((team) => (
