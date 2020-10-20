@@ -38,7 +38,8 @@ SyncedCron.add({
           });
         }
       });
-      WantsToJoin.removeIt(join._id);
+      WantsToJoin.update(join._id, { team: join.teamID, participant: join.participantID, sentDM: true });
+      //WantsToJoin.removeIt(join._id);
     });
   },
 });
