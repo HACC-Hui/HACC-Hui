@@ -1,8 +1,8 @@
+/* eslint-disable max-len */
 import React from 'react';
 import {
   Grid,
   Header,
-  Loader,
   Item,
   Icon,
 } from 'semantic-ui-react';
@@ -16,9 +16,9 @@ import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
-import { Participants } from '../../../api/user/ParticipantCollection;';
-import { InterestedDevs } from '../../../api/team/InterestedDeveloperCollection';
-import InterestedDeveloperCard from '../../components/InterestedDeveloperCard';
+import { Participants } from '../../../api/user/ParticipantCollection';
+import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
+import InterestedParticipantCard from './InterestedParticipantCard';
 
 /**
  * Renders the interested participants
@@ -33,7 +33,7 @@ class InterestedParticipants extends React.Component {
           <div align={'center'}>
             <Header as='h2' icon>
               <Icon name='users'/>
-              There are no interested developers at the moment.
+              There are no interested partcipants at the moment.
               <Header.Subheader>
                 Please check back later.
               </Header.Subheader>
@@ -50,7 +50,7 @@ class InterestedParticipants extends React.Component {
       for (let i = 0; i < skills.length; i++) {
         for (let j = 0; j < universalSkills.length; j++) {
           if (skills[i].skillID === universalSkills[j]._id) {
-            data.push({ name: universalSkills[j].name, level: skills[i].skillLevel });
+            data.push({ name: universalSkills[j].name });
           }
         }
       }
@@ -64,7 +64,7 @@ class InterestedParticipants extends React.Component {
       const data = [];
       for (let i = 0; i < devs.length; i++) {
         for (let j = 0; j < universalDevs.length; j++) {
-          if (devs[i].developerID === universalDevs[j]._id) {
+          if (devs[i].participantID === universalDevs[j]._id) {
             data.push(universalDevs[j]);
           }
         }
@@ -81,7 +81,7 @@ class InterestedParticipants extends React.Component {
       for (let i = 0; i < tools.length; i++) {
         for (let j = 0; j < universalTools.length; j++) {
           if (tools[i].toolID === universalTools[j]._id) {
-            data.push({ name: universalTools[j].name, level: tools[i].toolLevel });
+            data.push({ name: universalTools[j].name });
           }
         }
       }
@@ -105,20 +105,20 @@ class InterestedParticipants extends React.Component {
     }
 
     return (
-        <Grid container doubling relaxed stackable>
+        <Grid container doubling relaxed stackable style={{ marginBottom: '2rem' }}>
           <Grid.Row centered>
             <Header as={'h2'} style={{ paddingTop: '2rem' }}>
-              Interested Developers
+              Interested Participants for Team: {this.props.teams[0].name}
             </Header>
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
               <Item.Group divided>
                 {/* eslint-disable-next-line max-len */}
-                {getInterestedDevelopers(this.props.interestedDevs).map((developers) => <InterestedDeveloperCard key={developers._id} developers={developers} teams={this.props.teams}
-                                                                                                                 skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
-                                                                                                                 tools={getDeveloperTools(developers._id, this.props.developerTools)}
-                                                                                                                 challenges={getDeveloperChallenges(developers._id, this.props.developerChallenges)}
+                {getInterestedDevelopers(this.props.interestedDevs).map((developers) => <InterestedParticipantCard key={developers._id} developers={developers} teams={this.props.teams}
+                                               skills={getDeveloperSkills(developers._id, this.props.developerSkills)}
+                                               tools={getDeveloperTools(developers._id, this.props.developerTools)}
+                                               challenges={getDeveloperChallenges(developers._id, this.props.developerChallenges)}
                 />)}
               </Item.Group>
             </Grid.Column>
@@ -139,9 +139,14 @@ InterestedParticipants.propTypes = {
   tools: PropTypes.array.isRequired,
 };
 
-export default withTracker(({ match }) => {
-  const documentId = match.params._id;
-  const subscriptionInterestedDevs = InterestedDevs.subscribe();
+export default withTracker(() => {
+  // console.log(match);
+  // const documentId = match.params._id;
+  // eslint-disable-next-line no-undef
+  let url = window.location.href;
+  url = url.split('/');
+  // console.log(url);
+  const documentId = url[url.length - 1];
   // console.log(Teams.find({ _id: documentId }).fetch());
   // eslint-disable-next-line max-len
   // console.log(InterestedDevs.find({ teamID: TeamDevelopers.findDoc({ developerID: Developers.findDoc({ userID: Meteor.userId() })._id }).teamID }).fetch());
@@ -152,7 +157,7 @@ export default withTracker(({ match }) => {
     developerSkills: ParticipantSkills.find({}).fetch(),
     developerTools: ParticipantTools.find({}).fetch(),
     // eslint-disable-next-line max-len
-    interestedDevs: InterestedDevs.find({ teamID: documentId }).fetch(),
+    interestedDevs: WantsToJoin.find({ teamID: documentId }).fetch(),
     teams: Teams.find({ _id: documentId }).fetch(),
     skills: Skills.find({}).fetch(),
     challenges: Challenges.find({}).fetch(),
