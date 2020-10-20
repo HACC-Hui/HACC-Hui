@@ -34,12 +34,12 @@ class ListTeamExampleWidget extends React.Component {
     const participant = Participants.findDoc({ userID: Meteor.userId() });
     const participantName = Participants.getFullName(participant._id);
     const isAMember = _.includes(this.props.teamMembers, participantName);
-    const Joinrequests = WantsToJoin._collection.find({ teamID: this.props.team._id }).fetch();
+    const Joinrequests = WantsToJoin.find({ teamID: this.props.team._id }).fetch();
     const Joinsentusers = _.pluck(Joinrequests, 'participantID');
     const requested = _.contains(Joinsentusers, participant._id);
 
     console.log(requested);
-    
+
     return (
         <Grid.Row columns={6}>
           <Grid.Column>

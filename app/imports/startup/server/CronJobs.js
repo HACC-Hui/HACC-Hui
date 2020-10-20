@@ -41,7 +41,7 @@ SyncedCron.add({
             });
           }
         });
-        updateMethod.call(WantsToJoin.getCollectionName(), {id: join._id, sentJoin:true})
+        updateMethod.call(WantsToJoin.getCollectionName(), {id: join._id, sentJoin:true});
       }
     });
   },
