@@ -61,7 +61,8 @@ class SideBar extends React.Component {
                 <Header inverted as='h1'>HACC-Hui</Header>
               </Menu.Item>
               {isParticipant ? (
-                  [ <Menu.Item as={NavLink}
+                  [
+                      <Menu.Item as={NavLink}
                                activeClassName="active"
                                disabled={!isCompliant}
                                exact
