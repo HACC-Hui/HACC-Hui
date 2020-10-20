@@ -48,7 +48,10 @@ class ListParticipantsCard extends React.Component {
 
     const options = setOptions();
 
-    function handleChange(dID, e) {
+    function handleChange(dID, { val }, e) {
+      // eslint-disable-next-line no-console
+      console.log(val);
+      // console.log(e);
       if (e.value !== 'Select a Team') {
         const thisTeam = Teams.findDoc({ name: e.value })._id;
         const participantID = Participants.findDoc({ _id: dID }).username;
@@ -58,7 +61,7 @@ class ListParticipantsCard extends React.Component {
           teamID: thisTeam,
           participantID: dID,
         }) !== 'undefined') {
-          console.log('already in team');
+          // console.log('already in team');
           swal('Error',
               `Sorry, participant ${participantID} is already in this team!`,
               'error');
@@ -68,13 +71,13 @@ class ListParticipantsCard extends React.Component {
           teamID: thisTeam,
           participantID: dID,
         }) !== 'undefined') {
-          console.log('already invited');
+          // console.log('already invited');
           swal('Error',
               `Sorry, participant ${participantID} has already been sent an invitation!`,
               'error');
           return;
         }
-
+        /*
         console.log(typeof TeamInvitations.findOne({
           teamID: thisTeam,
           participantID: dID,
@@ -84,15 +87,16 @@ class ListParticipantsCard extends React.Component {
           teamID: thisTeam,
           participantID: dID,
         }));
+         */
 
         defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
             (error) => {
               if (error) {
                 swal('Error', error.message, 'error');
-                console.error(error.message);
+                // console.error(error.message);
               } else {
                 swal('Success', 'Invitation sent successfully', 'success');
-                console.log('Success');
+                // console.log('Success');
               }
             });
       }
