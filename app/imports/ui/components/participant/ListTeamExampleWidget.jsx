@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid, Header, List } from 'semantic-ui-react';
-//import _ from 'lodash';
+// import _ from 'lodash';
 import _ from 'underscore';
 import swal from 'sweetalert';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
@@ -12,6 +12,11 @@ import { Teams } from '../../../api/team/TeamCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 
 class ListTeamExampleWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { sent: false };
+  }
+
   handleClick(e, inst) {
     console.log(e, inst);
     const collectionName = WantsToJoin.getCollectionName();
@@ -26,9 +31,33 @@ class ListTeamExampleWidget extends React.Component {
     defineMethod.call({ collectionName, definitionData }, (error) => {
       if (error) {
         swal('sent request fail', error, 'error');
-        window.location.reload(false);
-      } else { swal('sent ', 'join request sent', 'success'); }
+      } else { swal('sent ', 'join request sent', 'success');
+        this.setState({ sent: true }); }
     });
+  }
+
+  renderButton() {
+    const participant = Participants.findDoc({ userID: Meteor.userId() });
+    const participantName = Participants.getFullName(participant._id);
+    const isAMember = _.includes(this.props.teamMembers, participantName);
+
+    const Joinrequests = WantsToJoin.find({ teamID: this.props.team._id }).fetch();
+    const Joinsentusers = _.pluck(Joinrequests, 'participantID');
+    const Requested = _.contains(Joinsentusers, participant._id);
+
+    if (isAMember) {
+      return (<Button id={this.props.team._id} color="green"
+                      disabled={true} style={{ width: `${90}px`,
+        height: `${60}px`, textAlign: 'center' }} >You own it</Button>);
+    }
+    if (this.state.sent || Requested) {
+      return (<Button id={this.props.team._id} color="green"
+                      disabled={true} style={{ width: `${90}px`,
+        height: `${60}px`, textAlign: 'center' }} >You sent the request</Button>);
+    }
+    return (<Button id={this.props.team._id} color="green"
+                    onClick={this.handleClick} style={{ width: `${90}px`,
+      height: `${60}px`, textAlign: 'center' }} >Request to Join</Button>)
   }
 
   render() {
@@ -67,9 +96,7 @@ class ListTeamExampleWidget extends React.Component {
             </List>
           </Grid.Column>
           <Grid.Column>
-            <Button id={this.props.team._id} color="green"
-                    onClick={this.handleClick} disabled={isAMember || requested} style={{ width: `${90}px`,
-              height: `${60}px`, textAlign: 'center' }} >Request to Join</Button>
+            {this.renderButton()}
           </Grid.Column>
         </Grid.Row>
     );
