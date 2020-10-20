@@ -26,6 +26,7 @@ class ListTeamExampleWidget extends React.Component {
     defineMethod.call({ collectionName, definitionData }, (error) => {
       if (error) {
         swal('sent request fail', error, 'error');
+        window.location.reload(false);
       } else { swal('sent ', 'join request sent', 'success'); }
     });
   }
