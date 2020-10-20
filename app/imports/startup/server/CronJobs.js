@@ -10,6 +10,7 @@ import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
 import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 import { LeavingTeams } from '../../api/team/LeavingTeamCollection';
 
+
 SyncedCron.add({
   name: 'Check for participants wanting to join team',
   schedule(parser) {
