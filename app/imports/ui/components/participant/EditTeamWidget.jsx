@@ -1,5 +1,6 @@
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
+import { withRouter } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import { Divider, Grid, Header, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
@@ -23,6 +24,11 @@ import { Slugs } from '../../../api/slug/SlugCollection';
 import MultiSelectField from '../form-fields/MultiSelectField';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import RadioField from '../form-fields/RadioField';
+import { Interests } from '../../../api/interest/InterestCollection';
+import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
+import { ParticipantInterests } from '../../../api/user/ParticipantInterestCollection';
+import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
+import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
 
 class EditTeamWidget extends React.Component {
   constructor(props) {
@@ -60,19 +66,16 @@ class EditTeamWidget extends React.Component {
   }
 
   buildTheModel() {
-    const model = this.props.participant;
-    model.challenges = _.map(this.props.challenges, (challenge) => {
-      const c = Challenges.findDoc(challenge.challengeID);
-      return c.title;
+    const model = this.props.team;
+    model.teamchallenges = _.map(this.props.challenges, (challenge) => {
+      return challenge.title;
     });
     model.skills = _.map(this.props.skills, (skill) => {
       // console.log(skill);
-      const s = Skills.findDoc(skill.skillID);
-      return s.name;
+      return skill.name;
     });
     model.tools = _.map(this.props.tools, (tool) => {
-      const t = Tools.findDoc(tool.toolID);
-      return t.name;
+      return tool.name;
     });
     return model;
   }
@@ -199,10 +202,23 @@ EditTeamWidget.propTypes = {
   ).isRequired,
 };
 
-export default withTracker(() => ({
-  participant: Participants.findDoc({ userID: Meteor.userId() }),
-  challenges: Challenges.find({}).fetch(),
-  skills: Skills.find({}).fetch(),
-  tools: Tools.find({}).fetch(),
-  participants: Participants.find({}).fetch(),
+export default withTracker(( { match } ) => ({
+  const allChallenges = Challenges.find({}).fetch();
+  const allInterests = Interests.find({}).fetch();
+  const allSkills = Skills.find({}).fetch();
+  const allTools = Tools.find({}).fetch();
+  const documentId = match.params._id;
+  const teamChallenges = ParticipantChallenges.find({ participantID }).fetch();
+  const teamSkills = ParticipantSkills.find({ participantID }).fetch();
+  const teamTools = ParticipantTools.find({ participantID }).fetch();
+  return {
+    allChallenges,
+    allInterests,
+    allSkills,
+    allTools,
+    participant,
+    teamChallenges,
+    teamSkills,
+    teamTools,
+  };
 }))(EditTeamWidget);
