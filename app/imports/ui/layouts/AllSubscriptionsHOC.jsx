@@ -14,6 +14,7 @@ import { TeamChallenges } from '../../api/team/TeamChallengeCollection';
 import { TeamParticipants } from '../../api/team/TeamParticipantCollection';
 import { TeamSkills } from '../../api/team/TeamSkillCollection';
 import { TeamTools } from '../../api/team/TeamToolCollection';
+import { ToAcceptWantsToJoin } from '../../api/team/ToAcceptWantToJoinCollection';
 import { Administrators } from '../../api/user/AdministratorCollection';
 import { ParticipantChallenges } from '../../api/user/ParticipantChallengeCollection';
 import { ParticipantInterests } from '../../api/user/ParticipantInterestCollection';
@@ -62,6 +63,7 @@ function withAllSubscriptions(WrappedComponent) {
       allSubs.subscribe(TeamSkills.getCollectionName()),
       allSubs.subscribe(TeamTools.getCollectionName()),
       allSubs.subscribe(Tools.getCollectionName()),
+      allSubs.subscribe(ToAcceptWantsToJoin.getCollectionName()),
       allSubs.subscribe(TeamInvitations.getCollectionName()),
       allSubs.subscribe(Suggestions.getCollectionName()),
     ];

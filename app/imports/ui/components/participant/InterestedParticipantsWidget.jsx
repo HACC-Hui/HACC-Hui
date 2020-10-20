@@ -1,6 +1,7 @@
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import { Meteor } from 'meteor/meteor';
 import { Item, Divider, Button, Icon, Header, Modal, Grid, Dropdown, List } from 'semantic-ui-react';
 import { Teams } from '../../../api/team/TeamCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
@@ -105,7 +106,7 @@ class InterestedParticipantsWidget extends React.Component {
       return newOptions;
     }
 
-    // const options = setOptions();
+    const options = setOptions();
 
     return (
       <div>
@@ -114,15 +115,16 @@ class InterestedParticipantsWidget extends React.Component {
           <Modal closeIcon trigger={
             <Item.Content>
               <Item.Header>
-                <Header as={'h3'} style={{ color: '#263763'}}>
+                <Header as={'h3'} style={{ color: '#263763' }}>
                   <Icon name='user' size='tiny' />
-                  {this.props.participants.firstName} {this.props.participants.lastName}
+                  {console.log('participant.firstname: ', this.props.participant.firstName)}
+                  {this.props.participant.firstName} {this.props.participant.lastName}
                 </Header>
               </Item.Header>
                 <Item.Description>
                     <Grid.Column>
                       <Header>About Me</Header>
-                      {this.props.participants.aboutMe}
+                      {this.props.participant.aboutMe}
                     </Grid.Column>
                     <Divider hidden/>
                       <Grid doubling stackable columns={5}>
@@ -147,11 +149,11 @@ class InterestedParticipantsWidget extends React.Component {
                         </Grid.Column>
                         <Grid.Column>
                           <Header>Interests</Header>
-                          {this.props.participants.interest}
+                          {this.props.participant.interest}
                         </Grid.Column>
                         <Grid.Column>
                           <Header>Slack Username</Header>
-                          {this.props.participants.username}
+                          {this.props.participant.username}
                         </Grid.Column>
                         {/* <Grid.Column floated='right'>
                           <Button.Group style={{float:'right'}}>
@@ -183,21 +185,21 @@ class InterestedParticipantsWidget extends React.Component {
             </Item.Content>
           }>
             {/* eslint-disable-next-line max-len */}
-            <Modal.Header>{this.props.participants.firstName} {this.props.participants.lastName} <br /> {this.props.participants.demographicLevel}</Modal.Header>
+            <Modal.Header>{this.props.participant.firstName} {this.props.participant.lastName} <br /> {this.props.participant.demographicLevel}</Modal.Header>
             <Modal.Content image>
               <Modal.Description>
                 <Grid container columns={2}>
                   <Grid.Column><Icon name="github"/>GitHub:<br/>
-                    <a href={this.props.participants.gitHub}>{this.props.participants.gitHub}</a>
+                    <a href={this.props.participant.gitHub}>{this.props.participant.gitHub}</a>
                   </Grid.Column>
                   <Grid.Column><Icon name="server"/>Website:<br/>
-                    <a href={this.props.participants.website}>{this.props.participants.website}</a>
+                    <a href={this.props.participant.website}>{this.props.participant.website}</a>
                   </Grid.Column>
                   <Grid.Column><Icon name="linkedin"/>LinkedIn:<br/>
-                    <a href={this.props.participants.linkedIn}>{this.props.participants.linkedIn}</a>
+                    <a href={this.props.participant.linkedIn}>{this.props.participant.linkedIn}</a>
                   </Grid.Column>
                   <Grid.Column><Icon name="slack"/>Slack Username:<br/>
-                    <a href={this.props.participants.username}>{this.props.participants.username}</a>
+                    <a href={this.props.participant.username}>{this.props.participant.username}</a>
                   </Grid.Column>
                 </Grid>
                 <Divider hidden/>
@@ -252,11 +254,11 @@ class InterestedParticipantsWidget extends React.Component {
 
 InterestedParticipantsWidget.propTypes = {
   parID: PropTypes.string.isRequired,
+  participant: PropTypes.object.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
   interests: PropTypes.array.isRequired,
-  participants: PropTypes.object.isRequired,
 };
 
 export default withTracker(() => {})(InterestedParticipantsWidget);

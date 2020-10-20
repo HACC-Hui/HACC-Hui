@@ -4,3 +4,4 @@ import './TeamCollection.methods';
 import './TeamParticipantCollection';
 import './TeamSkillCollection';
 import './TeamToolCollection';
+import './ToAcceptWantToJoinCollection';

@@ -23,15 +23,17 @@ import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { Interests } from '../../../api/interest/InterestCollection';
-import ListParticipantsCard from '../../components/participant/ListParticipantsCard';
 import ListParticipantsFilter from '../../components/participant/ListParticipantsFilter';
 import InterestedParticipantsWidget from '../../components/participant/InterestedParticipantsWidget';
 import { ToAcceptWantsToJoin } from '../../../api/team/ToAcceptWantToJoinCollection';
 
 const getInterestedParticipants = (team) => {
   const teamID = team._id;
+  // console.log('Current team id: ', teamID);
   const InterestedParticipants = ToAcceptWantsToJoin.find({ teamID }).fetch();
   const interestedParticipants = InterestedParticipants.map((wd) => Participants.findDoc(wd.participantID));
+  // console.log('Interested participants: ', InterestedParticipants);
+  console.log('interested participants: ', interestedParticipants);
   return interestedParticipants;
 };
 
@@ -45,8 +47,9 @@ class InterestedParticipantsPage extends React.Component {
       tools: [],
       skills: [],
       interests: [],
-      result: _.orderBy(Participants.find({}).fetch(), ['name'], ['asc']),
+      result: _.orderBy(this.props.participants),
     };
+    console.log('result: ', this.state.result);
   }
 
   render() {
@@ -128,13 +131,13 @@ class InterestedParticipantsPage extends React.Component {
       });
     };
 
-    const getInterest = (event, { value }) => {
-      this.setState({
-        interests: value,
-      }, () => {
-        setFilters();
-      });
-    };
+    // const getInterest = (event, { value }) => {
+    //   this.setState({
+    //     interests: value,
+    //   }, () => {
+    //     setFilters();
+    //   });
+    // };
 
     const universalSkills = this.props.skills;
 
@@ -302,16 +305,17 @@ class InterestedParticipantsPage extends React.Component {
         </Grid.Column>
         <Grid.Column width={12}>
           <Item.Group>
-            {/* eslint-disable-next-line max-len */}
-            {this.state.result.map((participants) => <InterestedParticipantsWidget
-                key={participants._id}
-                parID={participants._id}
-                participants={participants}
-                skills={getParticipantSkills(participants._id, this.props.participantSkills)}
-                tools={getParticipantTools(participants._id, this.props.participantTools)}
-                challenges={getParticipantChallenges(participants._id, this.props.participantChallenges)}
-                interests={getParticipantInterests(participants._id, this.props.participantInterests)}
-            />)}
+            {this.state.result.forEach((participant) => {
+                <InterestedParticipantsWidget
+                key={participant._id}
+                parID={participant._id}
+                participant={participant}
+                skills={getParticipantSkills(participant._id, this.props.participantSkills)}
+                tools={getParticipantTools(participant._id, this.props.participantTools)}
+                challenges={getParticipantChallenges(participant._id, this.props.participantChallenges)}
+                interests={getParticipantInterests(participant._id, this.props.participantInterests)}
+            />;
+            })}
           </Item.Group>
         </Grid.Column>
       </Grid>
@@ -338,6 +342,7 @@ const InterestedParticipantsContainer = withTracker(({ match }) => {
   const documentId = match.params._id;
   const teamDoc = Teams.findOne(documentId);
   const participants = getInterestedParticipants(teamDoc);
+  console.log('participants: ', participants);
 
   return {
     teamDoc,
