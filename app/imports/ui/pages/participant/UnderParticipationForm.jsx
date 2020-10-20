@@ -33,7 +33,7 @@ class UnderParticipationForm extends React.Component {
   }
 
   submit(formData) {
-    const { firstName, lastName, parentFirstName, parentLastName, parentEmail } = formData;
+    const { yourFirstName, yourLastName, parentFirstName, parentLastName, parentEmail } = formData;
     const dev = Participants.findDoc({ userID: Meteor.userId() });
     const username = dev.username;
     const collectionName = MinorParticipants.getCollectionName();
@@ -51,7 +51,7 @@ class UnderParticipationForm extends React.Component {
     const interactionData = {
       username: dev.username,
       type: USER_INTERACTIONS.MINOR_SIGNED_CONSENT,
-      typeData: [firstName, lastName, parentFirstName, parentLastName, parentEmail],
+      typeData: [yourFirstName, yourLastName, parentFirstName, parentLastName, parentEmail],
     };
     console.log(interactionData);
     userInteractionDefineMethod.call(interactionData, (error) => {

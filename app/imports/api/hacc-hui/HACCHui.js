@@ -22,6 +22,7 @@ import { WantsToJoin } from '../team/WantToJoinCollection';
 import { TeamInvitations } from '../team/TeamInvitationCollection';
 import { Suggestions } from '../suggestions/SuggestionCollection';
 import { LeavingTeams } from '../team/LeavingTeamCollection';
+import { MinorParticipants } from '../user/MinorParticipantCollection';
 
 /** @namespace api/hacc-hui */
 
@@ -41,6 +42,7 @@ class HACCHuiClass {
       ParticipantInterests,
       ParticipantSkills,
       ParticipantTools,
+      MinorParticipants,
       Interests,
       Skills,
       SlackUsers,

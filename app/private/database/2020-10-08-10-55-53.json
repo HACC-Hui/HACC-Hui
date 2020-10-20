@@ -8,6 +8,11 @@
           "username": "carleton.moore@gmail.com",
           "firstName": "Carleton",
           "lastName": "Moore"
+        },
+        {
+          "username": "schooluselenovo@gmail.com",
+          "firstName": "Admin",
+          "lastName": "Test"
         }
       ]
     },
@@ -86,6 +91,13 @@
       ]
     },
     {
+      "name": "MinorParticipantCollection",
+      "contents": [
+        {
+        }
+      ]
+    },
+    {
       "name": "SkillCollection",
       "contents": [
         {
@@ -130,14 +142,14 @@
       "name": "SlackUserCollection",
       "contents": [
         {
-          "username": "cmoore@hawaii.edu",
-          "slackUser": "U014SC2KGAJ",
-          "dmChannel": "D015BNFJ56W"
-        },
-        {
           "username": "carleton.moore@gmail.com",
           "slackUser": "U0161PS6V5W",
           "dmChannel": "D015C5AD2PM"
+        },
+        {
+          "username": "schooluselenovo@gmail.com",
+          "slackUser": "U01DJLG7SP2",
+          "dmChannel": "D01CV1SK39R"
         }
       ]
     },

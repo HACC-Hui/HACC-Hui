@@ -1,6 +1,6 @@
 {
   "administrators": [
-    "carleton.moore@gmail.com"
+    "carleton.moore@gmail.com", "schooluselenovo@gmail.com"
   ],
   "slackbotPort": 3100,
   "pollingInterval": 3,
