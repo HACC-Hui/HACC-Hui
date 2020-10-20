@@ -9,6 +9,7 @@ import { sendDM2AdministratorsMethod, sendDM2ParticipantMethod } from '../../api
 import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
 import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 import { LeavingTeams } from '../../api/team/LeavingTeamCollection';
+import { updateMethod } from '../../api/base/BaseCollection.methods';
 
 SyncedCron.add({
   name: 'Check for participants wanting to join team',
@@ -20,25 +21,27 @@ SyncedCron.add({
   job() {
     const wantsToJoin = WantsToJoin.find({}).fetch();
     _.forEach(wantsToJoin, (join) => {
-      const { teamID, participantID } = join;
-      const participant = Participants.findDoc(participantID);
-      const team = Teams.findDoc(teamID);
-      const teamMemberIDs = TeamParticipants.find({ teamID }).fetch();
-      // console.log(team, teamMemberIDs);
-      teamMemberIDs.push(team.owner);
-      // console.log(participant);
-      teamMemberIDs.forEach((memberID) => {
-        const message = `${participant.firstName} ${participant.lastName} would like to join your team.`;
-        if (Participants.isDefined(memberID)) {
-          const username = Participants.findDoc(memberID).username;
-          sendDM2ParticipantMethod.call({ participant: username, message }, (error) => {
-            if (error) {
-              console.error('Failed to send DM. ', error);
-            }
-          });
-        }
-      });
-      WantsToJoin.removeIt(join._id);
+      if (!join.sentJoin) {
+        const { teamID, participantID } = join;
+        const participant = Participants.findDoc(participantID);
+        const team = Teams.findDoc(teamID);
+        const teamMemberIDs = TeamParticipants.find({ teamID }).fetch();
+        // console.log(team, teamMemberIDs);
+        teamMemberIDs.push(team.owner);
+        // console.log(participant);
+        teamMemberIDs.forEach((memberID) => {
+          const message = `${participant.firstName} ${participant.lastName} would like to join your team.`;
+          if (Participants.isDefined(memberID)) {
+            const username = Participants.findDoc(memberID).username;
+            sendDM2ParticipantMethod.call({ participant: username, message }, (error) => {
+              if (error) {
+                console.error('Failed to send DM. ', error);
+              }
+            });
+          }
+        });
+        updateMethod.call(WantsToJoin.getCollectionName(), {id: join._id, sentJoin:true})
+      }
     });
   },
 });

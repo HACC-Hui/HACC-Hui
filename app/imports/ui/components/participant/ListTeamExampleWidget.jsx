@@ -2,7 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid, Header, List } from 'semantic-ui-react';
-import _ from 'lodash';
+//import _ from 'lodash';
+import _ from 'underscore';
 import swal from 'sweetalert';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
@@ -33,6 +34,11 @@ class ListTeamExampleWidget extends React.Component {
     const participant = Participants.findDoc({ userID: Meteor.userId() });
     const participantName = Participants.getFullName(participant._id);
     const isAMember = _.includes(this.props.teamMembers, participantName);
+    const Joinrequests = WantsToJoin._collection.find({ teamID: this.props.team._id }).fetch();
+    const Joinsentusers = _.pluck(Joinrequests, 'participantID');
+    const requested = _.contains(Joinsentusers, participant._id);
+    console.log(requested);
+
     return (
         <Grid.Row columns={6}>
           <Grid.Column>
@@ -60,14 +66,13 @@ class ListTeamExampleWidget extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <Button id={this.props.team._id} color="green"
-                    onClick={this.handleClick} disabled={isAMember} style={{ width: `${90}px`,
+                    onClick={this.handleClick} disabled={isAMember || requested} style={{ width: `${90}px`,
               height: `${60}px`, textAlign: 'center' }} >Request to Join</Button>
           </Grid.Column>
         </Grid.Row>
     );
   }
 }
-
 ListTeamExampleWidget.propTypes = {
   team: PropTypes.object.isRequired,
   teamChallenges: PropTypes.arrayOf(
@@ -83,5 +88,4 @@ ListTeamExampleWidget.propTypes = {
       PropTypes.string,
   ).isRequired,
 };
-
 export default ListTeamExampleWidget;

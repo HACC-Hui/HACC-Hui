@@ -10,19 +10,19 @@ class WantToJoinCollection extends BaseCollection {
     super('WantToJoin', new SimpleSchema({
       teamID: { type: SimpleSchema.RegEx.Id },
       participantID: { type: SimpleSchema.RegEx.Id },
+      sentJoin: {type: Boolean},
     }));
   }
-
   /**
    * Defines a participant - team pair indicating the participant wishes to join the team.
    * @param team {String} team slug or ID.
    * @param participant {String} participant slug or ID.
    * @return {String} the ID of the pair.
    */
-  define({ team, participant }) {
+  define({ team, participant}) {
     const teamID = Teams.getID(team);
     const participantID = Participants.getID(participant);
-    return this._collection.insert({ teamID, participantID });
+    return this._collection.insert({ teamID, participantID, sentJoin: false });
   }
 
   /**
@@ -32,7 +32,7 @@ class WantToJoinCollection extends BaseCollection {
    * @param participant {String} the slug or ID of the participant (optional).
    * @throws {Meteor.Error} if docID is undefined.
    */
-  update(docID, { team, participant }) {
+  update(docID, { team, participant, sentJoin }) {
     this.assertDefined(docID);
     const updateData = {};
     if (participant) {
@@ -40,6 +40,9 @@ class WantToJoinCollection extends BaseCollection {
     }
     if (team) {
       updateData.teamID = Teams.getID(team);
+    }
+    if (_.isBoolean(sentJoin)) {
+      updateData.sentJoin = sentJoin;
     }
     this._collection.update(docID, { $set: updateData });
   }
