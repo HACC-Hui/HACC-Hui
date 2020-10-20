@@ -14,6 +14,9 @@ import { Challenges } from '../challenge/ChallengeCollection';
 import { Interests } from '../interest/InterestCollection';
 import { Skills } from '../skill/SkillCollection';
 import { Tools } from '../tool/ToolCollection';
+import { TeamParticipants } from '../team/TeamParticipantCollection';
+import { Teams } from '../team/TeamCollection';
+import { removeItMethod } from '../base/BaseCollection.methods';
 
 /**
  * ParticipantCollection, collection of HACC-Hui participants.
@@ -36,6 +39,7 @@ class ParticipantCollection extends BaseSlugCollection {
       lookingForTeam: { type: Boolean, optional: true },
       isCompliant: { type: Boolean, optional: true },
     }));
+    console.log('participants');
   }
 
   /**
@@ -173,6 +177,24 @@ class ParticipantCollection extends BaseSlugCollection {
     ParticipantInterests.removeParticipant(participant);
     ParticipantSkills.removeParticipant(participant);
     ParticipantTools.removeParticipant(participant);
+    const selector = { owner: docID };
+    const ownedTeams = Teams.find(selector).fetch();
+    const collectionName = Teams.getCollectionName();
+    _.forEach(ownedTeams, (team) => {
+      const selector2 = { teamID: team._id };
+      const teamParticipants = TeamParticipants.find(selector2).fetch();
+      if (teamParticipants.count() === 1) {
+        const instance = team._id;
+        removeItMethod.call({ collectionName, instance });
+      } else {
+        let newOwner = teamParticipants[0].participantID;
+        if (newOwner === docID) {
+          newOwner = teamParticipants[1].participantID;
+        }
+        Teams.update(team._id, { newOwner });
+      }
+    });
+    TeamParticipants.removeParticipant(participant);
     super.removeIt(docID);
   }
 

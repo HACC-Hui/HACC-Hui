@@ -72,7 +72,9 @@ class HACCHuiClass {
     ];
     /** Maps collection name to the collection. */
     this.collectionAssociation = {};
+    // console.log(this.collections);
     _.forEach(this.collections, (collection) => {
+      // console.log(collection);
       this.collectionAssociation[collection.getCollectionName()] = collection;
     });
   }
