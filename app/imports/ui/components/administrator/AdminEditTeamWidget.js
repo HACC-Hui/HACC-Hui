@@ -56,16 +56,13 @@ class AdminEditTeamWidget extends React.Component {
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
-            // console.error(error.message);
           } else {
             swal('Success', 'Item edited successfully', 'success');
-            // console.log('Success');
           }
         });
   }
 
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
-  /* {this.props.team.name} */
   render() {
     const formSchema = new SimpleSchema2Bridge(schema);
     return (

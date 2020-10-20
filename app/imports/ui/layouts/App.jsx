@@ -39,6 +39,7 @@ import AdminEditTeamPage from '../pages/administrator/AdminEditTeamPage';
 import SideBar from '../components/SideBar';
 import ViewTeamPage from '../pages/administrator/ViewTeamPage';
 import BestFitTeamDisplay from '../pages/participant/BestFitTeamDisplay';
+import UpdateMinorParticipantsCompliant from '../pages/administrator/UpdateMinorParticipantsCompliant';
 
 /* global window */
 /**
@@ -91,6 +92,7 @@ class App extends React.Component {
           <ProtectedRoute path={ROUTES.SUGGEST_TOOL_SKILL} component={SuggestToolSkillPage} />
           <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
           <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
+          <AdminProtectedRoute path={ROUTES.UPDATE_MP} component={UpdateMinorParticipantsCompliant} />
           <AdminProtectedRoute path={ROUTES.ADD_SKILL} component={AddSkill} />
           <AdminProtectedRoute path={ROUTES.ADD_TOOL} component={AddTool} />
           <AdminProtectedRoute path={ROUTES.EDIT_CHALLENGE} component={EditChallengePage}/>
@@ -115,7 +117,7 @@ class App extends React.Component {
                   <Footer/>
                 </div>
             ) : (
-                <div style={{display: 'flex', padding: `${10}px` }}>
+                <div style={{ display: 'flex', padding: `${10}px` }}>
                   <meta name="viewport" content="width=device-width, maximum-scale=1.5"/>
                   <SideBar visible={this.state.visible}>
                     {routes()}

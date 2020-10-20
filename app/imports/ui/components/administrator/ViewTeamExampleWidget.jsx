@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Header, List } from 'semantic-ui-react';
+import { Grid, Header, List, Button } from 'semantic-ui-react';
 import _ from 'lodash';
 import { withTracker } from 'meteor/react-meteor-data';
+import { Link } from 'react-router-dom';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
@@ -46,7 +47,7 @@ class ViewTeamExampleWidget extends React.Component {
 
     return (
         <Grid celled>
-          <Grid.Row columns={3}>
+          <Grid.Row columns={4}>
             <Grid.Column>
               <Header>{this.props.team.name}</Header>
             </Grid.Column>
@@ -59,6 +60,10 @@ class ViewTeamExampleWidget extends React.Component {
               { (_.every(getTeamParticipants(this.props.team._id, this.props.teamParticipants),
                   function (value) { return (value.compliant !== false); }))
                   ? <Header>Team is Compliant</Header> : <Header>Team is not Compliant</Header> }
+            </Grid.Column>
+            <Grid.Column>
+              {/* eslint-disable-next-line max-len */}
+              <Button><Link to={`/admin-edit-team/${this.props.team._id}`} style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Edit</Link></Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>
