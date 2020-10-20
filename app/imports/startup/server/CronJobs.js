@@ -11,6 +11,7 @@ import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 import { LeavingTeams } from '../../api/team/LeavingTeamCollection';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
 
+
 SyncedCron.add({
   name: 'Check for participants wanting to join team',
   schedule(parser) {

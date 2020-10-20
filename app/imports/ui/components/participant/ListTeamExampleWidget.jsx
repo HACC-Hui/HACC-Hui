@@ -37,8 +37,9 @@ class ListTeamExampleWidget extends React.Component {
     const Joinrequests = WantsToJoin._collection.find({ teamID: this.props.team._id }).fetch();
     const Joinsentusers = _.pluck(Joinrequests, 'participantID');
     const requested = _.contains(Joinsentusers, participant._id);
-    console.log(requested);
 
+    console.log(requested);
+    
     return (
         <Grid.Row columns={6}>
           <Grid.Column>
