@@ -203,20 +203,13 @@ EditTeamWidget.propTypes = {
 };
 
 export default withTracker(( { match } ) => ({
-  const allChallenges = Challenges.find({}).fetch();
-  const allInterests = Interests.find({}).fetch();
-  const allSkills = Skills.find({}).fetch();
-  const allTools = Tools.find({}).fetch();
-  const documentId = match.params._id;
-  const teamChallenges = ParticipantChallenges.find({ participantID }).fetch();
-  const teamSkills = ParticipantSkills.find({ participantID }).fetch();
-  const teamTools = ParticipantTools.find({ participantID }).fetch();
+  const documentId = Teams.findOne({match.params._id});
+  const teamChallenges = teamChallenges.find({ participantID }).fetch();
+  const teamSkills = teamSkills.find({ participantID }).fetch();
+  const teamTools = teamTools.find({ participantID }).fetch();
   return {
-    allChallenges,
-    allInterests,
-    allSkills,
-    allTools,
-    participant,
+
+    documentId,
     teamChallenges,
     teamSkills,
     teamTools,
