@@ -44,17 +44,13 @@ class ChallengesAdminWidget extends React.Component {
   }
 
   findInterests() {
-    // console.log(this.props.challenges);
-    // console.log(this.props.matchInterests.filter(this.filterInterests));
     const challengeInterestArray = this.props.matchInterests.filter(this.filterInterests);
     const finalInterests = challengeInterestArray.map(a => a.name);
-    // console.log(finalInterests);
     return finalInterests;
   }
 
   render() {
     const challengeInterestArray = this.findInterests();
-    // console.log(challengeInterestArray);
     return (
         <Table.Row>
           <Table.Cell width={2}>{this.props.challenges.title}</Table.Cell>

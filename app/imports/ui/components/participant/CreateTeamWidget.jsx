@@ -202,7 +202,6 @@ class CreateTeamWidget extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    // const { email } = this.state;
     if (!this.props.participant.isCompliant) {
       return (
           <div align={'center'}>

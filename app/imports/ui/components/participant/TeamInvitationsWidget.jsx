@@ -64,7 +64,6 @@ class TeamInvitationsWidget extends React.Component {
           }
         }
       }
-      // console.log(data);
       return data;
     }
 
