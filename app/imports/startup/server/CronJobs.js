@@ -9,8 +9,6 @@ import { sendDM2AdministratorsMethod, sendDM2ParticipantMethod } from '../../api
 import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
 import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 import { LeavingTeams } from '../../api/team/LeavingTeamCollection';
-import { updateMethod } from '../../api/base/BaseCollection.methods';
-
 
 SyncedCron.add({
   name: 'Check for participants wanting to join team',
@@ -20,9 +18,8 @@ SyncedCron.add({
     return parser.text(`every ${interval} minutes`);
   },
   job() {
-    const wantsToJoin = WantsToJoin.find({}).fetch();
+    const wantsToJoin = WantsToJoin.find({ sentJoin: false }, {}).fetch();
     _.forEach(wantsToJoin, (join) => {
-      if (!join.sentJoin) {
         const { teamID, participantID } = join;
         const participant = Participants.findDoc(participantID);
         const team = Teams.findDoc(teamID);
@@ -41,8 +38,8 @@ SyncedCron.add({
             });
           }
         });
-        updateMethod.call(WantsToJoin.getCollectionName(), {id: join._id, sentJoin:true});
-      }
+      WantsToJoin.update(join._id, { sentJoin: true });
+
     });
   },
 });

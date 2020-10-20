@@ -48,12 +48,12 @@ class ListTeamExampleWidget extends React.Component {
     if (isAMember) {
       return (<Button id={this.props.team._id} color="green"
                       disabled={true} style={{ width: `${90}px`,
-        height: `${60}px`, textAlign: 'center' }} >You own it</Button>);
+        height: `${80}px`, textAlign: 'center' }} >You own the team</Button>);
     }
     if (this.state.sent || Requested) {
       return (<Button id={this.props.team._id} color="green"
                       disabled={true} style={{ width: `${90}px`,
-        height: `${60}px`, textAlign: 'center' }} >You sent the request</Button>);
+        height: `${80}px`, textAlign: 'center' }} >You sent the request</Button>);
     }
     return (<Button id={this.props.team._id} color="green"
                     onClick={this.handleClick} style={{ width: `${90}px`,

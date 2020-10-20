@@ -1,4 +1,5 @@
 import SimpleSchema from 'simpl-schema';
+import _ from 'lodash';
 import BaseCollection from '../base/BaseCollection';
 import { Participants } from '../user/ParticipantCollection';
 import { Teams } from './TeamCollection';
@@ -10,16 +11,18 @@ class WantToJoinCollection extends BaseCollection {
     super('WantToJoin', new SimpleSchema({
       teamID: { type: SimpleSchema.RegEx.Id },
       participantID: { type: SimpleSchema.RegEx.Id },
-      sentJoin: {type: Boolean},
+      sentJoin: { type: Boolean },
     }));
   }
+
   /**
    * Defines a participant - team pair indicating the participant wishes to join the team.
    * @param team {String} team slug or ID.
    * @param participant {String} participant slug or ID.
    * @return {String} the ID of the pair.
    */
-  define({ team, participant}) {
+  // eslint-disable-next-line no-unused-vars
+  define({ team, participant }) {
     const teamID = Teams.getID(team);
     const participantID = Participants.getID(participant);
     return this._collection.insert({ teamID, participantID, sentJoin: false });
@@ -30,6 +33,7 @@ class WantToJoinCollection extends BaseCollection {
    * @param docID {String} the ID of the pair to update.
    * @param team {String} the slug or ID of the team (optional).
    * @param participant {String} the slug or ID of the participant (optional).
+   * @param sentJoin {boolean} the new value for sentJoin.
    * @throws {Meteor.Error} if docID is undefined.
    */
   update(docID, { team, participant, sentJoin }) {
