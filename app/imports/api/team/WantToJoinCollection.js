@@ -1,4 +1,5 @@
 import SimpleSchema from 'simpl-schema';
+import { _ } from 'lodash';
 import BaseCollection from '../base/BaseCollection';
 import { Participants } from '../user/ParticipantCollection';
 import { Teams } from './TeamCollection';
@@ -10,6 +11,7 @@ class WantToJoinCollection extends BaseCollection {
     super('WantToJoin', new SimpleSchema({
       teamID: { type: SimpleSchema.RegEx.Id },
       participantID: { type: SimpleSchema.RegEx.Id },
+      sentDM: { type: Boolean },
     }));
   }
 
@@ -17,12 +19,13 @@ class WantToJoinCollection extends BaseCollection {
    * Defines a participant - team pair indicating the participant wishes to join the team.
    * @param team {String} team slug or ID.
    * @param participant {String} participant slug or ID.
+   * @param sentDM {boolean} check to see if a slack DM was already sent.
    * @return {String} the ID of the pair.
    */
-  define({ team, participant }) {
+  define({ team, participant, sentDM = false }) {
     const teamID = Teams.getID(team);
     const participantID = Participants.getID(participant);
-    return this._collection.insert({ teamID, participantID });
+    return this._collection.insert({ teamID, participantID, sentDM });
   }
 
   /**
@@ -30,9 +33,10 @@ class WantToJoinCollection extends BaseCollection {
    * @param docID {String} the ID of the pair to update.
    * @param team {String} the slug or ID of the team (optional).
    * @param participant {String} the slug or ID of the participant (optional).
+   * @param sentDM {boolean} check to see if a slack DM was already sent.
    * @throws {Meteor.Error} if docID is undefined.
    */
-  update(docID, { team, participant }) {
+  update(docID, { team, participant, sentDM }) {
     this.assertDefined(docID);
     const updateData = {};
     if (participant) {
@@ -40,6 +44,9 @@ class WantToJoinCollection extends BaseCollection {
     }
     if (team) {
       updateData.teamID = Teams.getID(team);
+    }
+    if (_.isBoolean(sentDM)) {
+      updateData.sentDM = sentDM;
     }
     this._collection.update(docID, { $set: updateData });
   }
