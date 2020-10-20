@@ -1,6 +1,6 @@
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
-import { withRouter } from 'react-router';
+//  import { withRouter } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import { Divider, Grid, Header, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
@@ -24,11 +24,6 @@ import { Slugs } from '../../../api/slug/SlugCollection';
 import MultiSelectField from '../form-fields/MultiSelectField';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import RadioField from '../form-fields/RadioField';
-import { Interests } from '../../../api/interest/InterestCollection';
-import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
-import { ParticipantInterests } from '../../../api/user/ParticipantInterestCollection';
-import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
-import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
 
 class EditTeamWidget extends React.Component {
   constructor(props) {
@@ -66,17 +61,14 @@ class EditTeamWidget extends React.Component {
   }
 
   buildTheModel() {
-    const model = this.props.team;
-    model.teamchallenges = _.map(this.props.challenges, (challenge) => {
-      return challenge.title;
-    });
-    model.skills = _.map(this.props.skills, (skill) => {
+    // const model = this.props.team;
+    const model = this.props.participant;
+    model.Challenges = _.map(this.props.challenges, (challenge) => challenge.title);
+    model.Skills = _.map(this.props.skills, (skill) => 
       // console.log(skill);
-      return skill.name;
-    });
-    model.tools = _.map(this.props.tools, (tool) => {
-      return tool.name;
-    });
+       skill.name
+    );
+    model.Tools = _.map(this.props.tools, (tool) => tool.name);
     return model;
   }
 
@@ -149,7 +141,7 @@ class EditTeamWidget extends React.Component {
               }} className={'createTeam'}>
                 <Grid columns={1} style={{ paddingTop: '20px' }}>
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
-                    <Header as="h2" textAlign="center">Create a Team</Header>
+                    <Header as="h2" textAlign="center">Edit Team</Header>
                     <Grid className='doubleLine'>
                       <TextField name='name' />
                       <RadioField
@@ -202,16 +194,25 @@ EditTeamWidget.propTypes = {
   ).isRequired,
 };
 
-export default withTracker(( { match } ) => ({
-  const documentId = Teams.findOne({match.params._id});
-  const teamChallenges = teamChallenges.find({ participantID }).fetch();
-  const teamSkills = teamSkills.find({ participantID }).fetch();
-  const teamTools = teamTools.find({ participantID }).fetch();
-  return {
+/* export default withTracker(( { match } ) => ({
+*  const documentId = Teams.findOne({match.params._id});
+*  const teamChallenges = teamChallenges.find({ participantID }).fetch();
+*  const teamSkills = teamSkills.find({ participantID }).fetch();
+*  const teamTools = teamTools.find({ participantID }).fetch();
+*  return {
+*
+*   documentId,
+*    teamChallenges,
+*    teamSkills,
+*    teamTools,
+*  };
+*}))(EditTeamWidget);
+*/
 
-    documentId,
-    teamChallenges,
-    teamSkills,
-    teamTools,
-  };
+export default withTracker(() => ({
+  participant: Participants.findDoc({ userID: Meteor.userId() }),
+  challenges: Challenges.find({}).fetch(),
+  skills: Skills.find({}).fetch(),
+  tools: Tools.find({}).fetch(),
+  participants: Participants.find({}).fetch(),
 }))(EditTeamWidget);
