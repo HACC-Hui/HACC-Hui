@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid, Header, List } from 'semantic-ui-react';
-import _ from 'lodash';
+import _ from 'underscore';
 import swal from 'sweetalert';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
