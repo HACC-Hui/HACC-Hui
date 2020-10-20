@@ -33,35 +33,41 @@ class ListTeamExampleWidget extends React.Component {
     const participantName = Participants.getFullName(participant._id);
     const isAMember = _.includes(this.props.teamMembers, participantName);
     return (
-        <Grid.Row columns={6}>
+        <Grid celled container stackable columns={6}>
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
           </Grid.Column>
           <Grid.Column>
+            <Header>Challenges</Header>
             <List bulleted>
               {this.props.teamChallenges.map((c) => <List.Item key={c}>{c}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
+            <Header>Desired Skills</Header>
             <List bulleted>
               {this.props.teamSkills.map((s) => <List.Item key={s}>{s}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
+            <Header>Desired Tools</Header>
             <List bulleted>
               {this.props.teamTools.map((t) => <List.Item key={t}>{t}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
+            <Header>Members</Header>
             <List bulleted>
               {this.props.teamMembers.map((t) => <List.Item key={t}>{t}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
+            <Header>Join?</Header>
             <Button id={this.props.team._id} color="green"
-                    onClick={this.handleClick} disabled={isAMember}>Request to Join</Button>
+                    onClick={this.handleClick} disabled={isAMember} style={{ width: `${90}px`,
+              height: `${60}px`, textAlign: 'center' }} >Request to Join</Button>
           </Grid.Column>
-        </Grid.Row>
+        </Grid>
     );
   }
 }

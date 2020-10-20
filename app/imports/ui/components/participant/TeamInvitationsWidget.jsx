@@ -64,7 +64,6 @@ class TeamInvitationsWidget extends React.Component {
           }
         }
       }
-      // console.log(data);
       return data;
     }
 
@@ -164,7 +163,6 @@ TeamInvitationsWidget.propTypes = {
   challenges: PropTypes.array.isRequired,
   participants: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
-  ready: PropTypes.bool.isRequired,
   teamParticipants: PropTypes.array.isRequired,
   teamInvitations: PropTypes.array.isRequired,
 

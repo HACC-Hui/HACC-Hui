@@ -7,6 +7,7 @@ import { Menu, Dropdown, Header } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 import { ROUTES } from '../../startup/client/route-constants';
+import { Participants } from '../../api/user/ParticipantCollection';
 
 /**
  * The NavBar appears at the top of every page. Rendered by the App Layout component.
@@ -14,36 +15,85 @@ import { ROUTES } from '../../startup/client/route-constants';
  */
 class NavBar extends React.Component {
   render() {
+    let isCompliant = true;
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isParticipant = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
-    const menuStyle = { marginBottom: '10px', backgroundColor: '#124884' };
+    if (isParticipant) {
+      const participant = Participants.findDoc({ userID: Meteor.userId() });
+      isCompliant = participant.isCompliant;
+    }
     return (
-        <Menu style={menuStyle} attached="top" borderless inverted >
+        <Menu attached="top" borderless inverted className={'navBar'}>
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
             <Header inverted as='h1'>HACC-Hui</Header>
           </Menu.Item>
           {isParticipant ? (
-              [<Menu.Item as={NavLink} activeClassName="active" exact
-                          to={ROUTES.CREATE_TEAM} key='team-creation'>Create a Team</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.YOUR_PROFILE} key='edit-profile'>
-                  Your Profile</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_TEAMS} key='list-teams'>List the
+              [
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           disabled={!isCompliant}
+                           exact
+                           to={ROUTES.CREATE_TEAM}
+                           key='team-creation'>Create a Team</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           exact
+                           to={ROUTES.YOUR_PROFILE}
+                           key='edit-profile'>Your Profile</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           exact
+                           to={ROUTES.BEST_FIT}
+                           key='list-teams'>List the Teams</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           disabled={!isCompliant}
+                           exact
+                           to={ROUTES.YOUR_TEAMS}
+                           key='your-teams'>Your
                   Teams</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.YOUR_TEAMS} key='your-teams'>Your
-                  Teams</Menu.Item>,
-                // eslint-disable-next-line max-len
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.LIST_PARTICIPANTS} key='list-participants'>List the
-                Participants</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active"
-                           exact to={ROUTES.TEAM_INVITATIONS} key='team-invitations'>
-                  Your Invitations</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           exact to={ROUTES.LIST_PARTICIPANTS}
+                           key='list-participants'>List the Participants</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           exact
+                           to={ROUTES.SUGGEST_TOOL_SKILL}
+                           key='suggest-tool-skill'>Suggest Tool/Skill</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           exact
+                           to={ROUTES.TEAM_INVITATIONS}
+                           key='team-invitations'>Your Invitations</Menu.Item>,
               ]
           ) : ''}
           {isAdmin ? (
               [
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.CONFIGURE_HACC}
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           exact
+                           to={ROUTES.CONFIGURE_HACC}
                            key={ROUTES.CONFIGURE_HACC}>Configure HACC</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.DUMP_DATABASE}
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           exact
+                           to={ROUTES.UPDATE_MP}
+                           key={ROUTES.UPDATE_MP}>Update Minor Participants Status</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           exact
+                           to={ROUTES.LIST_SUGGESTIONS}
+                           key={ROUTES.LIST_SUGGESTIONS}>Suggestions List</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           exact
+                           to={ROUTES.VIEW_TEAM}
+                           key={ROUTES.VIEW_TEAM}>View Team</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           exact
+                           to={ROUTES.DUMP_DATABASE}
                            key={ROUTES.DUMP_DATABASE}>Dump Database</Menu.Item>,
               ]
           ) : ''}

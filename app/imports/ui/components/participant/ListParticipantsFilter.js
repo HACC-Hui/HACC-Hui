@@ -15,10 +15,10 @@ class ListParticipantsFilter {
     }
     const list = [];
     for (let i = 0; i < data.length; i++) {
-      const devFirstName = data[i].firstName;
-      const devLastName = data[i].lastName;
-      const firstLowercase = devFirstName.toString().toLowerCase();
-      const lastLowercase = devLastName.toString().toLowerCase();
+      const participantFirstName = data[i].firstName;
+      const participantLastName = data[i].lastName;
+      const firstLowercase = participantFirstName.toString().toLowerCase();
+      const lastLowercase = participantLastName.toString().toLowerCase();
       if (firstLowercase.includes(searchQuery.toString().toLowerCase())) {
         list.push(data[i]);
       } else if (lastLowercase.includes(searchQuery.toString().toLowerCase())) {
@@ -40,7 +40,7 @@ class ListParticipantsFilter {
    * @returns {Array|*} Returns the sorted array
    */
   sortBy(data, value) {
-    if (value === 'devs') {
+    if (value === 'participants') {
       return _.orderBy(data, ['name'], ['asc']);
     }
     return data;
@@ -51,15 +51,15 @@ class ListParticipantsFilter {
    * returns the original data
    * @param value The inputs given
    * @param allSkills All the available skills
-   * @param devSkill Each devs' skills
-   * @param dev The devs
+   * @param participantSkill Each participants' skills
+   * @param participant The participants
    * @returns {[]|*} Returns the filtered array
    */
-  filterBySkills(value, allSkills, devSkill, dev) {
+  filterBySkills(value, allSkills, participantSkill, participant) {
 
     // if there are no skills selected
     if (value.length === 0) {
-      return dev;
+      return participant;
     }
 
     // convert from skillName --> skillID
@@ -72,30 +72,30 @@ class ListParticipantsFilter {
       }
     }
 
-    // get devIDs for those that have the skills
-    let devsWithSkill = [];
+    // get participantIDs for those that have the skills
+    let participantsWithSkill = [];
     for (let i = 0; i < skillID.length; i++) {
-      for (let j = 0; j < devSkill.length; j++) {
-        if (skillID[i] === devSkill[j].skillID) {
-          devsWithSkill.push(devSkill[j].participantID);
+      for (let j = 0; j < participantSkill.length; j++) {
+        if (skillID[i] === participantSkill[j].skillID) {
+          participantsWithSkill.push(participantSkill[j].participantID);
         }
       }
     }
 
-    // Ensure there's no duplicate devIDs
-    devsWithSkill = _.uniq(devsWithSkill);
+    // Ensure there's no duplicate participantIDs
+    participantsWithSkill = _.uniq(participantsWithSkill);
 
-    // Get the filtered devs
-    const devs = [];
-    for (let i = 0; i < devsWithSkill.length; i++) {
-      for (let j = 0; j < dev.length; j++) {
-        if (devsWithSkill[i] === dev[j]._id) {
-          devs.push(dev[j]);
+    // Get the filtered participants
+    const participants = [];
+    for (let i = 0; i < participantsWithSkill.length; i++) {
+      for (let j = 0; j < participant.length; j++) {
+        if (participantsWithSkill[i] === participant[j]._id) {
+          participants.push(participant[j]);
         }
       }
     }
 
-    return devs;
+    return participants;
   }
 
   /**
@@ -103,15 +103,15 @@ class ListParticipantsFilter {
    * returns the original data
    * @param value The inputs given
    * @param allTools All the available tools
-   * @param devTools Each teams' tools
-   * @param dev The teams
+   * @param participantTools Each teams' tools
+   * @param participant The teams
    * @returns {[]|*} Returns the filtered array
    */
-  filterByTools(value, allTools, devTools, dev) {
+  filterByTools(value, allTools, participantTools, participant) {
 
     // if there are no tools selected
     if (value.length === 0) {
-      return dev;
+      return participant;
     }
 
     // convert from toolName --> toolID
@@ -124,29 +124,29 @@ class ListParticipantsFilter {
       }
     }
 
-    // get devIDs for those that have the tools
-    let devsWithTool = [];
+    // get participantIDs for those that have the tools
+    let participantsWithTool = [];
     for (let i = 0; i < toolID.length; i++) {
-      for (let j = 0; j < devTools.length; j++) {
-        if (toolID[i] === devTools[j].toolID) {
-          devsWithTool.push(devTools[j].participantID);
+      for (let j = 0; j < participantTools.length; j++) {
+        if (toolID[i] === participantTools[j].toolID) {
+          participantsWithTool.push(participantTools[j].participantID);
         }
       }
     }
 
-    // Ensure there's no duplicate devIDs
-    devsWithTool = _.uniq(devsWithTool);
+    // Ensure there's no duplicate participantIDs
+    participantsWithTool = _.uniq(participantsWithTool);
 
-    // Get the filtered devs
-    const devs = [];
-    for (let i = 0; i < devsWithTool.length; i++) {
-      for (let j = 0; j < dev.length; j++) {
-        if (devsWithTool[i] === dev[j]._id) {
-          devs.push(dev[j]);
+    // Get the filtered participants
+    const participants = [];
+    for (let i = 0; i < participantsWithTool.length; i++) {
+      for (let j = 0; j < participant.length; j++) {
+        if (participantsWithTool[i] === participant[j]._id) {
+          participants.push(participant[j]);
         }
       }
     }
-    return devs;
+    return participants;
   }
 
   /**
@@ -154,15 +154,15 @@ class ListParticipantsFilter {
    * returns the original data
    * @param value The inputs given
    * @param allChallenges All the available challenges
-   * @param devChallenge Each devs' challenge(s)
-   * @param dev The devs
+   * @param participantChallenge Each participants' challenge(s)
+   * @param participant The participants
    * @returns {[]|*} Returns the filtered array
    */
-  filterByChallenge(value, allChallenges, devChallenge, dev) {
+  filterByChallenge(value, allChallenges, participantChallenge, participant) {
 
     // if there are no tools selected
     if (value.length === 0) {
-      return dev;
+      return participant;
     }
 
     // convert from challengeName --> challengeID
@@ -175,29 +175,80 @@ class ListParticipantsFilter {
       }
     }
 
-    // get devIDs for those that have the challenges
-    let devsWithChallenge = [];
+    // get participantIDs for those that have the challenges
+    let participantsWithChallenge = [];
     for (let i = 0; i < challengeID.length; i++) {
-      for (let j = 0; j < devChallenge.length; j++) {
-        if (challengeID[i] === devChallenge[j].challengeID) {
-          devsWithChallenge.push(devChallenge[j].participantID);
+      for (let j = 0; j < participantChallenge.length; j++) {
+        if (challengeID[i] === participantChallenge[j].challengeID) {
+          participantsWithChallenge.push(participantChallenge[j].participantID);
         }
       }
     }
 
     // Ensure there's no duplicate teamIDs
-    devsWithChallenge = _.uniq(devsWithChallenge);
+    participantsWithChallenge = _.uniq(participantsWithChallenge);
 
-    // Get the filtered devs
-    const devs = [];
-    for (let i = 0; i < devsWithChallenge.length; i++) {
-      for (let j = 0; j < dev.length; j++) {
-        if (devsWithChallenge[i] === dev[j]._id) {
-          devs.push(dev[j]);
+    // Get the filtered participants
+    const participants = [];
+    for (let i = 0; i < participantsWithChallenge.length; i++) {
+      for (let j = 0; j < participant.length; j++) {
+        if (participantsWithChallenge[i] === participant[j]._id) {
+          participants.push(participant[j]);
         }
       }
     }
-    return devs;
+    return participants;
+  }
+
+  /**
+   * Filters through the data based on the user selection. By default, if no option is selected it
+   * returns the original data
+   * @param value The inputs given
+   * @param allInterests All the available interests
+   * @param participantInterests Each participants' interest(s)
+   * @param participant The participants
+   * @returns {[]|*} Returns the filtered array
+   */
+  filterByInterest(value, allInterests, participantInterests, participant) {
+
+    // if there are no tools selected
+    if (value.length === 0) {
+      return participant;
+    }
+
+    // convert from interestName --> interestID
+    const interestID = [];
+    for (let i = 0; i < value.length; i++) {
+      for (let j = 0; j < allInterests.length; j++) {
+        if (value[i] === allInterests[j].name) {
+          interestID.push(allInterests[j]._id);
+        }
+      }
+    }
+
+    // get participantIDs for those that have the challenges
+    let participantsWithInterest = [];
+    for (let i = 0; i < interestID.length; i++) {
+      for (let j = 0; j < participantInterests.length; j++) {
+        if (interestID[i] === participantInterests[j].interestID) {
+          participantsWithInterest.push(participantInterests[j].participantID);
+        }
+      }
+    }
+
+    // Ensure there's no duplicate teamIDs
+    participantsWithInterest = _.uniq(participantsWithInterest);
+
+    // Get the filtered participants
+    const participants = [];
+    for (let i = 0; i < participantsWithInterest.length; i++) {
+      for (let j = 0; j < participant.length; j++) {
+        if (participantsWithInterest[i] === participant[j]._id) {
+          participants.push(participant[j]);
+        }
+      }
+    }
+    return participants;
   }
 
   /**

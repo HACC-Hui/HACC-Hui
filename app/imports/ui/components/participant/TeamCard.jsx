@@ -31,9 +31,7 @@ class TeamCard extends React.Component {
   handleLeaveTeam(e, inst) {
     console.log(e, inst);
     const { team } = inst;
-    // console.log(team);
     const pDoc = Participants.findDoc({ userID: Meteor.userId() });
-    // console.log(pDoc);
     let collectionName = LeavingTeams.getCollectionName();
     const definitionData = {
       username: pDoc.username,
@@ -56,16 +54,14 @@ class TeamCard extends React.Component {
   }
 
   render() {
-    // console.log(this.props.team);
     const team = this.buildTheTeam();
-    // console.log(team);
     const isOwner = team.owner === this.props.participantID;
     return (
         <Card fluid>
           <Card.Content>
             <Card.Header>{team.name}</Card.Header>
             <Card.Description>
-              <Grid columns={5}>
+              <Grid container stackable columns={5}>
                 <Grid.Column>
                   <Header size="tiny">Challenges</Header>
                   {team.challenges.join(', ')}
