@@ -41,6 +41,7 @@ import SideBar from '../components/SideBar';
 import ViewTeamPage from '../pages/administrator/ViewTeamPage';
 import BestFitTeamDisplay from '../pages/participant/BestFitTeamDisplay';
 import UpdateMinorParticipantsCompliant from '../pages/administrator/UpdateMinorParticipantsCompliant';
+import HelpPage from '../pages/HelpPage';
 
 /* global window */
 /**
@@ -77,6 +78,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path={ROUTES.LANDING} component={Landing} />
           <Route path={ROUTES.SIGN_IN} component={Signin} />
+          <Route path={ROUTES.HELP_PAGE} component={HelpPage} />
           <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
           <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
           <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm} />

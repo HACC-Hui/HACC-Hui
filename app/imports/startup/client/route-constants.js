@@ -18,6 +18,7 @@ export const ROUTES = {
   DELETE_TEAM: '/delete-team',
   LIST_TEAMS: '/list-teams',
   DELETE_ACCOUNT: '/delete-account',
+  HELP_PAGE: '/help-page',
   CONFIGURE_HACC: '/configure-hacc',
   ADD_CHALLENGE: '/add-challenge',
   ADD_SKILL: '/add-skill',

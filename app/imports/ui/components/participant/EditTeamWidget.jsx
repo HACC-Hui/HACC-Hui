@@ -64,16 +64,13 @@ class EditTeamWidget extends React.Component {
     // const model = this.props.team;
     const model = this.props.participant;
     model.Challenges = _.map(this.props.challenges, (challenge) => challenge.title);
-    model.Skills = _.map(this.props.skills, (skill) => 
-      // console.log(skill);
-       skill.name
-    );
+    model.Skills = _.map(this.props.skills, (skill) => skill.name);
     model.Tools = _.map(this.props.tools, (tool) => tool.name);
     return model;
   }
 
   submitData(data) {
-    console.log('submit', data);
+    // console.log('submit', data);
     const collectionName = Teams.getCollectionName();
     const updateData = {};
     // name, description, challenges, skills, tools, image, open
@@ -101,7 +98,7 @@ class EditTeamWidget extends React.Component {
     if (data.image) {
       updateData.image = data.image;
     }
-    console.log(collectionName, updateData);
+    // console.log(collectionName, updateData);
     updateMethod.call({ collectionName, updateData }, (error) => {
       if (error) {
         console.error(error);
