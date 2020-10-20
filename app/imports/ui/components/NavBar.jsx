@@ -27,9 +27,9 @@ class NavBar extends React.Component {
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
             <Header inverted as='h1'>HACC-Hui</Header>
           </Menu.Item>
-          {isParticipant ? (
-              [
-                <Menu.Item as={NavLink}
+                {isParticipant ? (
+                      [
+                        <Menu.Item as={NavLink}
                            activeClassName="active"
                            disabled={!isCompliant}
                            exact
