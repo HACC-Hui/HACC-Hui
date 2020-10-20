@@ -54,7 +54,6 @@ class CreateTeamWidget extends React.Component {
         label: 'Availability',
       },
       name: { type: String, label: 'Team Name' },
-      image: { type: String, optional: true },
       challenges: { type: Array, label: 'Challenges' },
       'challenges.$': { type: String, allowedValues: challengeNames },
       skills: { type: Array, label: 'Skills', optional: true },
@@ -67,13 +66,16 @@ class CreateTeamWidget extends React.Component {
       affiliation: { type: String, optional: true },
 
       participants: {
+        optional: true,
         type: Array,
-        minCount: 1,
+        minCount: 0,
       },
       'participants.$': {
+        optional: true,
         type: Object,
       },
       'participants.$.email': {
+        optional: true,
         type: String,
         min: 3,
       },
@@ -90,12 +92,17 @@ class CreateTeamWidget extends React.Component {
     this.setState({ isRegistered: [] });
     this.setState({ notRegistered: [] });
     const owner = this.props.participant.username;
-    const { name, description, challenges, skills, tools, image, participants } = formData;
+    const { name, description, challenges, skills, tools, participants } = formData;
     if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
       swal('Error', 'Sorry, no special characters or space allowed.', 'error');
       return;
     }
-    const partArray = participants;
+    let partArray = [];
+
+    if (typeof (participants) !== 'undefined') {
+      partArray = participants;
+    }
+
     const currPart = Participants.find({}).fetch();
     const isRegistered = [];
     const notRegistered = [];
@@ -142,14 +149,12 @@ class CreateTeamWidget extends React.Component {
       return Slugs.getNameFromID(doc.slugID);
     });
 
-    // If the name has special character or space, throw a swal error and return early.
     const collectionName = Teams.getCollectionName();
     const definitionData = {
       name,
       description,
       owner,
       open,
-      image,
       challenges: challengesArr,
       skills: skillsArr,
       tools: toolsArr,
@@ -192,7 +197,7 @@ class CreateTeamWidget extends React.Component {
   closeModal = () => {
     this.setState({ errorModal: false });
     swal('Success', 'Team created successfully', 'success');
-  }
+  };
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
@@ -216,7 +221,7 @@ class CreateTeamWidget extends React.Component {
     const model = this.buildTheModel();
 
     return (
-        <Grid container centered>
+        <Grid container centered style={{ marginBottom: '2rem' }}>
           <Grid.Column>
             <Divider hidden />
             <Segment
@@ -250,7 +255,6 @@ class CreateTeamWidget extends React.Component {
                           inline
                       />
                     </Grid>
-                    <TextField name='image' placeholder={'Team Image URL'} />
                     <LongTextField name='description' />
                     <MultiSelectField name='challenges' />
                     <Grid columns={2}>
