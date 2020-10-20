@@ -2,7 +2,7 @@ import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 //  import { withRouter } from 'react-router';
 import { Meteor } from 'meteor/meteor';
-import { Divider, Grid, Header, Segment } from 'semantic-ui-react';
+import { Divider, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import SimpleSchema from 'simpl-schema';
@@ -142,6 +142,10 @@ class EditTeamWidget extends React.Component {
                 <Grid columns={1} style={{ paddingTop: '20px' }}>
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
                     <Header as="h2" textAlign="center">Edit Team</Header>
+                    <Message>
+                      <Header as="h4" textAlign="center">Team name and Devpost page ALL
+                        have to use the same name</Header>
+                    </Message>
                     <Grid className='doubleLine'>
                       <TextField name='name' />
                       <RadioField
