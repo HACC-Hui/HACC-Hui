@@ -61,11 +61,8 @@ class CreateProfileWidget extends React.Component {
   }
 
   submit(data) {
-    // console.log('CreateProfileWidget.submit', data);
     const collectionName = Participants.getCollectionName();
     const updateData = {};
-    // firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
-    //     skills, tools, linkedIn, gitHub, website, aboutMe,
     updateData.id = data._id;
     updateData.firstName = data.firstName;
     updateData.lastName = data.lastName;
@@ -131,9 +128,7 @@ class CreateProfileWidget extends React.Component {
   }
 
   render() {
-    // console.log(this.props);
     const model = this.props.participant;
-    // console.log(model);
     const schema = this.buildTheFormSchema();
     const formSchema = new SimpleSchema2Bridge(schema);
     const firstname = model.firstName;
@@ -145,7 +140,6 @@ class CreateProfileWidget extends React.Component {
         <Segment>
           <Header dividing>Hello {firstname}, this is your first time to login, so please fill out your profile</Header>
           <AutoForm schema={formSchema} model={model} onSubmit={data => {
-            // console.log(data);
             this.submit(data);
           }}>
             <Form.Group widths="equal">

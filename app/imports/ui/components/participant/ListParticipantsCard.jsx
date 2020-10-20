@@ -20,16 +20,6 @@ import { Participants } from '../../../api/user/ParticipantCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 
 class ListParticipantsCard extends React.Component {
-  /*
-  isAdded(tID, dID) {
-    // console.log(typeof TeamParticipants.findOne({ teamID: tID, participantID: dID }) !== 'undefined');
-    if (typeof TeamParticipants.findOne({ teamID: tID, participantID: dID }) !== 'undefined') {
-      return true;
-    }
-    return false;
-  }
-   */
-
   state = {};
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -53,26 +43,17 @@ class ListParticipantsCard extends React.Component {
       for (let i = 0; i < teams.length; i++) {
         newOptions.push({ key: teams[i].name, text: teams[i].name, value: teams[i].name });
       }
-      // console.log(newOptions);
       return newOptions;
     }
 
     const options = setOptions();
 
     function handleChange(dID, e) {
-      // console.log(e);
-      // console.log(e.value);
-      // console.log(dID);
       if (e.value !== 'Select a Team') {
-        // console.log(tID);
-        // console.log(dID);
         const thisTeam = Teams.findDoc({ name: e.value })._id;
         const participantID = Participants.findDoc({ _id: dID }).username;
-        // console.log(thisTeam);
         const definitionData = { team: thisTeam, participant: participantID };
         const collectionName = TeamInvitations.getCollectionName();
-        // console.log(collectionName);
-        // console.log(thisTeam);
         if (typeof TeamParticipants.findOne({
           teamID: thisTeam,
           participantID: dID,
@@ -83,16 +64,6 @@ class ListParticipantsCard extends React.Component {
               'error');
           return;
         }
-        /* console.log(typeof TeamParticipants.findOne({
-          teamID: thisTeam,
-          participantID: dID,
-        }) !== 'undefined');
-        console.log(typeof TeamParticipants.findOne({
-          teamID: thisTeam,
-          participantID: dID,
-        }));
-         */
-
         if (typeof TeamInvitations.findOne({
           teamID: thisTeam,
           participantID: dID,

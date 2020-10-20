@@ -39,11 +39,6 @@ class ListParticipantsWidget extends React.Component {
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
-  /*
-  render() {
-    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
-  }
-  */
 
   render() {
 
@@ -92,8 +87,6 @@ class ListParticipantsWidget extends React.Component {
       }, () => {
         setFilters();
       });
-      // this.setState({ search: event.target.value });
-      // setFilters();
     };
 
     const getSkills = (event, { value }) => {
@@ -205,20 +198,6 @@ class ListParticipantsWidget extends React.Component {
                   </Header.Content>
                 </Header>
               </div>
-              {/* <div style={{ paddingTop: '2rem' }}> */}
-              {/*  <Header> */}
-              {/*    <Header.Content> */}
-              {/*      Sort by {' '} */}
-              {/*      <Dropdown */}
-              {/*          inline */}
-              {/*          header='Sort by...' */}
-              {/*          options={sortBy} */}
-              {/*          defaultValue={sortBy[0].value} */}
-              {/*          onChange={getSort} */}
-              {/*      /> */}
-              {/*    </Header.Content> */}
-              {/*  </Header> */}
-              {/* </div> */}
               <div style={{ paddingTop: '2rem' }}>
                 <Input icon='search'
                        iconPosition='left'
