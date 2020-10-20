@@ -5,7 +5,10 @@ import { WantsToJoin } from '../../api/team/WantToJoinCollection';
 import { Participants } from '../../api/user/ParticipantCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { TeamParticipants } from '../../api/team/TeamParticipantCollection';
-import { sendDM2AdministratorsMethod, sendDM2ParticipantMethod } from '../../api/slackbot/Slack.methods';
+import {
+  sendDM2AdministratorsMethod,
+  sendDM2ParticipantMethod,
+} from '../../api/slackbot/Slack.methods';
 import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
 import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 import { LeavingTeams } from '../../api/team/LeavingTeamCollection';
@@ -20,26 +23,31 @@ SyncedCron.add({
   job() {
     const wantsToJoin = WantsToJoin.find({}).fetch();
     _.forEach(wantsToJoin, (join) => {
-      const { teamID, participantID } = join;
-      const participant = Participants.findDoc(participantID);
-      const team = Teams.findDoc(teamID);
-      const teamMemberIDs = TeamParticipants.find({ teamID }).fetch();
-      // console.log(team, teamMemberIDs);
-      teamMemberIDs.push(team.owner);
-      // console.log(participant);
-      teamMemberIDs.forEach((memberID) => {
-        const message = `${participant.firstName} ${participant.lastName} would like to join your team.`;
-        if (Participants.isDefined(memberID)) {
-          const username = Participants.findDoc(memberID).username;
-          sendDM2ParticipantMethod.call({ participant: username, message }, (error) => {
-            if (error) {
-              console.error('Failed to send DM. ', error);
-            }
-          });
-        }
-      });
-      WantsToJoin.update(join._id, { team: join.teamID, participant: join.participantID, sentDM: true });
-      //WantsToJoin.removeIt(join._id);
+      if (!join.sentDM) {
+        const { teamID, participantID } = join;
+        const participant = Participants.findDoc(participantID);
+        const team = Teams.findDoc(teamID);
+        const teamMemberIDs = TeamParticipants.find({ teamID }).fetch();
+        // console.log(team, teamMemberIDs);
+        teamMemberIDs.push(team.owner);
+        // console.log(participant);
+        teamMemberIDs.forEach((memberID) => {
+          const message = `${participant.firstName} ${participant.lastName} would like to join your team, ${team.name}`;
+          if (Participants.isDefined(memberID)) {
+            const username = Participants.findDoc(memberID).username;
+            sendDM2ParticipantMethod.call({ participant: username, message }, (error) => {
+              if (error) {
+                console.error('Failed to send DM. ', error);
+              }
+            });
+          }
+        });
+        WantsToJoin.update(join._id, {
+          team: join.teamID,
+          participant: join.participantID,
+          sentDM: true,
+        });
+      }
     });
   },
 });
@@ -88,7 +96,11 @@ SyncedCron.add({
             }
           });
         }
-        TeamInvitations.update(join._id, { team: join.teamID, participant: join.participantID, sentDM: true });
+        TeamInvitations.update(join._id, {
+          team: join.teamID,
+          participant: join.participantID,
+          sentDM: true,
+        });
       }
     });
   },
