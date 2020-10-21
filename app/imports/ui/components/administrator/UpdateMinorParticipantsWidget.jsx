@@ -12,9 +12,13 @@ class UpdateMinorParticipantsWidget extends React.Component {
 
   compliantMinors;
 
+  selected;
+
   constructor(props) {
     super(props);
     this.compliantMinors = [];
+    this.selected = [];
+    this.renderMinorParticipants.bind(this);
     this.state = { redirectToReferer: false };
   }
 
@@ -39,8 +43,16 @@ class UpdateMinorParticipantsWidget extends React.Component {
     this.compliantMinors = initCompliantMinorParticipants;
   }
 
+  pushSelctMP(MP) {
+    const selectedMP = this.selected;
+    selectedMP.push(MP);
+    this.selected = selectedMP;
+
+  }
+
   renderMinorParticipants() {
     this.initMP();
+    /*
     const onChangeCheckbox = (evt, data) => {
       const compliantMinorscopy = this.compliantMinors;
       // eslint-disable-next-line eqeqeq
@@ -48,24 +60,30 @@ class UpdateMinorParticipantsWidget extends React.Component {
       compliantMinorscopy[Index].isCompliant = data.checked;
       this.compliantMinors = compliantMinorscopy;
       console.log(this.compliantMinors);
+    }; */
+    const CheckBoxFun = {};
+    const allMPs = this.props.MinorParticipantsID;
+    allMPs.forEach((MP) => {
+ CheckBoxFun[MP] = (evt, data) => {
+    if (data.checked) this.selected.push(MP);
+    else this.selected = this.selected.filter((Minor)=> { return Minor != MP } );
     };
+});
     const MinorParticipants = this.getMinorParticipants();
     return MinorParticipants.map((p) => (<Grid.Row key={p._id} columns={3}>
       <Grid.Column>{p.firstName}</Grid.Column>
       <Grid.Column>{p.lastName}</Grid.Column>
-      <Grid.Column><Checkbox value={p._id} onClick={(evt, data) => onChangeCheckbox(evt, data)}/></Grid.Column>
+      <Grid.Column><Checkbox value={p._id} onClick={(evt, data) => CheckBoxFun[p._id](evt, data)}/></Grid.Column>
     </Grid.Row>));
   }
 
   submitData() {
     let Error = false;
-    let isCompliantMP = this.compliantMinors;
-    // eslint-disable-next-line eqeqeq
-    isCompliantMP = isCompliantMP.filter((MP) => MP.isCompliant == true);
-    isCompliantMP.forEach((MP => {
+
+    this.selected.forEach((MP => {
       const collectionName = Participants.getCollectionName();
       const updateData = {
-        id: MP._id,
+        id: MP,
         isCompliant: true,
       };
 
@@ -81,6 +99,7 @@ class UpdateMinorParticipantsWidget extends React.Component {
       swal('Success', 'updated successfully', 'success');
      this.setState({ redirectToReferer: true });
     } else swal('Fail', 'updated fail', 'error');
+
 
   }
 
