@@ -48,13 +48,14 @@ class UpdateMinorParticipantsWidget extends React.Component {
       const Index = compliantMinorscopy.findIndex(p => p._id == data.value);
       compliantMinorscopy[Index].isCompliant = data.checked;
       this.compliantMinors = compliantMinorscopy;
+      console.log(this.compliantMinors);
     };
     const MinorParticipants = this.getMinorParticipants();
     console.log(MinorParticipants);
     return MinorParticipants.map((p) => (<Grid.Row key={p._id} columns={3}>
       <Grid.Column>{p.firstName}</Grid.Column>
       <Grid.Column>{p.lastName}</Grid.Column>
-      <Checkbox value={p._id} onClick={(evt, data) => onChangeCheckbox(evt, data)}/>
+      <Grid.Column><Checkbox value={p._id} onClick={(evt, data) => onChangeCheckbox(evt, data)}/></Grid.Column>
     </Grid.Row>));
   }
 
@@ -71,6 +72,7 @@ class UpdateMinorParticipantsWidget extends React.Component {
         id: MP._id,
         isCompliant: true,
       };
+
       updateMethod.call({ collectionName, updateData }, (error) => {
         if (error) {
           Error = true;
@@ -78,9 +80,10 @@ class UpdateMinorParticipantsWidget extends React.Component {
         }
       });
     }));
+
     if (!Error) {
       swal('Success', 'updated successfully', 'success');
-/*      this.setState({ redirectToReferer: true });*/
+     this.setState({ redirectToReferer: true });
     } else swal('Fail', 'updated fail', 'error');
 
   }
@@ -92,6 +95,7 @@ class UpdateMinorParticipantsWidget extends React.Component {
     }
     return (
         <div>
+          <Header>Minor Participants List</Header>
           <Grid celled>
             <Grid.Row columns={3}>
               <Grid.Column>
@@ -106,7 +110,7 @@ class UpdateMinorParticipantsWidget extends React.Component {
             </Grid.Row>
             {this.renderMinorParticipants()}
             <Grid.Row centered>
-              <Button style={{ textAlign: 'center' }} onClick = {this.submitData()}>submit</Button>
+              <Button type='button' style={{ textAlign: 'center' }} onClick = {() => this.submitData()}>submit</Button>
             </Grid.Row>
           </Grid>
         </div>
