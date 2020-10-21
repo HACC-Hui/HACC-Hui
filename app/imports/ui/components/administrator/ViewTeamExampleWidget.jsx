@@ -77,10 +77,10 @@ ViewTeamExampleWidget.propTypes = {
   teamParticipants: PropTypes.arrayOf(PropTypes.object).isRequired,
   teamMembers: PropTypes.arrayOf(
       PropTypes.string,
-  ).isRequired,
-  teamCompliance: PropTypes.arrayOf(
-      PropTypes.boolean,
-  ).isRequired,
+  ).isRequired, 
+  // teamCompliance: PropTypes.arrayOf(
+  //     PropTypes.boolean,
+  // ).isRequired,
 };
 
 export default withTracker(() => ({
