@@ -6,7 +6,7 @@ import ManageMinorWidget from '../../components/administrator/ManageMinorWidget'
 class ConfigureHaccPage extends React.Component {
   render() {
     return (
-        <ManageMinorWidget />
+        <ManageHaccWidget />
         );
   }
 }
