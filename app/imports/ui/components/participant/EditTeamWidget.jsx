@@ -42,7 +42,6 @@ class EditTeamWidget extends React.Component {
         allowedValues: ['Open', 'Close'],
         label: 'Availability',
       },
-      name: String,
       image: { type: String, optional: true },
       challenges: { type: Array, label: 'Challenges' },
       'challenges.$': { type: String, allowedValues: challengeNames },
@@ -73,9 +72,8 @@ class EditTeamWidget extends React.Component {
     // console.log('submit', data);
     const collectionName = Teams.getCollectionName();
     const updateData = {};
-    // name, description, challenges, skills, tools, image, open
+    // description, challenges, skills, tools, image, open
     updateData.id = data._id;
-    updateData.name = data.name;
     if (data.challenges) {
       // build an array of challenge slugs
       updateData.challenges = data.challenges.map((title) => {
@@ -144,7 +142,6 @@ class EditTeamWidget extends React.Component {
                         have to use the same name</Header>
                     </Message>
                     <Grid className='doubleLine'>
-                      <TextField name='name' />
                       <RadioField
                           name='open'
                           inline
