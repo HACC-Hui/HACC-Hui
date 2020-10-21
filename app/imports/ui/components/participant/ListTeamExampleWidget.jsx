@@ -15,6 +15,7 @@ class ListTeamExampleWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = { sent: false };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(e, inst) {
