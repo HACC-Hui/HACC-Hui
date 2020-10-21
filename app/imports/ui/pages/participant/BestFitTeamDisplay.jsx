@@ -16,6 +16,7 @@ import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
 import ListTeamsWidget from '../../components/participant/ListTeamsWidget';
 import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
+import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 
 /** Renders a table containing all of the Book documents. Use <BookItem> to render each row. */
 class BestTeam extends React.Component {
@@ -271,6 +272,7 @@ export default withTracker(() => {
   const subscriptionDeveloperTools = ParticipantTools.subscribe();
   const subscriptionTeamSkill = TeamSkills.subscribe();
   const subscriptionTeamTool = TeamTools.subscribe();
+  const subscriptionWantToJoin = WantsToJoin.subscribe();
 
   return {
     challenges: Challenges.find({}).fetch(),
@@ -281,6 +283,6 @@ export default withTracker(() => {
     developerSkill: ParticipantSkills.find({}).fetch(),
     teamSkills: TeamSkills.find({}).fetch(),
     // eslint-disable-next-line max-len
-    ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready() && subscriptionDevelopers.ready() && subscriptionTeams.ready() && subscriptionDeveloperChallenges.ready() && subscriptionTeamChallenges.ready() && subscriptionDeveloperSkill.ready() && subscriptionTeamSkill.ready() && subscriptionTeamTool.ready() && subscriptionDeveloperTools.ready(),
+    ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready() && subscriptionDevelopers.ready() && subscriptionTeams.ready() && subscriptionDeveloperChallenges.ready() && subscriptionTeamChallenges.ready() && subscriptionDeveloperSkill.ready() && subscriptionTeamSkill.ready() && subscriptionTeamTool.ready() && subscriptionDeveloperTools.ready() && subscriptionWantToJoin.ready(),
   };
 })(BestTeam);
