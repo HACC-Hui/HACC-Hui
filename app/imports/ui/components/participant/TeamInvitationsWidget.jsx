@@ -31,12 +31,12 @@ class TeamInvitationsWidget extends React.Component {
 
   render() {
 
-    if (this.props.teams.length === 0) {
+    if (this.props.teamInvitations.length === 0) {
       return (
-          <div align={'center'}>
+          <div align={'center'} style={{ margin: '3rem 0' }}>
             <Header as='h2' icon>
               <Icon name='users'/>
-              There are no available teams at the moment.
+              You have no invitations at the moment.
               <Header.Subheader>
                 Please check back later.
               </Header.Subheader>
@@ -64,7 +64,6 @@ class TeamInvitationsWidget extends React.Component {
           }
         }
       }
-      // console.log(data);
       return data;
     }
 

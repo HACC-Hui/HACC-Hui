@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Container, Header, Loader } from 'semantic-ui-react';
+import { Grid, Header, Icon, Loader } from 'semantic-ui-react';
 import _ from 'underscore';
 import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
@@ -29,12 +29,21 @@ class UpdateMinorParticipantsCompliant extends React.Component {
 
   renderMinorCFParticipants() {
     const MinorCFParticipantsID = this.getMinorCFParticipants();
-    // eslint-disable-next-line eqeqeq
-    if (MinorCFParticipantsID.length == 0) {
-      return <div><Header>No uncompilable underage participants yet</Header></div>;
+    if (MinorCFParticipantsID.length === 0) {
+      return (
+          <div align={'center'}>
+            <Header as='h2' icon>
+              <Icon name='birthday cake' />
+              There are no minor participants yet
+              <Header.Subheader>
+                Please check back later.
+              </Header.Subheader>
+            </Header>
+          </div>
+      );
     }
 
-    return <div><UpdateMinorParticipantsWidget MinorParticipantsID={MinorCFParticipantsID}/></div>;
+    return <div><UpdateMinorParticipantsWidget MinorParticipantsID={MinorCFParticipantsID} /></div>;
 
   }
 
@@ -44,13 +53,19 @@ class UpdateMinorParticipantsCompliant extends React.Component {
   }
 
   renderPage() {
-    return (<Container center>
-      <Header>List for the uncompilable underage participants</Header>
-      {this.renderMinorCFParticipants()}
-    </Container>);
+    const style = {
+      marginTop: '1rem',
+      marginBottom: '1rem',
+    };
+    return (
+        <Grid doubling relaxed stackable style={style}>
+          <Grid.Row centered>{this.renderMinorCFParticipants()}</Grid.Row>
+        </Grid>
+    );
   }
 
 }
+
 UpdateMinorParticipantsCompliant.propTypes = {
 
   ready: PropTypes.bool.isRequired,

@@ -55,8 +55,6 @@ class EditChallengeWidget extends React.Component {
     };
 
     const interestNames = this.props.interests.filter(interestFilter);
-    // console.log(interestNames);
-    // console.log(_.map(interestNames, 'slugID'));
     const interestSlugs = _.map(interestNames, '_id');
     console.log(interestSlugs);
     const updateData = {
@@ -68,10 +66,8 @@ class EditChallengeWidget extends React.Component {
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
-            // console.error(error.message);
           } else {
             swal('Success', 'Item edited successfully', 'success');
-            // console.log('Success');
           }
         });
   }

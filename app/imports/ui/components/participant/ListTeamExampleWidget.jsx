@@ -68,26 +68,30 @@ class ListTeamExampleWidget extends React.Component {
   render() {
 
     return (
-        <Grid.Row columns={6}>
+        <Grid celled container stackable columns={6}>
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
           </Grid.Column>
           <Grid.Column>
+            <Header>Challenges</Header>
             <List bulleted>
               {this.props.teamChallenges.map((c) => <List.Item key={c}>{c}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
+            <Header>Desired Skills</Header>
             <List bulleted>
               {this.props.teamSkills.map((s) => <List.Item key={s}>{s}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
+            <Header>Desired Tools</Header>
             <List bulleted>
               {this.props.teamTools.map((t) => <List.Item key={t}>{t}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
+            <Header>Members</Header>
             <List bulleted>
               {this.props.teamMembers.map((t) => <List.Item key={t}>{t}</List.Item>)}
             </List>
@@ -95,7 +99,7 @@ class ListTeamExampleWidget extends React.Component {
           <Grid.Column>
             {this.renderButton()}
           </Grid.Column>
-        </Grid.Row>
+        </Grid>
     );
   }
 }

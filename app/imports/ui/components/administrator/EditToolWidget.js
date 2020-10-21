@@ -26,9 +26,6 @@ class EditToolWidget extends React.Component {
    * @param formRef {FormRef} reference to the form.
    */
   submit(data) {
-
-    // console.log('EditToolWidget.submit', data);
-
     const {
       name, description,
     } = data;
@@ -40,15 +37,12 @@ class EditToolWidget extends React.Component {
     };
 
     const collectionName = Tools.getCollectionName();
-    // console.log(collectionName);
     updateMethod.call({ collectionName: collectionName, updateData: updateData },
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
-            // console.error(error.message);
           } else {
             swal('Success', 'Item edited successfully', 'success');
-            // console.log('Success');
           }
         });
   }

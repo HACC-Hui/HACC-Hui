@@ -46,20 +46,16 @@ class SuggestToolSkillWidget extends React.Component {
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
-            // console.error(error.message);
           } else {
             swal('Success', 'Thank you for your suggestion', 'success');
             formRef.reset();
-            // console.log('Success');
           }
         });
   }
 
   render() {
     let fRef = null;
-    // console.log(this.props);
     const model = this.props.participant;
-    // console.log(model);
     const schema = this.buildTheFormSchema();
     const formSchema = new SimpleSchema2Bridge(schema);
     const firstname = model.firstName;

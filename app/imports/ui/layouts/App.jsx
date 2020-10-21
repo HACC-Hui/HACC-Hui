@@ -28,6 +28,7 @@ import EditChallengePage from '../pages/administrator/EditChallengePage';
 import EditToolPage from '../pages/administrator/EditToolPage';
 import EditSkillPage from '../pages/administrator/EditSkillPage';
 import CreateTeamPage from '../pages/participant/CreateTeamPage';
+import EditTeamPage from '../pages/participant/EditTeamPage';
 import YourTeams from '../pages/participant/YourTeams';
 import ProfilePage from '../pages/participant/ProfilePage';
 import CreateProfilePage from '../pages/participant/CreateProfilePage';
@@ -40,6 +41,8 @@ import SideBar from '../components/SideBar';
 import ViewTeamPage from '../pages/administrator/ViewTeamPage';
 import BestFitTeamDisplay from '../pages/participant/BestFitTeamDisplay';
 import UpdateMinorParticipantsCompliant from '../pages/administrator/UpdateMinorParticipantsCompliant';
+import HelpPage from '../pages/HelpPage';
+import InterestedParticipantPage from '../pages/participant/InterestedParticipantPage';
 
 /* global window */
 /**
@@ -76,6 +79,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path={ROUTES.LANDING} component={Landing} />
           <Route path={ROUTES.SIGN_IN} component={Signin} />
+          <Route path={ROUTES.HELP_PAGE} component={HelpPage} />
           <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
           <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
           <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm} />
@@ -83,6 +87,7 @@ class App extends React.Component {
           <ProtectedRoute path={ROUTES.YOUR_PROFILE} component={ProfilePage} />
           <ProtectedRoute path={ROUTES.EDIT_PROFILE} component={EditProfilePage} />
           <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
+          <ProtectedRoute path={ROUTES.EDIT_TEAM} component={EditTeamPage} />
           <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
           <ProtectedRoute path={ROUTES.BEST_FIT} component={BestFitTeamDisplay} />
           <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
@@ -90,6 +95,7 @@ class App extends React.Component {
           <ProtectedRoute path={ROUTES.LIST_PARTICIPANTS} component={ListParticipantsPage} />
           <ProtectedRoute path={ROUTES.TEAM_INVITATIONS} component={TeamInvitationsPage}/>
           <ProtectedRoute path={ROUTES.SUGGEST_TOOL_SKILL} component={SuggestToolSkillPage} />
+          <ProtectedRoute path={ROUTES.INTERESTED_PARTICIPANTS} component={InterestedParticipantPage} />
           <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
           <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
           <AdminProtectedRoute path={ROUTES.UPDATE_MP} component={UpdateMinorParticipantsCompliant} />
@@ -117,7 +123,7 @@ class App extends React.Component {
                   <Footer/>
                 </div>
             ) : (
-                <div style={{display: 'flex', padding: `${10}px` }}>
+                <div style={{ display: 'flex', padding: `${10}px` }}>
                   <meta name="viewport" content="width=device-width, maximum-scale=1.5"/>
                   <SideBar visible={this.state.visible}>
                     {routes()}

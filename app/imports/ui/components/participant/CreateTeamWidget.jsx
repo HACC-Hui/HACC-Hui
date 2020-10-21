@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Grid, Segment, Header, Divider, Icon, Message, Button } from 'semantic-ui-react';
+import { Modal, Grid, Segment, Header, Divider, Icon, Message, Button, List } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
@@ -54,7 +54,6 @@ class CreateTeamWidget extends React.Component {
         label: 'Availability',
       },
       name: { type: String, label: 'Team Name' },
-      image: { type: String, optional: true },
       challenges: { type: Array, label: 'Challenges' },
       'challenges.$': { type: String, allowedValues: challengeNames },
       skills: { type: Array, label: 'Skills', optional: true },
@@ -67,13 +66,16 @@ class CreateTeamWidget extends React.Component {
       affiliation: { type: String, optional: true },
 
       participants: {
+        optional: true,
         type: Array,
-        minCount: 1,
+        minCount: 0,
       },
       'participants.$': {
+        optional: true,
         type: Object,
       },
       'participants.$.email': {
+        optional: true,
         type: String,
         min: 3,
       },
@@ -90,12 +92,17 @@ class CreateTeamWidget extends React.Component {
     this.setState({ isRegistered: [] });
     this.setState({ notRegistered: [] });
     const owner = this.props.participant.username;
-    const { name, description, challenges, skills, tools, image, participants } = formData;
+    const { name, description, challenges, skills, tools, participants } = formData;
     if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
       swal('Error', 'Sorry, no special characters or space allowed.', 'error');
       return;
     }
-    const partArray = participants;
+    let partArray = [];
+
+    if (typeof (participants) !== 'undefined') {
+      partArray = participants;
+    }
+
     const currPart = Participants.find({}).fetch();
     const isRegistered = [];
     const notRegistered = [];
@@ -106,25 +113,19 @@ class CreateTeamWidget extends React.Component {
         if (currPart[j].username === partArray[i].email) {
           registered = true;
           this.setState({
-            isRegistered: [
-              this.state.isRegistered,
-              `-${partArray[i].email}\n`,
-            ],
+            isRegistered: this.state.isRegistered.concat([`-${partArray[i].email}`]),
           });
           isRegistered.push(partArray[i].email);
         }
       }
       if (!registered) {
         this.setState({
-          notRegistered: [
-            this.state.notRegistered,
-            `-${partArray[i].email}\n`,
-          ],
+          notRegistered: this.state.notRegistered.concat([`-${partArray[i].email}`]),
         });
         notRegistered.push(partArray[i].email);
       }
     }
-    if (notRegistered.length != 0) {
+    if (notRegistered.length !== 0) {
       this.setState({ errorModal: true });
     }
 
@@ -148,14 +149,12 @@ class CreateTeamWidget extends React.Component {
       return Slugs.getNameFromID(doc.slugID);
     });
 
-    // If the name has special character or space, throw a swal error and return early.
     const collectionName = Teams.getCollectionName();
     const definitionData = {
       name,
       description,
       owner,
       open,
-      image,
       challenges: challengesArr,
       skills: skillsArr,
       tools: toolsArr,
@@ -198,11 +197,10 @@ class CreateTeamWidget extends React.Component {
   closeModal = () => {
     this.setState({ errorModal: false });
     swal('Success', 'Team created successfully', 'success');
-  }
+  };
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    const { email } = this.state;
     if (!this.props.participant.isCompliant) {
       return (
           <div align={'center'}>
@@ -223,7 +221,7 @@ class CreateTeamWidget extends React.Component {
     const model = this.buildTheModel();
 
     return (
-        <Grid container centered>
+        <Grid container centered style={{ marginBottom: '2rem' }}>
           <Grid.Column>
             <Divider hidden />
             <Segment
@@ -257,7 +255,6 @@ class CreateTeamWidget extends React.Component {
                           inline
                       />
                     </Grid>
-                    <TextField name='image' placeholder={'Team Image URL'} />
                     <LongTextField name='description' />
                     <MultiSelectField name='challenges' />
                     <Grid columns={2}>
@@ -293,22 +290,19 @@ class CreateTeamWidget extends React.Component {
                 open={this.state.errorModal}
             >
               <Modal.Header>Member Warning</Modal.Header>
-              <Modal.Content>
+              <Modal.Content scrolling>
                 <Modal.Description>
                   <Header>Some Members you are trying to invite have not registered with SlackBot.</Header>
                   <b>Registered Members:</b>
-                  <br />
-                  {this.state.isRegistered.map((item) => <p key={item}>{item}</p>)}
+                  <List items={this.state.isRegistered}/>
                   <b>Not Registered Members:</b>
-                  <br />
-                  {this.state.notRegistered.map((item) => <p key={item}>{item}</p>)}
+                  <List items={this.state.notRegistered}/>
                 </Modal.Description>
               </Modal.Content>
               <Modal.Actions>
-                {/* eslint-disable-next-line max-len */}
-                <b>Slackbot will only send invites to registered members, please confirm.</b>
+                <b floated="left">Slackbot will only send invites to registered members, please confirm.</b>
                 <Button
-                    content="I Understand"
+                    content= "I Understand"
                     labelPosition='right'
                     icon='checkmark'
                     onClick={() => this.closeModal()}

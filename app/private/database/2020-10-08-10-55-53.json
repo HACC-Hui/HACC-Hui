@@ -9,8 +9,6 @@
           "firstName": "Carleton",
           "lastName": "Moore"
         }
-
-
       ]
     },
     {
@@ -165,16 +163,6 @@
     {
       "name": "SlackUserCollection",
       "contents": [
-        {
-          "username": "cmoore@hawaii.edu",
-          "slackUser": "U014SC2KGAJ",
-          "dmChannel": "D015BNFJ56W"
-        },
-        {
-          "username": "carleton.moore@gmail.com",
-          "slackUser": "U0161PS6V5W",
-          "dmChannel": "D015C5AD2PM"
-        }
       ]
     },
     {

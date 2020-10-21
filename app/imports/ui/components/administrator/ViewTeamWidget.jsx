@@ -26,7 +26,7 @@ class ViewTeamWidget extends React.Component {
               <Header as="h1" textAlign="center" inverted>View Teams</Header>
             </div>
             <Grid celled>
-              <Grid.Row columns={3}>
+              <Grid.Row columns={4}>
                 <Grid.Column>
                   <Header>Team Name</Header>
                 </Grid.Column>
@@ -35,6 +35,9 @@ class ViewTeamWidget extends React.Component {
                 </Grid.Column>
                 <Grid.Column>
                   <Header>Is the Team Compliant?</Header>
+                </Grid.Column>
+                <Grid.Column>
+                  <Header>Edit Team</Header>
                 </Grid.Column>
               </Grid.Row>
             </Grid>

@@ -27,9 +27,9 @@ class NavBar extends React.Component {
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
             <Header inverted as='h1'>HACC-Hui</Header>
           </Menu.Item>
-          {isParticipant ? (
-              [
-                <Menu.Item as={NavLink}
+                {isParticipant ? (
+                      [
+                        <Menu.Item as={NavLink}
                            activeClassName="active"
                            disabled={!isCompliant}
                            exact
@@ -79,7 +79,7 @@ class NavBar extends React.Component {
                            activeClassName="active"
                            exact
                            to={ROUTES.UPDATE_MP}
-                           key={ROUTES.CONFIGURE_HACC}>Update Minor Participants status</Menu.Item>,
+                           key={ROUTES.UPDATE_MP}>Update Minor Participants Status</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
