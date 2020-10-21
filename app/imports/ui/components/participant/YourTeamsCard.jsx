@@ -56,13 +56,8 @@ class YourTeamsCard extends React.Component {
    */
   // eslint-disable-next-line no-unused-vars
   submit(formData, formRef) {
-
-    // console.log('CreateTeam.submit', formData, this.props);
-
     const { participants } = formData;
-
     const participantCollection = Participants.dumpAll().contents;
-
     const foundParticipants = [];
     const participantList = [];
 
@@ -78,8 +73,6 @@ class YourTeamsCard extends React.Component {
 
     // difference should be 0 if all the inputted participants are registered via slack
     const notFoundParticipants = _.difference(participantList, foundParticipants);
-
-    // console.log('Not Found:', notFoundParticipants);
 
     // if they entered duplicates
     if (_.uniq(participantList).length !== participantList.length) {
@@ -159,17 +152,11 @@ class YourTeamsCard extends React.Component {
       const teamDoc = Teams.findDoc(this.props.teams._id);
       const team = Slugs.getNameFromID(teamDoc.slugID);
       const participant = participantList[i];
-
-      // console.log(developerDoc);
-      // console.log(developer);
-
       const definitionData = {
         team,
         participant,
       };
-
       const collectionName2 = TeamInvitations.getCollectionName();
-      // console.log(collectionName2, definitionData);
       defineMethod.call({ collectionName: collectionName2, definitionData }, (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -182,7 +169,6 @@ class YourTeamsCard extends React.Component {
         }
       });
     }
-
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -214,8 +200,8 @@ class YourTeamsCard extends React.Component {
           </Item.Content>
 
           <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }}>
-            <Link to={`/interested-developers/${this.props.teams._id}`}>See interested
-              developers</Link>
+            <Link to={`/interested-participants/${this.props.teams._id}`}>See interested
+              participants</Link>
           </Button>
           <Modal
               closeIcon

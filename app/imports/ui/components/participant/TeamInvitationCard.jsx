@@ -23,46 +23,34 @@ class TeamInvitationCard extends React.Component {
     console.log(e);
     const thisTeamID = tID;
     const collectionName2 = TeamInvitations.getCollectionName();
-    // console.log(collectionName2, devID);
     // eslint-disable-next-line max-len
     const intID = TeamInvitations.findDoc({ teamID: thisTeamID, participantID: Participants.findDoc({ userID: Meteor.userId() })._id });
-    // console.log(intID);
     removeItMethod.call({ collectionName: collectionName2, instance: intID }, (error) => {
       if (error) {
         swal('Error', error.message, 'error');
-        // console.error(error.message);
       } else {
         swal('Success', 'Removed Team Invitation', 'success');
-        // console.log('Success');
       }
     });
   }
 
   handleClick(tID, e) {
     console.log(e);
-    // console.log(tID);
-    // console.log(dID);
     const thisTeam = tID;
     const devID = Participants.findDoc({ userID: Meteor.userId() })._id;
-    // console.log(thisTeam);
     const definitionData = { team: thisTeam, participant: devID };
     const collectionName = TeamParticipants.getCollectionName();
-    // console.log(collectionName);
     defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
-            // console.error(error.message);
           } else {
             swal('Success', 'Team Invitation Accepted', 'success');
-            // console.log('Success');
           }
         });
     const collectionName2 = TeamInvitations.getCollectionName();
-    // console.log(collectionName2, devID);
     // eslint-disable-next-line max-len
     const intID = TeamInvitations.findDoc({ teamID: thisTeam, participantID: Participants.findDoc({ userID: Meteor.userId() })._id });
-    // console.log(intID);
     removeItMethod.call({ collectionName: collectionName2, instance: intID }, (error) => {
       if (error) {
         console.error('Failed to remove', error);

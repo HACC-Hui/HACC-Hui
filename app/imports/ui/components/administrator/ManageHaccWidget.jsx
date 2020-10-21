@@ -21,20 +21,20 @@ class ManageHaccWidget extends React.Component {
 
   render() {
     return (
-        <div style={{ backgroundColor: '#C4C4C4', paddingBottom: '50px' }}>
+        <div style={{ paddingBottom: '50px' }}>
           <Grid container centered>
             <Grid.Column>
               <div style={{
-                backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
+                backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
                 borderRadius: '2rem',
               }}>
-                <Header as="h2" textAlign="center" inverted>Manage HACC</Header>
+                <Header as="h2" textAlign="center">Manage HACC</Header>
               </div>
               <Segment style={{
                 borderRadius: '1rem',
-                backgroundColor: '#393B44',
+                backgroundColor: '#E5F0FE',
               }} className={'teamCreate'}>
-                <Header as="h2" textAlign="center" inverted>Challenges</Header>
+                <Header as="h2" textAlign="center" >Challenges</Header>
                 <Table fixed columns={5}>
                   <Table.Header>
                     <Table.Row>
@@ -54,11 +54,11 @@ class ManageHaccWidget extends React.Component {
                 </Table>
                 <div align='center'>
                   <Button style={{
-                    color: 'white', backgroundColor: '#24252B',
+                    color: 'white', backgroundColor: '#DB2828',
                     margin: '2rem 0rem',
                   }}><Link to={ROUTES.ADD_CHALLENGE} style={{ color: 'white' }}>Add Challenge</Link></Button>
                 </div>
-                <Header as="h2" textAlign="center" inverted>Skills</Header>
+                <Header as="h2" textAlign="center">Skills</Header>
                 <Table>
                   <Table.Header>
                     <Table.Row>
@@ -74,11 +74,11 @@ class ManageHaccWidget extends React.Component {
                 </Table>
                 <div align='center'>
                   <Button style={{
-                    color: 'white', backgroundColor: '#24252B',
+                    color: 'white', backgroundColor: '#DB2828',
                     margin: '2rem 0rem',
                   }}><Link to={ROUTES.ADD_SKILL} style={{ color: 'white' }}>Add Skill</Link></Button>
                 </div>
-                <Header as="h2" textAlign="center" inverted>Tools</Header>
+                <Header as="h2" textAlign="center">Tools</Header>
                 <Table>
                   <Table.Header>
                     <Table.Row>
@@ -93,7 +93,7 @@ class ManageHaccWidget extends React.Component {
                 </Table>
                 <div align='center'>
                   <Button style={{
-                    color: 'white', backgroundColor: '#24252B',
+                    color: 'white', backgroundColor: '#DB2828',
                     margin: '2rem 0rem',
                   }}><Link to={ROUTES.ADD_TOOL} style={{ color: 'white' }}>Add Tool</Link></Button>
                 </div>

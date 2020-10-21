@@ -7,7 +7,7 @@ import { Administrators } from './AdministratorCollection';
 
 const xkpasswd = require('xkpasswd');
 
-const generatePassword = () => xkpasswd();
+const generatePassword = () => xkpasswd({ complexity: 1, separators: ':-.' });
 
 class UserCollection {
   constructor() {

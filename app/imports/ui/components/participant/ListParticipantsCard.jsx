@@ -8,6 +8,7 @@ import {
   Icon,
   Button,
   Dropdown,
+  List, Divider,
 } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -19,16 +20,6 @@ import { Participants } from '../../../api/user/ParticipantCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 
 class ListParticipantsCard extends React.Component {
-  /*
-  isAdded(tID, dID) {
-    // console.log(typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined');
-    if (typeof TeamDevelopers.findOne({ teamID: tID, developerID: dID }) !== 'undefined') {
-      return true;
-    }
-    return false;
-  }
-   */
-
   state = {};
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -52,57 +43,41 @@ class ListParticipantsCard extends React.Component {
       for (let i = 0; i < teams.length; i++) {
         newOptions.push({ key: teams[i].name, text: teams[i].name, value: teams[i].name });
       }
-      console.log(newOptions);
       return newOptions;
     }
 
     const options = setOptions();
 
-    function handleChange(dID, { value }, e) {
-      console.log(e);
-      console.log(e.value);
-      console.log(dID);
+    function handleChange(dID, { val }, e) {
+      // eslint-disable-next-line no-console
+      console.log(val);
+      // console.log(e);
       if (e.value !== 'Select a Team') {
-        // console.log(tID);
-        // console.log(dID);
         const thisTeam = Teams.findDoc({ name: e.value })._id;
-        const devID = Participants.findDoc({ _id: dID }).username;
-        // console.log(thisTeam);
-        const definitionData = { team: thisTeam, participant: devID };
+        const participantID = Participants.findDoc({ _id: dID }).username;
+        const definitionData = { team: thisTeam, participant: participantID };
         const collectionName = TeamInvitations.getCollectionName();
-        // console.log(collectionName);
-        console.log(thisTeam);
         if (typeof TeamParticipants.findOne({
           teamID: thisTeam,
           participantID: dID,
         }) !== 'undefined') {
-          console.log('already in team');
+          // console.log('already in team');
           swal('Error',
-              `Sorry, participant ${devID} is already in this team!`,
+              `Sorry, participant ${participantID} is already in this team!`,
               'error');
           return;
         }
-        /* console.log(typeof TeamDevelopers.findOne({
-          teamID: thisTeam,
-          developerID: dID,
-        }) !== 'undefined');
-        console.log(typeof TeamDevelopers.findOne({
-          teamID: thisTeam,
-          developerID: dID,
-        }));
-         */
-
         if (typeof TeamInvitations.findOne({
           teamID: thisTeam,
           participantID: dID,
         }) !== 'undefined') {
-          console.log('already invited');
+          // console.log('already invited');
           swal('Error',
-              `Sorry, participant ${devID} has already been sent an invitation!`,
+              `Sorry, participant ${participantID} has already been sent an invitation!`,
               'error');
           return;
         }
-
+        /*
         console.log(typeof TeamInvitations.findOne({
           teamID: thisTeam,
           participantID: dID,
@@ -112,15 +87,16 @@ class ListParticipantsCard extends React.Component {
           teamID: thisTeam,
           participantID: dID,
         }));
+         */
 
         defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
             (error) => {
               if (error) {
                 swal('Error', error.message, 'error');
-                console.error(error.message);
+                // console.error(error.message);
               } else {
                 swal('Success', 'Invitation sent successfully', 'success');
-                console.log('Success');
+                // console.log('Success');
               }
             });
       }
@@ -128,47 +104,56 @@ class ListParticipantsCard extends React.Component {
 
     return (
         <Item onMouseEnter={changeBackground} onMouseLeave={onLeave}
-              style={{ padding: '0rem 2rem 0rem 2rem' }}>
+              style={{ padding: '0rem 1.5rem 0.5rem 1.5rem' }}>
           <Modal closeIcon trigger={
             <Item.Content>
               <Item.Header>
-                <Header as={'h3'} style={{ color: '#263763', paddingTop: '2rem' }}>
+                <Header as={'h3'} style={{ color: '#263763', paddingTop: '1.5rem' }}>
                   <Icon name='user' size='tiny' />
-                  {this.props.developers.firstName} {this.props.developers.lastName}
+                  {this.props.participants.firstName} {this.props.participants.lastName}
                 </Header>
               </Item.Header>
-              <Item.Meta>
-                <Item.Meta>
-                  <Grid doubling columns={6}>
+              <Item.Description>
+                  <Grid.Column>
+                    <Header>About Me</Header>
+                    {this.props.participants.aboutMe}
+                  </Grid.Column>
+                  <Divider hidden/>
+                  <Grid doubling stackable columns={5}>
                     <Grid.Column>
+                      <Header>Challenges</Header>
                       <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
-                        {this.props.challenges.slice(0, 3).map((challenge) => <p
+                        {this.props.challenges.slice(0, 3).map((challenge, i) => <p
                             style={{ color: 'rgb(89, 119, 199)' }}
-                            key={challenge}>
+                            key={challenge + i}>
                           {challenge}</p>)}
                       </Grid.Column>
-
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Skills</Header>
-                      {this.props.skills.slice(0, 3).map((skill) => <p key={skill}>
+                      {this.props.skills.slice(0, 3).map((skill, i) => <p key={skill + i}>
                         {skill.name}</p>)}
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Tools</Header>
-                      {this.props.tools.slice(0, 3).map((tool) => <p key={tool}>
+                      {this.props.tools.slice(0, 3).map((tool, i) => <p key={tool + i}>
                         {tool.name}</p>)}
                     </Grid.Column>
                     <Grid.Column>
+                      <Header>Interests</Header>
+                      {this.props.interests.slice(0, 3).map((interest, i) => <p key={interest + i}>
+                        {interest}</p>)}
+                    </Grid.Column>
+                    <Grid.Column>
                       <Header>Slack Username</Header>
-                      {this.props.developers.username}
+                      {this.props.participants.username}
                     </Grid.Column>
                     <Grid.Column>
                       <Button.Group style={{ backgroundColor: 'transparent' }}>
                         <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
                         <Dropdown
                             className='button icon'
-                            onChange={handleChange.bind(this, this.props.devID)}
+                            onChange={handleChange.bind(this, this.props.participantID)}
                             options={options}
                             trigger={<></>}
                             style={{ backgroundColor: 'transparent' }}
@@ -176,48 +161,59 @@ class ListParticipantsCard extends React.Component {
                       </Button.Group>
                     </Grid.Column>
                   </Grid>
-                </Item.Meta>
-              </Item.Meta>
+              </Item.Description>
             </Item.Content>
           }>
-            <Modal.Header>{this.props.developers.firstName} {this.props.developers.lastName}</Modal.Header>
-            <Modal.Content image scrolling>
+            <Modal.Header>
+              {this.props.participants.firstName} {this.props.participants.lastName}
+              <br /> {this.props.participants.demographicLevel}
+            </Modal.Header>
+            <Modal.Content image>
               <Modal.Description>
-                <Header>About Me</Header>
-                <p>
-                  {this.props.developers.aboutMe}
-                </p>
-                <Header>Slack Username</Header>
-                <p>
-                  {this.props.developers.username}
-                </p>
-                <Header>LinkedIn</Header>
-                <p>
-                  {this.props.developers.linkedIn}
-                </p>
-                <Header>GitHub</Header>
-                <p>
-                  {this.props.developers.gitHub}
-                </p>
-                <Header>Website</Header>
-                <p>
-                  {this.props.developers.website}
-                </p>
-                <Header>Challenges</Header>
-                <p>
-                  {this.props.challenges.map((challenge) => <p key={challenge}>
-                    {challenge}</p>)}
-                </p>
-                <Header>Skills</Header>
-                <p>
-                  {this.props.skills.map((skill) => <p key={skill}>
-                    {skill.name}</p>)}
-                </p>
-                <Header>Tools</Header>
-                <p>
-                  {this.props.tools.map((tool) => <p key={tool}>
-                    {tool.name}</p>)}
-                </p>
+                <Grid container columns={2}>
+                  <Grid.Column><Icon name="github"/>GitHub:<br/>
+                    <a href={this.props.participants.gitHub}>{this.props.participants.gitHub}</a>
+                  </Grid.Column>
+                  <Grid.Column><Icon name="server"/>Website:<br/>
+                    <a href={this.props.participants.website}>{this.props.participants.website}</a>
+                  </Grid.Column>
+                  <Grid.Column><Icon name="linkedin"/>LinkedIn:<br/>
+                    <a href={this.props.participants.linkedIn}>{this.props.participants.linkedIn}</a>
+                  </Grid.Column>
+                  <Grid.Column><Icon name="slack"/>Slack Username:<br/>
+                    <a href={this.props.participants.username}>{this.props.participants.username}</a>
+                  </Grid.Column>
+                </Grid>
+                <Divider hidden/>
+                <Grid.Column>
+                  <Header dividing size="small">Challenges</Header>
+                  <List bulleted>
+                    {this.props.challenges.map((challenge, i) => (
+                      <List.Item key={challenge + i}>{challenge}</List.Item>
+                    ))}
+                  </List>
+                </Grid.Column>
+                <Divider hidden/>
+                <Grid.Column>
+                  <Header dividing size="small">Skills</Header>
+                  <List bulleted>
+                    {this.props.skills.map((skill, i) => <List.Item key={skill + i}>{skill.name}</List.Item>)}
+                  </List>
+                </Grid.Column>
+                <Divider hidden/>
+                <Grid.Column>
+                  <Header dividing size="small">Tools</Header>
+                  <List bulleted>
+                    {this.props.tools.map((tool, i) => <List.Item key={tool + i}>{tool.name}</List.Item>)}
+                  </List>
+                </Grid.Column>
+                <Divider hidden/>
+                <Grid.Column>
+                  <Header dividing size="small">Interests</Header>
+                  <List bulleted>
+                    {this.props.interests.map((interest, i) => <List.Item key={interest + i}>{interest}</List.Item>)}
+                  </List>
+                </Grid.Column>
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
@@ -225,9 +221,9 @@ class ListParticipantsCard extends React.Component {
                 <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
                 <Dropdown
                     className='button icon'
-                    onChange={handleChange.bind(this, this.props.devID)}
+                    onChange={handleChange.bind(this, this.props.participantID)}
                     options={options}
-                    trigger={<></>}
+                    // trigger={<></>}
                     style={{ backgroundColor: 'transparent' }}
                     selection
                     value={value}
@@ -241,11 +237,12 @@ class ListParticipantsCard extends React.Component {
 }
 
 ListParticipantsCard.propTypes = {
-  devID: PropTypes.string.isRequired,
+  participantID: PropTypes.string.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
-  developers: PropTypes.object.isRequired,
+  interests: PropTypes.array.isRequired,
+  participants: PropTypes.object.isRequired,
 };
 export default withTracker(() => ({
     teamInvitation: TeamInvitations.find({}).fetch(),
