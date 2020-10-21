@@ -29,14 +29,14 @@ class ListTeamExampleWidget extends React.Component {
       participant,
     };
     console.log(collectionName, definitionData);
-    this.setState({ sent: true });
+
     defineMethod.call({ collectionName, definitionData }, (error) => {
       if (error) {
         swal('sent request fail', error, 'error');
       } else {
 
         swal('sent ', 'join request sent', 'success');
-
+        this.setState({ sent: true });
 }
     });
   }
