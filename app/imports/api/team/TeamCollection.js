@@ -97,7 +97,7 @@ class TeamCollection extends BaseSlugCollection {
    * @param affiliation {string} the affiliation for this team, optional.
    * @param gitHubRepo {String} The team's GitHub Repository, optional.
    */
-  update(docID, { name, description, open, challenges, skills, tools, participants, affiliation, gitHubRepo }) {
+  update(docID, { name, description, open, challenges, skills, tools, participants, affiliation, gitHubRepo, newOwner }) {
     this.assertDefined(docID);
     const updateData = {};
     if (name) {
@@ -114,6 +114,9 @@ class TeamCollection extends BaseSlugCollection {
     }
     if (gitHubRepo) {
       updateData.gitHubRepo = gitHubRepo;
+    }
+    if (newOwner) {
+      updateData.owner = newOwner;
     }
     this._collection.update(docID, { $set: updateData });
     const selector = { teamID: docID };

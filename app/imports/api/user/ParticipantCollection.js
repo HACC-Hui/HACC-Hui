@@ -14,6 +14,7 @@ import { Challenges } from '../challenge/ChallengeCollection';
 import { Interests } from '../interest/InterestCollection';
 import { Skills } from '../skill/SkillCollection';
 import { Tools } from '../tool/ToolCollection';
+import { TeamParticipants } from '../team/TeamParticipantCollection';
 
 /**
  * ParticipantCollection, collection of HACC-Hui participants.
@@ -173,6 +174,7 @@ class ParticipantCollection extends BaseSlugCollection {
     ParticipantInterests.removeParticipant(participant);
     ParticipantSkills.removeParticipant(participant);
     ParticipantTools.removeParticipant(participant);
+    TeamParticipants.removeParticipant(participant);
     super.removeIt(docID);
   }
 
