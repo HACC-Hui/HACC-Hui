@@ -2,24 +2,32 @@ import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
-import { Item, Divider, Button, Icon, Header, Modal, Grid, Dropdown, List } from 'semantic-ui-react';
+import { Item, Divider, Button, Icon, Header, Modal, Grid, List } from 'semantic-ui-react';
+import swal from 'sweetalert';
 import { Teams } from '../../../api/team/TeamCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
-import ListTeamExampleWidget from './ListTeamExampleWidget';
-import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
-import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
-import { Challenges } from '../../../api/challenge/ChallengeCollection';
-import { TeamSkills } from '../../../api/team/TeamSkillCollection';
-import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
-import { Skills } from '../../../api/skill/SkillCollection';
-import { TeamTools } from '../../../api/team/TeamToolCollection';
-import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
-import { Tools } from '../../../api/tool/ToolCollection';
-// import { InterestedParticipants } from '../../../api/team/InterestedParticipantCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
-import { ParticipantInterests } from '../../../api/user/ParticipantInterestCollection';
-import { Interests } from '../../../api/interest/InterestCollection';
+// eslint-disable-next-line import/no-duplicates
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
+// eslint-disable-next-line import/no-duplicates
+import { removeItMethod } from '../../../api/base/BaseCollection.methods';
+import { ToAcceptWantsToJoin } from '../../../api/team/ToAcceptWantToJoinCollection';
+import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
+// import { Slugs } from '../../../api/slug/SlugCollection';
+// import ListTeamExampleWidget from './ListTeamExampleWidget';
+// import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
+// import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
+// import { Challenges } from '../../../api/challenge/ChallengeCollection';
+// import { TeamSkills } from '../../../api/team/TeamSkillCollection';
+// import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
+// import { Skills } from '../../../api/skill/SkillCollection';
+// import { TeamTools } from '../../../api/team/TeamToolCollection';
+// import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
+// import { Tools } from '../../../api/tool/ToolCollection';
+// // import { InterestedParticipants } from '../../../api/team/InterestedParticipantCollection';
+// import { ParticipantInterests } from '../../../api/user/ParticipantInterestCollection';
+// import { Interests } from '../../../api/interest/InterestCollection';
+// import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 
 // const getParticipantChallenges = (participant) => {
 //   const participantID = participant._id;
@@ -75,12 +83,42 @@ import { defineMethod } from '../../../api/base/BaseCollection.methods';
 class InterestedParticipantsWidget extends React.Component {
   state = {};
 
-  accept = (e) => {
-    console.log('request accepted');
+  accept = (e, inst) => {
+    console.log('inst: ', inst.id);
+    const collectionName = TeamParticipants.getCollectionName();
+    const participant = Participants.findDoc(inst.id);
+    const team = this.props.team;
+    const interested = ToAcceptWantsToJoin.findDoc({ participantID: inst.id });
+    const definitionData = {
+      team,
+      participant,
+    };
+    console.log(collectionName, definitionData);
+    defineMethod.call({ collectionName, definitionData }, (error) => {
+      if (error) {
+        swal('Error', error.message, 'error');
+        // console.error(error.message);
+      } else {
+        swal('Success', 'Participant successfully added to team', 'success');
+        // console.log(result);
+      }
+    });
+    ToAcceptWantsToJoin.removeIt(interested);
   }
 
-  decline = (e) => {
-    console.log('request declined');
+  decline = (e, inst) => {
+    const collectionName = ToAcceptWantsToJoin.getCollectionName();
+    const interested = ToAcceptWantsToJoin.findDoc({ participantID: inst.id });
+    const interestedID = interested._id;
+    removeItMethod.call({ collectionName, interestedID }, (error) => {
+      if (error) {
+        swal('Error', error.message, 'error');
+        // console.error(error.message);
+      } else {
+        swal('Success', 'Successfully declined request', 'success');
+        // console.log(result);
+      }
+    });
   }
 
   render() {
@@ -106,7 +144,7 @@ class InterestedParticipantsWidget extends React.Component {
       return newOptions;
     }
 
-    const options = setOptions();
+    // const options = setOptions();
 
     return (
       <div>
@@ -234,17 +272,17 @@ class InterestedParticipantsWidget extends React.Component {
             </Modal.Content>
             <Modal.Actions>
               <Button.Group>
-                <Button onClick={this.accept} positive>Accept</Button>
+                <Button id={this.props.parID} onClick={this.accept} positive>Accept</Button>
                 <Button.Or />
-                <Button onClick={this.decline} negative>Decline</Button>
+                <Button id={this.props.parID} onClick={this.decline} negative>Decline</Button>
               </Button.Group>
             </Modal.Actions>
           </Modal>
         </Item>
         <Button.Group attached='bottom'>
-          <Button onClick={this.accept} positive>Accept</Button>
+          <Button id={this.props.parID} onClick={this.accept} positive>Accept</Button>
           <Button.Or />
-          <Button onClick={this.decline} negative>Decline</Button>
+          <Button id={this.props.parID} onClick={this.decline} negative>Decline</Button>
         </Button.Group>
         <Divider></Divider>
       </div>
@@ -255,6 +293,7 @@ class InterestedParticipantsWidget extends React.Component {
 InterestedParticipantsWidget.propTypes = {
   parID: PropTypes.string.isRequired,
   participant: PropTypes.object.isRequired,
+  team: PropTypes.object.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,

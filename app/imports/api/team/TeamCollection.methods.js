@@ -6,6 +6,7 @@ import { Teams } from './TeamCollection';
 import { Users } from '../user/UserCollection';
 import { ROLE } from '../role/Role';
 import { WantsToJoin } from './WantToJoinCollection';
+import { ToAcceptWantsToJoin } from './ToAcceptWantToJoinCollection';
 
 /**
  * Meteor method for getting the teams without a GitHub Repository. Only Administrators can run this
@@ -71,6 +72,7 @@ export const participantIsInterestedInJoiningTeamMethod = new ValidatedMethod({
     }
     if (Meteor.isServer) {
       WantsToJoin.define({ team, participant });
+      ToAcceptWantsToJoin.define({ team, participant });
     }
   },
 });

@@ -305,17 +305,16 @@ class InterestedParticipantsPage extends React.Component {
         </Grid.Column>
         <Grid.Column width={12}>
           <Item.Group>
-            {this.state.result.forEach((participant) => {
-                <InterestedParticipantsWidget
+            {this.state.result.map((participant) => <InterestedParticipantsWidget
                 key={participant._id}
                 parID={participant._id}
                 participant={participant}
+                team = {this.props.teamDoc}
                 skills={getParticipantSkills(participant._id, this.props.participantSkills)}
                 tools={getParticipantTools(participant._id, this.props.participantTools)}
                 challenges={getParticipantChallenges(participant._id, this.props.participantChallenges)}
                 interests={getParticipantInterests(participant._id, this.props.participantInterests)}
-            />;
-            })}
+            />)}
           </Item.Group>
         </Grid.Column>
       </Grid>
