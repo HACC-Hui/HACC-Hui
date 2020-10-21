@@ -1,9 +1,9 @@
 import React from 'react';
 import withAllSubscriptions from '../../layouts/AllSubscriptionsHOC';
-import ManageHaccWidget from '../../components/administrator/ManageHaccWidget';
 import ManageMinorWidget from '../../components/administrator/ManageMinorWidget';
+import ManageHaccWidget from '../../components/administrator/ManageHaccWidget';
 
-class ConfigureHaccPage extends React.Component {
+class ShowMinorPage extends React.Component {
   render() {
     return (
         <ManageMinorWidget />
@@ -11,4 +11,4 @@ class ConfigureHaccPage extends React.Component {
   }
 }
 
-export default withAllSubscriptions(ConfigureHaccPage);
+export default withAllSubscriptions(ShowMinorPage);
