@@ -16,6 +16,7 @@ const getTeamMembers = (team) => {
 
 class ViewTeamWidget extends React.Component {
   render() {
+    // console.log('ViewTeamWidget');
     return (
         <Grid container centered>
           <Grid.Column>
@@ -27,7 +28,7 @@ class ViewTeamWidget extends React.Component {
             </div>
             <Grid celled>
               <Grid.Row columns={4} style={{
-                backgroundColor: '#E5F0FE',}}>
+                backgroundColor: '#E5F0FE' }}>
                 <Grid.Column>
                   <Header>Team Name</Header>
                 </Grid.Column>

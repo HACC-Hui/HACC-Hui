@@ -38,4 +38,5 @@ export const ROUTES = {
   VIEW_TEAM: '/view-team',
   BEST_FIT: '/best-fit-team-display',
   UPDATE_MP: '/update-minor-participants',
+  SHOW_MINORS: '/show-minors',
 };

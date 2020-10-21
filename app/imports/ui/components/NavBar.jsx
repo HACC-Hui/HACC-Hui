@@ -89,14 +89,17 @@ class NavBar extends React.Component {
                            activeClassName="active"
                            exact
                            to={ROUTES.VIEW_TEAM}
-                           key={ROUTES.VIEW_TEAM}>View Team</Menu.Item>,
+                           key={ROUTES.VIEW_TEAM}>View Teams</Menu.Item>,
+                // <Menu.Item as={NavLink}
+                //            activeClassName="active"
+                //            exact
+                //            to={ROUTES.SHOW_MINORS}
+                //            key={ROUTES.SHOW_MINORS}>Show Minors</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
                            to={ROUTES.DUMP_DATABASE}
                            key={ROUTES.DUMP_DATABASE}>Dump Database</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.CONFIGURE_HACC}
-                           key={ROUTES.SHOW_MINOR}>Show Minor</Menu.Item>,
               ]
           ) : ''}
           <Menu.Item position="right">

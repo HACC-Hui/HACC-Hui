@@ -14,6 +14,7 @@ import { MinorParticipants } from '../../../api/user/MinorParticipantCollection'
 class ManageMinorWidget extends React.Component {
 
   render() {
+    console.log('ManageMinorWidget');
     return (
         <div style={{ backgroundColor: '#C4C4C4', paddingBottom: '50px' }}>
           <Grid container centered>

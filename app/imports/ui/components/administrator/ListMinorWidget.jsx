@@ -1,13 +1,10 @@
 import React from 'react';
-import { Button, Table, Label } from 'semantic-ui-react';
+import { Button, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 import { removeItMethod } from '../../../api/base/BaseCollection.methods';
-import { Challenges } from '../../../api/challenge/ChallengeCollection';
-import { ChallengeInterests } from '../../../api/challenge/ChallengeInterestCollection';
-import { Interests } from '../../../api/interest/InterestCollection';
 import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 
 /** Renders a single row in the table. See pages/Listmenuitemss.jsx. */
@@ -35,7 +32,7 @@ class ListMinorWidget extends React.Component {
   }
 
   render() {
-    //const challengeInterestArray = this.findInterests();
+    // const challengeInterestArray = this.findInterests();
     // console.log(challengeInterestArray);
     return (
         <Table.Row>

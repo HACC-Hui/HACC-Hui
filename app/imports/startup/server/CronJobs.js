@@ -33,7 +33,8 @@ SyncedCron.add({
         teamMemberIDs.push(team.owner);
         // console.log(participant);
         teamMemberIDs.forEach((memberID) => {
-          const message = `${participant.firstName} ${participant.lastName} would like to join your team, ${team.name}.`;
+          const message = `${participant.firstName} ${participant.lastName} would like to
+           join your team, ${team.name}.`;
           if (Participants.isDefined(memberID)) {
             const username = Participants.findDoc(memberID).username;
             sendDM2ParticipantMethod.call({ participant: username, message }, (error) => {

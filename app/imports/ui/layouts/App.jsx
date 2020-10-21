@@ -107,9 +107,9 @@ class App extends React.Component {
           <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkillPage}/>
           <AdminProtectedRoute path={ROUTES.LIST_SUGGESTIONS} component={ListSuggestions}/>
           <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
-          <AdminProtectedRoute path={ROUTES.SHOW_MINOR} component={ShowMinorPage} />
           <AdminProtectedRoute path={ROUTES.ADMIN_EDIT_TEAM} component={AdminEditTeamPage} />
           <AdminProtectedRoute path={ROUTES.VIEW_TEAM} component={ViewTeamPage} />
+          <AdminProtectedRoute path={ROUTES.SHOW_MINORS} component={ShowMinorPage} />
           <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
           <Route component={NotFound} />
         </Switch>

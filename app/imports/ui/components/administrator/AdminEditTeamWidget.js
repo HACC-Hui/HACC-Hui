@@ -66,43 +66,41 @@ class AdminEditTeamWidget extends React.Component {
   render() {
     const formSchema = new SimpleSchema2Bridge(schema);
     return (
-        <div style={{ backgroundColor: '#C4C4C4' }}>
-          <Grid container centered>
-            <Grid.Column>
-              <div style={{
-                backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
-                borderRadius: '2rem',
-              }}>
-                <Header as="h2" textAlign="center" inverted>Edit A Team</Header>
-              </div>
-              <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.doc}
-                        style={{
-                          paddingBottom: '4rem',
-                        }}>
-                <Segment style={{
-                  borderRadius: '1rem',
-                  backgroundColor: '#393B44',
-                }} className={'teamCreate'}>
-                  <Grid container centered>
-                    <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
-                      <TextField name='name' required/>
-                      <LongTextField name='description' required/>
-                      <TextField name='gitHubRepo' required/>
-                    </Grid.Column>
-                  </Grid>
-                  <div align='center'>
-                    <SubmitField value='Submit'
-                                 style={{
-                                   color: 'white', backgroundColor: '#24252B',
-                                   margin: '2rem 0rem',
-                                 }}/>
-                  </div>
-                  <ErrorsField/>
-                </Segment>
-              </AutoForm>
-            </Grid.Column>
-          </Grid>
-        </div>
+        <Grid container centered>
+          <Grid.Column>
+            <div style={{
+              backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
+              borderRadius: '2rem',
+            }}>
+              <Header as="h2" textAlign="center">Edit Team</Header>
+            </div>
+            <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.doc}
+                      style={{
+                        paddingBottom: '4rem',
+                      }}>
+              <Segment style={{
+                borderRadius: '1rem',
+                backgroundColor: '#E5F0FE',
+              }} className={'teamCreate'}>
+                <Grid container centered>
+                  <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
+                    <TextField name='name' required/>
+                    <LongTextField name='description' required/>
+                    <TextField name='gitHubRepo' required/>
+                  </Grid.Column>
+                </Grid>
+                <div align='center'>
+                  <SubmitField value='Submit'
+                               style={{
+                                 color: 'white', backgroundColor: '#dd000a',
+                                 margin: '2rem 0rem',
+                               }}/>
+                </div>
+                <ErrorsField/>
+              </Segment>
+            </AutoForm>
+          </Grid.Column>
+        </Grid>
     );
   }
 }

@@ -32,7 +32,7 @@ class ListSuggestionsWidget extends React.Component {
       return (
           <div align={'center'}>
             <Header as='h2' icon>
-              <Icon name='users'/>
+              <Icon name='users' />
               There are no suggestions at the moment.
               <Header.Subheader>
                 Please check back later.
@@ -104,7 +104,7 @@ class ListSuggestionsWidget extends React.Component {
       },
     ];
 
-    console.log(this.props.suggestions);
+    // console.log(this.props.suggestions);
 
     return (
         <Grid container doubling relaxed stackable
@@ -148,7 +148,6 @@ class ListSuggestionsWidget extends React.Component {
           </Grid.Column>
           <Grid.Column width={12}>
             <Item.Group divided>
-              {/* eslint-disable-next-line max-len */}
               {this.state.result.map((suggestions) => <ListSuggestionsCard
                   key={suggestions._id}
                   type={suggestions.type}
@@ -168,10 +167,6 @@ ListSuggestionsWidget.propTypes = {
   suggestions: PropTypes.array.isRequired,
 };
 
-export default withTracker(() =>
-
-    // eslint-disable-next-line implicit-arrow-linebreak
-    ({
-      suggestions: Suggestions.find({}).fetch(),
-      // eslint-disable-next-line max-len
-    }))(ListSuggestionsWidget);
+export default withTracker(() => ({
+  suggestions: Suggestions.find({}).fetch(),
+}))(ListSuggestionsWidget);
