@@ -28,11 +28,15 @@ class ListTeamExampleWidget extends React.Component {
       participant,
     };
     console.log(collectionName, definitionData);
+    this.setState({ sent: true });
     defineMethod.call({ collectionName, definitionData }, (error) => {
       if (error) {
         swal('sent request fail', error, 'error');
-      } else { swal('sent ', 'join request sent', 'success');
-        this.setState({ sent: true }); }
+      } else {
+
+        swal('sent ', 'join request sent', 'success');
+
+}
     });
   }
 
@@ -57,18 +61,10 @@ class ListTeamExampleWidget extends React.Component {
     }
     return (<Button id={this.props.team._id} color="green"
                     onClick={this.handleClick} style={{ width: `${90}px`,
-      height: `${60}px`, textAlign: 'center' }} >Request to Join</Button>)
+      height: `${60}px`, textAlign: 'center' }} >Request to Join</Button>);
   }
 
   render() {
-    const participant = Participants.findDoc({ userID: Meteor.userId() });
-    const participantName = Participants.getFullName(participant._id);
-    const isAMember = _.includes(this.props.teamMembers, participantName);
-    const Joinrequests = WantsToJoin.find({ teamID: this.props.team._id }).fetch();
-    const Joinsentusers = _.pluck(Joinrequests, 'participantID');
-    const requested = _.contains(Joinsentusers, participant._id);
-
-    console.log(requested);
 
     return (
         <Grid.Row columns={6}>
