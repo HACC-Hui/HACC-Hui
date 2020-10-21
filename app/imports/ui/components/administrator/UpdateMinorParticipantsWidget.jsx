@@ -31,7 +31,6 @@ class UpdateMinorParticipantsWidget extends React.Component {
   initMP() {
     const initCompliantMinorParticipants = [];
     const initCompliantMinorParticipant = {};
-    console.log(this.props.MinorParticipantsID);
     this.props.MinorParticipantsID.forEach((MinorParticipant) => {
       initCompliantMinorParticipant._id = MinorParticipant;
       initCompliantMinorParticipant.isCompliant = false;
@@ -51,7 +50,6 @@ class UpdateMinorParticipantsWidget extends React.Component {
       console.log(this.compliantMinors);
     };
     const MinorParticipants = this.getMinorParticipants();
-    console.log(MinorParticipants);
     return MinorParticipants.map((p) => (<Grid.Row key={p._id} columns={3}>
       <Grid.Column>{p.firstName}</Grid.Column>
       <Grid.Column>{p.lastName}</Grid.Column>
@@ -62,10 +60,8 @@ class UpdateMinorParticipantsWidget extends React.Component {
   submitData() {
     let Error = false;
     let isCompliantMP = this.compliantMinors;
-    console.log(isCompliantMP);
     // eslint-disable-next-line eqeqeq
     isCompliantMP = isCompliantMP.filter((MP) => MP.isCompliant == true);
-    console.log(isCompliantMP);
     isCompliantMP.forEach((MP => {
       const collectionName = Participants.getCollectionName();
       const updateData = {
