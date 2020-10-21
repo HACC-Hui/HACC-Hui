@@ -27,7 +27,7 @@ class ViewTeamWidget extends React.Component {
             </div>
             <Grid celled>
               <Grid.Row columns={4} style={{
-                backgroundColor: '#E5F0FE',}}>
+                backgroundColor: '#E5F0FE' }}>
                 <Grid.Column>
                   <Header>Team Name</Header>
                 </Grid.Column>
