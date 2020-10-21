@@ -31,7 +31,8 @@ class UpdateMinorParticipantsWidget extends React.Component {
   initMP() {
     const initCompliantMinorParticipants = [];
     const initCompliantMinorParticipant = {};
-    this.props.MinorParticipantsID.each((MinorParticipant) => {
+    console.log(this.props.MinorParticipantsID);
+    this.props.MinorParticipantsID.forEach((MinorParticipant) => {
       initCompliantMinorParticipant._id = MinorParticipant;
       initCompliantMinorParticipant.isCompliant = false;
       initCompliantMinorParticipants.push(initCompliantMinorParticipant);
@@ -49,19 +50,22 @@ class UpdateMinorParticipantsWidget extends React.Component {
       this.compliantMinors = compliantMinorscopy;
     };
     const MinorParticipants = this.getMinorParticipants();
+    console.log(MinorParticipants);
     return MinorParticipants.map((p) => (<Grid.Row key={p._id} columns={3}>
-      <Grid.Column>p.firstName</Grid.Column>
-      <Grid.Column>p.lastName</Grid.Column>
-      <Checkbox value={p._id} onClick={(evt, data) => onChangeCheckbox(evt, data)} />
+      <Grid.Column>{p.firstName}</Grid.Column>
+      <Grid.Column>{p.lastName}</Grid.Column>
+      <Checkbox value={p._id} onClick={(evt, data) => onChangeCheckbox(evt, data)}/>
     </Grid.Row>));
   }
 
   submitData() {
     let Error = false;
     let isCompliantMP = this.compliantMinors;
+    console.log(isCompliantMP);
     // eslint-disable-next-line eqeqeq
     isCompliantMP = isCompliantMP.filter((MP) => MP.isCompliant == true);
-    isCompliantMP.each((MP => {
+    console.log(isCompliantMP);
+    isCompliantMP.forEach((MP => {
       const collectionName = Participants.getCollectionName();
       const updateData = {
         id: MP._id,
@@ -76,7 +80,7 @@ class UpdateMinorParticipantsWidget extends React.Component {
     }));
     if (!Error) {
       swal('Success', 'updated successfully', 'success');
-      this.setState({ redirectToReferer: true });
+/*      this.setState({ redirectToReferer: true });*/
     } else swal('Fail', 'updated fail', 'error');
 
   }
