@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
-//  import { withRouter } from 'react-router';
-import { Meteor } from 'meteor/meteor';
+import { withRouter } from 'react-router';
+// import { Meteor } from 'meteor/meteor';
 import { Divider, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -19,7 +19,6 @@ import { Teams } from '../../../api/team/TeamCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
-import { Participants } from '../../../api/user/ParticipantCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 import MultiSelectField from '../form-fields/MultiSelectField';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
@@ -60,8 +59,7 @@ class EditTeamWidget extends React.Component {
   }
 
   buildTheModel() {
-    // const model = this.props.team;
-    const model = this.props.participant;
+    const model = this.props.team;
     model.Challenges = _.map(this.props.challenges, (challenge) => challenge.title);
     model.Skills = _.map(this.props.skills, (skill) => skill.name);
     model.Tools = _.map(this.props.tools, (tool) => tool.name);
@@ -177,14 +175,13 @@ class EditTeamWidget extends React.Component {
 }
 
 EditTeamWidget.propTypes = {
-  participant: PropTypes.object.isRequired,
-  skills: PropTypes.arrayOf(
+  Skills: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
-  challenges: PropTypes.arrayOf(
+  Challenges: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
-  tools: PropTypes.arrayOf(
+  Tools: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
   participants: PropTypes.arrayOf(
@@ -192,25 +189,34 @@ EditTeamWidget.propTypes = {
   ).isRequired,
 };
 
-/* export default withTracker(( { match } ) => ({
+/* const EditTeamCon = withTracker(({ match }) => {
 *  const documentId = Teams.findOne({match.params._id});
 *  const teamChallenges = teamChallenges.find({ participantID }).fetch();
 *  const teamSkills = teamSkills.find({ participantID }).fetch();
 *  const teamTools = teamTools.find({ participantID }).fetch();
 *  return {
 *
-*   documentId,
-*    teamChallenges,
+*    doc: Teams.findOne(documentId),*    teamChallenges,
 *    teamSkills,
 *    teamTools,
 *  };
 *}))(EditTeamWidget);
 */
 
-export default withTracker(() => ({
-  participant: Participants.findDoc({ userID: Meteor.userId() }),
-  challenges: Challenges.find({}).fetch(),
-  skills: Skills.find({}).fetch(),
-  tools: Tools.find({}).fetch(),
-  participants: Participants.find({}).fetch(),
-}))(EditTeamWidget);
+const EditTeamCon = withTracker(({ match }) => {
+  // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
+  const documentId = match.params._id;
+  const teamChallenges = teamChallenges.find({ documentId }).fetch();
+  const teamSkills = teamSkills.find({ documentId }).fetch();
+  const teamTools = teamTools.find({ documentId }).fetch();
+  // Get access to Stuff documents.
+  return {
+    doc: Teams.findOne(documentId),
+    teamChallenges,
+    teamSkills,
+    teamTools,
+
+  };
+})(EditTeamWidget);
+
+export default withRouter(EditTeamCon);
