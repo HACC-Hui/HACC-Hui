@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { App } from '@slack/bolt';
-import _ from 'lodash';
 import { isAdminEmail } from '../../api/user/helpers';
 import { Participants } from '../../api/user/ParticipantCollection';
 import { Administrators } from '../../api/user/AdministratorCollection';
@@ -30,24 +29,16 @@ if (!Meteor.isAppTest) {
             user: event.user,
           });
           // console.log(profile);
-          const { email, first_name, last_name, real_name } = profile;
+          const { email, first_name, last_name } = profile;
           // console.log(email, first_name, last_name);
           if (!isAdminEmail(email)) { // they are a participant
             if (!Participants.isDefined({ username: email })) {
               let firstName = first_name;
               let lastName = last_name;
-              if (_.isNil(firstName)) {
-                const names = real_name.split(' ');
-                firstName = names[0];
-              }
-              if (_.isNil(lastName)) {
-                const names = real_name.split(' ');
-                lastName = names[1];
-              }
-              if (_.isNil(firstName)) {
+              if (firstName === '') {
                 firstName = 'ChangeMe';
               }
-              if (_.isNil(lastName)) {
+              if (lastName === '') {
                 lastName = 'ChangeMe';
               }
               const username = email;
@@ -68,18 +59,10 @@ if (!Meteor.isAppTest) {
             if (!Administrators.isDefined({ username: email })) {
               let firstName = first_name;
               let lastName = last_name;
-              if (_.isNil(firstName)) {
-                const names = real_name.split(' ');
-                firstName = names[0];
-              }
-              if (_.isNil(lastName)) {
-                const names = real_name.split(' ');
-                lastName = names[1];
-              }
-              if (_.isNil(firstName)) {
+              if (firstName === '') {
                 firstName = 'ChangeMe';
               }
-              if (_.isNil(lastName)) {
+              if (lastName === '') {
                 lastName = 'ChangeMe';
               }
               const username = email;
