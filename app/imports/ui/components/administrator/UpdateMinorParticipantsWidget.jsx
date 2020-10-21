@@ -10,15 +10,11 @@ import { ROUTES } from '../../../startup/client/route-constants';
 
 class UpdateMinorParticipantsWidget extends React.Component {
 
-  compliantMinors;
-
   selected;
 
   constructor(props) {
     super(props);
-    this.compliantMinors = [];
     this.selected = [];
-    this.renderMinorParticipants.bind(this);
     this.state = { redirectToReferer: false };
   }
 
@@ -32,41 +28,15 @@ class UpdateMinorParticipantsWidget extends React.Component {
     return MinorParticipants;
   }
 
-  initMP() {
-    const initCompliantMinorParticipants = [];
-    const initCompliantMinorParticipant = {};
-    this.props.MinorParticipantsID.forEach((MinorParticipant) => {
-      initCompliantMinorParticipant._id = MinorParticipant;
-      initCompliantMinorParticipant.isCompliant = false;
-      initCompliantMinorParticipants.push(initCompliantMinorParticipant);
-    });
-    this.compliantMinors = initCompliantMinorParticipants;
-  }
-
-  pushSelctMP(MP) {
-    const selectedMP = this.selected;
-    selectedMP.push(MP);
-    this.selected = selectedMP;
-
-  }
-
   renderMinorParticipants() {
-    this.initMP();
-    /*
-    const onChangeCheckbox = (evt, data) => {
-      const compliantMinorscopy = this.compliantMinors;
-      // eslint-disable-next-line eqeqeq
-      const Index = compliantMinorscopy.findIndex(p => p._id == data.value);
-      compliantMinorscopy[Index].isCompliant = data.checked;
-      this.compliantMinors = compliantMinorscopy;
-      console.log(this.compliantMinors);
-    }; */
+
     const CheckBoxFun = {};
     const allMPs = this.props.MinorParticipantsID;
     allMPs.forEach((MP) => {
  CheckBoxFun[MP] = (evt, data) => {
     if (data.checked) this.selected.push(MP);
-    else this.selected = this.selected.filter((Minor)=> { return Minor != MP } );
+    // eslint-disable-next-line eqeqeq
+    else this.selected = this.selected.filter((Minor) => Minor != MP);
     };
 });
     const MinorParticipants = this.getMinorParticipants();
@@ -99,7 +69,6 @@ class UpdateMinorParticipantsWidget extends React.Component {
       swal('Success', 'updated successfully', 'success');
      this.setState({ redirectToReferer: true });
     } else swal('Fail', 'updated fail', 'error');
-
 
   }
 
