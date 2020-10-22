@@ -1,9 +1,7 @@
 import React from 'react';
-import { Grid, Segment, Header, Table, Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Grid, Segment, Header, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
-import { ROUTES } from '../../../startup/client/route-constants';
 import ListMinorWidget from './ListMinorWidget';
 import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 

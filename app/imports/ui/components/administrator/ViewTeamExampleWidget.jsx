@@ -77,7 +77,7 @@ ViewTeamExampleWidget.propTypes = {
   teamParticipants: PropTypes.arrayOf(PropTypes.object).isRequired,
   teamMembers: PropTypes.arrayOf(
       PropTypes.string,
-  ).isRequired, 
+  ).isRequired,
   // teamCompliance: PropTypes.arrayOf(
   //     PropTypes.boolean,
   // ).isRequired,

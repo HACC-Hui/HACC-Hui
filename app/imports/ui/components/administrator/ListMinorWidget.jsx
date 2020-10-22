@@ -21,7 +21,7 @@ class ListMinorWidget extends React.Component {
           if (willDelete) {
             removeItMethod.call({
               collectionName: MinorParticipants.getCollectionName(),
-              instance: MinorParticipants.getID(participantID),
+              instance: MinorParticipants.getID(docID),
             }, (error) => (error ?
                 swal('Error', error.message, 'error') :
                 swal('Success', 'Participant removed', 'success')));
@@ -41,9 +41,9 @@ class ListMinorWidget extends React.Component {
           <Table.Cell width={5}>{this.props.minorParticipants.parentLastName}</Table.Cell>
           <Table.Cell width={5}>{this.props.minorParticipants.parentEmail}</Table.Cell>
           {/* eslint-disable-next-line max-len */}
-          <Table.Cell width={2}><Button><Link to={`/edit-challenge/${this.props.challenges._id}`} style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Edit</Link></Button></Table.Cell>
+          <Table.Cell width={2}><Button><Link to={`/edit-challenge/${this.props.minorParticipants._id}`} style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Edit</Link></Button></Table.Cell>
           {/* eslint-disable-next-line max-len */}
-          <Table.Cell width={2}><Button negative onClick={() => this.removeItem(this.props.challenges._id)}>Delete</Button></Table.Cell>
+          <Table.Cell width={2}><Button negative onClick={() => this.removeItem(this.props.minorParticipants._id)}>Delete</Button></Table.Cell>
         </Table.Row>
     );
   }

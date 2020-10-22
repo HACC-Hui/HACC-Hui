@@ -84,7 +84,7 @@ class AdminEditTeamWidget extends React.Component {
               }} className={'teamCreate'}>
                 <Grid container centered>
                   <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
-                    <TextField name='name' required/>
+                    <TextField name='name' disabled />
                     <LongTextField name='description' required/>
                     <TextField name='gitHubRepo' required/>
                   </Grid.Column>
@@ -113,7 +113,6 @@ AdminEditTeamWidget.propTypes = {
 const AdminEditTeamCon = withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
-  // Get access to Stuff documents.
   return {
     doc: Teams.findOne(documentId),
   };
