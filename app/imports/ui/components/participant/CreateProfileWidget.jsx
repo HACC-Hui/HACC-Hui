@@ -107,7 +107,8 @@ class CreateProfileWidget extends React.Component {
     if (data.aboutMe) {
       updateData.aboutMe = data.aboutMe;
     }
-    console.log(collectionName, updateData);
+    updateData.editedProfile = true;
+    // console.log(collectionName, updateData);
     updateMethod.call({ collectionName, updateData }, (error) => {
       if (error) {
         console.error(error);

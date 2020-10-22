@@ -53,7 +53,11 @@ class Signin extends React.Component {
       const dev = Participants.findDoc({ userID: Meteor.userId() });
       // console.log(dev);
       if (dev.isCompliant) {
-        pathname = ROUTES.CREATE_PROFILE;
+        if (dev.editedProfile) {
+          pathname = ROUTES.LANDING;
+        } else {
+          pathname = ROUTES.CREATE_PROFILE;
+        }
       } else {
         pathname = ROUTES.AGE_CONSENT;
       }
