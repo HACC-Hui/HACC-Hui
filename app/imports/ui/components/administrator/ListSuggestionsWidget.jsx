@@ -61,7 +61,6 @@ class ListSuggestionsWidget extends React.Component {
 
     const setFilters = () => {
       const searchResults = filters.filterBySearch(this.props.suggestions, this.state.search);
-      // eslint-disable-next-line max-len
       const typeResults = filters.typeResults(searchResults, this.state.type);
       const sorted = filters.sortBy(typeResults, 'names');
       this.setState({
@@ -104,7 +103,7 @@ class ListSuggestionsWidget extends React.Component {
       },
     ];
 
-    // console.log(this.props.suggestions);
+    console.log(this.props.suggestions);
 
     return (
         <Grid container doubling relaxed stackable
