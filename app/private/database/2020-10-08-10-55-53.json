@@ -88,7 +88,7 @@
           "firstName": "Cam",
           "lastName": "Moore",
           "demographicLevel": "Professional",
-          "isCompliant": true,
+          "isCompliant": false,
           "linkedIn": "https://www.linkedin.com/in/cam-moore-9a5213/",
           "gitHub": "https://github.com/cammoore",
           "challenges": [
@@ -105,7 +105,7 @@
           "firstName": "John",
           "lastName": "Sharpie",
           "demographicLevel": "College",
-          "isCompliant": true,
+          "isCompliant": false,
           "linkedIn": "",
           "gitHub": "",
           "challenges": [
@@ -163,16 +163,6 @@
     {
       "name": "SlackUserCollection",
       "contents": [
-        {
-          "username": "cmoore@hawaii.edu",
-          "slackUser": "U014SC2KGAJ",
-          "dmChannel": "D015BNFJ56W"
-        },
-        {
-          "username": "carleton.moore@gmail.com",
-          "slackUser": "U0161PS6V5W",
-          "dmChannel": "D015C5AD2PM"
-        }
       ]
     },
     {

@@ -10,34 +10,49 @@ import {
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
-import { withRouter } from 'react-router';
 import swal from 'sweetalert';
+import SimpleSchema from 'simpl-schema';
+import { withRouter } from 'react-router';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
-import { Skills } from '../../../api/skill/SkillCollection';
+import { Teams } from '../../../api/team/TeamCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
  * @memberOf ui/pages
  */
-class EditSkillWidget extends React.Component {
+
+const schema = new SimpleSchema({
+  name: String,
+  description: String,
+  gitHubRepo: String,
+});
+
+class AdminEditTeamWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { redirectToReferer: false };
+  }
 
   /** On submit, insert the data.
    * @param data {Object} the results from the form.
    * @param formRef {FormRef} reference to the form.
    */
   submit(data) {
+
     const {
-      name, description,
+      name, description, gitHubRepo,
     } = data;
 
-    const id = this.props.doc._id;
+    const updateData = {};
+    updateData.id = data._id;
+    updateData.name = name;
+    updateData.description = description;
+    updateData.gitHubRepo = gitHubRepo;
 
-    const updateData = {
-      id, name, description,
-    };
-
-    const collectionName = Skills.getCollectionName();
-    updateMethod.call({ collectionName: collectionName, updateData: updateData },
+    const collectionName = Teams.getCollectionName();
+    console.log(updateData);
+    console.log(collectionName);
+    updateMethod.call({ collectionName, updateData },
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
@@ -47,9 +62,9 @@ class EditSkillWidget extends React.Component {
         });
   }
 
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
+  // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   render() {
-    const formSchema = new SimpleSchema2Bridge(Skills.getSchema());
+    const formSchema = new SimpleSchema2Bridge(schema);
     return (
         <div style={{ backgroundColor: '#C4C4C4' }}>
           <Grid container centered>
@@ -58,7 +73,7 @@ class EditSkillWidget extends React.Component {
                 backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
                 borderRadius: '2rem',
               }}>
-                <Header as="h2" textAlign="center" inverted>Edit Skill</Header>
+                <Header as="h2" textAlign="center" inverted>Edit A Team</Header>
               </div>
               <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.doc}
                         style={{
@@ -72,6 +87,7 @@ class EditSkillWidget extends React.Component {
                     <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
                       <TextField name='name' required/>
                       <LongTextField name='description' required/>
+                      <TextField name='gitHubRepo' required/>
                     </Grid.Column>
                   </Grid>
                   <div align='center'>
@@ -91,18 +107,18 @@ class EditSkillWidget extends React.Component {
   }
 }
 
-EditSkillWidget.propTypes = {
+AdminEditTeamWidget.propTypes = {
   doc: PropTypes.object,
   model: PropTypes.object,
 };
 
-const EditSkillCon = withTracker(({ match }) => {
+const AdminEditTeamCon = withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
   // Get access to Stuff documents.
   return {
-    doc: Skills.findOne(documentId),
+    doc: Teams.findOne(documentId),
   };
-})(EditSkillWidget);
+})(AdminEditTeamWidget);
 
-export default withRouter(EditSkillCon);
+export default withRouter(AdminEditTeamCon);

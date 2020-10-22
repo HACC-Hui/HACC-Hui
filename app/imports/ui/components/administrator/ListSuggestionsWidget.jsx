@@ -76,17 +76,7 @@ class ListSuggestionsWidget extends React.Component {
       }, () => {
         setFilters();
       });
-      // this.setState({ search: event.target.value });
-      // setFilters();
     };
-
-    // const getSort = (event, { value }) => {
-    //   this.setState({
-    //     sortBy: value,
-    //   }, () => {
-    //     setFilters();
-    //   });
-    // };
 
     const getType = (event, { value }) => {
       this.setState({
@@ -134,20 +124,6 @@ class ListSuggestionsWidget extends React.Component {
                   </Header.Content>
                 </Header>
               </div>
-              {/* <div style={{ paddingTop: '2rem' }}> */}
-              {/*  <Header> */}
-              {/*    <Header.Content> */}
-              {/*      Sort by {' '} */}
-              {/*      <Dropdown */}
-              {/*          inline */}
-              {/*          header='Sort by...' */}
-              {/*          options={sortBy} */}
-              {/*          defaultValue={sortBy[0].value} */}
-              {/*          onChange={getSort} */}
-              {/*      /> */}
-              {/*    </Header.Content> */}
-              {/*  </Header> */}
-              {/* </div> */}
               <div style={{ paddingTop: '2rem' }}>
                 <Input icon='search'
                        iconPosition='left'
@@ -190,29 +166,12 @@ class ListSuggestionsWidget extends React.Component {
 
 ListSuggestionsWidget.propTypes = {
   suggestions: PropTypes.array.isRequired,
-  // ready: PropTypes.bool.isRequired,
-
 };
 
 export default withTracker(() =>
-    /*
-    const subscriptionChallenges = DeveloperChallenges.subscribe();
-    const subscriptionSkills = DeveloperSkills.subscribe();
-    const subscriptionTools = DeveloperTools.subscribe();
-    const subscriptionDevelopers = Developers.subscribe();
-    const subscriptionTeam = Teams.subscribe();
-    const subSkills = Skills.subscribe();
-    const subChallenges = Challenges.subscribe();
-    const subTools = Tools.subscribe();
-     */
 
     // eslint-disable-next-line implicit-arrow-linebreak
     ({
       suggestions: Suggestions.find({}).fetch(),
       // eslint-disable-next-line max-len
-      /*
-      ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready()
-          && subscriptionDevelopers.ready() && subscriptionTeam.ready() && subSkills.ready() && subTools.ready()
-          && subChallenges.ready(),
-       */
     }))(ListSuggestionsWidget);

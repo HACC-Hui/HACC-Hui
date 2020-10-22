@@ -89,8 +89,6 @@ class EditProfileWidget extends React.Component {
     console.log('submit', data);
     const collectionName = Participants.getCollectionName();
     const updateData = {};
-    // firstName, lastName, demographicLevel, lookingForTeam, challenges, interests,
-    //     skills, tools, linkedIn, gitHub, website, aboutMe,
     updateData.id = data._id;
     updateData.firstName = data.firstName;
     updateData.lastName = data.lastName;
@@ -156,7 +154,6 @@ class EditProfileWidget extends React.Component {
   }
 
   render() {
-    // console.log(this.props);
     if (this.state.redirectToReferer) {
       const from = { pathname: ROUTES.YOUR_PROFILE };
       return <Redirect to={from}/>;
@@ -164,7 +161,6 @@ class EditProfileWidget extends React.Component {
     const model = this.buildTheModel();
     const schema = this.buildTheFormSchema();
     const formSchema = new SimpleSchema2Bridge(schema);
-    // console.log('render', model, schema);
     return (
         <Segment>
           <Header dividing>Edit Profile</Header>

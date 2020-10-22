@@ -22,6 +22,8 @@ import { WantsToJoin } from '../team/WantToJoinCollection';
 import { ToAcceptWantsToJoin } from '../team/ToAcceptWantToJoinCollection';
 import { TeamInvitations } from '../team/TeamInvitationCollection';
 import { Suggestions } from '../suggestions/SuggestionCollection';
+import { LeavingTeams } from '../team/LeavingTeamCollection';
+import { MinorParticipants } from '../user/MinorParticipantCollection';
 
 /** @namespace api/hacc-hui */
 
@@ -55,7 +57,8 @@ class HACCHuiClass {
       ToAcceptWantsToJoin,
       TeamInvitations,
       Suggestions,
-
+      LeavingTeams,
+      MinorParticipants,
     ];
     /** The load sequence for loading fixtures. */
     this.collectionLoadSequence = [

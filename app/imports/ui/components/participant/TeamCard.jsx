@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card, Grid, Header, List } from 'semantic-ui-react';
 import _ from 'lodash';
+import { Meteor } from 'meteor/meteor';
 import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { TeamSkills } from '../../../api/team/TeamSkillCollection';
@@ -10,6 +11,8 @@ import SkillItem from './SkillItem';
 import ToolItem from './ToolItem';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
+import { LeavingTeams } from '../../../api/team/LeavingTeamCollection';
+import { defineMethod, removeItMethod } from '../../../api/base/BaseCollection.methods';
 
 class TeamCard extends React.Component {
   buildTheTeam() {
@@ -25,17 +28,40 @@ class TeamCard extends React.Component {
     return team;
   }
 
+  handleLeaveTeam(e, inst) {
+    console.log(e, inst);
+    const { team } = inst;
+    const pDoc = Participants.findDoc({ userID: Meteor.userId() });
+    let collectionName = LeavingTeams.getCollectionName();
+    const definitionData = {
+      username: pDoc.username,
+      team: team._id,
+    };
+    defineMethod.call({ collectionName, definitionData }, (error) => {
+      if (error) {
+        console.error('failed to define', error);
+      }
+    });
+    const teamPart = TeamParticipants.findDoc({ teamID: team._id, participantID: pDoc._id });
+    console.log(teamPart);
+    collectionName = TeamParticipants.getCollectionName();
+    const instance = teamPart._id;
+    removeItMethod.call({ collectionName, instance }, (err) => {
+      if (err) {
+        console.error('failed to remove from team', err);
+      }
+    });
+  }
+
   render() {
-    // console.log(this.props.team);
     const team = this.buildTheTeam();
-    // console.log(team);
     const isOwner = team.owner === this.props.participantID;
     return (
         <Card fluid>
           <Card.Content>
             <Card.Header>{team.name}</Card.Header>
             <Card.Description>
-              <Grid columns={5}>
+              <Grid container stackable columns={5}>
                 <Grid.Column>
                   <Header size="tiny">Challenges</Header>
                   {team.challenges.join(', ')}
@@ -59,7 +85,7 @@ class TeamCard extends React.Component {
                   </List>
                 </Grid.Column>
                 <Grid.Column>
-                  <Button disabled={isOwner} color="red">Leave team</Button>
+                  <Button team={team} disabled={isOwner} color="red" onClick={this.handleLeaveTeam}>Leave team</Button>
                 </Grid.Column>
               </Grid>
             </Card.Description>

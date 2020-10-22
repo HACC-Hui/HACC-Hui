@@ -2,7 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid, Header, List } from 'semantic-ui-react';
-import _ from 'lodash';
+// import _ from 'lodash';
+import _ from 'underscore';
+import swal from 'sweetalert';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 import { ToAcceptWantsToJoin } from '../../../api/team/ToAcceptWantToJoinCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
@@ -11,6 +13,12 @@ import { Teams } from '../../../api/team/TeamCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 
 class ListTeamExampleWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { sent: false };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   handleClick(e, inst) {
     console.log(e, inst);
     let collectionName = WantsToJoin.getCollectionName();
@@ -22,10 +30,15 @@ class ListTeamExampleWidget extends React.Component {
       participant,
     };
     console.log(collectionName, definitionData);
+
     defineMethod.call({ collectionName, definitionData }, (error) => {
       if (error) {
-        console.error('Failed to define', error);
-      }
+        swal('Sent Request Fail', error, 'error');
+      } else {
+
+        swal('Success', 'Join Request Sent', 'success');
+        this.setState({ sent: true });
+}
     });
     collectionName = ToAcceptWantsToJoin.getCollectionName();
     console.log('ToAcceptWantsToJoin: ', collectionName, definitionData);
@@ -36,44 +49,68 @@ class ListTeamExampleWidget extends React.Component {
     });
   }
 
-  render() {
+  renderButton() {
     const participant = Participants.findDoc({ userID: Meteor.userId() });
     const participantName = Participants.getFullName(participant._id);
     const isAMember = _.includes(this.props.teamMembers, participantName);
+
+    const Joinrequests = WantsToJoin.find({ teamID: this.props.team._id }).fetch();
+    const Joinsentusers = _.pluck(Joinrequests, 'participantID');
+    const Requested = _.contains(Joinsentusers, participant._id);
+
+    if (isAMember) {
+      return (<Button id={this.props.team._id} color="green"
+                      disabled={true} style={{ width: `${90}px`,
+        height: `${80}px`, textAlign: 'center' }} >You own the team</Button>);
+    }
+    if (this.state.sent || Requested) {
+      return (<Button id={this.props.team._id} color="green"
+                      disabled={true} style={{ width: `${90}px`,
+        height: `${80}px`, textAlign: 'center' }} >You sent the request</Button>);
+    }
+    return (<Button id={this.props.team._id} color="green"
+                    onClick={this.handleClick} style={{ width: `${90}px`,
+      height: `${60}px`, textAlign: 'center' }} >Request to Join</Button>);
+  }
+
+  render() {
+
     return (
-        <Grid.Row columns={6}>
+        <Grid celled container stackable columns={6}>
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
           </Grid.Column>
           <Grid.Column>
+            <Header>Challenges</Header>
             <List bulleted>
               {this.props.teamChallenges.map((c) => <List.Item key={c}>{c}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
+            <Header>Desired Skills</Header>
             <List bulleted>
               {this.props.teamSkills.map((s) => <List.Item key={s}>{s}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
+            <Header>Desired Tools</Header>
             <List bulleted>
               {this.props.teamTools.map((t) => <List.Item key={t}>{t}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
+            <Header>Members</Header>
             <List bulleted>
               {this.props.teamMembers.map((t) => <List.Item key={t}>{t}</List.Item>)}
             </List>
           </Grid.Column>
           <Grid.Column>
-            <Button id={this.props.team._id} color="green"
-                    onClick={this.handleClick} disabled={isAMember}>Request to Join</Button>
+            {this.renderButton()}
           </Grid.Column>
-        </Grid.Row>
+        </Grid>
     );
   }
 }
-
 ListTeamExampleWidget.propTypes = {
   team: PropTypes.object.isRequired,
   teamChallenges: PropTypes.arrayOf(
@@ -89,5 +126,4 @@ ListTeamExampleWidget.propTypes = {
       PropTypes.string,
   ).isRequired,
 };
-
 export default ListTeamExampleWidget;
