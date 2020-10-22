@@ -95,7 +95,7 @@ class NavBar extends React.Component {
                            exact
                            to={ROUTES.DUMP_DATABASE}
                            key={ROUTES.DUMP_DATABASE}>Dump Database</Menu.Item>,
-                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.CONFIGURE_HACC}
+                <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.SHOW_MINOR}
                            key={ROUTES.SHOW_MINOR}>Show Minor</Menu.Item>,
               ]
           ) : ''}

@@ -66,9 +66,9 @@ class UpdateMinorParticipantsWidget extends React.Component {
     }));
 
     if (!Error) {
-      swal('Success', 'updated successfully', 'success');
+      swal('Success', 'Updated successfully', 'success');
      this.setState({ redirectToReferer: true });
-    } else swal('Fail', 'updated fail', 'error');
+    } else swal('Fail', 'Updated fail', 'error');
 
   }
 
