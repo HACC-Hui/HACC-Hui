@@ -85,7 +85,7 @@ class InterestedParticipantsWidget extends React.Component {
 
   accept = (e, inst) => {
     console.log('inst: ', inst.id);
-    const collectionName = TeamParticipants.getCollectionName();
+    let collectionName = TeamParticipants.getCollectionName();
     const participant = Participants.findDoc(inst.id);
     const team = this.props.team;
     const interested = ToAcceptWantsToJoin.findDoc({ participantID: inst.id });
@@ -103,14 +103,16 @@ class InterestedParticipantsWidget extends React.Component {
         // console.log(result);
       }
     });
-    ToAcceptWantsToJoin.removeIt(interested);
+    collectionName = ToAcceptWantsToJoin.getCollectionName();
+    const instance = interested._id;
+    removeItMethod.call({ collectionName, instance });
   }
 
   decline = (e, inst) => {
     const collectionName = ToAcceptWantsToJoin.getCollectionName();
     const interested = ToAcceptWantsToJoin.findDoc({ participantID: inst.id });
-    const interestedID = interested._id;
-    removeItMethod.call({ collectionName, interestedID }, (error) => {
+    const instance = interested._id;
+    removeItMethod.call({ collectionName, instance }, (error) => {
       if (error) {
         swal('Error', error.message, 'error');
         // console.error(error.message);
