@@ -18,7 +18,6 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
-import { Interests } from '../../../api/interest/InterestCollection';
 import { demographicLevels } from '../../../api/level/Levels';
 import MultiSelectField from '../form-fields/MultiSelectField';
 import { ROUTES } from '../../../startup/client/route-constants';
@@ -33,7 +32,6 @@ class CreateProfileWidget extends React.Component {
 
   buildTheFormSchema() {
     const challengeNames = _.map(this.props.challenges, (c) => c.title);
-    const interestNames = _.map(this.props.interests, (i) => i.name);
     const skillNames = _.map(this.props.skills, (s) => s.name);
     const toolNames = _.map(this.props.tools, (t) => t.name);
     const schema = new SimpleSchema({
@@ -50,8 +48,6 @@ class CreateProfileWidget extends React.Component {
       isCompliant: { type: Boolean, optional: true },
       challenges: { type: Array, optional: true },
       'challenges.$': { type: String, allowedValues: challengeNames },
-      interests: { type: Array, optional: true },
-      'interests.$': { type: String, allowedValues: interestNames },
       skills: { type: Array, optional: true },
       'skills.$': { type: String, allowedValues: skillNames },
       tools: { type: Array, optional: true },
@@ -73,13 +69,6 @@ class CreateProfileWidget extends React.Component {
       // build an array of challenge slugs
       updateData.challenges = data.challenges.map((title) => {
         const doc = Challenges.findDoc({ title });
-        return Slugs.getNameFromID(doc.slugID);
-      });
-    }
-    if (data.interests) {
-      // build an array of interest slugs
-      updateData.interests = data.interests.map((name) => {
-        const doc = Interests.findDoc({ name });
         return Slugs.getNameFromID(doc.slugID);
       });
     }
@@ -135,7 +124,7 @@ class CreateProfileWidget extends React.Component {
     const firstname = model.firstName;
     if (this.state.redirectToReferer) {
       const from = { pathname: ROUTES.YOUR_PROFILE };
-      return <Redirect to={from}/>;
+      return <Redirect to={from} />;
     }
     return (
         <Segment>
@@ -160,10 +149,7 @@ class CreateProfileWidget extends React.Component {
               <TextField name="website" />
               <LongTextField name="aboutMe" />
             </Form.Group>
-            <Form.Group widths="equal">
-              <MultiSelectField name="challenges" />
-              <MultiSelectField name="interests" />
-            </Form.Group>
+            <MultiSelectField name="challenges" />
             <Form.Group widths="equal">
               <MultiSelectField name="skills" />
               <MultiSelectField name="tools" />
@@ -177,9 +163,6 @@ class CreateProfileWidget extends React.Component {
 
 CreateProfileWidget.propTypes = {
   participant: PropTypes.object.isRequired,
-  interests: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
   skills: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
@@ -194,13 +177,11 @@ CreateProfileWidget.propTypes = {
 export default withTracker(() => {
   const participant = Participants.findDoc({ userID: Meteor.userId() });
   const challenges = Challenges.find({}).fetch();
-  const interests = Interests.find({}).fetch();
   const skills = Skills.find({}).fetch();
   const tools = Tools.find({}).fetch();
   return {
     participant,
     challenges,
-    interests,
     skills,
     tools,
   };

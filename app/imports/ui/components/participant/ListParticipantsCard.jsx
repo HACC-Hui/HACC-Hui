@@ -140,11 +140,6 @@ class ListParticipantsCard extends React.Component {
                         {tool.name}</p>)}
                     </Grid.Column>
                     <Grid.Column>
-                      <Header>Interests</Header>
-                      {this.props.interests.slice(0, 3).map((interest, i) => <p key={interest + i}>
-                        {interest}</p>)}
-                    </Grid.Column>
-                    <Grid.Column>
                       <Header>Slack Username</Header>
                       {this.props.participants.username}
                     </Grid.Column>
@@ -208,12 +203,6 @@ class ListParticipantsCard extends React.Component {
                   </List>
                 </Grid.Column>
                 <Divider hidden/>
-                <Grid.Column>
-                  <Header dividing size="small">Interests</Header>
-                  <List bulleted>
-                    {this.props.interests.map((interest, i) => <List.Item key={interest + i}>{interest}</List.Item>)}
-                  </List>
-                </Grid.Column>
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
@@ -241,7 +230,6 @@ ListParticipantsCard.propTypes = {
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
-  interests: PropTypes.array.isRequired,
   participants: PropTypes.object.isRequired,
 };
 export default withTracker(() => ({

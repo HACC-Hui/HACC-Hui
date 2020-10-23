@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
-import { ChallengeInterests } from '../../../api/challenge/ChallengeInterestCollection';
-import { Interests } from '../../../api/interest/InterestCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { ROUTES } from '../../../startup/client/route-constants';
@@ -40,7 +38,6 @@ class ManageHaccWidget extends React.Component {
                     <Table.Row>
                       <Table.HeaderCell width={2}>Title</Table.HeaderCell>
                       <Table.HeaderCell width={5}>Description</Table.HeaderCell>
-                      <Table.HeaderCell width={5}>Interests</Table.HeaderCell>
                       <Table.HeaderCell width={2}>Submission Detail</Table.HeaderCell>
                       <Table.HeaderCell width={2}>Pitch</Table.HeaderCell>
                       <Table.HeaderCell width={2}>Edit</Table.HeaderCell>
@@ -107,8 +104,6 @@ class ManageHaccWidget extends React.Component {
 
 ManageHaccWidget.propTypes = {
   challenges: PropTypes.array.isRequired,
-  challengeInterests: PropTypes.array.isRequired,
-  interests: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
 };
@@ -117,8 +112,6 @@ ManageHaccWidget.propTypes = {
 export default withTracker(() => (
   {
     challenges: Challenges.find({}).fetch(),
-    challengeInterests: ChallengeInterests.find({}).fetch(),
-    interests: Interests.find({}).fetch(),
     skills: Skills.find({}).fetch(),
     tools: Tools.find({}).fetch(),
   }

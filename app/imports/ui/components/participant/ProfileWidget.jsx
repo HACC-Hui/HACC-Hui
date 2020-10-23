@@ -6,10 +6,8 @@ import { Button, Container, Header, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Participants } from '../../../api/user/ParticipantCollection';
-import { Interests } from '../../../api/interest/InterestCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
-import { ParticipantInterests } from '../../../api/user/ParticipantInterestCollection';
 import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
 import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
 import { paleBlueStyle } from '../../styles';
@@ -25,10 +23,6 @@ class EditProfileWidget extends React.Component {
       const c = Challenges.findDoc(challenge.challengeID);
       return c.title;
     });
-    model.interests = _.map(this.props.devInterests, (interest) => {
-      const i = Interests.findDoc(interest.interestID);
-      return i.name;
-    });
     model.skills = this.props.devSkills;
     model.tools = this.props.devTools;
     return model;
@@ -38,7 +32,7 @@ class EditProfileWidget extends React.Component {
     // console.log(this.props);
     const model = this.buildTheModel();
     return (
-        <Container>
+        <div style={{ paddingBottom: '50px', paddingTop: '40px' }}><Container>
           <Segment style={paleBlueStyle}>
             <Header dividing>Your Profile</Header>
             <ProfileCard model={model} />
@@ -49,6 +43,7 @@ class EditProfileWidget extends React.Component {
             <TeamMembershipWidget />
           </Segment>
         </Container>
+        </div>
     );
   }
 }
@@ -56,9 +51,6 @@ class EditProfileWidget extends React.Component {
 EditProfileWidget.propTypes = {
   participant: PropTypes.object.isRequired,
   devChallenges: PropTypes.arrayOf(
-      PropTypes.object,
-  ),
-  devInterests: PropTypes.arrayOf(
       PropTypes.object,
   ),
   devSkills: PropTypes.arrayOf(
@@ -73,13 +65,11 @@ const EditProfileWidgetCon = withTracker(() => {
   const participant = Participants.findDoc({ userID: Meteor.userId() });
   const participantID = participant._id;
   const devChallenges = ParticipantChallenges.find({ participantID }).fetch();
-  const devInterests = ParticipantInterests.find({ participantID }).fetch();
   const devSkills = ParticipantSkills.find({ participantID }).fetch();
   const devTools = ParticipantTools.find({ participantID }).fetch();
   return {
     participant,
     devChallenges,
-    devInterests,
     devSkills,
     devTools,
   };
