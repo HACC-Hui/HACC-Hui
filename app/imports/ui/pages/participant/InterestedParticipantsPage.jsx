@@ -231,20 +231,6 @@ class InterestedParticipantsPage extends React.Component {
                 </Header.Content>
               </Header>
             </div>
-            {/* <div style={{ paddingTop: '2rem' }}> */}
-            {/*  <Header> */}
-            {/*    <Header.Content> */}
-            {/*      Sort by {' '} */}
-            {/*      <Dropdown */}
-            {/*          inline */}
-            {/*          header='Sort by...' */}
-            {/*          options={sortBy} */}
-            {/*          defaultValue={sortBy[0].value} */}
-            {/*          onChange={getSort} */}
-            {/*      /> */}
-            {/*    </Header.Content> */}
-            {/*  </Header> */}
-            {/* </div> */}
             <div style={{ paddingTop: '2rem' }}>
               <Input icon='search'
                       iconPosition='left'

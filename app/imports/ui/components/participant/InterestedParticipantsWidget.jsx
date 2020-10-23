@@ -13,72 +13,6 @@ import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import { removeItMethod } from '../../../api/base/BaseCollection.methods';
 import { ToAcceptWantsToJoin } from '../../../api/team/ToAcceptWantToJoinCollection';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
-// import { Slugs } from '../../../api/slug/SlugCollection';
-// import ListTeamExampleWidget from './ListTeamExampleWidget';
-// import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
-// import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
-// import { Challenges } from '../../../api/challenge/ChallengeCollection';
-// import { TeamSkills } from '../../../api/team/TeamSkillCollection';
-// import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
-// import { Skills } from '../../../api/skill/SkillCollection';
-// import { TeamTools } from '../../../api/team/TeamToolCollection';
-// import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
-// import { Tools } from '../../../api/tool/ToolCollection';
-// // import { InterestedParticipants } from '../../../api/team/InterestedParticipantCollection';
-// import { ParticipantInterests } from '../../../api/user/ParticipantInterestCollection';
-// import { Interests } from '../../../api/interest/InterestCollection';
-// import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
-
-// const getParticipantChallenges = (participant) => {
-//   const participantID = participant._id;
-//   const participantChallengeDocs = ParticipantChallenges.find({ participantID }).fetch();
-//   const challengeTitles = participantChallengeDocs.map((dc) => Challenges.findDoc(dc.challengeID).title);
-//   return challengeTitles;
-// };
-
-// const getParticipantSkills = (participant) => {
-//   const participantID = participant._id;
-//   const participantSkills = ParticipantSkills.find({ participantID }).fetch();
-//   const skillNames = participantSkills.map((ds) => Skills.findDoc(ds.skillID).name);
-//   return skillNames;
-// };
-
-// const getParticipantTools = (participant) => {
-//   const participantID = participant._id;
-//   const participantTools = ParticipantTools.find({ participantID }).fetch();
-//   const toolNames = participantTools.map((dt) => Tools.findDoc(dt.toolID).name);
-//   return toolNames;
-// };
-
-// const getParticipantInterests = (participant) => {
-//   const participantID = participant._id;
-//   const participantInterests = ParticipantInterests.find({ participantID }).fetch();
-//   const interestNames = participantInterests.map((di) => Interests.findDoc(di.interestID).name);
-//   return interestNames;
-// };
-
-// const getParticipantTeams = (participant) => {
-//   const participantID = participant._id;
-//   const participantTeams = TeamParticipants.find({ participantID }).fetch();
-//   const usersTeams = participantTeams.map((dt) => Teams.findDoc(dt.teamID));
-//   return usersTeams;
-// };
-
-// const getTeammates = (team, participant) => {
-//   const teamID = team._id;
-//   const teamsParticipants = TeamParticipants.find({ teamID }).fetch();
-//   const teammates = teamsParticipants.map((td) => (
-//     td.participantID !== participant._id ? Participants.findDoc(td.participantID) : ''
-//   ));
-//   return teammates;
-// };
-
-// const getInterestedParticipants = (team) => {
-//   const teamID = team._id;
-//   const InterestedParticipants = WantsToJoin.find({ teamID }).fetch();
-//   const interestedParticipants = InterestedParticipants.map((wd) => Participants.findDoc(wd.participantID));
-//   return interestedParticipants;
-// };
 
 class InterestedParticipantsWidget extends React.Component {
   state = {};
@@ -195,33 +129,8 @@ class InterestedParticipantsWidget extends React.Component {
                           <Header>Slack Username</Header>
                           {this.props.participant.username}
                         </Grid.Column>
-                        {/* <Grid.Column floated='right'>
-                          <Button.Group style={{float:'right'}}>
-                            <Button positive>Accept</Button>
-                            <Button.Or />
-                            <Button negative>Decline</Button>
-                          </Button.Group>
-                        </Grid.Column> */}
                       </Grid>
-                      {/* <Grid stackable columns={2}>
-                        <Grid.Column>
-                          <Header>Slack Username</Header>
-                          {this.props.participants.username}
-                        </Grid.Column>
-                        <Grid.Column textAlign='right'>
-                          <Button.Group>
-                              <Button onClick={this.accept} positive>Accept</Button>
-                              <Button.Or />
-                              <Button onClick={this.decline} negative>Decline</Button>
-                            </Button.Group>
-                        </Grid.Column>
-                      </Grid> */}
               </Item.Description>
-              {/* <Button.Group style={{float:'right'}}>
-                <Button positive>Accept</Button>
-                <Button.Or />
-                <Button negative>Decline</Button>
-              </Button.Group> */}
             </Item.Content>
           }>
             {/* eslint-disable-next-line max-len */}

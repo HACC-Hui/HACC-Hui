@@ -59,7 +59,7 @@ class NavBar extends React.Component {
               ]
           ) : ''}
 
-          {isParticipant && userTeamDocs.length > 0 ? (
+          {/* {isParticipant && userTeamDocs.length > 0 ? (
             <Menu.Item key='interested-participants'>
               <Dropdown text="Interested Participants" pointing='top right'>
                 <Dropdown.Menu>
@@ -69,7 +69,7 @@ class NavBar extends React.Component {
                 </Dropdown.Menu>
               </Dropdown>
             </Menu.Item>
-          ) : ''}
+          ) : ''} */}
 
           {isAdmin ? (
               [
