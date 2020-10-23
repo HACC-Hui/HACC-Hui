@@ -1,6 +1,6 @@
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
- import { withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 import { Divider, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -18,7 +18,6 @@ import { Teams } from '../../../api/team/TeamCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
-import { Participants } from '../../../api/user/ParticipantCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 import MultiSelectField from '../form-fields/MultiSelectField';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
@@ -27,6 +26,7 @@ import { TeamSkills } from '../../../api/team/TeamSkillCollection';
 import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { TeamTools } from '../../../api/team/TeamToolCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 
 class EditTeamWidget extends React.Component {
   constructor(props) {
@@ -45,8 +45,7 @@ class EditTeamWidget extends React.Component {
         allowedValues: ['Open', 'Close'],
         label: 'Availability',
       },
-      name: String,
-      image: { type: String, optional: true },
+      name: { type: String },
       challenges: { type: Array, label: 'Challenges' },
       'challenges.$': { type: String, allowedValues: challengeNames },
       skills: { type: Array, label: 'Skills', optional: true },
@@ -64,6 +63,7 @@ class EditTeamWidget extends React.Component {
   }
 
   buildTheModel() {
+
     const model = this.props.team;
     model.challenges = _.map(this.props.challenges, (challenge) => challenge.title);
     model.skills = _.map(this.props.skills, (skill) => skill.name);
@@ -82,7 +82,7 @@ class EditTeamWidget extends React.Component {
     // console.log('submit', data);
     const collectionName = Teams.getCollectionName();
     const updateData = {};
-    // name, description, challenges, skills, tools, image, open
+    // description, challenges, skills, tools, image, open
     updateData.id = data._id;
     updateData.name = data.name;
     updateData.description = data.description;
@@ -197,29 +197,32 @@ class EditTeamWidget extends React.Component {
 }
 
 EditTeamWidget.propTypes = {
-  team: PropTypes.object.isRequired,
-  skills: PropTypes.arrayOf(
+  allChallenges: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
   challenges: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
-  tools: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
-  members: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
-  participants: PropTypes.arrayOf(
-      PropTypes.object,
-  ).isRequired,
-  allChallenges: PropTypes.arrayOf(
+  team: PropTypes.object.isRequired,
+  skills: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
   allSkills: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
   allTools: PropTypes.arrayOf(
+      PropTypes.object,
+  ).isRequired,
+  teamSkills: PropTypes.arrayOf(
+      PropTypes.object,
+  ),
+  tools: PropTypes.arrayOf(
+      PropTypes.object,
+  ),
+  members: PropTypes.arrayOf(
+      PropTypes.object,
+  ).isRequired,
+  participants: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
 };
