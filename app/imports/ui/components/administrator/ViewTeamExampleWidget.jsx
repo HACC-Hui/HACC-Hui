@@ -59,7 +59,7 @@ class ViewTeamExampleWidget extends React.Component {
             <Grid.Column>
               { (_.every(getTeamParticipants(this.props.team._id, this.props.teamParticipants),
                   function (value) { return (value.compliant !== false); }))
-                  ? <Header>Team is Compliant</Header> : <Header>Team is not Compliant</Header> }
+                  ? <Header>Team is Compliant</Header> : <Header><mark>Team is not Compliant</mark></Header> }
             </Grid.Column>
             <Grid.Column>
               {/* eslint-disable-next-line max-len */}
@@ -78,9 +78,9 @@ ViewTeamExampleWidget.propTypes = {
   teamMembers: PropTypes.arrayOf(
       PropTypes.string,
   ).isRequired,
-  teamCompliance: PropTypes.arrayOf(
-      PropTypes.boolean,
-  ).isRequired,
+  // teamCompliance: PropTypes.arrayOf(
+  //     PropTypes.boolean,
+  // ).isRequired,
 };
 
 export default withTracker(() => ({

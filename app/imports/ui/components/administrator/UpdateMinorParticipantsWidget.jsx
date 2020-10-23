@@ -10,11 +10,11 @@ import { ROUTES } from '../../../startup/client/route-constants';
 
 class UpdateMinorParticipantsWidget extends React.Component {
 
-  compliantMinors;
+  selected;
 
   constructor(props) {
     super(props);
-    this.compliantMinors = [];
+    this.selected = [];
     this.state = { redirectToReferer: false };
   }
 
@@ -28,45 +28,35 @@ class UpdateMinorParticipantsWidget extends React.Component {
     return MinorParticipants;
   }
 
-  initMP() {
-    const initCompliantMinorParticipants = [];
-    const initCompliantMinorParticipant = {};
-    this.props.MinorParticipantsID.each((MinorParticipant) => {
-      initCompliantMinorParticipant._id = MinorParticipant;
-      initCompliantMinorParticipant.isCompliant = false;
-      initCompliantMinorParticipants.push(initCompliantMinorParticipant);
-    });
-    this.compliantMinors = initCompliantMinorParticipants;
-  }
-
   renderMinorParticipants() {
-    this.initMP();
-    const onChangeCheckbox = (evt, data) => {
-      const compliantMinorscopy = this.compliantMinors;
-      // eslint-disable-next-line eqeqeq
-      const Index = compliantMinorscopy.findIndex(p => p._id == data.value);
-      compliantMinorscopy[Index].isCompliant = data.checked;
-      this.compliantMinors = compliantMinorscopy;
+
+    const CheckBoxFun = {};
+    const allMPs = this.props.MinorParticipantsID;
+    allMPs.forEach((MP) => {
+ CheckBoxFun[MP] = (evt, data) => {
+    if (data.checked) this.selected.push(MP);
+    // eslint-disable-next-line eqeqeq
+    else this.selected = this.selected.filter((Minor) => Minor != MP);
     };
+});
     const MinorParticipants = this.getMinorParticipants();
     return MinorParticipants.map((p) => (<Grid.Row key={p._id} columns={3}>
-      <Grid.Column>p.firstName</Grid.Column>
-      <Grid.Column>p.lastName</Grid.Column>
-      <Checkbox value={p._id} onClick={(evt, data) => onChangeCheckbox(evt, data)} />
+      <Grid.Column>{p.firstName}</Grid.Column>
+      <Grid.Column>{p.lastName}</Grid.Column>
+      <Grid.Column><Checkbox value={p._id} onClick={(evt, data) => CheckBoxFun[p._id](evt, data)}/></Grid.Column>
     </Grid.Row>));
   }
 
   submitData() {
     let Error = false;
-    let isCompliantMP = this.compliantMinors;
-    // eslint-disable-next-line eqeqeq
-    isCompliantMP = isCompliantMP.filter((MP) => MP.isCompliant == true);
-    isCompliantMP.each((MP => {
+
+    this.selected.forEach((MP => {
       const collectionName = Participants.getCollectionName();
       const updateData = {
-        id: MP._id,
+        id: MP,
         isCompliant: true,
       };
+
       updateMethod.call({ collectionName, updateData }, (error) => {
         if (error) {
           Error = true;
@@ -74,10 +64,11 @@ class UpdateMinorParticipantsWidget extends React.Component {
         }
       });
     }));
+
     if (!Error) {
-      swal('Success', 'updated successfully', 'success');
-      this.setState({ redirectToReferer: true });
-    } else swal('Fail', 'updated fail', 'error');
+      swal('Success', 'Updated successfully', 'success');
+     this.setState({ redirectToReferer: true });
+    } else swal('Fail', 'Updated fail', 'error');
 
   }
 
@@ -88,6 +79,7 @@ class UpdateMinorParticipantsWidget extends React.Component {
     }
     return (
         <div>
+          <Header>Minor Participants List</Header>
           <Grid celled>
             <Grid.Row columns={3}>
               <Grid.Column>
@@ -102,7 +94,7 @@ class UpdateMinorParticipantsWidget extends React.Component {
             </Grid.Row>
             {this.renderMinorParticipants()}
             <Grid.Row centered>
-              <Button style={{ textAlign: 'center' }} onClick = {this.submitData()}>submit</Button>
+              <Button type='button' style={{ textAlign: 'center' }} onClick = {() => this.submitData()}>submit</Button>
             </Grid.Row>
           </Grid>
         </div>

@@ -24,6 +24,7 @@ import DumpDatabase from '../pages/administrator/DumpDatabase';
 import EditProfilePage from '../pages/participant/EditProfilePage';
 import ListTeamsPage from '../pages/participant/ListTeamsPage';
 import ConfigureHaccPage from '../pages/administrator/ConfigureHaccPage';
+import ShowMinorPage from '../pages/administrator/ShowMinorPage';
 import EditChallengePage from '../pages/administrator/EditChallengePage';
 import EditToolPage from '../pages/administrator/EditToolPage';
 import EditSkillPage from '../pages/administrator/EditSkillPage';
@@ -108,6 +109,7 @@ class App extends React.Component {
           <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
           <AdminProtectedRoute path={ROUTES.ADMIN_EDIT_TEAM} component={AdminEditTeamPage} />
           <AdminProtectedRoute path={ROUTES.VIEW_TEAM} component={ViewTeamPage} />
+          <AdminProtectedRoute path={ROUTES.SHOW_MINORS} component={ShowMinorPage} />
           <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
           <Route component={NotFound} />
         </Switch>

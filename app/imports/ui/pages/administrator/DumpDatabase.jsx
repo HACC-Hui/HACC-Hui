@@ -24,7 +24,7 @@ class DumpDatabase extends React.Component {
   render() {
     return (
     <Segment>
-      <Button onClick={this.handleClick}>Dump the Database</Button>
+      <Button positive={true} onClick={this.handleClick}>Dump the Database</Button>
     </Segment>
     );
   }

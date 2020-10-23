@@ -56,13 +56,13 @@ if (!Meteor.isAppTest) {
               SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
               await say(`
  <@${event.user}> Welcome to HACC-Hui! Here are your credentials.
- Host: http://hacchui.ics.hawaii.edu:8888/#/signin
+ Host: https://hacchui.ics.hawaii.edu/#/signin
  Username: ${username}
  Password: ${password}`);
             } else {
               await say(`
               <@${event.user}> You've already registered. You can login to HACC-Hui.
- Host: http://hacchui.ics.hawaii.edu:8888/#/signin`);
+ Host: https://hacchui.ics.hawaii.edu/#/signin`);
             }
           } else
             if (!Administrators.isDefined({ username: email })) {
@@ -88,17 +88,17 @@ if (!Meteor.isAppTest) {
               SlackUsers.define({ username, slackUser: event.user, dmChannel: event.channel });
               await say(`
  <@${event.user}> Welcome to HACC-Hui! Here are your credentials.
- Host: http://hacchui.ics.hawaii.edu:8888/#/signin
+ Host: https://hacchui.ics.hawaii.edu/#/signin
  Username: ${username}
  Password: ${password}`);
             } else {
               await say(`<@${event.user}> You've already registered. You can login to HACC-Hui.
- Host: http://hacchui.ics.hawaii.edu:8888/#/signin`);
+ Host: https://hacchui.ics.hawaii.edu/#/signin`);
             }
         } else
           if (event.text.toLowerCase().includes('help')) { // user says help to receive dialogue
             await say(`<@${event.user}> I can see that you need help, please refer to our help page.
- Help Page: http://hacchui.ics.hawaii.edu:8888/#/help-page`);
+ Help Page: https://hacchui.ics.hawaii.edu/#/help-page`);
           } else {
             await say(`<@${event.user}> I don't understand '${event.text}'. 
  To register for HACC-Hui, please type 'register me'. 
