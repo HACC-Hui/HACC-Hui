@@ -23,6 +23,9 @@ import { Slugs } from '../../../api/slug/SlugCollection';
 import MultiSelectField from '../form-fields/MultiSelectField';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import RadioField from '../form-fields/RadioField';
+import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
+import { TeamSkills } from '../../../api/team/TeamSkillCollection';
+import { TeamTools } from '../../../api/team/TeamToolCollection';
 
 class EditTeamWidget extends React.Component {
   constructor(props) {
@@ -31,9 +34,9 @@ class EditTeamWidget extends React.Component {
   }
 
   buildTheFormSchema() {
-    const challengeNames = _.map(this.props.challenges, (c) => c.title);
-    const skillNames = _.map(this.props.skills, (s) => s.name);
-    const toolNames = _.map(this.props.tools, (t) => t.name);
+    const challengeNames = _.map(this.props.Challenges, (c) => c.title);
+    const skillNames = _.map(this.props.Skills, (s) => s.name);
+    const toolNames = _.map(this.props.Tools, (t) => t.name);
     const participantNames = _.map(this.props.participants, (p) => p.username);
     const schema = new SimpleSchema({
       open: {
@@ -59,10 +62,10 @@ class EditTeamWidget extends React.Component {
   }
 
   buildTheModel() {
-    const model = this.props.team;
-    model.Challenges = _.map(this.props.challenges, (challenge) => challenge.title);
-    model.Skills = _.map(this.props.skills, (skill) => skill.name);
-    model.Tools = _.map(this.props.tools, (tool) => tool.name);
+    const model = this.props.Teams;
+    model.challenges = _.map(this.props.challenges, (challenge) => challenge.title);
+    model.skills = _.map(this.props.skills, (skill) => skill.name);
+    model.tools = _.map(this.props.tools, (tool) => tool.name);
     return model;
   }
 
@@ -175,18 +178,25 @@ class EditTeamWidget extends React.Component {
 }
 
 EditTeamWidget.propTypes = {
-  Skills: PropTypes.arrayOf(
+  allChallenges: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
-  Challenges: PropTypes.arrayOf(
+  allSkills: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
-  Tools: PropTypes.arrayOf(
+  allTools: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
-  participants: PropTypes.arrayOf(
+  doc: PropTypes.object.isRequired,
+  teamChallenges: PropTypes.arrayOf(
       PropTypes.object,
-  ).isRequired,
+  ),
+  teamSkills: PropTypes.arrayOf(
+      PropTypes.object,
+  ),
+  teamTools: PropTypes.arrayOf(
+      PropTypes.object,
+  ),
 };
 
 /* const EditTeamCon = withTracker(({ match }) => {
@@ -206,12 +216,18 @@ EditTeamWidget.propTypes = {
 const EditTeamCon = withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
-  const teamChallenges = teamChallenges.find({ documentId }).fetch();
-  const teamSkills = teamSkills.find({ documentId }).fetch();
-  const teamTools = teamTools.find({ documentId }).fetch();
+  const allChallenges = Challenges.find({}).fetch();
+  const allSkills = Skills.find({}).fetch();
+  const allTools = Tools.find({}).fetch();
+  const teamChallenges = TeamChallenges.find({ documentId }).fetch();
+  const teamSkills = TeamSkills.find({ documentId }).fetch();
+  const teamTools = TeamTools.find({ documentId }).fetch();
   // Get access to Stuff documents.
   return {
     doc: Teams.findOne(documentId),
+    allChallenges,
+    allSkills,
+    allTools,
     teamChallenges,
     teamSkills,
     teamTools,
