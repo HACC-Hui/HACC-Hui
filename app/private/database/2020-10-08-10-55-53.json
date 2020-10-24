@@ -4,12 +4,7 @@
     {
       "name": "AdministratorCollection",
       "contents": [
-        {
-          "username": "carleton.moore@gmail.com",
-          "firstName": "Carleton",
-          "lastName": "Moore"
-        }
-      ]
+       ]
     },
     {
       "name": "ChallengeCollection",
@@ -83,40 +78,6 @@
     {
       "name": "ParticipantCollection",
       "contents": [
-        {
-          "username": "cmoore@hawaii.edu",
-          "firstName": "Cam",
-          "lastName": "Moore",
-          "demographicLevel": "Professional",
-          "isCompliant": false,
-          "linkedIn": "https://www.linkedin.com/in/cam-moore-9a5213/",
-          "gitHub": "https://github.com/cammoore",
-          "challenges": [
-          ],
-          "interests": [
-          ],
-          "skills": [
-          ],
-          "tools": [
-          ]
-        },
-        {
-          "username": "john@foo.com",
-          "firstName": "John",
-          "lastName": "Sharpie",
-          "demographicLevel": "College",
-          "isCompliant": false,
-          "linkedIn": "",
-          "gitHub": "",
-          "challenges": [
-          ],
-          "interests": [
-          ],
-          "skills": [
-          ],
-          "tools": [
-          ]
-        }
       ]
     },
     {

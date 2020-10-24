@@ -104,7 +104,13 @@ class NavBar extends React.Component {
                 //            key={ROUTES.SHOW_MINOR}>Show Minor</Menu.Item>,
               ]
           ) : ''}
-          <Menu.Item position="right">
+          <Menu.Item position="right"
+                     as={NavLink}
+                     activeClassName="active"
+                     exact
+                     to={ROUTES.HELP_PAGE}
+                     key={ROUTES.HELP_PAGE}>Help</Menu.Item>
+          <Menu.Item>
             {this.props.currentUser === '' ? (
                 <Dropdown text="Login" pointing="top right" icon={'user'}>
                   <Dropdown.Menu>
