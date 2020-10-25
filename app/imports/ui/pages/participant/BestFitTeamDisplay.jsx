@@ -60,11 +60,13 @@ class BestTeam extends React.Component {
       const filterChallTeams = _.filter(Tchallenges,
           // eslint-disable-next-line eqeqeq
           function (Tchallenge) { return Tchallenge.challengeID == Dchallenge.challengeID; });
+
       _.each(filterChallTeams, function (team) {
         // eslint-disable-next-line eqeqeq
         const teamIndex = challengeTeams.findIndex(pteam => pteam._id == team.teamID);
-        challengeTeams[teamIndex].priority += Tools.count() + Skills.count() + 1;
+        if (teamIndex >= 0) challengeTeams[teamIndex].priority += Tools.count() + Skills.count() + 1;
       });
+
     }, challengeTeams);
     this.challenge_priority = challengeTeams;
     const sortTeams = _.sortBy(challengeTeams, 'priority').reverse();
@@ -86,7 +88,7 @@ class BestTeam extends React.Component {
       _.each(filterSkillTeams, function (team) {
         // eslint-disable-next-line eqeqeq
         const teamIndex = skillsTeams.findIndex(pteam => pteam._id == team.teamID);
-        skillsTeams[teamIndex].priority++;
+        if (teamIndex >= 0) skillsTeams[teamIndex].priority++;
       });
     }, skillsTeams);
     this.skill_priority = skillsTeams;
@@ -110,7 +112,7 @@ class BestTeam extends React.Component {
       _.each(filterToolsTeams, function (team) {
         // eslint-disable-next-line eqeqeq
         const teamIndex = ToolsTeams.findIndex(pteam => pteam._id == team.teamID);
-        ToolsTeams[teamIndex].priority++;
+        if (teamIndex >= 0) ToolsTeams[teamIndex].priority++;
       });
     }, ToolsTeams);
     this.tool_priority = ToolsTeams;
