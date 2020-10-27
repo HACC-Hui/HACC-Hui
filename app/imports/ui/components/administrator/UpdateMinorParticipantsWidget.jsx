@@ -82,8 +82,17 @@ class UpdateMinorParticipantsWidget extends React.Component {
       return <Redirect to={from}/>;
     }
     return (
-        <div>
-          <Header>Minor Participants List ({this.props.MinorParticipantsID.length})</Header>
+        <div style={{ paddingBottom: '50px' }}>
+          <div style={{
+            backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
+            borderRadius: '2rem',
+          }}>
+          <Header as="h2" textAlign="center">Minor Participants List ({this.props.MinorParticipantsID.length})</Header>
+          </div>
+          <div style={{
+            borderRadius: '1rem',
+            backgroundColor: '#E5F0FE',
+          }}>
           <Grid celled>
             <Grid.Row columns={3}>
               <Grid.Column>
@@ -101,6 +110,7 @@ class UpdateMinorParticipantsWidget extends React.Component {
               <Button type='button' style={{ textAlign: 'center' }} onClick = {() => this.submitData()}>submit</Button>
             </Grid.Row>
           </Grid>
+          </div>
         </div>
     );
   }
