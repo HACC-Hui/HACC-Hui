@@ -14,9 +14,9 @@ const getTeamMembers = (team) => {
   return memberNames;
 };
 
-class ViewTeamWidget extends React.Component {
+class ViewTeamsWidget extends React.Component {
   render() {
-    // console.log('ViewTeamWidget');
+    // console.log('ViewTeamsWidget');
     return (
         <Grid container centered>
           <Grid.Column>
@@ -24,7 +24,7 @@ class ViewTeamWidget extends React.Component {
               backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
               borderRadius: '2rem',
             }}>
-              <Header as="h2" textAlign="center">View Teams</Header>
+              <Header as="h2" textAlign="center">View Teams ({this.props.teams.length})</Header>
             </div>
             <Grid celled>
               <Grid.Row columns={4} style={{
@@ -55,7 +55,7 @@ class ViewTeamWidget extends React.Component {
   }
 }
 
-ViewTeamWidget.propTypes = {
+ViewTeamsWidget.propTypes = {
   teams: PropTypes.arrayOf(
       PropTypes.object,
   ),
@@ -66,4 +66,4 @@ export default withTracker(() => {
   return {
     teams,
   };
-})(ViewTeamWidget);
+})(ViewTeamsWidget);

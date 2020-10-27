@@ -121,8 +121,8 @@ class SideBar extends React.Component {
                     <Menu.Item as={NavLink}
                                activeClassName="active"
                                exact
-                               to={ROUTES.VIEW_TEAM}
-                               key={ROUTES.VIEW_TEAM}>View Team</Menu.Item>,
+                               to={ROUTES.VIEW_TEAMS}
+                               key={ROUTES.VIEW_TEAMS}>View Team</Menu.Item>,
                     <Menu.Item as={NavLink}
                                activeClassName="active"
                                exact
