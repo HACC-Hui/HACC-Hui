@@ -8,6 +8,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 import { ROUTES } from '../../startup/client/route-constants';
 import { Participants } from '../../api/user/ParticipantCollection';
+import { Teams } from '../../api/team/TeamCollection';
 
 /**
  * The NavBar appears at the top of every page. Rendered by the App Layout component.
@@ -22,6 +23,10 @@ class NavBar extends React.Component {
       const participant = Participants.findDoc({ userID: Meteor.userId() });
       isCompliant = participant.isCompliant;
     }
+
+    const numParticipants = Participants.count();
+    const numTeams = Teams.count();
+
     return (
         <Menu attached="top" borderless inverted className={'navBar'}>
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
@@ -44,7 +49,7 @@ class NavBar extends React.Component {
                            activeClassName="active"
                            exact
                            to={ROUTES.BEST_FIT}
-                           key='list-teams'>List the Teams</Menu.Item>,
+                           key='list-teams'>List the Teams ({numTeams})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            disabled={!isCompliant}
@@ -55,7 +60,7 @@ class NavBar extends React.Component {
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact to={ROUTES.LIST_PARTICIPANTS}
-                           key='list-participants'>List the Participants</Menu.Item>,
+                           key='list-participants'>List the Participants ({numParticipants})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
