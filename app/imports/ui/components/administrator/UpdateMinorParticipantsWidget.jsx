@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Header, Checkbox, Button } from 'semantic-ui-react';
+import { Grid, Header, Checkbox, Button, Table } from 'semantic-ui-react';
 import _ from 'underscore';
 import swal from 'sweetalert';
 import { Redirect } from 'react-router-dom';
@@ -44,11 +44,11 @@ class UpdateMinorParticipantsWidget extends React.Component {
     };
 });
     const MinorParticipantsList = this.getMinorParticipants();
-    return MinorParticipantsList.map((p) => (<Grid.Row key={p._id} columns={3}>
-      <Grid.Column>{ `${p.firstName} ${p.lastName}`}</Grid.Column>
-      <Grid.Column>{p.ParentName}</Grid.Column>
-      <Grid.Column><Checkbox value={p._id} onClick={(evt, data) => CheckBoxFun[p._id](evt, data)}/></Grid.Column>
-    </Grid.Row>));
+    return MinorParticipantsList.map((p) => (<Table.Row key={p._id} columns={3}>
+      <Table.Cell>{ `${p.firstName} ${p.lastName}`}</Table.Cell>
+      <Table.Cell>{p.ParentName}</Table.Cell>
+      <Table.Cell><Checkbox value={p._id} onClick={(evt, data) => CheckBoxFun[p._id](evt, data)}/></Table.Cell>
+    </Table.Row>));
   }
 
   submitData() {
@@ -93,23 +93,21 @@ class UpdateMinorParticipantsWidget extends React.Component {
             borderRadius: '1rem',
             backgroundColor: '#E5F0FE',
           }}>
-          <Grid celled>
-            <Grid.Row columns={3}>
-              <Grid.Column>
-                <Header>Minor Participant Name</Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header>Parent Name</Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header>Compliant</Header>
-              </Grid.Column>
-            </Grid.Row>
-            {this.renderMinorParticipants()}
-            <Grid.Row centered>
+          <Table fixed>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Minor Participant Name</Table.HeaderCell>
+                <Table.HeaderCell>Parent Name (Email)</Table.HeaderCell>
+                <Table.HeaderCell>Compliant</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>{this.renderMinorParticipants()}</Table.Body>
+          </Table>
+          <Grid centered >
+
               <Button type='button' style={{ textAlign: 'center' }} onClick = {() => this.submitData()}>submit</Button>
-            </Grid.Row>
           </Grid>
+
           </div>
         </div>
     );
