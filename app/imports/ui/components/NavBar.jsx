@@ -25,7 +25,7 @@ class NavBar extends React.Component {
     }
 
     const numParticipants = Participants.count();
-    const numTeams = Teams.count();
+    const numTeams = Teams.find({ open: true }).count();
 
     return (
         <Menu attached="top" borderless inverted className={'navBar'}>
