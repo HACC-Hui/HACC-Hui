@@ -36,6 +36,7 @@ class BestTeam extends React.Component {
     // console.log(this.AllOpenTeam);
   }
 
+
   byAtoZ() {
     const allTeams = this.getAllOpenTeams();
     return _.sortBy(allTeams, (team) => team.name.toLowerCase());
@@ -95,6 +96,7 @@ class BestTeam extends React.Component {
       team.priority = _.intersectionBy(pTools, tTools, 'toolID').length;
     });
     return _.sortBy(allTeams, 'priority').reverse();
+
   }
 
   renderDropDown() {
