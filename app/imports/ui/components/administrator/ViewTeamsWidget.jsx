@@ -10,7 +10,12 @@ import { Participants } from '../../../api/user/ParticipantCollection';
 const getTeamMembers = (team) => {
   const teamID = team._id;
   const teamParticipants = TeamParticipants.find({ teamID }).fetch();
-  const memberNames = teamParticipants.map((tp) => Participants.getFullName(tp.participantID));
+  const memberNames = teamParticipants.map((tp) => {
+    const fullName = Participants.getFullName(tp.participantID);
+    const participant = Participants.findDoc(tp.participantID);
+    const gitHub = participant.gitHub;
+    return `${fullName}, (${gitHub})`;
+  });
   return memberNames;
 };
 
@@ -34,6 +39,7 @@ class ViewTeamsWidget extends React.Component {
                 </Grid.Column>
                 <Grid.Column>
                   <Header>Members</Header>
+                  Name, (GitHub)
                 </Grid.Column>
                 <Grid.Column>
                   <Header>Is the Team Compliant?</Header>

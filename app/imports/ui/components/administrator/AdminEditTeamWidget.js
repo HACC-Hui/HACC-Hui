@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header } from 'semantic-ui-react';
+import { Grid, Segment, Header, List } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
@@ -7,6 +7,7 @@ import {
   TextField,
   LongTextField,
 } from 'uniforms-semantic';
+import _ from 'lodash';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -15,6 +16,8 @@ import SimpleSchema from 'simpl-schema';
 import { withRouter } from 'react-router';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { Teams } from '../../../api/team/TeamCollection';
+import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -65,6 +68,11 @@ class AdminEditTeamWidget extends React.Component {
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   render() {
     const formSchema = new SimpleSchema2Bridge(schema);
+    const memberNamesAndGitHub = _.map(this.props.members, (p) => {
+      const fullName = Participants.getFullName(p._id);
+      const gitHub = p.gitHub;
+      return `${fullName}, (${gitHub})`;
+    });
     return (
         <Grid container centered>
           <Grid.Column>
@@ -74,7 +82,7 @@ class AdminEditTeamWidget extends React.Component {
             }}>
               <Header as="h2" textAlign="center">Edit Team</Header>
             </div>
-            <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.doc}
+            <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.team}
                       style={{
                         paddingBottom: '4rem',
                       }}>
@@ -86,6 +94,10 @@ class AdminEditTeamWidget extends React.Component {
                   <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
                     <TextField name='name' disabled />
                     <LongTextField name='description' required/>
+                    <Header as="h4">Team Members:</Header>
+                    <List>
+                      {memberNamesAndGitHub.map((n) => <List.Item key={n}>{n}</List.Item>)}
+                    </List>
                     <TextField name='gitHubRepo' required/>
                   </Grid.Column>
                 </Grid>
@@ -106,15 +118,22 @@ class AdminEditTeamWidget extends React.Component {
 }
 
 AdminEditTeamWidget.propTypes = {
-  doc: PropTypes.object,
+  team: PropTypes.object,
+  members: PropTypes.arrayOf(
+      PropTypes.object,
+  ).isRequired,
   model: PropTypes.object,
 };
 
 const AdminEditTeamCon = withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
+  const team = Teams.findDoc(documentId);
+  const members = _.map(TeamParticipants.find({ teamID: team._id }).fetch(),
+      (tp) => Participants.findDoc(tp.participantID));
   return {
-    doc: Teams.findOne(documentId),
+    team,
+    members,
   };
 })(AdminEditTeamWidget);
 
