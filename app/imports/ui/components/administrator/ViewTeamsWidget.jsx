@@ -10,13 +10,18 @@ import { Participants } from '../../../api/user/ParticipantCollection';
 const getTeamMembers = (team) => {
   const teamID = team._id;
   const teamParticipants = TeamParticipants.find({ teamID }).fetch();
-  const memberNames = teamParticipants.map((tp) => Participants.getFullName(tp.participantID));
+  const memberNames = teamParticipants.map((tp) => {
+    const fullName = Participants.getFullName(tp.participantID);
+    const participant = Participants.findDoc(tp.participantID);
+    const gitHub = participant.gitHub;
+    return `${fullName}, (${gitHub})`;
+  });
   return memberNames;
 };
 
-class ViewTeamWidget extends React.Component {
+class ViewTeamsWidget extends React.Component {
   render() {
-    // console.log('ViewTeamWidget');
+    // console.log('ViewTeamsWidget');
     return (
         <Grid container centered>
           <Grid.Column>
@@ -24,7 +29,7 @@ class ViewTeamWidget extends React.Component {
               backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
               borderRadius: '2rem',
             }}>
-              <Header as="h2" textAlign="center">View Teams</Header>
+              <Header as="h2" textAlign="center">View Teams ({this.props.teams.length})</Header>
             </div>
             <Grid celled>
               <Grid.Row columns={4} style={{
@@ -34,6 +39,7 @@ class ViewTeamWidget extends React.Component {
                 </Grid.Column>
                 <Grid.Column>
                   <Header>Members</Header>
+                  Name, (GitHub)
                 </Grid.Column>
                 <Grid.Column>
                   <Header>Is the Team Compliant?</Header>
@@ -55,7 +61,7 @@ class ViewTeamWidget extends React.Component {
   }
 }
 
-ViewTeamWidget.propTypes = {
+ViewTeamsWidget.propTypes = {
   teams: PropTypes.arrayOf(
       PropTypes.object,
   ),
@@ -66,4 +72,4 @@ export default withTracker(() => {
   return {
     teams,
   };
-})(ViewTeamWidget);
+})(ViewTeamsWidget);
