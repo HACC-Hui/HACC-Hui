@@ -105,7 +105,8 @@ class UpdateMinorParticipantsWidget extends React.Component {
           </Table>
           <Grid centered >
 
-              <Button type='button' style={{ textAlign: 'center' }} onClick = {() => this.submitData()}>submit</Button>
+              <Button type='button' style={{ textAlign: 'center', color: 'white', backgroundColor: '#DB2828',
+                margin: '2rem 0rem' }} onClick = {() => this.submitData()}>submit</Button>
           </Grid>
 
           </div>
