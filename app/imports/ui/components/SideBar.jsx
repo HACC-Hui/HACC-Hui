@@ -8,6 +8,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 import { ROUTES } from '../../startup/client/route-constants';
 import { Participants } from '../../api/user/ParticipantCollection';
+import { Teams } from '../../api/team/TeamCollection';
 
 /**
  * The SideBar appears on the side of every page. Rendered by the App Layout component.
@@ -30,6 +31,9 @@ class SideBar extends React.Component {
       const participant = Participants.findDoc({ userID: Meteor.userId() });
       isCompliant = participant.isCompliant;
     }
+
+    const numParticipants = Participants.count();
+    const numTeams = Teams.find({ open: true }).count();
 
     const setVisible = (state) => {
       this.setState({ visible: state });
@@ -77,7 +81,7 @@ class SideBar extends React.Component {
                                activeClassName="active"
                                exact
                                to={ROUTES.BEST_FIT}
-                               key='list-teams'>List the Teams</Menu.Item>,
+                               key='list-teams'>List the Teams ({numTeams})</Menu.Item>,
                     <Menu.Item as={NavLink}
                                activeClassName="active"
                                disabled={!isCompliant}
@@ -88,7 +92,7 @@ class SideBar extends React.Component {
                     <Menu.Item as={NavLink}
                                activeClassName="active"
                                exact to={ROUTES.LIST_PARTICIPANTS}
-                               key='list-participants'>List the Participants</Menu.Item>,
+                               key='list-participants'>List the Participants ({numParticipants})</Menu.Item>,
                     <Menu.Item as={NavLink}
                                activeClassName="active"
                                exact
