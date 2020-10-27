@@ -6,6 +6,7 @@ import swal from 'sweetalert';
 import { Redirect } from 'react-router-dom';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
+import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 import { ROUTES } from '../../../startup/client/route-constants';
 
 class UpdateMinorParticipantsWidget extends React.Component {
@@ -19,13 +20,16 @@ class UpdateMinorParticipantsWidget extends React.Component {
   }
 
   getMinorParticipants() {
-    const MinorParticipants = [];
+    const MinorParticipantsList = [];
     let MinorParticipant = {};
     _.each(this.props.MinorParticipantsID, function (ParticipantsID) {
       MinorParticipant = Participants._collection.findOne({ _id: ParticipantsID });
-      MinorParticipants.push(MinorParticipant);
+      const MinorP = MinorParticipants._collection.findOne({ participantID: ParticipantsID });
+      const ParentName = `${MinorP.parentFirstName} ${MinorP.parentLastName} (${MinorP.parentEmail})`;
+      MinorParticipant.ParentName = ParentName;
+      MinorParticipantsList.push(MinorParticipant);
     });
-    return MinorParticipants;
+    return MinorParticipantsList;
   }
 
   renderMinorParticipants() {
@@ -39,10 +43,10 @@ class UpdateMinorParticipantsWidget extends React.Component {
     else this.selected = this.selected.filter((Minor) => Minor != MP);
     };
 });
-    const MinorParticipants = this.getMinorParticipants();
-    return MinorParticipants.map((p) => (<Grid.Row key={p._id} columns={3}>
-      <Grid.Column>{p.firstName}</Grid.Column>
-      <Grid.Column>{p.lastName}</Grid.Column>
+    const MinorParticipantsList = this.getMinorParticipants();
+    return MinorParticipantsList.map((p) => (<Grid.Row key={p._id} columns={3}>
+      <Grid.Column>{ `${p.firstName} ${p.lastName}`}</Grid.Column>
+      <Grid.Column>{p.ParentName}</Grid.Column>
       <Grid.Column><Checkbox value={p._id} onClick={(evt, data) => CheckBoxFun[p._id](evt, data)}/></Grid.Column>
     </Grid.Row>));
   }
@@ -79,14 +83,14 @@ class UpdateMinorParticipantsWidget extends React.Component {
     }
     return (
         <div>
-          <Header>Minor Participants List</Header>
+          <Header>Minor Participants List ({this.props.MinorParticipantsID.length})</Header>
           <Grid celled>
             <Grid.Row columns={3}>
               <Grid.Column>
-                <Header>First Name</Header>
+                <Header>Minor Participant Name</Header>
               </Grid.Column>
               <Grid.Column>
-                <Header>Last Name</Header>
+                <Header>Parent Name</Header>
               </Grid.Column>
               <Grid.Column>
                 <Header>Compliant</Header>
