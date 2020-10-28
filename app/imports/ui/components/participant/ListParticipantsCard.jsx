@@ -48,6 +48,14 @@ class ListParticipantsCard extends React.Component {
 
     const options = setOptions();
 
+    function hasTeams() {
+      const teams = Teams.find({ owner: Participants.findDoc({ userID: Meteor.userId() })._id }).fetch();
+      if (teams.length === 0) {
+        return false;
+      }
+      return true;
+    }
+
     function handleChange(dID, { val }, e) {
       // eslint-disable-next-line no-console
       console.log(val);
@@ -145,14 +153,16 @@ class ListParticipantsCard extends React.Component {
                     </Grid.Column>
                     <Grid.Column>
                       <Button.Group style={{ backgroundColor: 'transparent' }}>
-                        <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
+                        {hasTeams() ? (
+                        <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>) : '' }
+                        {hasTeams() ? (
                         <Dropdown
                             className='button icon'
                             onChange={handleChange.bind(this, this.props.participantID)}
                             options={options}
                             trigger={<></>}
                             style={{ backgroundColor: 'transparent' }}
-                        />
+                        />) : '' }
                       </Button.Group>
                     </Grid.Column>
                   </Grid>
@@ -207,16 +217,18 @@ class ListParticipantsCard extends React.Component {
             </Modal.Content>
             <Modal.Actions>
               <Button.Group style={{ backgroundColor: 'transparent' }}>
-                <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>
-                <Dropdown
-                    className='button icon'
-                    onChange={handleChange.bind(this, this.props.participantID)}
-                    options={options}
-                    // trigger={<></>}
-                    style={{ backgroundColor: 'transparent' }}
-                    selection
-                    value={value}
-                />
+                {hasTeams() ? (
+                    <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>) : ''}
+                {hasTeams() ? (
+                    <Dropdown
+                    className = 'button icon'
+                  onChange={handleChange.bind(this, this.props.participantID)}
+                  options={options}
+                  // trigger={<></>}
+                  style={{ backgroundColor: 'transparent' }}
+                  selection
+                  value={value}
+                  />) : '' }
               </Button.Group>
             </Modal.Actions>
           </Modal>
