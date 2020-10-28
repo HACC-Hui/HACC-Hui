@@ -32,24 +32,24 @@ class NavBar extends React.Component {
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
             <Header inverted as='h1'>HACC-Hui</Header>
           </Menu.Item>
-                {isParticipant ? (
-                      [
-                        <Menu.Item as={NavLink}
-                           activeClassName="active"
-                           disabled={!isCompliant}
-                           exact
-                           to={ROUTES.CREATE_TEAM}
-                           key='team-creation'>Create a Team</Menu.Item>,
+          {isParticipant ? (
+              [
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
                            to={ROUTES.YOUR_PROFILE}
-                           key='edit-profile'>Your Profile</Menu.Item>,
+                           key='edit-profile'>Profile</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
+                           disabled={!isCompliant}
+                           exact
+                           to={ROUTES.CREATE_TEAM}
+                           key='team-creation'>Create Team</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
                            to={ROUTES.BEST_FIT}
-                           key='list-teams'>List the Teams ({numTeams})</Menu.Item>,
+                           key='list-teams'>List Teams ({numTeams})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            disabled={!isCompliant}
@@ -60,7 +60,7 @@ class NavBar extends React.Component {
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact to={ROUTES.LIST_PARTICIPANTS}
-                           key='list-participants'>List the Participants ({numParticipants})</Menu.Item>,
+                           key='list-participants'>List Participants ({numParticipants})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
@@ -70,7 +70,7 @@ class NavBar extends React.Component {
                            activeClassName="active"
                            exact
                            to={ROUTES.TEAM_INVITATIONS}
-                           key='team-invitations'>Your Invitations</Menu.Item>,
+                           key='team-invitations'>Invitations</Menu.Item>,
               ]
           ) : ''}
           {isAdmin ? (
@@ -123,7 +123,7 @@ class NavBar extends React.Component {
                         icon="user"
                         text="Sign In"
                         as={NavLink}
-                        exact to={ROUTES.SIGN_IN} key={ROUTES.SIGN_IN} />
+                        exact to={ROUTES.SIGN_IN} key={ROUTES.SIGN_IN}/>
                   </Dropdown.Menu>
                 </Dropdown>
             ) : (
@@ -136,7 +136,7 @@ class NavBar extends React.Component {
                         exact to={ROUTES.SIGN_OUT} key={ROUTES.SIGN_OUT}/>
                     {isParticipant ? (
                         <Dropdown.Item icon="user delete" text="Delete Account" as={NavLink} exact
-                                       to={ROUTES.DELETE_ACCOUNT} />) : ''}
+                                       to={ROUTES.DELETE_ACCOUNT}/>) : ''}
                   </Dropdown.Menu>
                 </Dropdown>
             )}
