@@ -11,7 +11,6 @@ mongo@1.10.0                     # The database Meteor supports right now
 static-html                      # Define static page content in .html files
 reactive-var@1.0.11              # Reactive variable for tracker
 standard-minifier-css@1.6.0      # CSS minifier run for production mode
-standard-minifier-js@2.6.0       # JS minifier run for production mode
 es5-shim@4.8.0                   # ECMAScript 5 compatibility for older browsers
 ecmascript@0.14.3                # Enable ECMAScript2015+ syntax in app code
 typescript@3.7.6                 # Enable TypeScript syntax in .ts and .tsx modules
@@ -37,3 +36,5 @@ react-meteor-data
 meteorhacks:subs-manager
 littledata:synced-cron
 udondan:zipzap
+montiapm:agent
+zodern:standard-minifier-js

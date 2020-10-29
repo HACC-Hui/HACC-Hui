@@ -14,6 +14,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Suggestions } from '../../../api/suggestions/SuggestionCollection';
 import ListSuggestionsCard from './ListSuggestionsCard';
 import ListSuggestionsFilter from './ListSuggestionsFilter';
+import SuggestToolSkillWidgetAdmin from '../../components/administrator/SuggestToolSkillWidgetAdmin';
 
 class ListSuggestionsWidget extends React.Component {
 
@@ -26,13 +27,22 @@ class ListSuggestionsWidget extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    // eslint-disable-next-line max-len
+    if ((_.orderBy(nextProps.suggestions, ['name'], ['asc'])) !== (_.orderBy(this.props.suggestions, ['name'], ['asc']))) {
+      this.setState({
+        result: _.orderBy(nextProps.suggestions, ['name'], ['asc']),
+      });
+    }
+  }
+
   render() {
 
     if (this.props.suggestions.length === 0) {
       return (
           <div align={'center'}>
             <Header as='h2' icon>
-              <Icon name='users'/>
+              <Icon name='users' />
               There are no suggestions at the moment.
               <Header.Subheader>
                 Please check back later.
@@ -61,7 +71,6 @@ class ListSuggestionsWidget extends React.Component {
 
     const setFilters = () => {
       const searchResults = filters.filterBySearch(this.props.suggestions, this.state.search);
-      // eslint-disable-next-line max-len
       const typeResults = filters.typeResults(searchResults, this.state.type);
       const sorted = filters.sortBy(typeResults, 'names');
       this.setState({
@@ -144,11 +153,13 @@ class ListSuggestionsWidget extends React.Component {
                   />
                 </div>
               </div>
+              <div style={{ paddingTop: '2rem' }}>
+                <SuggestToolSkillWidgetAdmin />
+              </div>
             </Segment>
           </Grid.Column>
           <Grid.Column width={12}>
             <Item.Group divided>
-              {/* eslint-disable-next-line max-len */}
               {this.state.result.map((suggestions) => <ListSuggestionsCard
                   key={suggestions._id}
                   type={suggestions.type}
@@ -168,10 +179,6 @@ ListSuggestionsWidget.propTypes = {
   suggestions: PropTypes.array.isRequired,
 };
 
-export default withTracker(() =>
-
-    // eslint-disable-next-line implicit-arrow-linebreak
-    ({
-      suggestions: Suggestions.find({}).fetch(),
-      // eslint-disable-next-line max-len
-    }))(ListSuggestionsWidget);
+export default withTracker(() => ({
+  suggestions: Suggestions.find({}).fetch(),
+}))(ListSuggestionsWidget);

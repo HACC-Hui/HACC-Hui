@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Grid, Header, Icon, Loader } from 'semantic-ui-react';
+import { Grid, Header, Icon, Loader, Container } from 'semantic-ui-react';
 import _ from 'underscore';
 import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
@@ -58,9 +58,9 @@ class UpdateMinorParticipantsCompliant extends React.Component {
       marginBottom: '1rem',
     };
     return (
-        <Grid doubling relaxed stackable style={style}>
-          <Grid.Row centered>{this.renderMinorCFParticipants()}</Grid.Row>
-        </Grid>
+        <Container>
+         {this.renderMinorCFParticipants()}
+        </Container>
     );
   }
 

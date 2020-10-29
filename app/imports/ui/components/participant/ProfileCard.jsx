@@ -31,22 +31,14 @@ class ProfileCard extends React.Component {
             </Card.Description>
           </Card.Content>
           <Card.Content>
-            <Grid container stackable columns={2}>
+            <Grid container stackable columns={3}>
               <Grid.Row>
                 <Grid.Column>
                   <Header dividing size="small">Challenges</Header>
                   <List bulleted>
-                  {this.props.model.challenges.map((item) => <List.Item key={item}>{item}</List.Item>)}
+                  {this.props.model.challenges.map((item) => <List.Item key={item}><strong>{item}</strong></List.Item>)}
                   </List>
                 </Grid.Column>
-                <Grid.Column>
-                  <Header dividing size="small">Interests</Header>
-                  <List>
-                    {this.props.model.interests.map((item) => <List.Item key={item}>{item}</List.Item>)}
-                  </List>
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
                 <Grid.Column>
                   <Header dividing size="tiny">Skills</Header>
                   <List bulleted>

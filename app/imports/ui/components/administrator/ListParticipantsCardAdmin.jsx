@@ -1,31 +1,21 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
 import {
   Grid,
   Header,
   Item,
   Modal,
   Icon,
-  Button,
-  Dropdown,
   List, Divider,
 } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import swal from 'sweetalert';
-import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
-import { Teams } from '../../../api/team/TeamCollection';
-import { Participants } from '../../../api/user/ParticipantCollection';
-import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 
-class ListParticipantsCard extends React.Component {
+class ListParticipantsCardAdmin extends React.Component {
   state = {};
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-
-    const { value } = this.state;
 
     function changeBackground(e) {
       e.currentTarget.style.backgroundColor = '#fafafa';
@@ -34,80 +24,6 @@ class ListParticipantsCard extends React.Component {
 
     function onLeave(e) {
       e.currentTarget.style.backgroundColor = 'transparent';
-    }
-
-    function setOptions() {
-      const teams = Teams.find({ owner: Participants.findDoc({ userID: Meteor.userId() })._id }).fetch();
-      const newOptions = [];
-      newOptions.push({ key: 'Select a Team', text: 'Select a Team', value: 'Select a Team' });
-      for (let i = 0; i < teams.length; i++) {
-        newOptions.push({ key: teams[i].name, text: teams[i].name, value: teams[i].name });
-      }
-      return newOptions;
-    }
-
-    const options = setOptions();
-
-    function hasTeams() {
-      const teams = Teams.find({ owner: Participants.findDoc({ userID: Meteor.userId() })._id }).fetch();
-      if (teams.length === 0) {
-        return false;
-      }
-      return true;
-    }
-
-    function handleChange(dID, { val }, e) {
-      // eslint-disable-next-line no-console
-      console.log(val);
-      // console.log(e);
-      if (e.value !== 'Select a Team') {
-        const thisTeam = Teams.findDoc({ name: e.value })._id;
-        const participantID = Participants.findDoc({ _id: dID }).username;
-        const definitionData = { team: thisTeam, participant: participantID };
-        const collectionName = TeamInvitations.getCollectionName();
-        if (typeof TeamParticipants.findOne({
-          teamID: thisTeam,
-          participantID: dID,
-        }) !== 'undefined') {
-          // console.log('already in team');
-          swal('Error',
-              `Sorry, participant ${participantID} is already in this team!`,
-              'error');
-          return;
-        }
-        if (typeof TeamInvitations.findOne({
-          teamID: thisTeam,
-          participantID: dID,
-        }) !== 'undefined') {
-          // console.log('already invited');
-          swal('Error',
-              `Sorry, participant ${participantID} has already been sent an invitation!`,
-              'error');
-          return;
-        }
-        /*
-        console.log(typeof TeamInvitations.findOne({
-          teamID: thisTeam,
-          participantID: dID,
-        }) !== 'undefined');
-
-        console.log(typeof TeamInvitations.findOne({
-          teamID: thisTeam,
-          participantID: dID,
-        }));
-         */
-
-        defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
-            (error) => {
-              if (error) {
-                swal('Error', error.message, 'error');
-                // console.error(error.message);
-              } else {
-                swal('Success', 'Invitation sent successfully', 'success');
-                // console.log('Success');
-              }
-            });
-      }
     }
 
     return (
@@ -150,20 +66,6 @@ class ListParticipantsCard extends React.Component {
                     <Grid.Column>
                       <Header>Slack Username</Header>
                       {this.props.participants.username}
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Button.Group style={{ backgroundColor: 'transparent' }}>
-                        {hasTeams() ? (
-                        <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>) : '' }
-                        {hasTeams() ? (
-                        <Dropdown
-                            className='button icon'
-                            onChange={handleChange.bind(this, this.props.participantID)}
-                            options={options}
-                            trigger={<></>}
-                            style={{ backgroundColor: 'transparent' }}
-                        />) : '' }
-                      </Button.Group>
                     </Grid.Column>
                   </Grid>
               </Item.Description>
@@ -215,29 +117,13 @@ class ListParticipantsCard extends React.Component {
                 <Divider hidden/>
               </Modal.Description>
             </Modal.Content>
-            <Modal.Actions>
-              <Button.Group style={{ backgroundColor: 'transparent' }}>
-                {hasTeams() ? (
-                    <Button style={{ backgroundColor: 'transparent' }}>Send Invitation</Button>) : ''}
-                {hasTeams() ? (
-                    <Dropdown
-                    className = 'button icon'
-                  onChange={handleChange.bind(this, this.props.participantID)}
-                  options={options}
-                  // trigger={<></>}
-                  style={{ backgroundColor: 'transparent' }}
-                  selection
-                  value={value}
-                  />) : '' }
-              </Button.Group>
-            </Modal.Actions>
           </Modal>
         </Item>
     );
   }
 }
 
-ListParticipantsCard.propTypes = {
+ListParticipantsCardAdmin.propTypes = {
   participantID: PropTypes.string.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
@@ -246,4 +132,4 @@ ListParticipantsCard.propTypes = {
 };
 export default withTracker(() => ({
     teamInvitation: TeamInvitations.find({}).fetch(),
-  }))(ListParticipantsCard);
+  }))(ListParticipantsCardAdmin);

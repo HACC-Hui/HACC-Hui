@@ -175,7 +175,7 @@ class YourTeamsCard extends React.Component {
   render() {
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(schema);
-
+    // console.log(this.props);
     return (
         <Item style={{ padding: '0rem 2rem 0rem 2rem' }}>
           <Item.Content>
@@ -188,6 +188,8 @@ class YourTeamsCard extends React.Component {
             <Item.Meta>
               <Grid columns='equal'>
                 <Grid.Column>
+                  GitHub: {this.props.teams.gitHubRepo}<br />
+                  DevPost: {this.props.teams.devPostPage}
                   <Image src={this.props.teams.image} rounded size='large'/>
                 </Grid.Column>
                 <Grid.Column>
@@ -200,8 +202,8 @@ class YourTeamsCard extends React.Component {
           </Item.Content>
 
           <Button id={this.props.teams._id} style={{ backgroundColor: 'transparent' }}>
-            <Link to={`/interested-developers/${this.props.teams._id}`}>See interested
-              developers</Link>
+            <Link to={`/interested-participants/${this.props.teams._id}`}>See interested
+              participants</Link>
           </Button>
           <Modal
               closeIcon

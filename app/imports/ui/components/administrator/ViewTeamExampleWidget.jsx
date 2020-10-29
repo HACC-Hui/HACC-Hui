@@ -4,30 +4,12 @@ import { Grid, Header, List, Button } from 'semantic-ui-react';
 import _ from 'lodash';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
-import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
-import { defineMethod } from '../../../api/base/BaseCollection.methods';
-import { Teams } from '../../../api/team/TeamCollection';
-import { Slugs } from '../../../api/slug/SlugCollection';
+import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
+import { Challenges } from '../../../api/challenge/ChallengeCollection';
 
 class ViewTeamExampleWidget extends React.Component {
-  handleClick(e, inst) {
-    console.log(e, inst);
-    const collectionName = WantsToJoin.getCollectionName();
-    const teamDoc = Teams.findDoc(inst.id);
-    const team = Slugs.getNameFromID(teamDoc.slugID);
-    const definitionData = {
-      team,
-    };
-    console.log(collectionName, definitionData);
-    defineMethod.call({ collectionName, definitionData }, (error) => {
-      if (error) {
-        console.error('Failed to define', error);
-      }
-    });
-  }
-
   render() {
     const allParticipants = this.props.participants;
     function getTeamParticipants(teamID, teamParticipants) {
@@ -50,6 +32,9 @@ class ViewTeamExampleWidget extends React.Component {
           <Grid.Row columns={4}>
             <Grid.Column>
               <Header>{this.props.team.name}</Header>
+              <List>
+                {this.props.teamChallenges.map((c) => <List.Item key={c._id}>{c.title}</List.Item>)}
+              </List>
             </Grid.Column>
             <Grid.Column>
               <List bulleted>
@@ -59,7 +44,7 @@ class ViewTeamExampleWidget extends React.Component {
             <Grid.Column>
               { (_.every(getTeamParticipants(this.props.team._id, this.props.teamParticipants),
                   function (value) { return (value.compliant !== false); }))
-                  ? <Header>Team is Compliant</Header> : <Header>Team is not Compliant</Header> }
+                  ? <Header>Team is Compliant</Header> : <Header><mark>Team is not Compliant</mark></Header> }
             </Grid.Column>
             <Grid.Column>
               {/* eslint-disable-next-line max-len */}
@@ -78,12 +63,20 @@ ViewTeamExampleWidget.propTypes = {
   teamMembers: PropTypes.arrayOf(
       PropTypes.string,
   ).isRequired,
-  teamCompliance: PropTypes.arrayOf(
-      PropTypes.boolean,
-  ).isRequired,
+  teamChallenges: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // teamCompliance: PropTypes.arrayOf(
+  //     PropTypes.boolean,
+  // ).isRequired,
 };
 
-export default withTracker(() => ({
-  participants: Participants.find({}).fetch(),
-  teamParticipants: TeamParticipants.find({}).fetch(),
-}))(ViewTeamExampleWidget);
+export default withTracker((props) => {
+  // console.log(props);
+  const participants = Participants.find({}).fetch();
+  const teamChallenges = _.map(TeamChallenges.find({ teamID: props.team._id }).fetch(),
+      (tc) => Challenges.findDoc(tc.challengeID));
+  return {
+    participants,
+    teamChallenges,
+    teamParticipants: TeamParticipants.find({}).fetch(),
+  };
+})(ViewTeamExampleWidget);

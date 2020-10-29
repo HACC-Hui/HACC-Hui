@@ -26,6 +26,7 @@ export const sendDM2AdministratorsMethod = new ValidatedMethod({
   mixins: [CallPromiseMixin],
   validate: null,
   run({ message }) {
+    console.log(`sendDM2Admininistrators ${message}`);
     const administrators = _.map(Administrators.find({}).fetch(), (admin) => admin.username);
     _.forEach(administrators, (username) => {
       const { slackUser, dmChannel } = SlackUsers.findDoc({ username });
@@ -53,14 +54,17 @@ export const sendDM2ParticipantMethod = new ValidatedMethod({
   mixins: [CallPromiseMixin],
   validate: null,
   run({ participant, message }) {
+    console.log(`sendDM2Participant ${participant} ${message}`);
     const { slackUser, dmChannel } = SlackUsers.findDoc({ username: participant });
-    const text = `<@${slackUser}> ${message}`;
-    (async () => {
-      await slackBot.client.chat.postMessage({
-        token: process.env.SLACK_BOT_TOKEN,
-        text,
-        channel: dmChannel,
-      });
-    })();
+    if (slackUser) {
+      const text = `<@${slackUser}> ${message}`;
+      (async () => {
+        await slackBot.client.chat.postMessage({
+          token: process.env.SLACK_BOT_TOKEN,
+          text,
+          channel: dmChannel,
+        });
+      })();
+    }
   },
 });

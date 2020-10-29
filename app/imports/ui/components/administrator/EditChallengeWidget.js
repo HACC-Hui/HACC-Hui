@@ -11,13 +11,10 @@ import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
-import { _ } from 'lodash';
 import SimpleSchema from 'simpl-schema';
 import { withRouter } from 'react-router';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
-import MultiSelectField from '../form-fields/MultiSelectField';
-import { Interests } from '../../../api/interest/InterestCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -26,12 +23,11 @@ import { Interests } from '../../../api/interest/InterestCollection';
 
 const schema = new SimpleSchema({
   title: String,
-  interests: { type: Array, label: 'interests' },
-  'interests.$': { type: String },
   submissionDetail: String,
   pitch: String,
   description: String,
 });
+
 class EditChallengeWidget extends React.Component {
 
   /** On submit, insert the data.
@@ -41,27 +37,15 @@ class EditChallengeWidget extends React.Component {
   submit(data) {
 
     const {
-      description, interests, submissionDetail, pitch,
+      description, submissionDetail, pitch,
     } = data;
     const id = this.props.doc._id;
 
-    const interestFilter = (interest) => {
-      for (let i = 0; i < interests.length; i++) {
-        if (interests[i] === interest.name) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    const interestNames = this.props.interests.filter(interestFilter);
-    const interestSlugs = _.map(interestNames, '_id');
-    console.log(interestSlugs);
     const updateData = {
-      id, description, interestIDs: interestSlugs, submissionDetail, pitch,
+      id, description, submissionDetail, pitch,
     };
     const collectionName = Challenges.getCollectionName();
-    console.log(updateData);
+    // console.log(updateData);
     updateMethod.call({ collectionName: collectionName, updateData: updateData },
         (error) => {
           if (error) {
@@ -75,16 +59,15 @@ class EditChallengeWidget extends React.Component {
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
     const formSchema = new SimpleSchema2Bridge(schema);
-    const interestsArray = _.map(this.props.interests, 'name');
     return (
-        <div style={{ backgroundColor: '#C4C4C4' }}>
+        <div style={{ paddingBottom: '50px' }}>
           <Grid container centered>
             <Grid.Column>
               <div style={{
-                backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
+                backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
                 borderRadius: '2rem',
               }}>
-                <Header as="h2" textAlign="center" inverted>Edit Challenge</Header>
+                <Header as="h2" textAlign="center">Edit Challenge</Header>
               </div>
               <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.doc}
                         style={{
@@ -92,13 +75,11 @@ class EditChallengeWidget extends React.Component {
                         }}>
                 <Segment style={{
                   borderRadius: '1rem',
-                  backgroundColor: '#393B44',
+                  backgroundColor: '#E5F0FE',
                 }} className={'teamCreate'}>
                   <Grid container centered>
                     <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
                       <LongTextField name='description' required/>
-                      <MultiSelectField name='interests' placeholder={'Interests'}
-                                        allowedValues={interestsArray} required/>
                       <TextField name='submissionDetail' required/>
                       <TextField name='pitch' required/>
                     </Grid.Column>
@@ -106,7 +87,7 @@ class EditChallengeWidget extends React.Component {
                   <div align='center'>
                     <SubmitField value='Submit'
                                  style={{
-                                   color: 'white', backgroundColor: '#24252B',
+                                   color: 'white', backgroundColor: '#DB2828',
                                    margin: '2rem 0rem',
                                  }}/>
                   </div>
@@ -121,7 +102,6 @@ class EditChallengeWidget extends React.Component {
 }
 
 EditChallengeWidget.propTypes = {
-  interests: PropTypes.array.isRequired,
   doc: PropTypes.object,
   model: PropTypes.object,
 };
@@ -129,10 +109,8 @@ EditChallengeWidget.propTypes = {
 const EditChallengeCon = withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
-  // Get access to Stuff documents.
   return {
     doc: Challenges.findOne(documentId),
-    interests: Interests.find({}).fetch(),
   };
 })(EditChallengeWidget);
 

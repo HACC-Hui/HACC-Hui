@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Container, Header, Loader, Grid, Dropdown } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import _ from 'underscore';
+import _ from 'lodash';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
@@ -16,189 +16,86 @@ import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
 import ListTeamsWidget from '../../components/participant/ListTeamsWidget';
 import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
+import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
 
 /** Renders a table containing all of the Book documents. Use <BookItem> to render each row. */
 class BestTeam extends React.Component {
 
-  challenge_priority;
-
-  skill_priority;
-
-  tool_priority;
-
-  AllopenTeam;
-
   constructor(props) {
     super(props);
-    this.AllopenTeam = [];
-    this.challenge_priority = [];
-    this.skill_priority = [];
-    this.tool_priority = [];
     this.state = { select: 'default' };
   }
 
   getDeveloper() {
-    return Participants._collection.findOne({ username: Meteor.user().username });
+    return Participants.findOne({ username: Meteor.user().username });
   }
 
-  getAllOpenTeam() {
-
-    const teams = Teams._collection.find({ open: true }).fetch();
-
+  getAllOpenTeams() {
+    const teams = Teams.find({ open: true }).fetch();
     return teams;
     // console.log(this.AllOpenTeam);
   }
 
-  getTeamChallenge_priority() {
-    const Did = this.getDeveloper()._id;
-    const Dchallenges = ParticipantChallenges._collection.find({ participantID: Did }).fetch();
-    // const AllTeams = this.getAllOpenTeam();
-    const Tchallenges = TeamChallenges._collection.find({}).fetch();
-    const challengeTeams = this.getinit_team_priority();
-    _.each(Dchallenges, function (Dchallenge) {
-      const filterChallTeams = _.filter(Tchallenges,
-          // eslint-disable-next-line eqeqeq
-          function (Tchallenge) { return Tchallenge.challengeID == Dchallenge.challengeID; });
-      _.each(filterChallTeams, function (team) {
-        // eslint-disable-next-line eqeqeq
-        const teamIndex = challengeTeams.findIndex(pteam => pteam._id == team.teamID);
-        challengeTeams[teamIndex].priority += Tools.count() + Skills.count() + 1;
-      });
-    }, challengeTeams);
-    this.challenge_priority = challengeTeams;
-    const sortTeams = _.sortBy(challengeTeams, 'priority').reverse();
-    return sortTeams;
 
+  byAtoZ() {
+    const allTeams = this.getAllOpenTeams();
+    return _.sortBy(allTeams, (team) => team.name.toLowerCase());
   }
 
-  getTeamSkill_priority() {
-    const Did = this.getDeveloper()._id;
-    const Dskills = ParticipantSkills._collection.find({ participantID: Did }).fetch();
-    // const AllTeams = this.getAllOpenTeam();
-    const Tskills = TeamSkills._collection.find({}).fetch();
-
-    const skillsTeams = this.getinit_team_priority();
-    _.each(Dskills, function (Dskill) {
-      const filterSkillTeams = _.filter(Tskills,
-          // eslint-disable-next-line eqeqeq
-          function (Tskill) { return Tskill.skillID == Dskill.skillID; });
-      _.each(filterSkillTeams, function (team) {
-        // eslint-disable-next-line eqeqeq
-        const teamIndex = skillsTeams.findIndex(pteam => pteam._id == team.teamID);
-        skillsTeams[teamIndex].priority++;
-      });
-    }, skillsTeams);
-    this.skill_priority = skillsTeams;
-    const sortSkillsTeams = _.sortBy(skillsTeams, 'priority').reverse();
-    return sortSkillsTeams;
-
+  byChallengeMatch() {
+    const participantID = this.getDeveloper()._id;
+    const pChallenges = ParticipantChallenges.find({ participantID }).fetch();
+    const allTeams = this.getAllOpenTeams();
+    _.forEach(allTeams, (team) => {
+      const tChallenges = TeamChallenges.find({ teamID: team._id }).fetch();
+      // eslint-disable-next-line no-param-reassign
+      team.priority = _.intersectionBy(pChallenges, tChallenges, 'challengeID').length;
+    });
+    return _.sortBy(allTeams, 'priority').reverse();
   }
 
-  getTeamTool_priority() {
-    const Did = this.getDeveloper()._id;
-    const Dtools = ParticipantTools._collection.find({ participantID: Did }).fetch();
-
-    // const AllTeams = this.getAllOpenTeam();
-    const Ttools = TeamTools._collection.find({}).fetch();
-
-    const ToolsTeams = this.getinit_team_priority();
-    _.each(Dtools, function (Dtool) {
-      const filterToolsTeams = _.filter(Ttools,
-          // eslint-disable-next-line eqeqeq
-          function (Ttool) { return Ttool.toolID == Dtool.toolID; });
-      _.each(filterToolsTeams, function (team) {
-        // eslint-disable-next-line eqeqeq
-        const teamIndex = ToolsTeams.findIndex(pteam => pteam._id == team.teamID);
-        ToolsTeams[teamIndex].priority++;
-      });
-    }, ToolsTeams);
-    this.tool_priority = ToolsTeams;
-    const sortToolsTeams = _.sortBy(ToolsTeams, 'priority').reverse();
-    return sortToolsTeams;
-
+  bySkillMatch() {
+    const participantID = this.getDeveloper()._id;
+    const pSkills = ParticipantSkills.find({ participantID }).fetch();
+    const allTeams = this.getAllOpenTeams();
+    _.forEach(allTeams, (team) => {
+      const tSkills = TeamSkills.find({ teamID: team._id }).fetch();
+      // eslint-disable-next-line no-param-reassign
+      team.priority = _.intersectionBy(pSkills, tSkills, 'skillID').length;
+    });
+    return _.sortBy(allTeams, 'priority').reverse();
   }
 
-  getinit_team_priority() {
-    const allteams = this.getAllOpenTeam();
-    const init_team_priority = [];
-    _.each(allteams, function (Team) {
-      const temp_team_init = {}; temp_team_init._id = Team._id;
-      temp_team_init.priority = 0; init_team_priority.push(temp_team_init);
-    }, init_team_priority);
-    return init_team_priority;
-
+  byToolMatch() {
+    const participantID = this.getDeveloper()._id;
+    const pTools = ParticipantTools.find({ participantID }).fetch();
+    const allTeams = this.getAllOpenTeams();
+    _.forEach(allTeams, (team) => {
+      const tTools = TeamTools.find({ teamID: team._id }).fetch();
+      // eslint-disable-next-line no-param-reassign
+      team.priority = _.intersectionBy(pTools, tTools, 'toolID').length;
+    });
+    return _.sortBy(allTeams, 'priority').reverse();
   }
 
-  renderBest() {
-    this.getTeamChallenge_priority();
-    this.getTeamSkill_priority();
-    this.getTeamTool_priority();
-    const SumPriority = (array1, array2) => {
-      // eslint-disable-next-line eqeqeq
-      const sumarray = [];
-      for (let i = 0; i < array1.length; i++) {
-        const team = {};
-        team._id = array1[i]._id;
-        team.priority = array1[i].priority + array2[i].priority;
-        sumarray.push(team);
-
-      }
-      return sumarray;
-    };
-    let bestfitTeams = [];
-    bestfitTeams = SumPriority(this.tool_priority, this.challenge_priority);
-    bestfitTeams = SumPriority(this.skill_priority, bestfitTeams);
-    bestfitTeams = _.sortBy(bestfitTeams, 'priority').reverse();
-    return <div>
-      <ListTeamsWidget teams={bestfitTeams}/>
-    </div>;
-
-  }
-
-  renderAToZ() {
-    const allteams = this.getAllOpenTeam();
-    const sortAToZTeams = _.sortBy(allteams, function (i) { return i.name.toLowerCase(); });
-    return (<div>
-      <ListTeamsWidget teams={sortAToZTeams}/>
-    </div>);
-  }
-
-  renderTeamChallenge_priority() {
-    const TeamChallenge = this.getTeamChallenge_priority();
-    return <div>
-      <ListTeamsWidget teams={TeamChallenge}/>
-    </div>;
-  }
-
-  renderTeamSkill_priority() {
-    const TeamSkill = this.getTeamSkill_priority();
-    return <div>
-      <ListTeamsWidget teams={TeamSkill}/>
-    </div>;
-  }
-
-  renderTeamTool_priority() {
-    const TeamTool = this.getTeamTool_priority();
-    return <div>
-      <ListTeamsWidget teams={TeamTool}/>
-    </div>;
-  }
-
-  renderTeamSelected() {
-    switch (this.state.select) {
-      case 'skill':
-        return this.renderTeamSkill_priority();
-
-      case 'tool':
-        return this.renderTeamTool_priority();
-
-      case 'AToZ':
-        return this.renderAToZ();
-      case 'best':
-        return this.renderBest();
-      default:
-        return this.renderTeamChallenge_priority();
-    }
+  byBestMatch() {
+    const participantID = this.getDeveloper()._id;
+    const pChallenges = ParticipantChallenges.find({ participantID }).fetch();
+    const pSkills = ParticipantSkills.find({ participantID }).fetch();
+    const pTools = ParticipantTools.find({ participantID }).fetch();
+    const allTeams = this.getAllOpenTeams();
+    _.forEach(allTeams, (team) => {
+      const tChallenges = TeamChallenges.find({ teamID: team._id }).fetch();
+      const tSkills = TeamSkills.find({ teamID: team._id }).fetch();
+      const tTools = TeamTools.find({ teamID: team._id }).fetch();
+      // eslint-disable-next-line no-param-reassign
+      team.priority = _.intersectionBy(pChallenges, tChallenges, 'challengeID').length * 5;
+      // eslint-disable-next-line no-param-reassign
+      team.priority = _.intersectionBy(pSkills, tSkills, 'skillID').length;
+      // eslint-disable-next-line no-param-reassign
+      team.priority = _.intersectionBy(pTools, tTools, 'toolID').length;
+    });
+    return _.sortBy(allTeams, 'priority').reverse();
 
   }
 
@@ -215,37 +112,62 @@ class BestTeam extends React.Component {
       { key: 4, text: 'sort the teams by the name in alphabet order', value: 'AToZ' },
     ];
     return <div>
-      <Grid stackable columns={2}>
+      <Grid stackable columns={2} style={{ paddingTop: '1rem' }}>
         <Grid.Column width={7}>
           <Header>Please select a filter to reorder the teams: </Header>
         </Grid.Column>
-        <Grid.Column >
+        <Grid.Column>
           <Dropdown style={{ fontSize: `${20}px`, width: 'device-width' }} options={options} onChange={_select}
                     placeholder="Select an option to reorder the team" />
         </Grid.Column>
       </Grid>
+      <hr/>
     </div>;
   }
 
   render() {
-
     return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
   }
 
   renderPage() {
-
+    let teams;
+    switch (this.state.select) {
+      case 'skill':
+        teams = this.bySkillMatch();
+        break;
+      case 'tool':
+        teams = this.byToolMatch();
+        break;
+      case 'AToZ':
+        teams = this.byAtoZ();
+        break;
+      case 'best':
+        teams = this.byBestMatch();
+        break;
+      default:
+        teams = this.byChallengeMatch();
+    }
     return (
         <div>
           <Container>
-
-            <Header as="h1" textAlign="center">Browse for Teams</Header>
+            <div style={{
+              backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
+              borderRadius: '2rem',
+            }}>
+              <Header as={'h2'} textAlign="center">
+                Best Fit Teams
+              </Header>
+            </div>
             {this.renderDropDown()}
-            {this.renderTeamSelected()}
+            <div style={{ paddingTop: '1rem', paddingBottom: '2rem' }}>
+              <ListTeamsWidget teams={teams} />
+            </div>
           </Container>
         </div>
     );
   }
 }
+
 /** Require an array of Book documents in the props. */
 BestTeam.propTypes = {
   challenges: PropTypes.array.isRequired,
@@ -271,6 +193,7 @@ export default withTracker(() => {
   const subscriptionDeveloperTools = ParticipantTools.subscribe();
   const subscriptionTeamSkill = TeamSkills.subscribe();
   const subscriptionTeamTool = TeamTools.subscribe();
+  const subscriptionWantToJoin = WantsToJoin.subscribe();
 
   return {
     challenges: Challenges.find({}).fetch(),
@@ -281,6 +204,6 @@ export default withTracker(() => {
     developerSkill: ParticipantSkills.find({}).fetch(),
     teamSkills: TeamSkills.find({}).fetch(),
     // eslint-disable-next-line max-len
-    ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready() && subscriptionDevelopers.ready() && subscriptionTeams.ready() && subscriptionDeveloperChallenges.ready() && subscriptionTeamChallenges.ready() && subscriptionDeveloperSkill.ready() && subscriptionTeamSkill.ready() && subscriptionTeamTool.ready() && subscriptionDeveloperTools.ready(),
+    ready: subscriptionChallenges.ready() && subscriptionSkills.ready() && subscriptionTools.ready() && subscriptionDevelopers.ready() && subscriptionTeams.ready() && subscriptionDeveloperChallenges.ready() && subscriptionTeamChallenges.ready() && subscriptionDeveloperSkill.ready() && subscriptionTeamSkill.ready() && subscriptionTeamTool.ready() && subscriptionDeveloperTools.ready() && subscriptionWantToJoin.ready(),
   };
 })(BestTeam);

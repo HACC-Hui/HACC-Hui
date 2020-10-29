@@ -14,6 +14,7 @@ import { Challenges } from '../challenge/ChallengeCollection';
 import { Interests } from '../interest/InterestCollection';
 import { Skills } from '../skill/SkillCollection';
 import { Tools } from '../tool/ToolCollection';
+import { TeamParticipants } from '../team/TeamParticipantCollection';
 
 /**
  * ParticipantCollection, collection of HACC-Hui participants.
@@ -35,6 +36,7 @@ class ParticipantCollection extends BaseSlugCollection {
       userID: { type: SimpleSchema.RegEx.Id, optional: true },
       lookingForTeam: { type: Boolean, optional: true },
       isCompliant: { type: Boolean, optional: true },
+      editedProfile: { type: Boolean, optional: true },
     }));
   }
 
@@ -101,11 +103,12 @@ class ParticipantCollection extends BaseSlugCollection {
    * @param website {String} the new website (optional).
    * @param aboutMe {String} the new short description (optional).
    * @param isCompliant {Boolean} the new is compliant value (optional).
+   * @param editedProfile {Boolean} the new edited profile value (optional).
    */
   update(docID, {
     firstName, lastName, demographicLevel, lookingForTeam, challenges,
     interests, skills, tools, linkedIn, gitHub, website,
-    aboutMe, isCompliant,
+    aboutMe, isCompliant, editedProfile,
   }) {
     // console.log('Participants.update', skills, tools);
     this.assertDefined(docID);
@@ -136,6 +139,9 @@ class ParticipantCollection extends BaseSlugCollection {
     }
     if (_.isBoolean(isCompliant)) {
       updateData.isCompliant = isCompliant;
+    }
+    if (_.isBoolean(editedProfile)) {
+      updateData.editedProfile = editedProfile;
     }
     this._collection.update(docID, { $set: updateData });
     const participant = this.findSlugByID(docID);
@@ -173,6 +179,7 @@ class ParticipantCollection extends BaseSlugCollection {
     ParticipantInterests.removeParticipant(participant);
     ParticipantSkills.removeParticipant(participant);
     ParticipantTools.removeParticipant(participant);
+    TeamParticipants.removeParticipant(participant);
     super.removeIt(docID);
   }
 

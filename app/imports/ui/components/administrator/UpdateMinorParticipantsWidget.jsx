@@ -1,72 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Header, Checkbox, Button } from 'semantic-ui-react';
+import { Grid, Header, Checkbox, Button, Table } from 'semantic-ui-react';
 import _ from 'underscore';
 import swal from 'sweetalert';
 import { Redirect } from 'react-router-dom';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
+import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 import { ROUTES } from '../../../startup/client/route-constants';
 
 class UpdateMinorParticipantsWidget extends React.Component {
 
-  compliantMinors;
+  selected;
 
   constructor(props) {
     super(props);
-    this.compliantMinors = [];
+    this.selected = [];
     this.state = { redirectToReferer: false };
   }
 
   getMinorParticipants() {
-    const MinorParticipants = [];
+    const MinorParticipantsList = [];
     let MinorParticipant = {};
     _.each(this.props.MinorParticipantsID, function (ParticipantsID) {
       MinorParticipant = Participants._collection.findOne({ _id: ParticipantsID });
-      MinorParticipants.push(MinorParticipant);
+      const MinorP = MinorParticipants._collection.findOne({ participantID: ParticipantsID });
+      const ParentName = `${MinorP.parentFirstName} ${MinorP.parentLastName} (${MinorP.parentEmail})`;
+      MinorParticipant.ParentName = ParentName;
+      MinorParticipantsList.push(MinorParticipant);
     });
-    return MinorParticipants;
-  }
-
-  initMP() {
-    const initCompliantMinorParticipants = [];
-    const initCompliantMinorParticipant = {};
-    this.props.MinorParticipantsID.each((MinorParticipant) => {
-      initCompliantMinorParticipant._id = MinorParticipant;
-      initCompliantMinorParticipant.isCompliant = false;
-      initCompliantMinorParticipants.push(initCompliantMinorParticipant);
-    });
-    this.compliantMinors = initCompliantMinorParticipants;
+    return MinorParticipantsList;
   }
 
   renderMinorParticipants() {
-    this.initMP();
-    const onChangeCheckbox = (evt, data) => {
-      const compliantMinorscopy = this.compliantMinors;
-      // eslint-disable-next-line eqeqeq
-      const Index = compliantMinorscopy.findIndex(p => p._id == data.value);
-      compliantMinorscopy[Index].isCompliant = data.checked;
-      this.compliantMinors = compliantMinorscopy;
+
+    const CheckBoxFun = {};
+    const allMPs = this.props.MinorParticipantsID;
+    allMPs.forEach((MP) => {
+ CheckBoxFun[MP] = (evt, data) => {
+    if (data.checked) this.selected.push(MP);
+    // eslint-disable-next-line eqeqeq
+    else this.selected = this.selected.filter((Minor) => Minor != MP);
     };
-    const MinorParticipants = this.getMinorParticipants();
-    return MinorParticipants.map((p) => (<Grid.Row key={p._id} columns={3}>
-      <Grid.Column>p.firstName</Grid.Column>
-      <Grid.Column>p.lastName</Grid.Column>
-      <Checkbox value={p._id} onClick={(evt, data) => onChangeCheckbox(evt, data)} />
-    </Grid.Row>));
+});
+    const MinorParticipantsList = this.getMinorParticipants();
+    return MinorParticipantsList.map((p) => (<Table.Row key={p._id} columns={3}>
+      <Table.Cell>{ `${p.firstName} ${p.lastName}`}</Table.Cell>
+      <Table.Cell>{p.ParentName}</Table.Cell>
+      <Table.Cell><Checkbox value={p._id} onClick={(evt, data) => CheckBoxFun[p._id](evt, data)}/></Table.Cell>
+    </Table.Row>));
   }
 
   submitData() {
     let Error = false;
-    let isCompliantMP = this.compliantMinors;
-    // eslint-disable-next-line eqeqeq
-    isCompliantMP = isCompliantMP.filter((MP) => MP.isCompliant == true);
-    isCompliantMP.each((MP => {
+
+    this.selected.forEach((MP => {
       const collectionName = Participants.getCollectionName();
       const updateData = {
-        id: MP._id,
+        id: MP,
         isCompliant: true,
       };
+
       updateMethod.call({ collectionName, updateData }, (error) => {
         if (error) {
           Error = true;
@@ -74,10 +68,11 @@ class UpdateMinorParticipantsWidget extends React.Component {
         }
       });
     }));
+
     if (!Error) {
-      swal('Success', 'updated successfully', 'success');
-      this.setState({ redirectToReferer: true });
-    } else swal('Fail', 'updated fail', 'error');
+      swal('Success', 'Updated successfully', 'success');
+     this.setState({ redirectToReferer: true });
+    } else swal('Fail', 'Updated fail', 'error');
 
   }
 
@@ -87,24 +82,34 @@ class UpdateMinorParticipantsWidget extends React.Component {
       return <Redirect to={from}/>;
     }
     return (
-        <div>
-          <Grid celled>
-            <Grid.Row columns={3}>
-              <Grid.Column>
-                <Header>First Name</Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header>Last Name</Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header>Compliant</Header>
-              </Grid.Column>
-            </Grid.Row>
-            {this.renderMinorParticipants()}
-            <Grid.Row centered>
-              <Button style={{ textAlign: 'center' }} onClick = {this.submitData()}>submit</Button>
-            </Grid.Row>
+        <div style={{ paddingBottom: '50px' }}>
+          <div style={{
+            backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
+            borderRadius: '2rem',
+          }}>
+          <Header as="h2" textAlign="center">Minor Participants List ({this.props.MinorParticipantsID.length})</Header>
+          </div>
+          <div style={{
+            borderRadius: '1rem',
+            backgroundColor: '#E5F0FE',
+          }}>
+          <Table fixed>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Minor Participant Name</Table.HeaderCell>
+                <Table.HeaderCell>Parent Name (Email)</Table.HeaderCell>
+                <Table.HeaderCell>Compliant</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>{this.renderMinorParticipants()}</Table.Body>
+          </Table>
+          <Grid centered >
+
+              <Button type='button' style={{ textAlign: 'center', color: 'white', backgroundColor: '#DB2828',
+                margin: '2rem 0rem' }} onClick = {() => this.submitData()}>submit</Button>
           </Grid>
+
+          </div>
         </div>
     );
   }

@@ -19,10 +19,10 @@ import { Skills } from '../../../api/skill/SkillCollection';
 import { Tools } from '../../../api/tool/ToolCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
-import ListParticipantsCard from './ListParticipantsCard';
-import ListParticipantsFilter from './ListParticipantsFilter';
+import ListParticipantsCardAdmin from './ListParticipantsCardAdmin';
+import ListParticipantsFilterAdmin from './ListParticipantsFilterAdmin';
 
-class ListParticipantsWidget extends React.Component {
+class ListParticipantsWidgetAdmin extends React.Component {
 
   constructor(props) {
     super(props);
@@ -59,7 +59,7 @@ class ListParticipantsWidget extends React.Component {
       top: '6.5rem',
     };
 
-    const filters = new ListParticipantsFilter();
+    const filters = new ListParticipantsFilterAdmin();
 
     const setFilters = () => {
       const searchResults = filters.filterBySearch(this.props.participants, this.state.search);
@@ -226,7 +226,7 @@ class ListParticipantsWidget extends React.Component {
             </Grid.Column>
             <Grid.Column width={12}>
               <Item.Group divided>
-                {this.state.result.map((participants) => <ListParticipantsCard
+                {this.state.result.map((participants) => <ListParticipantsCardAdmin
                     key={participants._id}
                     participantID={participants._id}
                     participants={participants}
@@ -242,7 +242,7 @@ class ListParticipantsWidget extends React.Component {
   }
 }
 
-ListParticipantsWidget.propTypes = {
+ListParticipantsWidgetAdmin.propTypes = {
   participantChallenges: PropTypes.array.isRequired,
   participantSkills: PropTypes.array.isRequired,
   skills: PropTypes.array.isRequired,
@@ -264,4 +264,4 @@ export default withTracker(() => ({
   tools: Tools.find({}).fetch(),
   participants: Participants.find({}).fetch(),
 
-}))(ListParticipantsWidget);
+}))(ListParticipantsWidgetAdmin);

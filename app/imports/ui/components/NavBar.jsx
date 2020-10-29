@@ -8,6 +8,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 import { ROUTES } from '../../startup/client/route-constants';
 import { Participants } from '../../api/user/ParticipantCollection';
+import { Teams } from '../../api/team/TeamCollection';
 
 /**
  * The NavBar appears at the top of every page. Rendered by the App Layout component.
@@ -22,6 +23,10 @@ class NavBar extends React.Component {
       const participant = Participants.findDoc({ userID: Meteor.userId() });
       isCompliant = participant.isCompliant;
     }
+
+    const numParticipants = Participants.count();
+    const numTeams = Teams.find({ open: true }).count();
+
     return (
         <Menu attached="top" borderless inverted className={'navBar'}>
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
@@ -31,20 +36,20 @@ class NavBar extends React.Component {
               [
                 <Menu.Item as={NavLink}
                            activeClassName="active"
+                           exact
+                           to={ROUTES.YOUR_PROFILE}
+                           key='edit-profile'>Profile</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
                            disabled={!isCompliant}
                            exact
                            to={ROUTES.CREATE_TEAM}
-                           key='team-creation'>Create a Team</Menu.Item>,
-                <Menu.Item as={NavLink}
-                           activeClassName="active"
-                           exact
-                           to={ROUTES.YOUR_PROFILE}
-                           key='edit-profile'>Your Profile</Menu.Item>,
+                           key='team-creation'>Create Team</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
                            to={ROUTES.BEST_FIT}
-                           key='list-teams'>List the Teams</Menu.Item>,
+                           key='list-teams'>Best Fit Teams ({numTeams})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            disabled={!isCompliant}
@@ -55,7 +60,7 @@ class NavBar extends React.Component {
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact to={ROUTES.LIST_PARTICIPANTS}
-                           key='list-participants'>List the Participants</Menu.Item>,
+                           key='list-participants'>List Participants ({numParticipants})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
@@ -65,7 +70,7 @@ class NavBar extends React.Component {
                            activeClassName="active"
                            exact
                            to={ROUTES.TEAM_INVITATIONS}
-                           key='team-invitations'>Your Invitations</Menu.Item>,
+                           key='team-invitations'>Invitations</Menu.Item>,
               ]
           ) : ''}
           {isAdmin ? (
@@ -87,30 +92,55 @@ class NavBar extends React.Component {
                            key={ROUTES.LIST_SUGGESTIONS}>Suggestions List</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
+                           exact to={ROUTES.LIST_PARTICIPANTS_ADMIN}
+                           key='list-participants-admin'>List Participants</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
                            exact
-                           to={ROUTES.VIEW_TEAM}
-                           key={ROUTES.VIEW_TEAM}>View Team</Menu.Item>,
+                           to={ROUTES.VIEW_TEAMS}
+                           key={ROUTES.VIEW_TEAMS}>View Teams</Menu.Item>,
+                // <Menu.Item as={NavLink}
+                //            activeClassName="active"
+                //            exact
+                //            to={ROUTES.SHOW_MINORS}
+                //            key={ROUTES.SHOW_MINORS}>Show Minors</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
                            to={ROUTES.DUMP_DATABASE}
                            key={ROUTES.DUMP_DATABASE}>Dump Database</Menu.Item>,
+                // <Menu.Item as={NavLink} activeClassName="active" exact to={ROUTES.SHOW_MINOR}
+                //            key={ROUTES.SHOW_MINOR}>Show Minor</Menu.Item>,
               ]
           ) : ''}
-          <Menu.Item position="right">
+          <Menu.Item position="right"
+                     as={NavLink}
+                     activeClassName="active"
+                     exact
+                     to={ROUTES.HELP_PAGE}
+                     key={ROUTES.HELP_PAGE}>Help</Menu.Item>
+          <Menu.Item>
             {this.props.currentUser === '' ? (
                 <Dropdown text="Login" pointing="top right" icon={'user'}>
                   <Dropdown.Menu>
-                    <Dropdown.Item icon="user" text="Sign In" as={NavLink} exact to={ROUTES.SIGN_IN} />
+                    <Dropdown.Item
+                        icon="user"
+                        text="Sign In"
+                        as={NavLink}
+                        exact to={ROUTES.SIGN_IN} key={ROUTES.SIGN_IN}/>
                   </Dropdown.Menu>
                 </Dropdown>
             ) : (
                 <Dropdown text={this.props.currentUser} pointing="top right" icon={'user'}>
                   <Dropdown.Menu>
-                    <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact to={ROUTES.SIGN_OUT} />
+                    <Dropdown.Item
+                        icon="sign out"
+                        text="Sign Out"
+                        as={NavLink}
+                        exact to={ROUTES.SIGN_OUT} key={ROUTES.SIGN_OUT}/>
                     {isParticipant ? (
                         <Dropdown.Item icon="user delete" text="Delete Account" as={NavLink} exact
-                                       to={ROUTES.DELETE_ACCOUNT} />) : ''}
+                                       to={ROUTES.DELETE_ACCOUNT}/>) : ''}
                   </Dropdown.Menu>
                 </Dropdown>
             )}

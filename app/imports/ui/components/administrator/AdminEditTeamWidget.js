@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header } from 'semantic-ui-react';
+import { Grid, Segment, Header, List } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
@@ -7,6 +7,7 @@ import {
   TextField,
   LongTextField,
 } from 'uniforms-semantic';
+import _ from 'lodash';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -15,6 +16,8 @@ import SimpleSchema from 'simpl-schema';
 import { withRouter } from 'react-router';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { Teams } from '../../../api/team/TeamCollection';
+import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -65,59 +68,72 @@ class AdminEditTeamWidget extends React.Component {
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   render() {
     const formSchema = new SimpleSchema2Bridge(schema);
+    const memberNamesAndGitHub = _.map(this.props.members, (p) => {
+      const fullName = Participants.getFullName(p._id);
+      const gitHub = p.gitHub;
+      return `${fullName}, (${gitHub})`;
+    });
     return (
-        <div style={{ backgroundColor: '#C4C4C4' }}>
-          <Grid container centered>
-            <Grid.Column>
-              <div style={{
-                backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
-                borderRadius: '2rem',
-              }}>
-                <Header as="h2" textAlign="center" inverted>Edit A Team</Header>
-              </div>
-              <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.doc}
-                        style={{
-                          paddingBottom: '4rem',
-                        }}>
-                <Segment style={{
-                  borderRadius: '1rem',
-                  backgroundColor: '#393B44',
-                }} className={'teamCreate'}>
-                  <Grid container centered>
-                    <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
-                      <TextField name='name' required/>
-                      <LongTextField name='description' required/>
-                      <TextField name='gitHubRepo' required/>
-                    </Grid.Column>
-                  </Grid>
-                  <div align='center'>
-                    <SubmitField value='Submit'
-                                 style={{
-                                   color: 'white', backgroundColor: '#24252B',
-                                   margin: '2rem 0rem',
-                                 }}/>
-                  </div>
-                  <ErrorsField/>
-                </Segment>
-              </AutoForm>
-            </Grid.Column>
-          </Grid>
-        </div>
+        <Grid container centered>
+          <Grid.Column>
+            <div style={{
+              backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
+              borderRadius: '2rem',
+            }}>
+              <Header as="h2" textAlign="center">Edit Team</Header>
+            </div>
+            <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.team}
+                      style={{
+                        paddingBottom: '4rem',
+                      }}>
+              <Segment style={{
+                borderRadius: '1rem',
+                backgroundColor: '#E5F0FE',
+              }} className={'teamCreate'}>
+                <Grid container centered>
+                  <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
+                    <TextField name='name' disabled />
+                    <LongTextField name='description' required/>
+                    <Header as="h4">Team Members:</Header>
+                    <List>
+                      {memberNamesAndGitHub.map((n) => <List.Item key={n}>{n}</List.Item>)}
+                    </List>
+                    <TextField name='gitHubRepo' required/>
+                  </Grid.Column>
+                </Grid>
+                <div align='center'>
+                  <SubmitField value='Submit'
+                               style={{
+                                 color: 'white', backgroundColor: '#dd000a',
+                                 margin: '2rem 0rem',
+                               }}/>
+                </div>
+                <ErrorsField/>
+              </Segment>
+            </AutoForm>
+          </Grid.Column>
+        </Grid>
     );
   }
 }
 
 AdminEditTeamWidget.propTypes = {
-  doc: PropTypes.object,
+  team: PropTypes.object,
+  members: PropTypes.arrayOf(
+      PropTypes.object,
+  ).isRequired,
   model: PropTypes.object,
 };
 
 const AdminEditTeamCon = withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
-  // Get access to Stuff documents.
+  const team = Teams.findDoc(documentId);
+  const members = _.map(TeamParticipants.find({ teamID: team._id }).fetch(),
+      (tp) => Participants.findDoc(tp.participantID));
   return {
-    doc: Teams.findOne(documentId),
+    team,
+    members,
   };
 })(AdminEditTeamWidget);
 

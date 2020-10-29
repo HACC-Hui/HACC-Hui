@@ -35,13 +35,15 @@ import CreateProfilePage from '../pages/participant/CreateProfilePage';
 import SuggestToolSkillPage from '../pages/participant/SuggestToolSkillPage';
 import ListSuggestions from '../pages/administrator/ListSuggestions';
 import ListParticipantsPage from '../pages/participant/ListParticipantsPage';
+import ListParticipantsPageAdmin from '../pages/administrator/ListParticipantsPageAdmin';
 import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 import AdminEditTeamPage from '../pages/administrator/AdminEditTeamPage';
 import SideBar from '../components/SideBar';
-import ViewTeamPage from '../pages/administrator/ViewTeamPage';
+import ViewTeamsPage from '../pages/administrator/ViewTeamsPage';
 import BestFitTeamDisplay from '../pages/participant/BestFitTeamDisplay';
 import UpdateMinorParticipantsCompliant from '../pages/administrator/UpdateMinorParticipantsCompliant';
 import HelpPage from '../pages/HelpPage';
+import InterestedParticipantPage from '../pages/participant/InterestedParticipantPage';
 
 /* global window */
 /**
@@ -79,6 +81,7 @@ class App extends React.Component {
           <Route exact path={ROUTES.LANDING} component={Landing} />
           <Route path={ROUTES.SIGN_IN} component={Signin} />
           <Route path={ROUTES.HELP_PAGE} component={HelpPage} />
+          <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
           <ProtectedRoute path={ROUTES.AGE_CONSENT} component={AgePage} />
           <ProtectedRoute path={ROUTES.PARTICIPATION} component={ParticipationForm} />
           <ProtectedRoute path={ROUTES.UNDERAGE_PARTICIPATION} component={UnderParticipationForm} />
@@ -94,6 +97,7 @@ class App extends React.Component {
           <ProtectedRoute path={ROUTES.LIST_PARTICIPANTS} component={ListParticipantsPage} />
           <ProtectedRoute path={ROUTES.TEAM_INVITATIONS} component={TeamInvitationsPage}/>
           <ProtectedRoute path={ROUTES.SUGGEST_TOOL_SKILL} component={SuggestToolSkillPage} />
+          <ProtectedRoute path={ROUTES.INTERESTED_PARTICIPANTS} component={InterestedParticipantPage} />
           <AdminProtectedRoute path={ROUTES.CONFIGURE_HACC} component={ConfigureHaccPage} />
           <AdminProtectedRoute path={ROUTES.ADD_CHALLENGE} component={AddChallenge} />
           <AdminProtectedRoute path={ROUTES.UPDATE_MP} component={UpdateMinorParticipantsCompliant} />
@@ -103,10 +107,10 @@ class App extends React.Component {
           <AdminProtectedRoute path={ROUTES.EDIT_TOOL} component={EditToolPage}/>
           <AdminProtectedRoute path={ROUTES.EDIT_SKILL} component={EditSkillPage}/>
           <AdminProtectedRoute path={ROUTES.LIST_SUGGESTIONS} component={ListSuggestions}/>
+          <ProtectedRoute path={ROUTES.LIST_PARTICIPANTS_ADMIN} component={ListParticipantsPageAdmin} />
           <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
           <AdminProtectedRoute path={ROUTES.ADMIN_EDIT_TEAM} component={AdminEditTeamPage} />
-          <AdminProtectedRoute path={ROUTES.VIEW_TEAM} component={ViewTeamPage} />
-          <ProtectedRoute path={ROUTES.SIGN_OUT} component={Signout} />
+          <AdminProtectedRoute path={ROUTES.VIEW_TEAMS} component={ViewTeamsPage} />
           <Route component={NotFound} />
         </Switch>
     );
