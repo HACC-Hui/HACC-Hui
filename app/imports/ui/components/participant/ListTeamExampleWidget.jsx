@@ -52,54 +52,74 @@ class ListTeamExampleWidget extends React.Component {
 
     if (isAMember) {
       return (<Button id={this.props.team._id} color="green"
-                      disabled={true} style={{ width: `${90}px`,
-        height: `${80}px`, textAlign: 'center' }} >You own the team</Button>);
+                      disabled={true} style={{ width: `${100}px`,
+        height: `${50}px`, textAlign: 'center' }} >You own the team</Button>);
     }
     if (this.state.sent || Requested) {
       return (<Button id={this.props.team._id} color="green"
-                      disabled={true} style={{ width: `${90}px`,
-        height: `${80}px`, textAlign: 'center' }} >You sent the request</Button>);
+                      disabled={true} style={{ width: `${100}px`,
+        height: `${50}px`, textAlign: 'center' }} >You sent the request</Button>);
     }
     return (<Button id={this.props.team._id} color="green"
-                    onClick={this.handleClick} style={{ width: `${90}px`,
-      height: `${60}px`, textAlign: 'center' }} >Request to Join</Button>);
+                    onClick={this.handleClick} style={{ width: `${100}px`,
+      height: `${50}px`, textAlign: 'center' }} >Request to Join</Button>);
   }
 
   render() {
 
     return (
-        <Grid celled container stackable columns={6}>
+        <Grid.Row container stackable columns={6}>
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column only='computer'>
+            <List bulleted>
+              {this.props.teamChallenges.map((c) => <List.Item key={c}>{c}</List.Item>)}
+            </List>
+          </Grid.Column>
+          <Grid.Column only='tablet mobile'>
             <Header>Challenges</Header>
             <List bulleted>
               {this.props.teamChallenges.map((c) => <List.Item key={c}>{c}</List.Item>)}
             </List>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column only='computer'>
+            <List bulleted>
+              {this.props.teamSkills.map((s) => <List.Item key={s}>{s}</List.Item>)}
+            </List>
+          </Grid.Column>
+          <Grid.Column only='tablet mobile'>
             <Header>Desired Skills</Header>
             <List bulleted>
               {this.props.teamSkills.map((s) => <List.Item key={s}>{s}</List.Item>)}
             </List>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column only='computer'>
+            <List bulleted>
+              {this.props.teamTools.map((t) => <List.Item key={t}>{t}</List.Item>)}
+            </List>
+          </Grid.Column>
+          <Grid.Column only='tablet mobile'>
             <Header>Desired Tools</Header>
             <List bulleted>
               {this.props.teamTools.map((t) => <List.Item key={t}>{t}</List.Item>)}
             </List>
           </Grid.Column>
-          <Grid.Column>
-            <Header>Members</Header>
+          <Grid.Column only='computer'>
             <List bulleted>
               {this.props.teamMembers.map((t) => <List.Item key={t}>{t}</List.Item>)}
             </List>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column only='tablet mobile'>
+            <Header>Team Members</Header>
+            <List bulleted>
+              {this.props.teamMembers.map((t) => <List.Item key={t}>{t}</List.Item>)}
+            </List>
+          </Grid.Column>
+          <Grid.Column textAlign='center'>
             {this.renderButton()}
           </Grid.Column>
-        </Grid>
+        </Grid.Row>
     );
   }
 }

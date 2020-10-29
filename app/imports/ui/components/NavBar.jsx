@@ -49,7 +49,7 @@ class NavBar extends React.Component {
                            activeClassName="active"
                            exact
                            to={ROUTES.BEST_FIT}
-                           key='list-teams'>List Teams ({numTeams})</Menu.Item>,
+                           key='list-teams'>Best Fit Teams ({numTeams})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            disabled={!isCompliant}
