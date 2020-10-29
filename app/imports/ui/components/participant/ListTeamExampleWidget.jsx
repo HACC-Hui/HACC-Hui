@@ -68,7 +68,7 @@ class ListTeamExampleWidget extends React.Component {
   render() {
 
     return (
-        <Grid.Row container stackable columns={6}>
+        <Grid.Row columns={6}>
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
           </Grid.Column>
