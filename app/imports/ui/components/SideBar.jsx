@@ -5,13 +5,13 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
 import { Menu, Header, Sidebar, Segment, Icon } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
+import _ from 'lodash';
 import { ROLE } from '../../api/role/Role';
 import { ROUTES } from '../../startup/client/route-constants';
 import { Participants } from '../../api/user/ParticipantCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { Suggestions } from '../../api/suggestions/SuggestionCollection';
 import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
-import _ from 'lodash';
 
 /**
  * The SideBar appears on the side of every page. Rendered by the App Layout component.
