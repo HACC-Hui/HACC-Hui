@@ -92,6 +92,10 @@ class NavBar extends React.Component {
                            key={ROUTES.LIST_SUGGESTIONS}>Suggestions List</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
+                           exact to={ROUTES.LIST_PARTICIPANTS_ADMIN}
+                           key='list-participants-admin'>List Participants</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
                            exact
                            to={ROUTES.VIEW_TEAMS}
                            key={ROUTES.VIEW_TEAMS}>View Teams</Menu.Item>,

@@ -33,6 +33,7 @@ export const ROUTES = {
   EDIT_SKILL: '/edit-skill/:_id',
   SUGGEST_TOOL_SKILL: '/suggest-tool-skill',
   LIST_SUGGESTIONS: '/list-suggestions',
+  LIST_PARTICIPANTS_ADMIN: '/list-participants-admin',
   TEAM_INVITATIONS: '/team-invitations',
   ADMIN_EDIT_TEAM: '/admin-edit-team/:_id',
   VIEW_TEAMS: '/view-teams',
