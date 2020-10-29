@@ -4,7 +4,7 @@ import {
   Grid,
   Header,
   Item,
-  Icon,
+  Icon, Segment, Card,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { _ } from 'lodash';
@@ -20,6 +20,7 @@ import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import TeamInvitationCard from './TeamInvitationCard';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
+import { paleBlueStyle } from '../../styles';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -131,25 +132,33 @@ class TeamInvitationsWidget extends React.Component {
     }
 
     return (
-        <Grid container doubling relaxed stackable>
-          <Grid.Row centered>
-            <Header as={'h2'} style={{ paddingTop: '2rem' }}>
-              Team Invitations
-            </Header>
-          </Grid.Row>
-          <Grid.Column width={12}>
-            <Item.Group divided>
-              {/* eslint-disable-next-line max-len */}
-              {getTeamInvitations(this.props.teamInvitations).map((teams) => <TeamInvitationCard key={teams._id}
-                                      teams={teams}
-                                      skills={getTeamSkills(teams._id, this.props.teamSkills)}
-                                      tools={getTeamTools(teams._id, this.props.teamTools)}
-                                      challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
-                                      participants={getTeamDevelopers(teams._id, this.props.teamParticipants)}
-              />)}
-            </Item.Group>
-          </Grid.Column>
-        </Grid>
+        <div style={{ paddingBottom: '50px', paddingTop: '40px',
+        }}>
+          <Grid container doubling relaxed stackable style={{ display: 'block',
+            marginLeft: 'auto', marginRight: 'auto' }}>
+            <Segment style = {paleBlueStyle} >
+              <Grid.Row centered>
+                <Header as='h2' textAlign="center" style={{ paddingBottom: '1rem' }}>
+                  Team Invitations
+                </Header>
+              </Grid.Row>
+              <Grid.Column width={15}>
+                <Card fluid>
+                  <Item.Group divided>
+                    {/* eslint-disable-next-line max-len */}
+                    {getTeamInvitations(this.props.teamInvitations).map((teams) => <TeamInvitationCard key={teams._id}
+                                       teams={teams}
+                                       skills={getTeamSkills(teams._id, this.props.teamSkills)}
+                                       tools={getTeamTools(teams._id, this.props.teamTools)}
+                                       challenges={getTeamChallenges(teams._id, this.props.teamChallenges)}
+                                       participants={getTeamDevelopers(teams._id, this.props.teamParticipants)}
+                    />)}
+                  </Item.Group>
+                </Card>
+              </Grid.Column>
+            </Segment>
+          </Grid>
+        </div>
     );
   }
 }
@@ -169,17 +178,17 @@ TeamInvitationsWidget.propTypes = {
 };
 
 export default withTracker(() => ({
-    teamChallenges: TeamChallenges.find({}).fetch(),
+  teamChallenges: TeamChallenges.find({}).fetch(),
   // eslint-disable-next-line max-len
-    teamInvitations: TeamInvitations.find({ participantID: Participants.findDoc({ userID: Meteor.userId() })._id }).fetch(),
-    teamSkills: TeamSkills.find({}).fetch(),
-    teamTools: TeamTools.find({}).fetch(),
-    // eslint-disable-next-line max-len
-    teams: Teams.find({}).fetch(),
-    skills: Skills.find({}).fetch(),
-    challenges: Challenges.find({}).fetch(),
-    tools: Tools.find({}).fetch(),
-    participants: Participants.find({}).fetch(),
-    teamParticipants: TeamParticipants.find({}).fetch(),
-    // eslint-disable-next-line max-len
-  }))(TeamInvitationsWidget);
+  teamInvitations: TeamInvitations.find({ participantID: Participants.findDoc({ userID: Meteor.userId() })._id }).fetch(),
+  teamSkills: TeamSkills.find({}).fetch(),
+  teamTools: TeamTools.find({}).fetch(),
+  // eslint-disable-next-line max-len
+  teams: Teams.find({}).fetch(),
+  skills: Skills.find({}).fetch(),
+  challenges: Challenges.find({}).fetch(),
+  tools: Tools.find({}).fetch(),
+  participants: Participants.find({}).fetch(),
+  teamParticipants: TeamParticipants.find({}).fetch(),
+  // eslint-disable-next-line max-len
+}))(TeamInvitationsWidget);
