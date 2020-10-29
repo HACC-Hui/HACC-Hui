@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Header, Loader, Grid, Dropdown, Segment, Divider, Card} from 'semantic-ui-react';
+import { Container, Header, Loader, Grid, Dropdown, Segment, Card } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
