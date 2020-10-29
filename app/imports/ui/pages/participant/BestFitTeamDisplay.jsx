@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Header, Loader, Grid, Dropdown } from 'semantic-ui-react';
+import { Container, Header, Loader, Grid, Dropdown, Segment, Divider, Card} from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -17,6 +17,7 @@ import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection'
 import ListTeamsWidget from '../../components/participant/ListTeamsWidget';
 import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
+import { paleBlueStyle } from '../../styles';
 
 /** Renders a table containing all of the Book documents. Use <BookItem> to render each row. */
 class BestTeam extends React.Component {
@@ -35,7 +36,6 @@ class BestTeam extends React.Component {
     return teams;
     // console.log(this.AllOpenTeam);
   }
-
 
   byAtoZ() {
     const allTeams = this.getAllOpenTeams();
@@ -147,13 +147,17 @@ class BestTeam extends React.Component {
         teams = this.byChallengeMatch();
     }
     return (
-        <div>
+        <div style={{ paddingBottom: '50px', paddingTop: '40px' }}>
           <Container>
-            <Header as="h1" textAlign="center">Browse for Teams</Header>
+            <Segment style = {paleBlueStyle}>
+            <Header as="h2" textAlign="center">Browse for Teams</Header>
             {this.renderDropDown()}
-            <div>
-              <ListTeamsWidget teams={teams} />
-            </div>
+            <Card fluid>
+              <Card.Content>
+                <ListTeamsWidget teams={teams} />
+              </Card.Content>
+            </Card>
+            </Segment>
           </Container>
         </div>
     );

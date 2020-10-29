@@ -4,7 +4,7 @@ import {
   Grid,
   Header,
   Item,
-  Icon,
+  Icon, Segment, Card,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -14,6 +14,7 @@ import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 import YourTeamsCard from './YourTeamsCard';
+import { paleBlueStyle } from '../../styles';
 
 /**
  * Widget to list teams
@@ -69,19 +70,25 @@ class YourTeamsWidget extends React.Component {
     }
 
     return (
+        <div style={{ paddingBottom: '50px', paddingTop: '40px' }}>
         <Grid container doubling relaxed stackable>
+          <Segment style = {paleBlueStyle}>
           <Grid.Row centered>
-            <Header as={'h2'} style={{ paddingTop: '2rem' }}>
+            <Header as='h2' textAlign="center" style={{ paddingBottom: '1rem' }}>
               Your Teams
             </Header>
           </Grid.Row>
           <Grid.Column width={15}>
+            <Card fluid>
             <Item.Group divided>
               {/* eslint-disable-next-line max-len */}
               {this.props.teams.map((teams) => <YourTeamsCard key={teams._id} teams={teams} teamParticipants={getTeamParticipants(teams._id, this.props.teamParticipants)} teamInvitation={this.props.teamInvitation}/>)}
             </Item.Group>
+            </Card>
           </Grid.Column>
+          </Segment>
         </Grid>
+        </div>
     );
   }
 }

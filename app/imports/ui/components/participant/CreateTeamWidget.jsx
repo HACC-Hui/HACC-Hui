@@ -221,7 +221,7 @@ class CreateTeamWidget extends React.Component {
     const model = this.buildTheModel();
 
     return (
-        <Grid container centered style={{ marginBottom: '2rem' }}>
+        <Grid container centered style={{ paddingBottom: '50px', paddingTop: '40px' }}>
           <Grid.Column>
             <Divider hidden />
             <Segment
