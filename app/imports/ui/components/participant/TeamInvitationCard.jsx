@@ -40,14 +40,16 @@ class TeamInvitationCard extends React.Component {
     const devID = Participants.findDoc({ userID: Meteor.userId() })._id;
     const definitionData = { team: thisTeam, participant: devID };
     const collectionName = TeamParticipants.getCollectionName();
-    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
-        (error) => {
-          if (error) {
-            swal('Error', error.message, 'error');
-          } else {
-            swal('Success', 'Team Invitation Accepted', 'success');
-          }
-        });
+    if (TeamParticipants.find({ teamID: thisTeam, participantID: devID }).fetch().length === 0) {
+      defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
+          (error) => {
+            if (error) {
+              swal('Error', error.message, 'error');
+            } else {
+              swal('Success', 'Team Invitation Accepted', 'success');
+            }
+          });
+    }
     const collectionName2 = TeamInvitations.getCollectionName();
     // eslint-disable-next-line max-len
     const intID = TeamInvitations.findDoc({ teamID: thisTeam, participantID: Participants.findDoc({ userID: Meteor.userId() })._id });
