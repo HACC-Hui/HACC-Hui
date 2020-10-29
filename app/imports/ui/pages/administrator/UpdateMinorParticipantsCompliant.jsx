@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Grid, Header, Icon, Loader, Container } from 'semantic-ui-react';
+import { Header, Icon, Loader, Container } from 'semantic-ui-react';
 import _ from 'underscore';
 import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
@@ -53,10 +53,6 @@ class UpdateMinorParticipantsCompliant extends React.Component {
   }
 
   renderPage() {
-    const style = {
-      marginTop: '1rem',
-      marginBottom: '1rem',
-    };
     return (
         <Container>
          {this.renderMinorCFParticipants()}

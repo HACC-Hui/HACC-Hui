@@ -113,7 +113,7 @@ class ListSuggestionsWidget extends React.Component {
       },
     ];
 
-    console.log(this.props.suggestions);
+    // console.log(this.props.suggestions);
 
     return (
         <Grid container doubling relaxed stackable

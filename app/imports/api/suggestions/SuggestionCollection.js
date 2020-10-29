@@ -1,7 +1,6 @@
 import SimpleSchema from 'simpl-schema';
-import { slugify, Slugs } from '../slug/SlugCollection';
-import BaseSlugCollection from '../base/BaseSlugCollection';
 import { ROLE } from '../role/Role';
+import BaseCollection from '../base/BaseCollection';
 
 /** @namespace api/skill */
 
@@ -10,7 +9,7 @@ import { ROLE } from '../role/Role';
  * @extends api/base.BaseSlugCollection
  * @memberOf api/skill
  */
-class SuggestionCollection extends BaseSlugCollection {
+class SuggestionCollection extends BaseCollection {
   /**
    * Creates the Skill collection.
    */
@@ -19,7 +18,6 @@ class SuggestionCollection extends BaseSlugCollection {
       username: { type: String },
       name: { type: String },
       type: { type: String },
-      slugID: { type: SimpleSchema.RegEx.Id },
       description: { type: String },
     }));
   }
@@ -34,15 +32,10 @@ class SuggestionCollection extends BaseSlugCollection {
            username, name, type,
            description,
          }) {
-    const slug = slugify(name); // we automatically build the slug from the name.
-    // Get SlugID, throw error if found.
-    const slugID = Slugs.define({ name: slug });
     // Define the Skill and get its ID
     const SuggestionID = this._collection.insert({
-      username, name, type, description, slugID,
+      username, name, type, description,
     });
-    // Connect the Slug to this Skill
-    Slugs.updateEntityID(slugID, SuggestionID);
     return SuggestionID;
   }
 
@@ -80,11 +73,7 @@ class SuggestionCollection extends BaseSlugCollection {
    * @throws { Meteor.Error } If Skill is associated with any Challenge.
    */
   removeIt(instance) {
-    const docID = this.getID(instance);
-    // Check that this Skill is not referenced by any Team, Participant, or Challenge.
-
-    // OK, clear to delete.
-    super.removeIt(docID);
+    super.removeIt(instance);
   }
 
   /**

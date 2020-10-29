@@ -55,10 +55,8 @@ class SuggestToolSkillWidgetAdmin extends React.Component {
 
   render() {
     let fRef = null;
-    const model = this.props.admin;
     const schema = this.buildTheFormSchema();
     const formSchema = new SimpleSchema2Bridge(schema);
-    const firstname = model.firstName;
     return (
         <Segment>
           <Header dividing> Add suggestion to list. </Header>

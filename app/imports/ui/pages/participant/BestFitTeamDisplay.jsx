@@ -36,7 +36,6 @@ class BestTeam extends React.Component {
     // console.log(this.AllOpenTeam);
   }
 
-
   byAtoZ() {
     const allTeams = this.getAllOpenTeams();
     return _.sortBy(allTeams, (team) => team.name.toLowerCase());
@@ -112,7 +111,7 @@ class BestTeam extends React.Component {
       { key: 4, text: 'sort the teams by the name in alphabet order', value: 'AToZ' },
     ];
     return <div>
-      <Grid stackable columns={2}>
+      <Grid stackable columns={2} style={{ paddingTop: '1rem' }}>
         <Grid.Column width={7}>
           <Header>Please select a filter to reorder the teams: </Header>
         </Grid.Column>
@@ -121,6 +120,7 @@ class BestTeam extends React.Component {
                     placeholder="Select an option to reorder the team" />
         </Grid.Column>
       </Grid>
+      <hr/>
     </div>;
   }
 
@@ -149,9 +149,16 @@ class BestTeam extends React.Component {
     return (
         <div>
           <Container>
-            <Header as="h1" textAlign="center">Browse for Teams</Header>
+            <div style={{
+              backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
+              borderRadius: '2rem',
+            }}>
+              <Header as={'h2'} textAlign="center">
+                Best Fit Teams
+              </Header>
+            </div>
             {this.renderDropDown()}
-            <div>
+            <div style={{ paddingTop: '1rem', paddingBottom: '2rem' }}>
               <ListTeamsWidget teams={teams} />
             </div>
           </Container>
