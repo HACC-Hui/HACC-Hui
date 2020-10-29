@@ -221,12 +221,12 @@ class CreateTeamWidget extends React.Component {
     const model = this.buildTheModel();
 
     return (
-        <Grid container centered style={{ marginBottom: '2rem' }}>
+        <Grid container centered style={{ paddingBottom: '50px', paddingTop: '40px' }}>
           <Grid.Column>
             <Divider hidden />
             <Segment
                 style={{
-                  borderRadius: '10px',
+                  // borderRadius: '10px',
                   backgroundColor: '#E5F0FE',
                 }} className={'createTeam'}>
               <Header as="h2" textAlign="center">Create a Team</Header>

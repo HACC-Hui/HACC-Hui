@@ -34,12 +34,12 @@ class EditProfileWidget extends React.Component {
     return (
         <div style={{ paddingBottom: '50px', paddingTop: '40px' }}><Container>
           <Segment style={paleBlueStyle}>
-            <Header dividing>Your Profile</Header>
+            <Header as="h2" textAlign="center">Your Profile</Header>
             <ProfileCard model={model} />
             <Button color="olive"><Link to={ROUTES.EDIT_PROFILE}>Edit Profile</Link></Button>
           </Segment>
-          <Segment>
-            <Header dividing>Team Membership</Header>
+          <Segment style={paleBlueStyle}>
+            <Header as="h2" textAlign="center">Team Membership</Header>
             <TeamMembershipWidget />
           </Segment>
         </Container>

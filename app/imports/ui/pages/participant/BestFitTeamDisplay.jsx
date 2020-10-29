@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Header, Loader, Grid, Dropdown } from 'semantic-ui-react';
+import { Container, Header, Loader, Grid, Dropdown, Segment, Card } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -17,6 +17,7 @@ import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection'
 import ListTeamsWidget from '../../components/participant/ListTeamsWidget';
 import { ParticipantTools } from '../../../api/user/ParticipantToolCollection';
 import { WantsToJoin } from '../../../api/team/WantToJoinCollection';
+import { paleBlueStyle } from '../../styles';
 
 /** Renders a table containing all of the Book documents. Use <BookItem> to render each row. */
 class BestTeam extends React.Component {
@@ -147,20 +148,19 @@ class BestTeam extends React.Component {
         teams = this.byChallengeMatch();
     }
     return (
-        <div>
+        <div style={{ paddingBottom: '50px', paddingTop: '40px' }}>
           <Container>
-            <div style={{
-              backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
-              borderRadius: '2rem',
-            }}>
+              <Segment style={paleBlueStyle}>
               <Header as={'h2'} textAlign="center">
                 Best Fit Teams
               </Header>
-            </div>
+            <Card fluid>
             {this.renderDropDown()}
             <div style={{ paddingTop: '1rem', paddingBottom: '2rem' }}>
               <ListTeamsWidget teams={teams} />
             </div>
+            </Card>
+              </Segment>
           </Container>
         </div>
     );
