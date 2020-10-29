@@ -14,6 +14,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Suggestions } from '../../../api/suggestions/SuggestionCollection';
 import ListSuggestionsCard from './ListSuggestionsCard';
 import ListSuggestionsFilter from './ListSuggestionsFilter';
+import SuggestToolSkillWidgetAdmin from '../../components/administrator/SuggestToolSkillWidgetAdmin';
 
 class ListSuggestionsWidget extends React.Component {
 
@@ -24,6 +25,15 @@ class ListSuggestionsWidget extends React.Component {
       type: [],
       result: _.orderBy(this.props.suggestions, ['name'], ['asc']),
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // eslint-disable-next-line max-len
+    if ((_.orderBy(nextProps.suggestions, ['name'], ['asc'])) !== (_.orderBy(this.props.suggestions, ['name'], ['asc']))) {
+      this.setState({
+        result: _.orderBy(nextProps.suggestions, ['name'], ['asc']),
+      });
+    }
   }
 
   render() {
@@ -142,6 +152,9 @@ class ListSuggestionsWidget extends React.Component {
                       onChange={getType}
                   />
                 </div>
+              </div>
+              <div style={{ paddingTop: '2rem' }}>
+                <SuggestToolSkillWidgetAdmin />
               </div>
             </Segment>
           </Grid.Column>
