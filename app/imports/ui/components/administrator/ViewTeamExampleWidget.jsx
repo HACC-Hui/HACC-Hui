@@ -45,6 +45,10 @@ class ViewTeamExampleWidget extends React.Component {
               { (_.every(getTeamParticipants(this.props.team._id, this.props.teamParticipants),
                   function (value) { return (value.compliant !== false); }))
                   ? <Header>Team is Compliant</Header> : <Header><mark>Team is not Compliant</mark></Header> }
+              <Header>Devpost Page</Header>
+              {this.props.team.devPostPage}
+              <Header>Github Repo</Header>
+              {this.props.team.gitHubRepo}
             </Grid.Column>
             <Grid.Column>
               {/* eslint-disable-next-line max-len */}

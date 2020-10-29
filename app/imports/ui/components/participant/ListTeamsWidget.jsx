@@ -47,7 +47,7 @@ class ListTeamsWidget extends React.Component {
   render() {
     return (
         <Grid celled doubling stackable>
-          <Grid.Row columns={6} only='computer'>
+          <Grid.Row columns={7} only='computer'>
             <Grid.Column>
               <Header>Name</Header>
             </Grid.Column>
@@ -59,6 +59,9 @@ class ListTeamsWidget extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <Header>Desired Tools</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header>Devpost/Github</Header>
             </Grid.Column>
             <Grid.Column>
               <Header>Members</Header>
