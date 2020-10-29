@@ -7,8 +7,10 @@ import {
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { removeItMethod } from '../../../api/base/BaseCollection.methods';
+import { defineMethod, removeItMethod } from '../../../api/base/BaseCollection.methods';
 import { Suggestions } from '../../../api/suggestions/SuggestionCollection';
+import { Tools } from '../../../api/tool/ToolCollection';
+import { Skills } from '../../../api/skill/SkillCollection';
 
 class ListSuggestionsCard extends React.Component {
 
@@ -35,6 +37,35 @@ class ListSuggestionsCard extends React.Component {
         });
   }
 
+  addSuggestion(type, name, description, instance) {
+    let collectionName;
+    console.log(type, name, description);
+    if (type.toLowerCase() === 'skill') {
+      collectionName = Skills.getCollectionName();
+    } else if (type.toLowerCase() === 'tool') {
+      collectionName = Tools.getCollectionName();
+    } else {
+      swal('Error', 'Undefined type of suggestion', 'error');
+      return false;
+    }
+    const definitionData = {
+      name,
+      description,
+    };
+    defineMethod.call({ collectionName, definitionData }, (error) => {
+      if (error) {
+        swal('Error defining', error.message, 'error');
+      }
+      collectionName = Suggestions.getCollectionName();
+      removeItMethod.call({ collectionName, instance }, (err) => {
+        if (err) {
+          swal('Error removing', err.message, 'error');
+        }
+      });
+    });
+    return true;
+  }
+
   render() {
     // console.log(this.props);
     return (
@@ -54,6 +85,8 @@ class ListSuggestionsCard extends React.Component {
               </Item.Description>
               <Item.Extra>Suggested By: {this.props.username} </Item.Extra>
               <Button negative onClick={() => this.removeItem()}>Delete</Button>
+              <Button positive onClick={() => this.addSuggestion(this.props.type,
+                  this.props.name, this.props.description, this.props.suggestionObj._id)}>Add Suggestion</Button>
             </Item.Content>
         </Item>
     );

@@ -112,7 +112,7 @@ class BestTeam extends React.Component {
       { key: 4, text: 'sort the teams by the name in alphabet order', value: 'AToZ' },
     ];
     return <div>
-      <Grid stackable columns={2}>
+      <Grid stackable columns={2} style={{ paddingTop: '1rem' }}>
         <Grid.Column width={7}>
           <Header>Please select a filter to reorder the teams: </Header>
         </Grid.Column>
@@ -121,6 +121,7 @@ class BestTeam extends React.Component {
                     placeholder="Select an option to reorder the team" />
         </Grid.Column>
       </Grid>
+      <hr/>
     </div>;
   }
 
@@ -149,15 +150,17 @@ class BestTeam extends React.Component {
     return (
         <div style={{ paddingBottom: '50px', paddingTop: '40px' }}>
           <Container>
-            <Segment style = {paleBlueStyle}>
-            <Header as="h2" textAlign="center">Browse for Teams</Header>
-            {this.renderDropDown()}
+              <Segment style={paleBlueStyle}>
+              <Header as={'h2'} textAlign="center">
+                Best Fit Teams
+              </Header>
             <Card fluid>
-              <Card.Content>
-                <ListTeamsWidget teams={teams} />
-              </Card.Content>
+            {this.renderDropDown()}
+            <div style={{ paddingTop: '1rem', paddingBottom: '2rem' }}>
+              <ListTeamsWidget teams={teams} />
+            </div>
             </Card>
-            </Segment>
+              </Segment>
           </Container>
         </div>
     );

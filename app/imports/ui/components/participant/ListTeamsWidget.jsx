@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Grid, Header } from 'semantic-ui-react';
 import ListTeamExampleWidget from './ListTeamExampleWidget';
 import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
@@ -45,18 +46,40 @@ const getTeamMembers = team => {
 class ListTeamsWidget extends React.Component {
   render() {
     return (
-      <React.Fragment>
-        {this.props.teams.map(team => (
-          <ListTeamExampleWidget
-            key={team._id}
-            team={getTeam(team._id)}
-            teamChallenges={getTeamChallenges(team)}
-            teamSkills={getTeamSkills(team)}
-            teamTools={getTeamTools(team)}
-            teamMembers={getTeamMembers(team)}
-          />
-        ))}
-      </React.Fragment>
+        <Grid celled doubling stackable>
+          <Grid.Row columns={7} only='computer'>
+            <Grid.Column>
+              <Header>Name</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header>Challenges</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header>Desired Skills</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header>Desired Tools</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header>Devpost/Github</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header>Members</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header>Join?</Header>
+            </Grid.Column>
+          </Grid.Row>
+          {this.props.teams.map((team) => (
+              <ListTeamExampleWidget key={team._id}
+                                     team={getTeam(team._id)}
+                                     teamChallenges={getTeamChallenges(team)}
+                                     teamSkills={getTeamSkills(team)}
+                                     teamTools={getTeamTools(team)}
+                                     teamMembers={getTeamMembers(team)}
+              />
+          ))}
+        </Grid>
     );
   }
 }

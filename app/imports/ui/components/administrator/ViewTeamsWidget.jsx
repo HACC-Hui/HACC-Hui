@@ -42,7 +42,7 @@ class ViewTeamsWidget extends React.Component {
                   Name, (GitHub)
                 </Grid.Column>
                 <Grid.Column>
-                  <Header>Is the Team Compliant?</Header>
+                  <Header>Team Info</Header>
                 </Grid.Column>
                 <Grid.Column>
                   <Header>Edit Team</Header>
