@@ -68,7 +68,7 @@ class ListTeamExampleWidget extends React.Component {
   render() {
 
     return (
-        <Grid celled container stackable columns={6}>
+        <Grid celled container stackable columns={7}>
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
           </Grid.Column>
@@ -89,6 +89,12 @@ class ListTeamExampleWidget extends React.Component {
             <List bulleted>
               {this.props.teamTools.map((t) => <List.Item key={t}>{t}</List.Item>)}
             </List>
+          </Grid.Column>
+          <Grid.Column>
+            <Header>Devpost Page</Header>
+            {this.props.team.devPostPage}
+            <Header>GitHub repo</Header>
+            {this.props.team.gitHubRepo}
           </Grid.Column>
           <Grid.Column>
             <Header>Members</Header>
