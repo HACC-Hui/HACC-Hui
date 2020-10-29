@@ -1,11 +1,12 @@
 import React from 'react';
-import { Header, Divider } from 'semantic-ui-react';
+import { Header, Divider, Segment, Grid } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 class HelpPage extends React.Component {
   render() {
     return (
-      <div style={{ textAlign: 'center' }}>
+        <Segment style = {{ margin: '30px', backgroundColor: '#E5F0FE' }}>
+        <div style={{ textAlign: 'center' }}>
         <p
           style={{
             fontSize: '40px',
@@ -14,11 +15,14 @@ class HelpPage extends React.Component {
         >
           Questions By Category
         </p>
-        <Divider horizontal>GENERAL</Divider>
-        <Header as='h1' textAlign='center'>
-          <b>How do I Register?</b>
-        </Header>
-        <Header as='h2' textAlign='center'>
+         <Divider horizontal>GENERAL</Divider>
+          <Grid columns={2} container doubling relaxed stackable style={{ display: 'block',
+            marginLeft: 'auto', marginRight: 'auto' }}>
+            <Grid.Column width={7} style={{ paddingTop: '30px' }}>
+              <Header as='h1' textAlign='center'>
+                <b>How do I Register?</b>
+              </Header>
+        <Header textAlign='center'>
           <a href={'https://slack.com/signin#/signin'}>
             Join The Slack Workspace
           </a>
@@ -31,7 +35,10 @@ class HelpPage extends React.Component {
             to login.
           </b>
         </p>
-        <div style={{ paddingTop: '40px' }}>
+            </Grid.Column>
+
+      <Grid.Column width={7} style={{ paddingTop: '30px' }}>
+        <div>
           <Header as='h1' textAlign='center'>
             <b>What is HACC HUI?</b>
           </Header>
@@ -42,13 +49,19 @@ class HelpPage extends React.Component {
             </b>
           </h4>
         </div>
-        <Divider horizontal style={{ paddingTop: '40px' }}>
+      </Grid.Column>
+          </Grid>
+
+          <Divider horizontal style={{ paddingTop: '40px' }}>
           TEAM MANAGEMENT
         </Divider>
+          <Grid columns={2} container doubling relaxed stackable style={{ display: 'block',
+            marginLeft: 'auto', marginRight: 'auto' }}>
+            <Grid.Column width={7} style={{ paddingTop: '30px' }}>
         <Header as='h1' textAlign='center'>
           <b>Where can I find Teammates?</b>
         </Header>
-        <Header as='h2' textAlign='center'>
+        <Header textAlign='center'>
           <Link to='list-participants'>
             <text>List Participants Page</text>
           </Link>
@@ -59,11 +72,12 @@ class HelpPage extends React.Component {
             page!
           </b>
         </p>
-        <div style={{ paddingTop: '40px' }}>
+
+              <div style={{ paddingTop: '100px' }}>
           <Header as='h1' textAlign='center'>
             <b>How do I Leave/Delete my Team?</b>
           </Header>
-          <Header as='h2' textAlign='center'>
+          <Header textAlign='center'>
             <Link to='your-teams'>
               <text>Edit Teams Page</text>
             </Link>
@@ -74,11 +88,14 @@ class HelpPage extends React.Component {
             </b>
           </p>
         </div>
-        <div style={{ paddingTop: '40px' }}>
+            </Grid.Column>
+
+            <Grid.Column width={7} style={{ paddingTop: '30px' }}>
+            <div>
           <Header as='h1' textAlign='center'>
             <b>How do I Create a Team?</b>
           </Header>
-          <Header as='h2' textAlign='center'>
+          <Header textAlign='center'>
             <Link to='create-team'>
               <text>Create Teams Page</text>
             </Link>
@@ -87,11 +104,11 @@ class HelpPage extends React.Component {
             <b>Make sure to fill out the team creation form fully</b>
           </p>
         </div>
-        <div style={{ paddingTop: '40px' }}>
+        <div style={{ paddingTop: '115px' }}>
           <Header as='h1' textAlign='center'>
             <b>Can I be on Multiple Teams?</b>
           </Header>
-          <Header as='h2' textAlign='center'>
+          <Header textAlign='center'>
             Yes!
           </Header>
           <p>
@@ -101,6 +118,10 @@ class HelpPage extends React.Component {
             </b>
           </p>
         </div>
+            </Grid.Column>
+
+          </Grid>
+
         <Divider horizontal style={{ paddingTop: '40px' }}>
           UNEXPECTED ERRORS
         </Divider>
@@ -114,6 +135,7 @@ class HelpPage extends React.Component {
           </Header>
         </div>
       </div>
+        </Segment>
     );
   }
 }
