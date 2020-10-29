@@ -226,7 +226,7 @@ class CreateTeamWidget extends React.Component {
             <Divider hidden />
             <Segment
                 style={{
-                  borderRadius: '10px',
+                  // borderRadius: '10px',
                   backgroundColor: '#E5F0FE',
                 }} className={'createTeam'}>
               <Header as="h2" textAlign="center">Create a Team</Header>
