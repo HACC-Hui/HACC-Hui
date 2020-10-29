@@ -9,6 +9,9 @@ import { ROLE } from '../../api/role/Role';
 import { ROUTES } from '../../startup/client/route-constants';
 import { Participants } from '../../api/user/ParticipantCollection';
 import { Teams } from '../../api/team/TeamCollection';
+import { Suggestions } from '../../api/suggestions/SuggestionCollection';
+import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
+import _ from 'lodash';
 
 /**
  * The SideBar appears on the side of every page. Rendered by the App Layout component.
@@ -34,6 +37,10 @@ class SideBar extends React.Component {
 
     const numParticipants = Participants.count();
     const numTeams = Teams.find({ open: true }).count();
+    const teamCount = Teams.count();
+    const suggestionCount = Suggestions.count();
+    const minors = MinorParticipants.find({}).fetch();
+    const uncompliantMinors = _.filter(minors, (m) => Participants.findDoc(m.participantID).isCompliant).length;
 
     const setVisible = (state) => {
       this.setState({ visible: state });
@@ -116,17 +123,19 @@ class SideBar extends React.Component {
                                activeClassName="active"
                                exact
                                to={ROUTES.UPDATE_MP}
-                               key={ROUTES.UPDATE_MP}>Update Minor Participants Status</Menu.Item>,
+                               key={ROUTES.UPDATE_MP}>
+                      Update Minor Participants Status ({uncompliantMinors})
+                    </Menu.Item>,
                     <Menu.Item as={NavLink}
                                activeClassName="active"
                                exact
                                to={ROUTES.LIST_SUGGESTIONS}
-                               key={ROUTES.LIST_SUGGESTIONS}>Suggestions List</Menu.Item>,
+                               key={ROUTES.LIST_SUGGESTIONS}>Suggestions List ({suggestionCount})</Menu.Item>,
                     <Menu.Item as={NavLink}
                                activeClassName="active"
                                exact
                                to={ROUTES.VIEW_TEAMS}
-                               key={ROUTES.VIEW_TEAMS}>View Team</Menu.Item>,
+                               key={ROUTES.VIEW_TEAMS}>View Team ({teamCount})</Menu.Item>,
                     <Menu.Item as={NavLink}
                                activeClassName="active"
                                exact

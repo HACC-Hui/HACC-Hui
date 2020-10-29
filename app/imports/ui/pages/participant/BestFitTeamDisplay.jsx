@@ -36,7 +36,6 @@ class BestTeam extends React.Component {
     // console.log(this.AllOpenTeam);
   }
 
-
   byAtoZ() {
     const allTeams = this.getAllOpenTeams();
     return _.sortBy(allTeams, (team) => team.name.toLowerCase());

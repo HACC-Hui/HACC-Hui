@@ -5,10 +5,13 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
 import { Menu, Dropdown, Header } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
+import _ from 'lodash';
 import { ROLE } from '../../api/role/Role';
 import { ROUTES } from '../../startup/client/route-constants';
 import { Participants } from '../../api/user/ParticipantCollection';
 import { Teams } from '../../api/team/TeamCollection';
+import { Suggestions } from '../../api/suggestions/SuggestionCollection';
+import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
 
 /**
  * The NavBar appears at the top of every page. Rendered by the App Layout component.
@@ -26,7 +29,10 @@ class NavBar extends React.Component {
 
     const numParticipants = Participants.count();
     const numTeams = Teams.find({ open: true }).count();
-
+    const teamCount = Teams.count();
+    const suggestionCount = Suggestions.count();
+    const minors = MinorParticipants.find({}).fetch();
+    const uncompliantMinors = _.filter(minors, (m) => Participants.findDoc(m.participantID).isCompliant).length;
     return (
         <Menu attached="top" borderless inverted className={'navBar'}>
           <Menu.Item as={NavLink} activeClassName="" exact to={ROUTES.LANDING}>
@@ -84,21 +90,21 @@ class NavBar extends React.Component {
                            activeClassName="active"
                            exact
                            to={ROUTES.UPDATE_MP}
-                           key={ROUTES.UPDATE_MP}>Update Minor Participants Status</Menu.Item>,
+                           key={ROUTES.UPDATE_MP}>Update Minor Participants Status ({uncompliantMinors})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
                            to={ROUTES.LIST_SUGGESTIONS}
-                           key={ROUTES.LIST_SUGGESTIONS}>Suggestions List</Menu.Item>,
+                           key={ROUTES.LIST_SUGGESTIONS}>Suggestions List ({suggestionCount})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact to={ROUTES.LIST_PARTICIPANTS_ADMIN}
-                           key='list-participants-admin'>List Participants</Menu.Item>,
+                           key='list-participants-admin'>List Participants ({numParticipants})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
                            to={ROUTES.VIEW_TEAMS}
-                           key={ROUTES.VIEW_TEAMS}>View Teams</Menu.Item>,
+                           key={ROUTES.VIEW_TEAMS}>View Teams ({teamCount})</Menu.Item>,
                 // <Menu.Item as={NavLink}
                 //            activeClassName="active"
                 //            exact
