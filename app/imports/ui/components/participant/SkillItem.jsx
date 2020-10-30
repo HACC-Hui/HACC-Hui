@@ -11,7 +11,7 @@ class SkillItem extends React.Component {
         <List.Item>
           <Item>
             <Item.Content>
-              <Item.Header>{skillName}</Item.Header>
+              {skillName}
             </Item.Content>
           </Item>
         </List.Item>

@@ -36,7 +36,7 @@ class ProfileCard extends React.Component {
                 <Grid.Column>
                   <Header dividing size="small">Challenges</Header>
                   <List bulleted>
-                  {this.props.model.challenges.map((item) => <List.Item key={item}><strong>{item}</strong></List.Item>)}
+                  {this.props.model.challenges.map((item) => <List.Item key={item}>{item}</List.Item>)}
                   </List>
                 </Grid.Column>
                 <Grid.Column>

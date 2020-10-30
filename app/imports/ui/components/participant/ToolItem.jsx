@@ -11,7 +11,7 @@ class ToolItem extends React.Component {
         <List.Item>
           <Item>
             <Item.Content>
-              <Item.Header>{toolName}</Item.Header>
+              {toolName}
             </Item.Content>
           </Item>
         </List.Item>
