@@ -4,7 +4,7 @@ import {
   Grid,
   Header,
   Item,
-  Icon, Segment, Card,
+  Icon, Segment,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
