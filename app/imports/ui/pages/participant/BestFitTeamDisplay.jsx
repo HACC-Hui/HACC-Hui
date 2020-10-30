@@ -151,10 +151,10 @@ class BestTeam extends React.Component {
           <Container>
             <div style={{
               backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
-              borderRadius: '2rem',
+              borderRadius: '2rem', textAlign: 'center',
             }}>
               <Header as={'h2'} textAlign="center">
-                Best Fit Teams
+                Open Teams
               </Header>
             </div>
             {this.renderDropDown()}

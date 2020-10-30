@@ -23,6 +23,7 @@ import { TeamInvitations } from '../team/TeamInvitationCollection';
 import { Suggestions } from '../suggestions/SuggestionCollection';
 import { LeavingTeams } from '../team/LeavingTeamCollection';
 import { MinorParticipants } from '../user/MinorParticipantCollection';
+import { CanCreateTeams } from '../team/CanCreateTeamCollection';
 
 /** @namespace api/hacc-hui */
 
@@ -57,6 +58,7 @@ class HACCHuiClass {
       Suggestions,
       LeavingTeams,
       MinorParticipants,
+      CanCreateTeams,
     ];
     /** The load sequence for loading fixtures. */
     this.collectionLoadSequence = [
@@ -90,6 +92,7 @@ class HACCHuiClass {
     }
     return collection;
   }
+
 }
 
 /**

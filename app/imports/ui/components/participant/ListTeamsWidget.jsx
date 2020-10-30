@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Message } from 'semantic-ui-react';
 import ListTeamExampleWidget from './ListTeamExampleWidget';
 import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { Challenges } from '../../../api/challenge/ChallengeCollection';
@@ -45,6 +45,7 @@ const getTeamMembers = team => {
 
 class ListTeamsWidget extends React.Component {
   render() {
+    const closed = Teams.find({ open: false }).count();
     return (
         <Grid celled doubling stackable>
           <Grid.Row columns={7} only='computer'>
@@ -61,7 +62,7 @@ class ListTeamsWidget extends React.Component {
               <Header>Desired Tools</Header>
             </Grid.Column>
             <Grid.Column>
-              <Header>Devpost/Github</Header>
+              <Header>Devpost / Github</Header>
             </Grid.Column>
             <Grid.Column>
               <Header>Members</Header>
@@ -79,6 +80,7 @@ class ListTeamsWidget extends React.Component {
                                      teamMembers={getTeamMembers(team)}
               />
           ))}
+          <Grid.Row><Message negative>There are {closed} closed teams.</Message></Grid.Row>
         </Grid>
     );
   }

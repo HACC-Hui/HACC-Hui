@@ -24,6 +24,7 @@ import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { Slugs } from '../../../api/slug/SlugCollection';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
+import { CanCreateTeams } from '../../../api/team/CanCreateTeamCollection';
 
 /**
  * Renders the Page for adding stuff. **deprecated**
@@ -205,7 +206,7 @@ class CreateTeamWidget extends React.Component {
       return (
           <div align={'center'}>
             <Header as='h2' icon>
-              <Icon name='thumbs down outline'/>
+              <Icon name='thumbs down outline' />
               You have not agreed to the <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a>
               &nbsp;or we&apos;ve haven&apos;t received the signed form yet.
               <Header.Subheader>
@@ -219,7 +220,7 @@ class CreateTeamWidget extends React.Component {
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(this.buildTheFormSchema());
     const model = this.buildTheModel();
-
+    const disabled = !this.props.canCreateTeams;
     return (
         <Grid container centered style={{ marginBottom: '2rem' }}>
           <Grid.Column>
@@ -249,7 +250,7 @@ class CreateTeamWidget extends React.Component {
                 <Grid columns={1} style={{ paddingTop: '20px' }}>
                   <Grid.Column style={{ paddingLeft: '30px', paddingRight: '30px' }}>
                     <Grid className='doubleLine'>
-                      <TextField name='name'/>
+                      <TextField name='name' />
                       <RadioField
                           name='open'
                           inline
@@ -269,7 +270,7 @@ class CreateTeamWidget extends React.Component {
                         <TextField showInlineError
                                    iconLeft='mail'
                                    name="email"
-                                   label={'Email'}/>
+                                   label={'Email'} />
                       </ListItemField>
                     </ListField>
 
@@ -280,7 +281,9 @@ class CreateTeamWidget extends React.Component {
                                style={{
                                  color: 'white', backgroundColor: '#dd000a',
                                  margin: '20px 0px',
-                               }} />
+                               }}
+                               disabled={disabled}
+                  />
                 </div>
                 <ErrorsField />
               </AutoForm>
@@ -294,15 +297,15 @@ class CreateTeamWidget extends React.Component {
                 <Modal.Description>
                   <Header>Some Members you are trying to invite have not registered with SlackBot.</Header>
                   <b>Registered Members:</b>
-                  <List items={this.state.isRegistered}/>
+                  <List items={this.state.isRegistered} />
                   <b>Not Registered Members:</b>
-                  <List items={this.state.notRegistered}/>
+                  <List items={this.state.notRegistered} />
                 </Modal.Description>
               </Modal.Content>
               <Modal.Actions>
                 <b floated="left">Slackbot will only send invites to registered members, please confirm.</b>
                 <Button
-                    content= "I Understand"
+                    content="I Understand"
                     labelPosition='right'
                     icon='checkmark'
                     onClick={() => this.closeModal()}
@@ -322,6 +325,7 @@ CreateTeamWidget.propTypes = {
   skills: PropTypes.arrayOf(PropTypes.object).isRequired,
   challenges: PropTypes.arrayOf(PropTypes.object).isRequired,
   tools: PropTypes.arrayOf(PropTypes.object).isRequired,
+  canCreateTeams: PropTypes.bool,
 };
 
 export default withTracker(() => ({
@@ -329,4 +333,5 @@ export default withTracker(() => ({
   challenges: Challenges.find({}).fetch(),
   skills: Skills.find({}).fetch(),
   tools: Tools.find({}).fetch(),
+  canCreateTeams: CanCreateTeams.findOne().canCreateTeams,
 }))(CreateTeamWidget);

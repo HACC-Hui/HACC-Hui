@@ -68,7 +68,7 @@ class ListTeamExampleWidget extends React.Component {
   render() {
 
     return (
-        <Grid celled container stackable columns={7}>
+        <Grid.Row columns={7} >
           <Grid.Column>
             <Header as="h3">{this.props.team.name}</Header>
           </Grid.Column>
@@ -106,10 +106,8 @@ class ListTeamExampleWidget extends React.Component {
             </List>
           </Grid.Column>
           <Grid.Column>
-            <Header>Devpost Page</Header>
-            {this.props.team.devPostPage}
-            <Header>GitHub repo</Header>
-            {this.props.team.gitHubRepo}
+            <a href={this.props.team.devPostPage}>Devpost Page</a> <br />
+            <a href={this.props.team.gitHubRepo}>GitHub repo</a>
           </Grid.Column>
           <Grid.Column only='computer'>
             <List bulleted>
@@ -125,7 +123,7 @@ class ListTeamExampleWidget extends React.Component {
           <Grid.Column textAlign='center'>
             {this.renderButton()}
           </Grid.Column>
-        </Grid>
+        </Grid.Row>
     );
   }
 }

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { SyncedCron } from 'meteor/littledata:synced-cron';
 import { HACCHui } from '../../api/hacc-hui/HACCHui';
+import { CanCreateTeams } from '../../api/team/CanCreateTeamCollection';
 
 // global Assets
 
@@ -73,6 +74,10 @@ export function loadCollection(collection, loadJSON, consolep) {
  * @memberOf startup/server
  */
 function loadDatabase() {
+  const canCreateTeams = CanCreateTeams.findOne();
+  if (_.isUndefined(canCreateTeams)) {
+    CanCreateTeams.define({ canCreateTeams: true });
+  }
   const loadFileName = Meteor.settings.databaseRestoreFileName;
   if (loadFileName && totalDocuments() === 0) {
     const loadFileAge = getRestoreFileAge(loadFileName);

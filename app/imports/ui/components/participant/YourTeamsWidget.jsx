@@ -4,7 +4,7 @@ import {
   Grid,
   Header,
   Item,
-  Icon,
+  Icon, Segment,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -14,6 +14,7 @@ import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 import YourTeamsCard from './YourTeamsCard';
+import MemberTeamCard from './MemberTeamCard';
 
 /**
  * Widget to list teams
@@ -24,6 +25,7 @@ class YourTeamsWidget extends React.Component {
   render() {
 
     const allParticipants = this.props.participants;
+
     function getTeamParticipants(teamID, teamParticipants) {
       const data = [];
       const participants = _.filter(teamParticipants, { teamID: teamID });
@@ -44,7 +46,7 @@ class YourTeamsWidget extends React.Component {
       return (
           <div align={'center'}>
             <Header as='h2' icon>
-              <Icon name='thumbs down outline'/>
+              <Icon name='thumbs down outline' />
               You have not agreed to the <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a>
               &nbsp;or we&apos;ve haven&apos;t received the signed form yet.
               <Header.Subheader>
@@ -54,12 +56,12 @@ class YourTeamsWidget extends React.Component {
           </div>
       );
     }
-    if (this.props.teams.length === 0) {
+    if (this.props.teams.length + this.props.memberTeams.length === 0) {
       return (
           <div align={'center'}>
             <Header as='h2' icon>
-              <Icon name='users'/>
-              You are not the owner of any teams
+              <Icon name='users' />
+              You are not the owner or member of any teams
               <Header.Subheader>
                 Please check back later.
               </Header.Subheader>
@@ -69,18 +71,38 @@ class YourTeamsWidget extends React.Component {
     }
 
     return (
-        <Grid container doubling relaxed stackable>
+        <Grid container doubling relaxed stackable style={{ paddingBottom: 10 }}>
           <Grid.Row centered>
             <Header as={'h2'} style={{ paddingTop: '2rem' }}>
               Your Teams
             </Header>
           </Grid.Row>
-          <Grid.Column width={15}>
-            <Item.Group divided>
-              {/* eslint-disable-next-line max-len */}
-              {this.props.teams.map((teams) => <YourTeamsCard key={teams._id} teams={teams} teamParticipants={getTeamParticipants(teams._id, this.props.teamParticipants)} teamInvitation={this.props.teamInvitation}/>)}
-            </Item.Group>
-          </Grid.Column>
+          {this.props.teams.length === 0 ? '' : (
+              <Grid.Column width={15}>
+                <Segment><Header as="h4" textAlign="center">Owner</Header>
+                  <Item.Group divided>
+                    {/* eslint-disable-next-line max-len */}
+                    {this.props.teams.map((teams) => <YourTeamsCard key={teams._id} teams={teams}
+                                                                    teamParticipants={getTeamParticipants(teams._id,
+                                                                        this.props.teamParticipants)}
+                                                                    teamInvitation={this.props.teamInvitation} />)}
+                  </Item.Group></Segment>
+              </Grid.Column>)
+          }
+          {this.props.memberTeams.length === 0 ? '' : (
+              <Grid.Column width={15}>
+                <Segment><Header as="h4" textAlign="center">Member</Header>
+                  <Item.Group divided>
+                    {this.props.memberTeams.map((team) => <MemberTeamCard key={team._id}
+                                                                          team={team}
+                                                                          teamParticipants={getTeamParticipants(
+                                                                              team._id,
+                                                                              this.props.teamParticipants,
+                                                                          )} />)}
+                  </Item.Group></Segment>
+              </Grid.Column>
+          )
+          }
         </Grid>
     );
   }
@@ -89,6 +111,9 @@ class YourTeamsWidget extends React.Component {
 YourTeamsWidget.propTypes = {
   participant: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
+  memberTeams: PropTypes.arrayOf(
+      PropTypes.object,
+  ).isRequired,
   teamParticipants: PropTypes.array.isRequired,
   participants: PropTypes.array.isRequired,
   teamInvitation: PropTypes.array.isRequired,
@@ -97,7 +122,9 @@ YourTeamsWidget.propTypes = {
 
 export default withTracker(() => {
   const participant = Participants.findDoc({ userID: Meteor.userId() });
-  const teams = Teams.find({ owner: Participants.findDoc({ userID: Meteor.userId() })._id }).fetch();
+  const participantID = participant._id;
+  const teams = Teams.find({ owner: participantID }).fetch();
+  const memberTeams = _.map(TeamParticipants.find({ participantID }).fetch(), (tp) => Teams.findDoc(tp.teamID));
   const participants = Participants.find({}).fetch();
   const teamParticipants = TeamParticipants.find({}).fetch();
   const teamInvitation = TeamInvitations.find({}).fetch();
@@ -105,6 +132,7 @@ export default withTracker(() => {
   return {
     participant,
     teams,
+    memberTeams,
     participants,
     teamParticipants,
     teamInvitation,
