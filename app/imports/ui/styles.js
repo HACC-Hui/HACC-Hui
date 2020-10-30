@@ -9,8 +9,8 @@ export const darkerBlueStyle = {
 export const footer = {
   backgroundColor: '#124884',
   color: 'white',
-  paddingTop: 10,
-  paddingBottom: 10,
+  paddingTop: 15,
+  paddingBottom: 15,
 };
 export const greyStyle = {
   backgroundColor: '#C4C4C4',
