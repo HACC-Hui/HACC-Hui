@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Segment, Form } from 'semantic-ui-react';
+import { Header, Segment, Form, Container, Card } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import {
   AutoForm,
@@ -15,6 +15,7 @@ import swal from 'sweetalert';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import { Suggestions } from '../../../api/suggestions/SuggestionCollection';
+import { paleBlueStyle } from '../../styles';
 
 class SuggestToolSkillWidget extends React.Component {
   constructor(props) {
@@ -60,19 +61,29 @@ class SuggestToolSkillWidget extends React.Component {
     const formSchema = new SimpleSchema2Bridge(schema);
     const firstname = model.firstName;
     return (
-        <Segment>
-          <Header dividing>Hello {firstname}, please fill out the form to suggest a new tool or skill. </Header>
+        <Container style={{ paddingBottom: '50px', paddingTop: '40px' }}>
+        <Segment style = { paleBlueStyle }>
+          {/* eslint-disable-next-line max-len */}
+          <Header as="h2" textAlign="center">Hello {firstname}, please fill out the form to
+            suggest a new tool or skill. </Header>
+          <Card fluid>
           <AutoForm ref={ref => {
             fRef = ref;
           }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}>
-            <Form.Group widths="equal">
+            <Form.Group widths="equal" style={{ paddingRight: '10px', paddingLeft: '10px',
+              paddingTop: '10px', paddingBottom: '10px' }}>
               <SelectField name="type" />
               <TextField name="name" />
               <TextField name="description" />
             </Form.Group>
-            <SubmitField />
+            <SubmitField style={{
+  display: 'block',
+  marginLeft: 'auto', marginRight: 'auto', marginBottom: '10px',
+}}/>
           </AutoForm>
+          </Card>
         </Segment>
+        </Container>
     );
   }
 }
