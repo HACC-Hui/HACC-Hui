@@ -2,7 +2,9 @@ import React from 'react';
 import { Button, Segment } from 'semantic-ui-react';
 import { ZipZap } from 'meteor/udondan:zipzap';
 import moment from 'moment';
-import { dumpDatabaseMethod } from '../../../api/base/BaseCollection.methods';
+import swal from 'sweetalert';
+
+import { dumpDatabaseMethod, dumpTeamCSVMethod } from '../../../api/base/BaseCollection.methods';
 
 export const databaseFileDateFormat = 'YYYY-MM-DD-HH-mm-ss';
 
@@ -21,10 +23,26 @@ class DumpDatabase extends React.Component {
     });
   }
 
+  handleDumpTeamCSV() {
+    dumpTeamCSVMethod.call((error, result) => {
+      if (error) {
+        swal('Error', error.message, 'error');
+      } else {
+        // console.log(result);
+        const zip = new ZipZap();
+        const dir = 'hacchui-teams';
+        const fileName = `${dir}/${moment(result.timestamp).format(databaseFileDateFormat)}-teams.txt`;
+        zip.file(fileName, result.result);
+        zip.saveAs(`${dir}.zip`);
+      }
+    });
+  }
+
   render() {
     return (
     <Segment>
       <Button positive={true} onClick={this.handleClick}>Dump the Database</Button>
+      <Button positive={true} onClick={this.handleDumpTeamCSV}>Dump the Teams</Button>
     </Segment>
     );
   }
