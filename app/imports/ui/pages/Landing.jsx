@@ -51,7 +51,7 @@ class Landing extends React.Component {
             <Image centered size='medium' src='/images/hacc.png' />
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row style={{ backgroundColor: '#E5F0FE'}}>
+        <Grid.Row style={{ backgroundColor: '#E5F0FE' }}>
           <Grid.Column
             width={8}
             style={{
@@ -87,7 +87,7 @@ class Landing extends React.Component {
             </p>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row style={{ backgroundColor: '#E5F0FE', marginBottom: 15}}>
+        <Grid.Row style={{ backgroundColor: '#E5F0FE', marginBottom: 15 }}>
           <Grid.Column
             width={8}
             style={{
