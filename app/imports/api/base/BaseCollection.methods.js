@@ -69,12 +69,12 @@ export const dumpTeamCSVMethod = new ValidatedMethod({
         const tps = TeamParticipants.find({ teamID }).fetch();
         const members = tps.map((tp) => {
           const fullName = Participants.getFullName(tp.participantID);
-          const minor = MinorParticipants.isDefined(tp.participantID) ? 'M' : 'A';
+          const minor = MinorParticipants.find({ participantID: tp.participantID }).fetch().length > 0 ? 'M' : 'A';
           return `${fullName} ${minor}`;
         });
         row.push(members.join(', '));
         const captain = Participants.getFullName(team.owner);
-        const captainMinor = MinorParticipants.isDefined(team.owner) ? 'M' : 'A';
+        const captainMinor = MinorParticipants.find({ participantID: team.owner }).fetch().length > 0 ? 'M' : 'A';
         row.push(`${captain} ${captainMinor}`);
         result += row.join('\t');
         result += '\r\n';
