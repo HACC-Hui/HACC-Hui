@@ -44,6 +44,7 @@ import BestFitTeamDisplay from '../pages/participant/BestFitTeamDisplay';
 import UpdateMinorParticipantsCompliant from '../pages/administrator/UpdateMinorParticipantsCompliant';
 import HelpPage from '../pages/HelpPage';
 import InterestedParticipantPage from '../pages/participant/InterestedParticipantPage';
+import AllTeamInvitationsPage from '../pages/administrator/AllTeamInvitationsPage';
 
 /* global window */
 /**
@@ -111,6 +112,7 @@ class App extends React.Component {
           <AdminProtectedRoute path={ROUTES.DUMP_DATABASE} component={DumpDatabase} />
           <AdminProtectedRoute path={ROUTES.ADMIN_EDIT_TEAM} component={AdminEditTeamPage} />
           <AdminProtectedRoute path={ROUTES.VIEW_TEAMS} component={ViewTeamsPage} />
+          <AdminProtectedRoute path={ROUTES.ALL_TEAM_INVITATIONS} component={AllTeamInvitationsPage} />
           <Route component={NotFound} />
         </Switch>
     );

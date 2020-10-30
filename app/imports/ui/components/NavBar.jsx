@@ -112,6 +112,10 @@ class NavBar extends React.Component {
                 //            key={ROUTES.SHOW_MINORS}>Show Minors</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
+                           exact to={ROUTES.ALL_TEAM_INVITATIONS}
+                           key={ROUTES.ALL_TEAM_INVITATIONS}>View All Team Invitations</Menu.Item>,
+                <Menu.Item as={NavLink}
+                           activeClassName="active"
                            exact
                            to={ROUTES.DUMP_DATABASE}
                            key={ROUTES.DUMP_DATABASE}>Dump Database</Menu.Item>,
