@@ -12,6 +12,7 @@ import { Tools } from '../../../api/tool/ToolCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { Teams } from '../../../api/team/TeamCollection';
+import { paleBlueStyle } from '../../styles';
 
 const getTeam = (teamID) => Teams.findDoc(teamID);
 
@@ -46,7 +47,7 @@ const getTeamMembers = (team) => {
 class ListTeamsWidget extends React.Component {
   render() {
     return (
-        <Grid celled>
+        <Grid celled style={paleBlueStyle}>
           <Grid.Row columns={7}>
             <Grid.Column>
               <Header>Name</Header>

@@ -11,6 +11,7 @@ import { ROUTES } from '../../startup/client/route-constants';
 import { Participants } from '../../api/user/ParticipantCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { Suggestions } from '../../api/suggestions/SuggestionCollection';
+import { CanCreateTeams } from '../../api/team/CanCreateTeamCollection';
 // import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
 
 /**
@@ -19,12 +20,13 @@ import { Suggestions } from '../../api/suggestions/SuggestionCollection';
  */
 class NavBar extends React.Component {
   render() {
-    let isCompliant = true;
+    // console.log(this.props);
+    let isCompliant = this.props.canCreateTeams;
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isParticipant = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
     if (isParticipant) {
       const participant = Participants.findDoc({ userID: Meteor.userId() });
-      isCompliant = participant.isCompliant;
+      isCompliant = isCompliant && participant.isCompliant;
     }
 
     const numParticipants = Participants.count();
@@ -55,10 +57,9 @@ class NavBar extends React.Component {
                            activeClassName="active"
                            exact
                            to={ROUTES.BEST_FIT}
-                           key='list-teams'>Best Fit Teams ({numTeams})</Menu.Item>,
+                           key='list-teams'>Open Teams ({numTeams})</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
-                           disabled={!isCompliant}
                            exact
                            to={ROUTES.YOUR_TEAMS}
                            key='your-teams'>Your
@@ -163,11 +164,13 @@ class NavBar extends React.Component {
 // Declare the types of all properties.
 NavBar.propTypes = {
   currentUser: PropTypes.string,
+  canCreateTeams: PropTypes.bool,
 };
 
 // withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
 const NavBarContainer = withTracker(() => ({
   currentUser: Meteor.user() ? Meteor.user().username : '',
+  canCreateTeams: CanCreateTeams.findOne().canCreateTeams,
 }))(NavBar);
 
 // Enable ReactRouter for this component. https://reacttraining.com/react-router/web/api/withRouter

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header, Table, Button } from 'semantic-ui-react';
+import { Grid, Segment, Header, Table, Button, Radio } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -10,6 +10,8 @@ import { ROUTES } from '../../../startup/client/route-constants';
 import SkillsAdminWidget from './SkillsAdminWidget';
 import ChallengesAdminWidget from './ChallengesAdminWidget';
 import ToolsAdminWidget from './ToolsAdminWidget';
+import { updateMethod } from '../../../api/base/BaseCollection.methods';
+import { CanCreateTeams } from '../../../api/team/CanCreateTeamCollection';
 
 /**
  * Renders the Page for Managing HACC. **deprecated**
@@ -17,7 +19,25 @@ import ToolsAdminWidget from './ToolsAdminWidget';
  */
 class ManageHaccWidget extends React.Component {
 
+  state = { canCreateTeams: CanCreateTeams.findOne().canCreateTeams }
+
+  toggle = () => {
+    const { canCreateTeams } = this.state;
+    const doc = CanCreateTeams.findOne();
+    const updateData = {};
+    updateData.id = doc._id;
+    updateData.canCreateTeams = !canCreateTeams;
+    const collectionName = CanCreateTeams.getCollectionName();
+    updateMethod.call({ collectionName, updateData }, (error) => {
+      if (error) {
+        console.error(error);
+      }
+    });
+    this.setState((prevState) => ({ canCreateTeams: !prevState.canCreateTeams }));
+  }
+
   render() {
+    // console.log(HACCHui.canCreateTeams);
     return (
         <div style={{ paddingBottom: '50px' }}>
           <Grid container centered>
@@ -27,6 +47,9 @@ class ManageHaccWidget extends React.Component {
                 borderRadius: '2rem',
               }}>
                 <Header as="h2" textAlign="center">Manage HACC</Header>
+                <Header as="h5" textAlign="center"><Radio toggle label="Can Create Teams"
+                          checked={this.state.canCreateTeams}
+                          onChange={this.toggle} /></Header>
               </div>
               <Segment style={{
                 borderRadius: '1rem',

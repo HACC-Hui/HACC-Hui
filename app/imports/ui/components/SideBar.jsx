@@ -12,6 +12,7 @@ import { Participants } from '../../api/user/ParticipantCollection';
 import { Teams } from '../../api/team/TeamCollection';
 import { Suggestions } from '../../api/suggestions/SuggestionCollection';
 import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
+import { HACCHui } from '../../api/hacc-hui/HACCHui';
 
 /**
  * The SideBar appears on the side of every page. Rendered by the App Layout component.
@@ -27,12 +28,12 @@ class SideBar extends React.Component {
 
   render() {
 
-    let isCompliant = true;
+    let isCompliant = HACCHui.canCreateTeams;
     const isAdmin = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN);
     const isParticipant = this.props.currentUser && Roles.userIsInRole(Meteor.userId(), ROLE.PARTICIPANT);
     if (isParticipant) {
       const participant = Participants.findDoc({ userID: Meteor.userId() });
-      isCompliant = participant.isCompliant;
+      isCompliant = isCompliant && participant.isCompliant;
     }
 
     const numParticipants = Participants.count();
