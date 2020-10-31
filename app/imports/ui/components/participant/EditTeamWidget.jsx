@@ -162,7 +162,7 @@ class EditTeamWidget extends React.Component {
                         have to use the same name</Header>
                     </Message>
                     <Grid className='doubleLine'>
-                      <TextField name='name' disabled />
+                      <TextField name='name' />
                       <RadioField
                           name='open'
                           inline
