@@ -56,7 +56,7 @@ export const dumpTeamCSVMethod = new ValidatedMethod({
     }
     if (Meteor.isServer) {
       let result = '';
-      const headerArr = ['Team Name', 'Challenge(s)', 'Members', 'Captain'];
+      const headerArr = ['Team Name', 'Challenge(s)', 'Members', 'Captain', 'Affiliation'];
       result += headerArr.join('\t');
       result += '\r\n';
       const teams = Teams.find({}).fetch();
@@ -76,6 +76,7 @@ export const dumpTeamCSVMethod = new ValidatedMethod({
         const captain = Participants.getFullName(team.owner);
         const captainMinor = MinorParticipants.find({ participantID: team.owner }).fetch().length > 0 ? 'M' : 'A';
         row.push(`${captain} ${captainMinor}`);
+        row.push(`${team.affiliation}`);
         result += row.join('\t');
         result += '\r\n';
       });
