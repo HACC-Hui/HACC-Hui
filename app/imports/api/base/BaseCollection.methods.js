@@ -86,7 +86,7 @@ export const dumpTeamCSVMethod = new ValidatedMethod({
       result += '\r\n';
       const allParticipants = Participants.find({}).fetch();
       const teamParticipants = TeamParticipants.find({}).fetch();
-      const teamParticipantIDs = _.uniq(_.map(teamParticipants, (tp) => tp._id));
+      const teamParticipantIDs = _.uniq(_.map(teamParticipants, (tp) => tp.participantID));
       const notOnTeams = _.filter(allParticipants, (p) => !_.includes(teamParticipantIDs, p._id));
       const notOnTeamsNames = _.map(notOnTeams, (p) => Participants.getFullName(p._id));
       result += `Participants Not On a Team (${notOnTeams.length})\r\n`;
