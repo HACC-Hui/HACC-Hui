@@ -56,7 +56,7 @@ export const dumpTeamCSVMethod = new ValidatedMethod({
     }
     if (Meteor.isServer) {
       let result = '';
-      const headerArr = ['Team Name', 'Challenge(s)', 'Members', 'Captain'];
+      const headerArr = ['Team Name', 'Challenge(s)', 'Members', 'Captain', 'Captain Email', 'Affiliation'];
       result += headerArr.join('\t');
       result += '\r\n';
       const teams = Teams.find({}).fetch();
@@ -69,13 +69,15 @@ export const dumpTeamCSVMethod = new ValidatedMethod({
         const tps = TeamParticipants.find({ teamID }).fetch();
         const members = tps.map((tp) => {
           const fullName = Participants.getFullName(tp.participantID);
-          const minor = MinorParticipants.isDefined(tp.participantID) ? 'M' : 'A';
+          const minor = MinorParticipants.find({ participantID: tp.participantID }).fetch().length > 0 ? 'M' : 'A';
           return `${fullName} ${minor}`;
         });
         row.push(members.join(', '));
         const captain = Participants.getFullName(team.owner);
-        const captainMinor = MinorParticipants.isDefined(team.owner) ? 'M' : 'A';
+        const captainMinor = MinorParticipants.find({ participantID: team.owner }).fetch().length > 0 ? 'M' : 'A';
         row.push(`${captain} ${captainMinor}`);
+        row.push(Participants.findDoc(team.owner).username);
+        row.push(`${team.affiliation}`);
         result += row.join('\t');
         result += '\r\n';
       });
