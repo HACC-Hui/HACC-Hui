@@ -79,6 +79,18 @@ export const dumpTeamCSVMethod = new ValidatedMethod({
         result += row.join('\t');
         result += '\r\n';
       });
+      // add the participants not on a team.
+      result += '\r\n';
+      result += '\r\n';
+      const allParticipants = Participants.find({}).fetch();
+      const teamParticipants = TeamParticipants.find({}).fetch();
+      const teamParticipantIDs = _.uniq(_.map(teamParticipants, (tp) => tp._id));
+      const notOnTeams = _.filter(allParticipants, (p) => !_.includes(teamParticipantIDs, p._id));
+      const notOnTeamsNames = _.map(notOnTeams, (p) => Participants.getFullName(p._id));
+      result += `Participants Not On a Team (${notOnTeams.length})\r\n`;
+      _.forEach(notOnTeamsNames, (name) => {
+        result += `${name}\r\n`;
+      });
       const timestamp = new Date();
       return { timestamp, result };
     }
