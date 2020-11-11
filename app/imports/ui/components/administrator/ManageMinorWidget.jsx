@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import { Grid, Segment, Header, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -10,7 +11,6 @@ import { MinorParticipants } from '../../../api/user/MinorParticipantCollection'
  * @memberOf ui/pages
  */
 class ManageMinorWidget extends React.Component {
-
   render() {
     console.log('ManageMinorWidget');
     return (
@@ -22,6 +22,7 @@ class ManageMinorWidget extends React.Component {
                 borderRadius: '2rem',
               }}>
                 <Header as="h2" textAlign="center" inverted>Minor Participant</Header>
+                <Header as="h2" textAlign="center" inverted>{this.props.minorParticipants.size(minorParticipants)}</Header>
               </div>
               <Segment style={{
                 borderRadius: '1rem',
