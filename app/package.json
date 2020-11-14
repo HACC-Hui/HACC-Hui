@@ -47,16 +47,14 @@
     "fast-check": "^2.1.0",
     "jsdoc": "^3.6.5",
     "puppeteer": "^5.2.1",
-    "sinon": "^9.0.3"
+    "sinon": "^9.0.3",
+    "testcafe": "^1.9.4"
   },
   "scripts": {
-    "start": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --settings ../config/settings.development.json --port 3400",
-    "start2": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --settings ../config/settings.development.json --port 3500",
+    "start": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --exclude-archs web.browser.legacy,web.cordova --settings ../config/settings.development.json --port 3400",
     "lint": "eslint --quiet --ext .jsx --ext .js ./imports",
-    "pretest": "npm run lint",
-    "test": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha --port 3500",
-    "test-no-lint": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha --port 3500",
-    "test-app": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --full-app --once --driver-package meteortesting:mocha --port 3500",
+    "test-unit": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --exclude-archs web.browser.legacy,web.cordova --once --driver-package meteortesting:mocha --port 3500",
+    "test-integration": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer meteor test --exclude-archs web.browser.legacy,web.cordova --full-app --once --driver-package meteortesting:mocha --port 3500",
     "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json",
     "move-docs": "cp -r ../docs/ ../../docusaurus/static/jsdoc/",
     "deploy": "cross-env DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy hacchui.meteorapp.com --settings ../config/settings.production.json"

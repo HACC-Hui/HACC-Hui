@@ -7,7 +7,12 @@ import { Administrators } from './AdministratorCollection';
 
 const xkpasswd = require('xkpasswd');
 
-const generatePassword = () => xkpasswd({ complexity: 1, separators: ':-.' });
+const generatePassword = () => {
+  if (Meteor.settings.development) {
+    return 'changeme';
+  }
+  return xkpasswd({ complexity: 1, separators: ':-.' });
+};
 
 class UserCollection {
   constructor() {

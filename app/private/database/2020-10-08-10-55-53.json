@@ -5,11 +5,11 @@
       "name": "AdministratorCollection",
       "contents": [
         {
-          "username": "carleton.moore@gmail.com",
-          "firstName": "Carleton",
-          "lastName": "Moore"
+          "username": "admin@hacchui.ics.hawaii.edu",
+          "firstName": "Admin",
+          "lastName": "HACC-Hui"
         }
-       ]
+      ]
     },
     {
       "name": "ChallengeCollection",
@@ -18,7 +18,8 @@
           "title": "UH Building Security",
           "description": "Explore application designs to improve security for UH buildings with lower personnel costs.",
           "interests": [
-            "security", "mobile"
+            "security",
+            "mobile"
           ],
           "submissionDetail": "/challenges/challenge-building-security-app.pdf",
           "pitch": ""
@@ -27,7 +28,11 @@
           "title": "COVID-19 ChatBot",
           "description": "Implement a ChatBot to provide up-to-date information and encourage healthy behaviors regarding COVID-19.",
           "interests": [
-            "security", "community health", "mobile", "AI", "COVID-19"
+            "security",
+            "community health",
+            "mobile",
+            "AI",
+            "COVID-19"
           ],
           "submissionDetail": "/challenges/challenge-covid-19-chatbot.pdf",
           "pitch": ""
@@ -36,7 +41,8 @@
           "title": "Family Resource Directory",
           "description": "Provide an integrated portal to support services, resources, and benefits available to family and children by all governnment and non-profit agencies.",
           "interests": [
-            "community health", "recommendation engine"
+            "community health",
+            "recommendation engine"
           ],
           "submissionDetail": "/challenges/challenge-family-resource-directory.pdf",
           "pitch": ""
@@ -45,7 +51,10 @@
           "title": "Gamify Hawaii Historical Records Indexing",
           "description": "Design game mechanics to increase community interest in indexing historic records to improve research on personal history, heritage, and culture",
           "interests": [
-            "game design", "hawaiian history", "Java", "PostgreSQL"
+            "game design",
+            "hawaiian history",
+            "Java",
+            "PostgreSQL"
           ],
           "submissionDetail": "/challenges/challenge-gamification-of-crowdsourced-indexing.pdf",
           "pitch": ""
@@ -54,7 +63,8 @@
           "title": "Hawaii State IT Visualization",
           "description": "Provide a visualization tool for public access to the State of Hawaii's portfolio of major IT software systems and application.",
           "interests": [
-            "data visualization", "information technology"
+            "data visualization",
+            "information technology"
           ],
           "submissionDetail": "/challenges/challenge-it-portfolio-and-mapping.pdf",
           "pitch": ""
@@ -63,7 +73,10 @@
           "title": "UH campus occupancy visualization",
           "description": "Use WiFi access point data to visualize and interpret campus occupancy trends to better support health and safety during COVID-19.",
           "interests": [
-            "data visualization", "data science", "privacy", "COVID-19"
+            "data visualization",
+            "data science",
+            "privacy",
+            "COVID-19"
           ],
           "submissionDetail": "/challenges/challenge-visualizing-occupancy-trends.pdf",
           "pitch": ""
@@ -88,9 +101,219 @@
           "firstName": "Cam",
           "lastName": "Moore",
           "demographicLevel": "Professional",
-          "isCompliant": false,
+          "isCompliant": true,
           "linkedIn": "https://www.linkedin.com/in/cam-moore-9a5213/",
           "gitHub": "https://github.com/cammoore",
+          "challenges": [
+          ],
+          "interests": [
+          ],
+          "skills": [
+          ],
+          "tools": [
+          ]
+        },
+        {
+          "username": "aunggum@hawaii.edu",
+          "firstName": "Gum",
+          "lastName": "Aung",
+          "demographicLevel": "College",
+          "isCompliant": true,
+          "linkedIn": "https://www.linkedin.com/in/gum-aung-7a814b178/",
+          "gitHub": "https://github.com/gumsanaung/",
+          "challenges": [
+            "gamify-hawaii-historical-records-indexing"
+          ],
+          "interests": [
+          ],
+          "skills": [
+          ],
+          "tools": [
+          ]
+        },
+        {
+          "username": "jhsu2@hawaii.edu",
+          "firstName": "Jenny",
+          "lastName": "Hsu",
+          "demographicLevel": "College",
+          "isCompliant": true,
+          "linkedIn": "https://www.linkedin.com/in/jennifer-hsu-6788b9153/",
+          "gitHub": "https://github.com/jhsuP",
+          "challenges": [
+            "gamify-hawaii-historical-records-indexing"
+          ],
+          "interests": [
+          ],
+          "skills": [
+            "videography",
+            "user-interface-design",
+            "team-management"
+          ],
+          "tools": [
+            "javascript",
+            "python",
+            "react",
+            "meteor",
+            "mongodb",
+            "react-native"
+          ]
+        },
+        {
+          "username": "kentung@hawaii.edu",
+          "firstName": "Ken",
+          "lastName": "Tung",
+          "demographicLevel": "College",
+          "isCompliant": true,
+          "linkedIn": "",
+          "gitHub": "https://github.com/ken-10",
+          "challenges": [
+            "gamify-hawaii-historical-records-indexing"
+          ],
+          "interests": [
+          ],
+          "skills": [
+          ],
+          "tools": [
+          ]
+        },
+        {
+          "username": "arslanr@hawaii.edu",
+          "firstName": "Arslan",
+          "lastName": "Rakhmankulov",
+          "demographicLevel": "College",
+          "isCompliant": true,
+          "linkedIn": "https://www.linkedin.com/in/arslan-rakhmankulov/",
+          "gitHub": "https://github.com/arslan-r",
+          "challenges": [
+            "gamify-hawaii-historical-records-indexing"
+          ],
+          "interests": [
+          ],
+          "skills": [
+          ],
+          "tools": [
+          ]
+        },
+        {
+          "username": "tasumida@hawaii.edu",
+          "firstName": "Trey Allen",
+          "lastName": "Sumida",
+          "demographicLevel": "College",
+          "isCompliant": true,
+          "linkedIn": "https://www.linkedin.com/in/trey-allen-sumida-564305192/",
+          "gitHub": "https://github.com/trey-sumida",
+          "challenges": [
+            "gamify-hawaii-historical-records-indexing"
+          ],
+          "interests": [
+          ],
+          "skills": [
+            "user-interface-design"
+          ],
+          "tools": [
+            "python",
+            "dart",
+            "django",
+            "react",
+            "flutter"
+          ]
+        },
+        {
+          "username": "aamascua@hawaii.edu",
+          "firstName": "Angeli",
+          "lastName": "Amascual",
+          "demographicLevel": "College",
+          "isCompliant": true,
+          "linkedIn": "https://www.linkedin.com/in/angeliamascual/",
+          "gitHub": "https://github.com/angeli-amascual",
+          "aboutMe": "Hi, I'm a fourth-year Computer Science Major at UH Manoa.",
+          "challenges": [
+            "family-resource-directory"
+          ],
+          "interests": [
+          ],
+          "skills": [
+            "user-interface-design",
+            "team-management"
+          ],
+          "tools": [
+            "java",
+            "javascript",
+            "cc",
+            "meteor",
+            "react",
+            "mongodb",
+            "react-native"
+          ]
+        },
+        {
+          "username": "jiangyuh@hawaii.edu",
+          "firstName": "Yuhan",
+          "lastName": "Jiang",
+          "demographicLevel": "College",
+          "isCompliant": true,
+          "linkedIn": "https://www.linkedin.com/in/yuhanjiang/",
+          "gitHub": "https://github.com/yuhanj",
+          "challenges": [
+          ],
+          "interests": [
+          ],
+          "skills": [
+            "data-visualization"
+          ],
+          "tools": [
+            "swift"
+          ]
+        },
+        {
+          "username": "heweiron@hawaii.edu",
+          "firstName": "Weirong",
+          "lastName": "He",
+          "demographicLevel": "College",
+          "isCompliant": true,
+          "gitHub": "https://github.com/heweiron",
+          "challenges": [
+            "uh-building-security"
+          ],
+          "interests": [
+          ],
+          "skills": [
+            "user-interface-design",
+            "data-science"
+          ],
+          "tools": [
+            "swift"
+          ]
+        },
+        {
+          "username": "tianhui@hawaii.edu",
+          "firstName": "Tianhui",
+          "lastName": "Zhou",
+          "demographicLevel": "College",
+          "isCompliant": true,
+          "gitHub": "tianhuizhou",
+          "challenges": [
+            "uh-building-security"
+          ],
+          "interests": [
+          ],
+          "skills": [
+            "user-interface-design"
+          ],
+          "tools": [
+            "cc",
+            "swift",
+            "javascript",
+            "mysql"
+          ]
+        },
+        {
+          "username": "gsummey@hotmail.com",
+          "firstName": "Garth",
+          "lastName": "Summey",
+          "isCompliant": true,
+          "gitHub": "gsummey",
+          "linkedIn": "https://www.linkedin.com/in/garth-summey/",
           "challenges": [
           ],
           "interests": [
@@ -168,48 +391,208 @@
     {
       "name": "TeamCollection",
       "contents": [
+        {
+          "name":  "ByteCryb",
+          "description": "Team of 5 UHM Computer Science Undergraduates",
+          "owner": "aunggum@hawaii.edu",
+          "open": true,
+          "affiliation": "UHM",
+          "challenges": ["gamify-hawaii-historical-records-indexing"],
+          "participants": [
+            "aunggum@hawaii.edu",
+            "jhsu2@hawaii.edu",
+            "kentung@hawaii.edu",
+            "arslanr@hawaii.edu",
+            "tasumida@hawaii.edu"
+          ],
+          "skills": [],
+          "tools": [],
+          "gitHubRepo" : "https://github.com/HACC2020/ByteCryb",
+          "devPostPage" : "https://devpost.com/software/project-clio"
+        },
+        {
+          "name" : "Trigeeks",
+          "description" : "We are a team of three trying to make a satisfying product.",
+          "owner": "jiangyuh@hawaii.edu",
+          "open": false,
+          "affiliation": "UHM",
+          "challenges": ["uh-building-security"],
+          "participants": [
+            "jiangyuh@hawaii.edu",
+            "heweiron@hawaii.edu",
+            "tianhui@hawaii.edu"
+          ],
+          "skills": [],
+          "tools": [],
+          "gitHubRepo" : "https://github.com/HACC2020/Trigeeks"
+        },
+        {
+          "name" : "Lokahi",
+          "description" : "Solo team to build visualization tool for IT department.",
+          "owner": "gsummey@hotmail.com",
+          "open": false,
+          "affiliation": "UHM",
+          "challenges": ["hawaii-state-it-visualization"],
+          "participants": [
+            "gsummey@hotmail.com"
+          ],
+          "skills": [],
+          "tools": [],
+          "gitHubRepo" : "https://github.com/HACC2020/Lokahi"
+        }
       ]
     },
     {
       "name": "ToolCollection",
       "contents": [
-        { "name": "Java",  "description": "Programming Language" },
-        { "name": "Python",  "description": "Programming Language" },
-        { "name": "Javascript",  "description": "Programming Language" },
-        { "name": "C#",  "description": "Programming Language" },
-        { "name": "C/C++",  "description": "Programming Language" },
-        { "name": "Swift",  "description": "Programming Language" },
-        { "name": "PHP",  "description": "Programming Language" },
-        { "name": "Dart",  "description": "Programming Language" },
-        { "name": "Django",  "description": "Web Application Framework" },
-        { "name": "Rails",  "description": "Web Application Framework" },
-        { "name": "Angular",  "description": "Web Application Framework" },
-        { "name": "Laravel",  "description": "Web Application Framework" },
-        { "name": "Express",  "description": "Web Application Framework" },
-        { "name": "ASP/.NET",  "description": "Web Application Framework" },
-        { "name": "React",  "description": "Web Application Framework" },
-        { "name": "Vue",  "description": "Web Application Framework" },
-        { "name": "Spring",  "description": "Web Application Framework" },
-        { "name": "Meteor", "description": "Web Application Framework" },
-        { "name": "Postgres", "description": "Database" },
-        { "name": "Oracle", "description": "Database" },
-        { "name": "MySQL", "description": "Database" },
-        { "name": "MongoDB", "description": "Database" },
-        { "name": "MS Azure SQL", "description": "Database" },
-        { "name": "Flutter", "description": "Mobile Development" },
-        { "name": "React Native", "description": "Mobile Development" },
-        { "name": "Ionic", "description": "Mobile Development" },
-        { "name": "Android", "description": "Mobile Development" },
-        { "name": "Xamarin", "description": "Mobile Development" },
-        { "name": "Tableau", "description": "Data Visualization" },
-        { "name": "D3", "description": "Data Visualization" },
-        { "name": "Google Charts", "description": "Data Visualization" },
-        { "name": "Processing", "description": "Data Visualization" },
-        { "name": "R", "description": "Data Visualization" },
-        { "name": "Jupyter", "description": "Data Visualization" },
-        { "name": "Google Maps", "description": "Map-based Visualization" },
-        { "name": "Open Layers", "description": "Map-based Visualization" },
-        { "name": "Leaflet", "description": "Map-based Visualization" }
+        {
+          "name": "Java",
+          "description": "Programming Language"
+        },
+        {
+          "name": "Python",
+          "description": "Programming Language"
+        },
+        {
+          "name": "Javascript",
+          "description": "Programming Language"
+        },
+        {
+          "name": "C#",
+          "description": "Programming Language"
+        },
+        {
+          "name": "C/C++",
+          "description": "Programming Language"
+        },
+        {
+          "name": "Swift",
+          "description": "Programming Language"
+        },
+        {
+          "name": "PHP",
+          "description": "Programming Language"
+        },
+        {
+          "name": "Dart",
+          "description": "Programming Language"
+        },
+        {
+          "name": "Django",
+          "description": "Web Application Framework"
+        },
+        {
+          "name": "Rails",
+          "description": "Web Application Framework"
+        },
+        {
+          "name": "Angular",
+          "description": "Web Application Framework"
+        },
+        {
+          "name": "Laravel",
+          "description": "Web Application Framework"
+        },
+        {
+          "name": "Express",
+          "description": "Web Application Framework"
+        },
+        {
+          "name": "ASP/.NET",
+          "description": "Web Application Framework"
+        },
+        {
+          "name": "React",
+          "description": "Web Application Framework"
+        },
+        {
+          "name": "Vue",
+          "description": "Web Application Framework"
+        },
+        {
+          "name": "Spring",
+          "description": "Web Application Framework"
+        },
+        {
+          "name": "Meteor",
+          "description": "Web Application Framework"
+        },
+        {
+          "name": "Postgres",
+          "description": "Database"
+        },
+        {
+          "name": "Oracle",
+          "description": "Database"
+        },
+        {
+          "name": "MySQL",
+          "description": "Database"
+        },
+        {
+          "name": "MongoDB",
+          "description": "Database"
+        },
+        {
+          "name": "MS Azure SQL",
+          "description": "Database"
+        },
+        {
+          "name": "Flutter",
+          "description": "Mobile Development"
+        },
+        {
+          "name": "React Native",
+          "description": "Mobile Development"
+        },
+        {
+          "name": "Ionic",
+          "description": "Mobile Development"
+        },
+        {
+          "name": "Android",
+          "description": "Mobile Development"
+        },
+        {
+          "name": "Xamarin",
+          "description": "Mobile Development"
+        },
+        {
+          "name": "Tableau",
+          "description": "Data Visualization"
+        },
+        {
+          "name": "D3",
+          "description": "Data Visualization"
+        },
+        {
+          "name": "Google Charts",
+          "description": "Data Visualization"
+        },
+        {
+          "name": "Processing",
+          "description": "Data Visualization"
+        },
+        {
+          "name": "R",
+          "description": "Data Visualization"
+        },
+        {
+          "name": "Jupyter",
+          "description": "Data Visualization"
+        },
+        {
+          "name": "Google Maps",
+          "description": "Map-based Visualization"
+        },
+        {
+          "name": "Open Layers",
+          "description": "Map-based Visualization"
+        },
+        {
+          "name": "Leaflet",
+          "description": "Map-based Visualization"
+        }
       ]
     }
   ]
