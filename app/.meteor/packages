@@ -5,19 +5,19 @@
 # but you can also edit it by hand.
 
 # Core packages for Meteor/React/Semantic UI
-meteor-base@1.4.0                # Packages every Meteor app needs to have
+meteor-base@1.5.1                # Packages every Meteor app needs to have
 mobile-experience@1.1.0          # Packages for a great mobile UX
-mongo@1.10.0                     # The database Meteor supports right now
+mongo@1.12.0                     # The database Meteor supports right now
 static-html                      # Define static page content in .html files
 reactive-var@1.0.11              # Reactive variable for tracker
-standard-minifier-css@1.6.0      # CSS minifier run for production mode
+standard-minifier-css@1.7.3      # CSS minifier run for production mode
 es5-shim@4.8.0                   # ECMAScript 5 compatibility for older browsers
-ecmascript@0.14.3                # Enable ECMAScript2015+ syntax in app code
-typescript@3.7.6                 # Enable TypeScript syntax in .ts and .tsx modules
+ecmascript@0.15.2                # Enable ECMAScript2015+ syntax in app code
+typescript@4.3.2                 # Enable TypeScript syntax in .ts and .tsx modules
 shell-server@0.5.0               # Server-side component of the `meteor shell` command
 
 # Accounts
-accounts-password@1.6.0          # https://guide.meteor.com/accounts.html
+accounts-password@2.0.0          # https://guide.meteor.com/accounts.html
 
 # Collection support
 aldeed:collection2-core          # Integrate node simpl-schema with Meteor collections.
