@@ -29,6 +29,7 @@ class ListParticipantsWidget extends React.Component {
     this.state = {
       search: '',
       challenges: [],
+      teams: [],
       tools: [],
       skills: [],
       result: _.orderBy(this.props.participants, ['name'], ['asc']),
@@ -103,6 +104,14 @@ class ListParticipantsWidget extends React.Component {
     const getChallenge = (event, { value }) => {
       this.setState({
         challenges: value,
+      }, () => {
+        setFilters();
+      });
+    };
+
+    const getTeam = (event, { value }) => {
+      this.setState({
+        teams: value,
       }, () => {
         setFilters();
       });
@@ -185,6 +194,18 @@ class ListParticipantsWidget extends React.Component {
                          onChange={handleSearchChange}
                          fluid
                   />
+                  <div style={{ paddingTop: '2rem' }}>
+                    <Header>Teams</Header>
+                    <Dropdown
+                      placeholder='Teams'
+                      fluid
+                      multiple
+                      search
+                      selection
+                      options={filters.dropdownValues(this.props.teams, 'name')}
+                      onChange={getTeam}
+                    />
+                  </div>
 
                   <div style={{ paddingTop: '2rem' }}>
                     <Header>Challenges</Header>

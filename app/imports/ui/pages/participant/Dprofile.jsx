@@ -28,6 +28,7 @@ const schema = new SimpleSchema({
 //  'challenges.$': { type: String, allowedValues: allChallenges },
   linkedIn: { type: String, optional: true },
   gitHub: { type: String, optional: true },
+  slackUsername: { type: String, optional: true },
   website: { type: String, optional: true },
   aboutMe: { type: String, optional: true },
   Agree: { type: Boolean, defaultValue: false },
@@ -387,6 +388,7 @@ class Dprofile extends React.Component {
                 </Grid>
                 <TextField name='linkedIn' />
                 <TextField name='gitHub' />
+                <TextField name='slackUsername' />
                 <TextField name='website' />
                 <LongTextField name='aboutMe' />
                 <SubmitField value='Submit' />

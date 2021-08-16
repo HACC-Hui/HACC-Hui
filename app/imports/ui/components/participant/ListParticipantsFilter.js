@@ -201,6 +201,57 @@ class ListParticipantsFilter {
   }
 
   /**
+   * Filters through the data based on the user selection. By default, if no option is selected it
+   * returns the original data
+   * @param value The inputs given
+   * @param allTeams All the available Teams
+   * @param participantTeam Each participants' Team(s)
+   * @param participant The participants
+   * @returns {[]|*} Returns the filtered array
+   */
+  filterByTeam(value, allTeams, participantTeam, participant) {
+
+    // if there are no tools selected
+    if (value.length === 0) {
+      return participant;
+    }
+
+    // convert from TeamName --> TeamID
+    const teamID = [];
+    for (let i = 0; i < value.length; i++) {
+      for (let j = 0; j < allTeams.length; j++) {
+        if (value[i] === allTeams[j].title) {
+          teamID.push(allTeams[j]._id);
+        }
+      }
+    }
+
+    // get participantIDs for those that have the Teams
+    let participantsWithTeam = [];
+    for (let i = 0; i < teamID.length; i++) {
+      for (let j = 0; j < participantTeam.length; j++) {
+        if (teamID[i] === participantTeam[j].TeamID) {
+          participantsWithTeam.push(participantTeam[j].participantID);
+        }
+      }
+    }
+
+    // Ensure there's no duplicate teamIDs
+    participantsWithTeam = _.uniq(participantsWithTeam);
+
+    // Get the filtered participants
+    const participants = [];
+    for (let i = 0; i < participantsWithTeam.length; i++) {
+      for (let j = 0; j < participant.length; j++) {
+        if (participantsWithTeam[i] === participant[j]._id) {
+          participants.push(participant[j]);
+        }
+      }
+    }
+    return participants;
+  }
+
+  /**
    * Supplies all the possible values to make it work with semantic UI's dropdown
    * @param data The values
    * @returns {Array} Returns an array that can be used by semantic UI's dropdown

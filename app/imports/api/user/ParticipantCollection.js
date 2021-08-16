@@ -31,6 +31,7 @@ class ParticipantCollection extends BaseSlugCollection {
       demographicLevel: { type: String, allowedValues: demographicLevels, optional: true },
       linkedIn: { type: String, optional: true },
       gitHub: { type: String, optional: true },
+      slackUsername: { type: String, optional: true },
       website: { type: String, optional: true },
       aboutMe: { type: String, optional: true },
       userID: { type: SimpleSchema.RegEx.Id, optional: true },
@@ -53,6 +54,7 @@ class ParticipantCollection extends BaseSlugCollection {
    * @param tools {Object[]} the tools the participant is interested in.
    * @param linkedIn {String} the participant's LinkedIn page (optional).
    * @param gitHub {String} the participant's GitHub page (optional).
+   * @param slackUsername {String} the participant's slack username (optional).
    * @param website {String} the participant's website (optional).
    * @param aboutMe {String} a short description.
    * @param isCompliant {Boolean} is the participant compliant.
@@ -61,7 +63,7 @@ class ParticipantCollection extends BaseSlugCollection {
   define({
            username, firstName, lastName, demographicLevel, lookingForTeam,
            challenges = [], interests = [], skills = [], tools = [],
-           linkedIn = '', gitHub = '', website = '', aboutMe = '',
+           linkedIn = '', gitHub = '', website = '', aboutMe = '', slackUsername = '',
            isCompliant = false,
          }) {
     if (Meteor.isServer) {
@@ -69,7 +71,7 @@ class ParticipantCollection extends BaseSlugCollection {
       const slugID = Slugs.define({ name: username }); // ensure the usernames are unique
       const profileID = this._collection.insert({
         username, slugID, firstName, lastName, demographicLevel,
-        lookingForTeam, linkedIn, gitHub, website, aboutMe, isCompliant,
+        lookingForTeam, linkedIn, gitHub, website, aboutMe, isCompliant, slackUsername,
       });
       Slugs.updateEntityID(slugID, profileID);
       const { userID, password } = Users.define({ username, role });
@@ -100,6 +102,7 @@ class ParticipantCollection extends BaseSlugCollection {
    * @param tools {String[]} the new tools (optional).
    * @param linkedIn {String} the new LinkedIn page (optional).
    * @param gitHub {String} the new GitHub page (optional).
+   * @param slackUsername {String} the participant's slack username (optional).
    * @param website {String} the new website (optional).
    * @param aboutMe {String} the new short description (optional).
    * @param isCompliant {Boolean} the new is compliant value (optional).
@@ -108,7 +111,7 @@ class ParticipantCollection extends BaseSlugCollection {
   update(docID, {
     firstName, lastName, demographicLevel, lookingForTeam, challenges,
     interests, skills, tools, linkedIn, gitHub, website,
-    aboutMe, isCompliant, editedProfile,
+    aboutMe, isCompliant, editedProfile, slackUsername,
   }) {
     // console.log('Participants.update', skills, tools);
     this.assertDefined(docID);
@@ -130,6 +133,9 @@ class ParticipantCollection extends BaseSlugCollection {
     }
     if (gitHub) {
       updateData.gitHub = gitHub;
+    }
+    if (slackUsername) {
+      updateData.slackUsername = slackUsername;
     }
     if (website) {
       updateData.website = website;

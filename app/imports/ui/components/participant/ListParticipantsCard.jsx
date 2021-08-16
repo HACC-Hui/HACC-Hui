@@ -149,7 +149,7 @@ class ListParticipantsCard extends React.Component {
                     </Grid.Column>
                     <Grid.Column>
                       <Header>Slack Username</Header>
-                      {this.props.participants.username}
+                      {this.props.participants.slackUsername}
                     </Grid.Column>
                     <Grid.Column>
                       <Button.Group style={{ backgroundColor: 'transparent' }}>
@@ -186,7 +186,7 @@ class ListParticipantsCard extends React.Component {
                     <a href={this.props.participants.linkedIn}>{this.props.participants.linkedIn}</a>
                   </Grid.Column>
                   <Grid.Column><Icon name="slack"/>Slack Username:<br/>
-                    <a href={this.props.participants.username}>{this.props.participants.username}</a>
+                    <a href={this.props.participants.slackUsername}>{this.props.participants.slackUsername}</a>
                   </Grid.Column>
                 </Grid>
                 <Divider hidden/>

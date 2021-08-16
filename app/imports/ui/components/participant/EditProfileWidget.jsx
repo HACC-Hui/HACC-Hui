@@ -51,6 +51,7 @@ class EditProfileWidget extends React.Component {
       demographicLevel: { type: String, allowedValues: demographicLevels, optional: true },
       linkedIn: { type: String, optional: true },
       gitHub: { type: String, optional: true },
+      slackUsername: { type: String, optional: true },
       website: { type: String, optional: true },
       aboutMe: { type: String, optional: true },
       userID: { type: SimpleSchema.RegEx.Id, optional: true },
@@ -119,6 +120,9 @@ class EditProfileWidget extends React.Component {
     if (data.gitHub) {
       updateData.gitHub = data.gitHub;
     }
+    if (data.slackUsername) {
+      updateData.slackUsername = data.slackUsername;
+    }
     if (data.website) {
       updateData.website = data.website;
     }
@@ -164,7 +168,7 @@ class EditProfileWidget extends React.Component {
                 <Header as="h2" textAlign="center">Edit Profile</Header>
               </div>
               <AutoForm schema={formSchema} model={model} onSubmit={data => {
-                console.log(data);
+                // console.log(data);
                 this.submitData(data);
               }}>
                 <Segment style={{
@@ -183,6 +187,7 @@ class EditProfileWidget extends React.Component {
                   <Form.Group widths="equal">
                     <TextField name="linkedIn" />
                     <TextField name="gitHub" />
+                    <TextField name="slackUsername" />
                   </Form.Group>
                   <Form.Group widths="equal">
                     <TextField name="website" />
