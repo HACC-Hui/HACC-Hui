@@ -1,5 +1,5 @@
 # Pull base Node image. Be sure that this Node version matches that of the Meteor bundle.
-FROM node:12.16.1
+FROM node:14.0.0
 
 # Create and set working directory for the container
 WORKDIR /hacchui
