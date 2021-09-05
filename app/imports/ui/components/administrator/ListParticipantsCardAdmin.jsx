@@ -15,7 +15,7 @@ class ListParticipantCardAdmin extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    // console.log(this.props);
+    console.log(this.props.teams);
 
     function changeBackground(e) {
       e.currentTarget.style.backgroundColor = '#fafafa';
@@ -40,14 +40,14 @@ class ListParticipantCardAdmin extends React.Component {
                 </Header>
               </Item.Header>
               <Item.Description>
-                  <Grid.Column>
-                    <Header>About Me</Header>
-                    {this.props.participants.aboutMe}
-                  </Grid.Column>
+                  {/*<Grid.Column>*/}
+                  {/*  <Header>About Me</Header>*/}
+                  {/*  {this.props.participants.aboutMe}*/}
+                  {/*</Grid.Column>*/}
                   <Divider hidden/>
-                  <Grid doubling stackable columns={5}>
+                  <Grid doubling stackable columns={6}>
                     <Grid.Column>
-                      <Header>Challenges</Header>
+                      <b>Challenges</b><br />
                       <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
                         {this.props.challenges.slice(0, 3).map((challenge, i) => <p
                             style={{ color: 'rgb(89, 119, 199)' }}
@@ -56,18 +56,22 @@ class ListParticipantCardAdmin extends React.Component {
                       </Grid.Column>
                     </Grid.Column>
                     <Grid.Column>
-                      <Header>Skills</Header>
+                      <b>Skills</b><br />
                       {this.props.skills.slice(0, 3).map((skill, i) => <p key={skill + i}>
                         {skill.name}</p>)}
                     </Grid.Column>
                     <Grid.Column>
-                      <Header>Tools</Header>
+                      <b>Tools</b><br />
                       {this.props.tools.slice(0, 3).map((tool, i) => <p key={tool + i}>
                         {tool.name}</p>)}
                     </Grid.Column>
                     <Grid.Column>
-                      <Header>Slack Username</Header>
+                      <b>Slack Username</b><br />
                       {this.props.participants.username}
+                    </Grid.Column>
+                    <Grid.Column>
+                      <b>GitHub</b><br />
+                      {this.props.participants.gitHub}
                     </Grid.Column>
                   </Grid>
               </Item.Description>
@@ -120,7 +124,7 @@ class ListParticipantCardAdmin extends React.Component {
                 <Grid.Column>
                   <Header dividing size="small">Teams</Header>
                   <List bulleted>
-                    {this.props.teams.map((team, i) => <List.Item key={team + i}>{team.name}</List.Item>)}
+                    {this.props.teams.map((team, i) => <List.Item key={team + i}>{team}</List.Item>)}
                   </List>
                 </Grid.Column>
               </Modal.Description>

@@ -180,6 +180,9 @@ class ListParticipantsWidgetAdmin extends React.Component {
       }
       return data;
     }
+    const filterStyle = {
+      paddingTop: 4,
+    };
     return (
       <div style={{ paddingBottom: '50px' }}>
         <Grid container doubling relaxed stackable centered>
@@ -197,7 +200,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
           </Grid.Row>
           <Grid.Column width={4}>
             <Segment style={sticky}>
-              <div style={{ paddingTop: '2rem' }}>
+              <div style={filterStyle}>
                 <Header>
                   <Header.Content>
                     Filter Participants
@@ -205,7 +208,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
                   </Header.Content>
                 </Header>
               </div>
-              <div style={{ paddingTop: '2rem' }}>
+              <div style={filterStyle}>
                 <Input icon='search'
                        iconPosition='left'
                        placeholder='Search by participants name...'
@@ -213,7 +216,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
                        fluid
                 />
 
-                <div style={{ paddingTop: '2rem' }}>
+                <div style={filterStyle}>
                   <Header>Teams</Header>
                   <Dropdown
                     placeholder='Teams'
@@ -226,7 +229,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
                   />
                 </div>
 
-                <div style={{ paddingTop: '2rem' }}>
+                <div style={filterStyle}>
                   <Header>Challenges</Header>
                   <Dropdown
                     placeholder='Challenges'
@@ -239,7 +242,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
                   />
                 </div>
               </div>
-              <div style={{ paddingTop: '2rem' }}>
+              <div style={filterStyle}>
                 <Header>Skills</Header>
                 <Dropdown placeholder='Skills'
                           fluid
@@ -250,7 +253,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
                           onChange={getSkills}
                 />
               </div>
-              <div style={{ paddingTop: '2rem' }}>
+              <div style={filterStyle}>
                 <Header>Tools</Header>
                 <Dropdown
                   placeholder='Tools'

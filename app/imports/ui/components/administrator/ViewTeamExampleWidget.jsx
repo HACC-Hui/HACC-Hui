@@ -26,7 +26,8 @@ class ViewTeamExampleWidget extends React.Component {
       }
       return data;
     }
-
+    const captain = allParticipants.filter(p => this.props.team.owner === p._id)[0];
+    console.log(this.props.team, captain);
     return (
         <Grid celled>
           <Grid.Row columns={4}>
@@ -35,6 +36,8 @@ class ViewTeamExampleWidget extends React.Component {
               <List>
                 {this.props.teamChallenges.map((c) => <List.Item key={c._id}>{c.title}</List.Item>)}
               </List>
+              <Header as="h4">Captain</Header>
+              {`${captain.firstName} ${captain.lastName}: ${captain.username}`}
             </Grid.Column>
             <Grid.Column>
               <List bulleted>
