@@ -200,6 +200,43 @@ class ListParticipantsFilterAdmin {
     return participants;
   }
 
+  filterByTeam(value, allTeams, teamParticipants, allParticipants) {
+    // do no filtering if no teams selected.
+    if (value.length === 0) {
+      return allParticipants;
+    }
+    // convert from team name to teamID
+    const teamID = [];
+    for (let i = 0; i < value.length; i++) {
+      for (let j = 0; j < allTeams.length; j++) {
+        if (value[i] === allTeams[j].name) {
+          teamID.push(allTeams[j]._id);
+        }
+      }
+    }
+    let teamsWithParticipants = [];
+    for (let i = 0; i < teamID.length; i++) {
+      for (let j = 0; j < teamParticipants.length; j++) {
+        if (teamID[i] === teamParticipants[j].teamID) {
+          teamsWithParticipants.push(teamParticipants[j].participantID);
+        }
+      }
+    }
+    // Ensure there's no duplicate participantIDs
+    teamsWithParticipants = _.uniq(teamsWithParticipants);
+
+    // Get the filtered participants
+    const participants = [];
+    for (let i = 0; i < teamsWithParticipants.length; i++) {
+      for (let j = 0; j < allParticipants.length; j++) {
+        if (teamsWithParticipants[i] === allParticipants[j]._id) {
+          participants.push(allParticipants[j]);
+        }
+      }
+    }
+    return participants;
+  }
+
   /**
    * Supplies all the possible values to make it work with semantic UI's dropdown
    * @param data The values

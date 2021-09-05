@@ -11,11 +11,11 @@ import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 
-class ListParticipantsCardAdmin extends React.Component {
-  state = {};
+class ListParticipantCardAdmin extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
+    // console.log(this.props);
 
     function changeBackground(e) {
       e.currentTarget.style.backgroundColor = '#fafafa';
@@ -35,6 +35,8 @@ class ListParticipantsCardAdmin extends React.Component {
                 <Header as={'h3'} style={{ color: '#263763', paddingTop: '1.5rem' }}>
                   <Icon name='user' size='tiny' />
                   {this.props.participants.firstName} {this.props.participants.lastName}
+                  {this.props.teams.length === 0 ? (<Item.Extra><Icon color='red' name='dont' />No team</Item.Extra>)
+                    : ''}
                 </Header>
               </Item.Header>
               <Item.Description>
@@ -115,6 +117,12 @@ class ListParticipantsCardAdmin extends React.Component {
                   </List>
                 </Grid.Column>
                 <Divider hidden/>
+                <Grid.Column>
+                  <Header dividing size="small">Teams</Header>
+                  <List bulleted>
+                    {this.props.teams.map((team, i) => <List.Item key={team + i}>{team.name}</List.Item>)}
+                  </List>
+                </Grid.Column>
               </Modal.Description>
             </Modal.Content>
           </Modal>
@@ -123,13 +131,14 @@ class ListParticipantsCardAdmin extends React.Component {
   }
 }
 
-ListParticipantsCardAdmin.propTypes = {
+ListParticipantCardAdmin.propTypes = {
   participantID: PropTypes.string.isRequired,
   skills: PropTypes.array.isRequired,
   tools: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
   participants: PropTypes.object.isRequired,
+  teams: PropTypes.array.isRequired,
 };
 export default withTracker(() => ({
     teamInvitation: TeamInvitations.find({}).fetch(),
-  }))(ListParticipantsCardAdmin);
+  }))(ListParticipantCardAdmin);
