@@ -29,7 +29,6 @@ class ListParticipantsFilterAdmin {
         list.push(data[i]);
       }
     }
-
     return list;
   }
 
@@ -198,6 +197,17 @@ class ListParticipantsFilterAdmin {
       }
     }
     return participants;
+  }
+
+  filterNoTeam(teamParticipants, allParticipants) {
+    const retVal = [];
+    allParticipants.forEach((p, i) => {
+      const teams = _.filter(teamParticipants, { participantID: p._id });
+      if (teams.length === 0) {
+        retVal.push(allParticipants[i]);
+      }
+    });
+    return retVal;
   }
 
   filterByTeam(value, allTeams, teamParticipants, allParticipants) {

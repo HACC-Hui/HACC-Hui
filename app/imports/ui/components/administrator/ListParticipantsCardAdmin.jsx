@@ -15,7 +15,7 @@ class ListParticipantCardAdmin extends React.Component {
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    console.log(this.props.teams);
+    // console.log(this.props.teams);
 
     function changeBackground(e) {
       e.currentTarget.style.backgroundColor = '#fafafa';

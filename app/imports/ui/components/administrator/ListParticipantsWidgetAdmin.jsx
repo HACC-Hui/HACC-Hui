@@ -6,11 +6,13 @@ import {
   Icon,
   Segment,
   Input,
-  Dropdown,
+  Dropdown, Button, Checkbox,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { _ } from 'lodash';
 import { withTracker } from 'meteor/react-meteor-data';
+import { ZipZap } from 'meteor/udondan:zipzap';
+import moment from 'moment';
 import { Teams } from '../../../api/team/TeamCollection';
 import { ParticipantChallenges } from '../../../api/user/ParticipantChallengeCollection';
 import { ParticipantSkills } from '../../../api/user/ParticipantSkillCollection';
@@ -22,6 +24,7 @@ import { Participants } from '../../../api/user/ParticipantCollection';
 import ListParticipantCardAdmin from './ListParticipantsCardAdmin';
 import ListParticipantsFilterAdmin from './ListParticipantsFilterAdmin';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
+import { databaseFileDateFormat } from '../../pages/administrator/DumpDatabase';
 
 class ListParticipantsWidgetAdmin extends React.Component {
 
@@ -33,15 +36,15 @@ class ListParticipantsWidgetAdmin extends React.Component {
       tools: [],
       skills: [],
       teams: [],
+      noTeamCheckbox: false,
+      compliantCheckbox: false,
       result: _.orderBy(this.props.participants, ['name'], ['asc']),
     };
   }
 
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
-
   render() {
     // console.log(this.props);
-
+    // console.log(this.state.result);
     if (this.props.participants.length === 0) {
       return (
         <div align={'center'}>
@@ -74,6 +77,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
         this.props.challenges, this.props.participantChallenges, toolResults);
       const teamResults = filters.filterByTeam(this.state.teams, this.props.teams,
         this.props.teamParticipants, challengeResults);
+      // const noTeamResults = filters.filterNoTeam(this.props.teamParticipants, teamResults);
       const sorted = filters.sortBy(teamResults, 'participants');
       this.setState({
         result: sorted,
@@ -180,9 +184,59 @@ class ListParticipantsWidgetAdmin extends React.Component {
       }
       return data;
     }
+
+    const handleDownload = () => {
+      const zip = new ZipZap();
+      const dir = 'hacchui-participants';
+      const fileName = `${dir}/${moment().format(databaseFileDateFormat)}-participants.txt`;
+      const participants = this.state.result;
+      const emails = participants.map(p => p.username);
+      zip.file(fileName, emails.join('\n'));
+      zip.saveAs(`${dir}.zip`);
+    };
+
+    const handleNoTeam = () => {
+      if (!this.state.noTeamCheckbox) {
+        const participants = this.state.result;
+        const results = filters.filterNoTeam(this.props.teamParticipants, participants);
+        const sorted = filters.sortBy(results, 'participants');
+        this.setState({
+          result: sorted,
+        }, () => {
+        });
+      } else {
+        this.setState({
+          result: this.props.participants,
+        }, () => {
+        });
+      }
+      const checked = this.state.noTeamCheckbox;
+      this.setState({ noTeamCheckbox: !checked });
+    };
+
+    const handleNotCompliant = () => {
+      if (!this.state.compliantCheckbox) {
+        const participants = this.state.result;
+        const results = participants.filter(p => !p.isCompliant);
+        const sorted = filters.sortBy(results, 'participants');
+        this.setState({
+          result: sorted,
+        }, () => {
+        });
+      } else {
+        this.setState({
+          result: this.props.participants,
+        }, () => {
+        });
+      }
+      const checked = this.state.compliantCheckbox;
+      this.setState({ compliantCheckbox: !checked });
+    };
+
     const filterStyle = {
       paddingTop: 4,
     };
+
     return (
       <div style={{ paddingBottom: '50px' }}>
         <Grid container doubling relaxed stackable centered>
@@ -198,6 +252,11 @@ class ListParticipantsWidgetAdmin extends React.Component {
               </div>
             </Grid.Column>
           </Grid.Row>
+          <Grid.Row centered>
+            <Grid.Column>
+              <Button onClick={handleDownload}>Download emails</Button>
+            </Grid.Column>
+          </Grid.Row>
           <Grid.Column width={4}>
             <Segment style={sticky}>
               <div style={filterStyle}>
@@ -207,6 +266,8 @@ class ListParticipantsWidgetAdmin extends React.Component {
                     <Header.Subheader>Total Participants: {this.state.result.length}</Header.Subheader>
                   </Header.Content>
                 </Header>
+                <Checkbox onChange={handleNoTeam} label="No Team"/>
+                <Checkbox onChange={handleNotCompliant} label="Not Compliant"/>
               </div>
               <div style={filterStyle}>
                 <Input icon='search'
@@ -265,7 +326,6 @@ class ListParticipantsWidgetAdmin extends React.Component {
                   onChange={getTools}
                 />
               </div>
-              <Segment>Download buttons</Segment>
             </Segment>
           </Grid.Column>
           <Grid.Column width={12}>
