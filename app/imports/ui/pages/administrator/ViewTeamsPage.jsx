@@ -1,11 +1,11 @@
 import React from 'react';
 import withAllSubscriptions from '../../layouts/AllSubscriptionsHOC';
-import ViewTeamsWidget from '../../components/administrator/ViewTeamsWidget';
+import ViewTeams from '../../components/administrator/ViewTeams';
 
 class ViewTeamsPage extends React.Component {
   render() {
     return (
-        <ViewTeamsWidget />
+        <ViewTeams />
         );
   }
 }
