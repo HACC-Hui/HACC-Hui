@@ -27,110 +27,110 @@ class ListParticipantCardAdmin extends React.Component {
     }
 
     return (
-        <Item onMouseEnter={changeBackground} onMouseLeave={onLeave}
-              style={{ padding: '0rem 1.5rem 0.5rem 1.5rem' }}>
-          <Modal closeIcon trigger={
-            <Item.Content>
-              <Item.Header>
-                <Header as={'h3'} style={{ color: '#263763', paddingTop: '1.5rem' }}>
-                  <Icon name='user' size='tiny' />
-                  {this.props.participants.firstName} {this.props.participants.lastName}
-                  {this.props.teams.length === 0 ? (<Item.Extra><Icon color='red' name='dont' />No team</Item.Extra>)
-                    : ''}
-                </Header>
-              </Item.Header>
-              <Item.Description>
-                  {/*<Grid.Column>*/}
-                  {/*  <Header>About Me</Header>*/}
-                  {/*  {this.props.participants.aboutMe}*/}
-                  {/*</Grid.Column>*/}
-                  <Divider hidden/>
-                  <Grid doubling stackable columns={6}>
-                    <Grid.Column>
-                      <b>Challenges</b><br />
-                      <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
-                        {this.props.challenges.slice(0, 3).map((challenge, i) => <p
-                            style={{ color: 'rgb(89, 119, 199)' }}
-                            key={challenge + i}>
-                          {challenge}</p>)}
-                      </Grid.Column>
-                    </Grid.Column>
-                    <Grid.Column>
-                      <b>Skills</b><br />
-                      {this.props.skills.slice(0, 3).map((skill, i) => <p key={skill + i}>
-                        {skill.name}</p>)}
-                    </Grid.Column>
-                    <Grid.Column>
-                      <b>Tools</b><br />
-                      {this.props.tools.slice(0, 3).map((tool, i) => <p key={tool + i}>
-                        {tool.name}</p>)}
-                    </Grid.Column>
-                    <Grid.Column>
-                      <b>Slack Username</b><br />
-                      {this.props.participants.username}
-                    </Grid.Column>
-                    <Grid.Column>
-                      <b>GitHub</b><br />
-                      {this.props.participants.gitHub}
-                    </Grid.Column>
-                  </Grid>
-              </Item.Description>
-            </Item.Content>
-          }>
-            <Modal.Header>
-              {this.props.participants.firstName} {this.props.participants.lastName}
-              <br /> {this.props.participants.demographicLevel}
-            </Modal.Header>
-            <Modal.Content image>
-              <Modal.Description>
-                <Grid container columns={2}>
-                  <Grid.Column><Icon name="github"/>GitHub:<br/>
-                    <a href={this.props.participants.gitHub}>{this.props.participants.gitHub}</a>
-                  </Grid.Column>
-                  <Grid.Column><Icon name="server"/>Website:<br/>
-                    <a href={this.props.participants.website}>{this.props.participants.website}</a>
-                  </Grid.Column>
-                  <Grid.Column><Icon name="linkedin"/>LinkedIn:<br/>
-                    <a href={this.props.participants.linkedIn}>{this.props.participants.linkedIn}</a>
-                  </Grid.Column>
-                  <Grid.Column><Icon name="slack"/>Slack Username:<br/>
-                    <a href={this.props.participants.username}>{this.props.participants.username}</a>
-                  </Grid.Column>
-                </Grid>
-                <Divider hidden/>
+      <Item onMouseEnter={changeBackground} onMouseLeave={onLeave}
+            style={{ padding: '0rem 1.5rem 0.5rem 1.5rem' }}>
+        <Modal closeIcon trigger={
+          <Item.Content>
+            <Item.Header>
+              <Header as={'h3'} style={{ color: '#263763', paddingTop: '1.5rem' }}>
+                <Icon name='user' size='tiny' />
+                {this.props.participants.firstName} {this.props.participants.lastName}
+                {this.props.teams.length === 0 ? (<Item.Extra><Icon color='red' name='dont' />No team</Item.Extra>)
+                  : ''}
+              </Header>
+            </Item.Header>
+            <Item.Description>
+              {/* <Grid.Column> */}
+              {/*  <Header>About Me</Header> */}
+              {/*  {this.props.participants.aboutMe} */}
+              {/* </Grid.Column> */}
+              <Divider hidden />
+              <Grid doubling stackable columns={6}>
                 <Grid.Column>
-                  <Header dividing size="small">Challenges</Header>
-                  <List bulleted>
-                    {this.props.challenges.map((challenge, i) => (
-                      <List.Item key={challenge + i}>{challenge}</List.Item>
-                    ))}
-                  </List>
+                  <b>Challenges</b><br />
+                  <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
+                    {this.props.challenges.slice(0, 3).map((challenge, i) => <p
+                      style={{ color: 'rgb(89, 119, 199)' }}
+                      key={challenge + i}>
+                      {challenge}</p>)}
+                  </Grid.Column>
                 </Grid.Column>
-                <Divider hidden/>
                 <Grid.Column>
-                  <Header dividing size="small">Skills</Header>
-                  <List bulleted>
-                    {this.props.skills.map((skill, i) => <List.Item key={skill + i}>{skill.name}</List.Item>)}
-                  </List>
+                  <b>Skills</b><br />
+                  {this.props.skills.slice(0, 3).map((skill, i) => <p key={skill + i}>
+                    {skill.name}</p>)}
                 </Grid.Column>
-                <Divider hidden/>
                 <Grid.Column>
-                  <Header dividing size="small">Tools</Header>
-                  <List bulleted>
-                    {this.props.tools.map((tool, i) => <List.Item key={tool + i}>{tool.name}</List.Item>)}
-                  </List>
+                  <b>Tools</b><br />
+                  {this.props.tools.slice(0, 3).map((tool, i) => <p key={tool + i}>
+                    {tool.name}</p>)}
                 </Grid.Column>
-                <Divider hidden/>
                 <Grid.Column>
-                  <Header dividing size="small">Teams</Header>
-                  <List bulleted>
-                    {this.props.teams.map((team, i) => <List.Item key={team + i}>{team}</List.Item>)}
-                  </List>
+                  <b>Slack Username</b><br />
+                  {this.props.participants.username}
                 </Grid.Column>
-              </Modal.Description>
-            </Modal.Content>
-          </Modal>
-        </Item>
+                <Grid.Column>
+                  <b>GitHub</b><br />
+                  {this.props.participants.gitHub}
+                </Grid.Column>
+              </Grid>
+            </Item.Description>
+          </Item.Content>
+        }>
+          <Modal.Header>
+            {this.props.participants.firstName} {this.props.participants.lastName}
+            <br /> {this.props.participants.demographicLevel}
+          </Modal.Header>
+          <Modal.Content image>
+            <Modal.Description>
+              <Grid container columns={2}>
+                <Grid.Column><Icon name="github" />GitHub:<br />
+                  <a href={this.props.participants.gitHub}>{this.props.participants.gitHub}</a>
+                </Grid.Column>
+                <Grid.Column><Icon name="server" />Website:<br />
+                  <a href={this.props.participants.website}>{this.props.participants.website}</a>
+                </Grid.Column>
+                <Grid.Column><Icon name="linkedin" />LinkedIn:<br />
+                  <a href={this.props.participants.linkedIn}>{this.props.participants.linkedIn}</a>
+                </Grid.Column>
+                <Grid.Column><Icon name="slack" />Slack Username:<br />
+                  <a href={this.props.participants.username}>{this.props.participants.username}</a>
+                </Grid.Column>
+              </Grid>
+              <Divider hidden />
+              <Grid.Column>
+                <Header dividing size="small">Challenges</Header>
+                <List bulleted>
+                  {this.props.challenges.map((challenge, i) => (
+                    <List.Item key={challenge + i}>{challenge}</List.Item>
+                  ))}
+                </List>
+              </Grid.Column>
+              <Divider hidden />
+              <Grid.Column>
+                <Header dividing size="small">Skills</Header>
+                <List bulleted>
+                  {this.props.skills.map((skill, i) => <List.Item key={skill + i}>{skill.name}</List.Item>)}
+                </List>
+              </Grid.Column>
+              <Divider hidden />
+              <Grid.Column>
+                <Header dividing size="small">Tools</Header>
+                <List bulleted>
+                  {this.props.tools.map((tool, i) => <List.Item key={tool + i}>{tool.name}</List.Item>)}
+                </List>
+              </Grid.Column>
+              <Divider hidden />
+              <Grid.Column>
+                <Header dividing size="small">Teams</Header>
+                <List bulleted>
+                  {this.props.teams.map((team, i) => <List.Item key={team + i}>{team}</List.Item>)}
+                </List>
+              </Grid.Column>
+            </Modal.Description>
+          </Modal.Content>
+        </Modal>
+      </Item>
     );
   }
 }
@@ -144,5 +144,5 @@ ListParticipantCardAdmin.propTypes = {
   teams: PropTypes.array.isRequired,
 };
 export default withTracker(() => ({
-    teamInvitation: TeamInvitations.find({}).fetch(),
-  }))(ListParticipantCardAdmin);
+  teamInvitation: TeamInvitations.find({}).fetch(),
+}))(ListParticipantCardAdmin);
