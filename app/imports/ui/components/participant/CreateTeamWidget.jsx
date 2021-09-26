@@ -5,7 +5,7 @@ import {
   ErrorsField,
   SubmitField,
   TextField,
-  LongTextField, ListItemField, ListField,
+  LongTextField, ListItemField, ListField, SelectField,
 } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import PropTypes from 'prop-types';
@@ -55,8 +55,7 @@ class CreateTeamWidget extends React.Component {
         label: 'Availability',
       },
       name: { type: String, label: 'Team Name' },
-      challenges: { type: Array, label: 'Challenges' },
-      'challenges.$': { type: String, allowedValues: challengeNames },
+      challenge: { type: String, allowedValues: challengeNames },
       skills: { type: Array, label: 'Skills', optional: true },
       'skills.$': { type: String, allowedValues: skillNames },
       tools: { type: Array, label: 'Toolsets', optional: true },
@@ -93,7 +92,7 @@ class CreateTeamWidget extends React.Component {
     this.setState({ isRegistered: [] });
     this.setState({ notRegistered: [] });
     const owner = this.props.participant.username;
-    const { name, description, challenges, skills, tools, participants } = formData;
+    const { name, description, challenge, skills, tools, participants } = formData;
     if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
       swal('Error', 'Sorry, no special characters or space allowed.', 'error');
       return;
@@ -145,10 +144,9 @@ class CreateTeamWidget extends React.Component {
       const doc = Tools.findDoc({ name: t });
       return Slugs.getNameFromID(doc.slugID);
     });
-    const challengesArr = _.map(challenges, title => {
-      const doc = Challenges.findDoc({ title });
-      return Slugs.getNameFromID(doc.slugID);
-    });
+    const challengeDoc = Challenges.findDoc({ title: challenge });
+    const challengeSlug = Slugs.getNameFromID(challengeDoc.slugID);
+    const challengesArr = [challengeSlug];
 
     const collectionName = Teams.getCollectionName();
     const definitionData = {
@@ -257,7 +255,7 @@ class CreateTeamWidget extends React.Component {
                       />
                     </Grid>
                     <LongTextField name='description' />
-                    <MultiSelectField name='challenges' />
+                    <SelectField name='challenge' />
                     <Grid columns={2}>
                       <Grid.Column><MultiSelectField name='skills' /></Grid.Column>
                       <Grid.Column><MultiSelectField name='tools' /></Grid.Column>

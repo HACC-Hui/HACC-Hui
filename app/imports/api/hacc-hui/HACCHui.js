@@ -24,6 +24,7 @@ import { Suggestions } from '../suggestions/SuggestionCollection';
 import { LeavingTeams } from '../team/LeavingTeamCollection';
 import { MinorParticipants } from '../user/MinorParticipantCollection';
 import { CanCreateTeams } from '../team/CanCreateTeamCollection';
+import { CanChangeChallenges } from '../team/CanChangeChallengeCollection';
 
 /** @namespace api/hacc-hui */
 
@@ -59,6 +60,7 @@ class HACCHuiClass {
       LeavingTeams,
       MinorParticipants,
       CanCreateTeams,
+      CanChangeChallenges,
     ];
     /** The load sequence for loading fixtures. */
     this.collectionLoadSequence = [

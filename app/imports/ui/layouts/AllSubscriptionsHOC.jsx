@@ -24,6 +24,8 @@ import { TeamInvitations } from '../../api/team/TeamInvitationCollection';
 import { Suggestions } from '../../api/suggestions/SuggestionCollection';
 import { WantsToJoin } from '../../api/team/WantToJoinCollection';
 import { CanCreateTeams } from '../../api/team/CanCreateTeamCollection';
+import { CanChangeChallenges } from '../../api/team/CanChangeChallengeCollection';
+import { MinorParticipants } from '../../api/user/MinorParticipantCollection';
 
 // cacheLimit default is 10, so increased to handle all our subscriptions.
 // expireLimit set to 30 minutes because: why not.
@@ -68,6 +70,8 @@ function withAllSubscriptions(WrappedComponent) {
       allSubs.subscribe(Suggestions.getCollectionName()),
       allSubs.subscribe(WantsToJoin.getCollectionName()),
       allSubs.subscribe(CanCreateTeams.getCollectionName()),
+      allSubs.subscribe(CanChangeChallenges.getCollectionName()),
+      allSubs.subscribe(MinorParticipants.getCollectionName()),
     ];
     const loading = handles.some((handle) => !handle.ready());
     return {

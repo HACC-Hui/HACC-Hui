@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import {
   Grid,
   Header,
@@ -10,6 +11,7 @@ import {
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
+import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 
 class ListParticipantCardAdmin extends React.Component {
 
@@ -25,7 +27,10 @@ class ListParticipantCardAdmin extends React.Component {
     function onLeave(e) {
       e.currentTarget.style.backgroundColor = 'transparent';
     }
-
+    // console.log(this.props);
+    const { participantID, minors } = this.props;
+    const isMinor = _.some(minors, m => m.participantID === participantID);
+    // console.log(isMinor);
     return (
       <Item onMouseEnter={changeBackground} onMouseLeave={onLeave}
             style={{ padding: '0rem 1.5rem 0.5rem 1.5rem' }}>
@@ -37,6 +42,7 @@ class ListParticipantCardAdmin extends React.Component {
                 {this.props.participants.firstName} {this.props.participants.lastName}
                 {this.props.teams.length === 0 ? (<Item.Extra><Icon color='red' name='dont' />No team</Item.Extra>)
                   : ''}
+                {isMinor ? (<Item.Extra><Icon name='child'/>Minor</Item.Extra>) : ''}
               </Header>
             </Item.Header>
             <Item.Description>
@@ -142,7 +148,15 @@ ListParticipantCardAdmin.propTypes = {
   challenges: PropTypes.array.isRequired,
   participants: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
+  minors: PropTypes.array,
+  teamInvitations: PropTypes.array,
 };
-export default withTracker(() => ({
-  teamInvitation: TeamInvitations.find({}).fetch(),
-}))(ListParticipantCardAdmin);
+export default withTracker(() => {
+  const teamInvitations = TeamInvitations.find({}).fetch();
+  const minors = MinorParticipants.find().fetch();
+  // console.log(minors);
+  return {
+    teamInvitations,
+    minors,
+  };
+})(ListParticipantCardAdmin);

@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withTracker } from 'meteor/react-meteor-data';
-import { Header, Icon, Loader, Container } from 'semantic-ui-react';
+import { Header, Icon, Container } from 'semantic-ui-react';
 import _ from 'underscore';
 import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
@@ -48,11 +46,6 @@ class UpdateMinorParticipantsCompliant extends React.Component {
   }
 
   render() {
-
-    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
-  }
-
-  renderPage() {
     return (
         <Container>
          {this.renderMinorCFParticipants()}
@@ -62,21 +55,4 @@ class UpdateMinorParticipantsCompliant extends React.Component {
 
 }
 
-UpdateMinorParticipantsCompliant.propTypes = {
-
-  ready: PropTypes.bool.isRequired,
-
-};
-export default withTracker(() => {
-
-  const subscriptionParticipant = Participants.subscribe();
-  const subscriptionMinor = MinorParticipants.subscribe();
-
-  return {
-
-    // developerSkill: ParticipantSkills.find({}).fetch(),
-    // teamSkills: TeamSkills.find({}).fetch(),
-    // eslint-disable-next-line max-len
-    ready: subscriptionParticipant.ready() && subscriptionMinor.ready(),
-  };
-})(UpdateMinorParticipantsCompliant);
+export default UpdateMinorParticipantsCompliant;

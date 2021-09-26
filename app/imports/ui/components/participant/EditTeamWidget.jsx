@@ -12,6 +12,7 @@ import {
   LongTextField,
   SubmitField,
   TextField,
+  SelectField,
 } from 'uniforms-semantic';
 import Swal from 'sweetalert2';
 import { Teams } from '../../../api/team/TeamCollection';
@@ -27,6 +28,7 @@ import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
 import { TeamTools } from '../../../api/team/TeamToolCollection';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
+import { CanChangeChallenges } from '../../../api/team/CanChangeChallengeCollection';
 
 class EditTeamWidget extends React.Component {
   constructor(props) {
@@ -46,8 +48,7 @@ class EditTeamWidget extends React.Component {
         label: 'Availability',
       },
       name: { type: String },
-      challenges: { type: Array, label: 'Challenges' },
-      'challenges.$': { type: String, allowedValues: challengeNames },
+      challenge: { type: String, allowedValues: challengeNames },
       skills: { type: Array, label: 'Skills', optional: true },
       'skills.$': { type: String, allowedValues: skillNames },
       tools: { type: Array, label: 'Toolsets', optional: true },
@@ -65,7 +66,9 @@ class EditTeamWidget extends React.Component {
   buildTheModel() {
 
     const model = this.props.team;
+    console.log(model);
     model.challenges = _.map(this.props.challenges, (challenge) => challenge.title);
+    model.challenge = this.props.team.challenges[0];
     model.skills = _.map(this.props.skills, (skill) => skill.name);
     model.tools = _.map(this.props.tools, (tool) => tool.name);
     if (model.open) {
@@ -79,7 +82,7 @@ class EditTeamWidget extends React.Component {
   }
 
   submitData(data) {
-    // console.log('submit', data);
+    console.log('submit', data);
     const collectionName = Teams.getCollectionName();
     const updateData = {};
     // description, challenges, skills, tools, image, open
@@ -90,7 +93,7 @@ class EditTeamWidget extends React.Component {
     updateData.devPostPage = data.devPostPage;
     updateData.affiliation = data.affiliation;
     updateData.open = data.open === 'Open';
-    if (data.challenges) {
+    if (data.challenge) {
       // build an array of challenge slugs
       updateData.challenges = data.challenges.map((title) => {
         const doc = Challenges.findDoc({ title });
@@ -169,7 +172,7 @@ class EditTeamWidget extends React.Component {
                       />
                     </Grid>
                     <LongTextField name='description' />
-                    <MultiSelectField name='challenges' />
+                    <SelectField name='challenge' disabled={!this.props.canChangeChallenges} />
                     <Grid columns={2}>
                       <Grid.Column><MultiSelectField name='skills' /></Grid.Column>
                       <Grid.Column><MultiSelectField name='tools' /></Grid.Column>
@@ -225,6 +228,7 @@ EditTeamWidget.propTypes = {
   participants: PropTypes.arrayOf(
       PropTypes.object,
   ).isRequired,
+  canChangeChallenges: PropTypes.bool.isRequired,
 };
 
 const EditTeamCon = withTracker(({ match }) => {
@@ -243,6 +247,7 @@ const EditTeamCon = withTracker(({ match }) => {
   const allChallenges = Challenges.find({}).fetch();
   const allSkills = Skills.find({}).fetch();
   const allTools = Tools.find({}).fetch();
+  const canChangeChallenges = CanChangeChallenges.findOne().canChangeChallenges;
   // console.log(team);
   return {
     team,
@@ -254,6 +259,7 @@ const EditTeamCon = withTracker(({ match }) => {
     allChallenges,
     allSkills,
     allTools,
+    canChangeChallenges,
   };
 })(EditTeamWidget);
 

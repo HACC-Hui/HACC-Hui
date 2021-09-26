@@ -12,6 +12,7 @@ import ChallengesAdminWidget from './ChallengesAdminWidget';
 import ToolsAdminWidget from './ToolsAdminWidget';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { CanCreateTeams } from '../../../api/team/CanCreateTeamCollection';
+import { CanChangeChallenges } from '../../../api/team/CanChangeChallengeCollection';
 
 /**
  * Renders the Page for Managing HACC. **deprecated**
@@ -19,9 +20,12 @@ import { CanCreateTeams } from '../../../api/team/CanCreateTeamCollection';
  */
 class ManageHaccWidget extends React.Component {
 
-  state = { canCreateTeams: CanCreateTeams.findOne().canCreateTeams }
+  state = {
+    canCreateTeams: CanCreateTeams.findOne().canCreateTeams,
+    canChangeChallenges: CanChangeChallenges.findOne()?.canChangeChallenges,
+  }
 
-  toggle = () => {
+  toggleTeam = () => {
     const { canCreateTeams } = this.state;
     const doc = CanCreateTeams.findOne();
     const updateData = {};
@@ -36,8 +40,23 @@ class ManageHaccWidget extends React.Component {
     this.setState((prevState) => ({ canCreateTeams: !prevState.canCreateTeams }));
   }
 
+  toggleChallenge = () => {
+    const { canChangeChallenges } = this.state;
+    const doc = CanChangeChallenges.findOne();
+    const updateData = {};
+    updateData.id = doc._id;
+    updateData.canChangeChallenges = !canChangeChallenges;
+    const collectionName = CanChangeChallenges.getCollectionName();
+    updateMethod.call({ collectionName, updateData }, (error) => {
+      if (error) {
+        console.error(error);
+      }
+    });
+    this.setState((prevState) => ({ canChangeChallenges: !prevState.canChangeChallenges }));
+  }
+
   render() {
-    // console.log(HACCHui.canCreateTeams);
+    // console.log(this.state);
     return (
         <div style={{ paddingBottom: '50px' }}>
           <Grid container centered>
@@ -47,9 +66,14 @@ class ManageHaccWidget extends React.Component {
                 borderRadius: '2rem',
               }}>
                 <Header as="h2" textAlign="center">Manage HACC</Header>
-                <Header as="h5" textAlign="center"><Radio toggle label="Can Create Teams"
+                <Header as="h5" textAlign="center">
+                  <Radio toggle label="Can Create Teams"
                           checked={this.state.canCreateTeams}
-                          onChange={this.toggle} /></Header>
+                          onChange={this.toggleTeam} />&nbsp;
+                  <Radio toggle label="Can Change Challenges"
+                         checked={this.state.canChangeChallenges}
+                         onChange={this.toggleChallenge} />
+                </Header>
               </div>
               <Segment style={{
                 borderRadius: '1rem',

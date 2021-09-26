@@ -4,6 +4,7 @@ import moment from 'moment';
 import { SyncedCron } from 'meteor/littledata:synced-cron';
 import { HACCHui } from '../../api/hacc-hui/HACCHui';
 import { CanCreateTeams } from '../../api/team/CanCreateTeamCollection';
+import { CanChangeChallenges } from '../../api/team/CanChangeChallengeCollection';
 
 // global Assets
 
@@ -77,6 +78,10 @@ function loadDatabase() {
   const canCreateTeams = CanCreateTeams.findOne();
   if (_.isUndefined(canCreateTeams)) {
     CanCreateTeams.define({ canCreateTeams: true });
+  }
+  const canChangeChallenges = CanChangeChallenges.findOne();
+  if (_.isUndefined(canChangeChallenges)) {
+    CanChangeChallenges.define({ canChangeChallenges: true });
   }
   const loadFileName = Meteor.settings.databaseRestoreFileName;
   if (loadFileName && totalDocuments() === 0) {
