@@ -11,7 +11,7 @@ import { Participants } from '../../../api/user/ParticipantCollection';
 import { USER_INTERACTIONS } from '../../../startup/client/user-interaction-constants';
 import { userInteractionDefineMethod } from '../../../api/user/UserInteractionCollection.methods';
 import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
-import { defineMethod } from '../../../api/base/BaseCollection.methods';
+import { defineMethod, updateMethod } from '../../../api/base/BaseCollection.methods';
 
 const schema = new SimpleSchema({
   yourLastName: String,
@@ -36,7 +36,7 @@ class UnderParticipationForm extends React.Component {
     const { firstName, lastName, parentFirstName, parentLastName, parentEmail } = formData;
     const dev = Participants.findDoc({ userID: Meteor.userId() });
     const username = dev.username;
-    const collectionName = MinorParticipants.getCollectionName();
+    let collectionName = MinorParticipants.getCollectionName();
     const definitionData = {
       username,
       parentFirstName,
@@ -57,6 +57,16 @@ class UnderParticipationForm extends React.Component {
     userInteractionDefineMethod.call(interactionData, (error) => {
       if (error) {
         console.error('Could not define user interaction', error);
+      }
+    });
+    collectionName = Participants.getCollectionName();
+    const updateData = {
+      id: dev._id,
+      minor: true,
+    };
+    updateMethod.call({ collectionName, updateData }, (error) => {
+      if (error) {
+        console.error('Could not update minor status', error);
       }
     });
     this.setState({ redirectToReferer: true });

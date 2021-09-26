@@ -38,6 +38,7 @@ class ParticipantCollection extends BaseSlugCollection {
       lookingForTeam: { type: Boolean, optional: true },
       isCompliant: { type: Boolean, optional: true },
       editedProfile: { type: Boolean, optional: true },
+      minor: { type: Boolean, optional: true },
     }));
   }
 
@@ -107,11 +108,12 @@ class ParticipantCollection extends BaseSlugCollection {
    * @param aboutMe {String} the new short description (optional).
    * @param isCompliant {Boolean} the new is compliant value (optional).
    * @param editedProfile {Boolean} the new edited profile value (optional).
+   * @param minor {Boolean} update the minor status (optional).
    */
   update(docID, {
     firstName, lastName, demographicLevel, lookingForTeam, challenges,
     interests, skills, tools, linkedIn, gitHub, website,
-    aboutMe, isCompliant, editedProfile, slackUsername,
+    aboutMe, isCompliant, editedProfile, slackUsername, minor,
   }) {
     // console.log('Participants.update', skills, tools);
     this.assertDefined(docID);
@@ -148,6 +150,9 @@ class ParticipantCollection extends BaseSlugCollection {
     }
     if (_.isBoolean(editedProfile)) {
       updateData.editedProfile = editedProfile;
+    }
+    if (_.isBoolean(minor)) {
+      updateData.minor = minor;
     }
     this._collection.update(docID, { $set: updateData });
     const participant = this.findSlugByID(docID);

@@ -28,8 +28,7 @@ class ListParticipantCardAdmin extends React.Component {
       e.currentTarget.style.backgroundColor = 'transparent';
     }
     // console.log(this.props);
-    const { participantID, minors } = this.props;
-    const isMinor = _.some(minors, m => m.participantID === participantID);
+    const isMinor = this.props.participants.minor;
     // console.log(isMinor);
     return (
       <Item onMouseEnter={changeBackground} onMouseLeave={onLeave}
@@ -148,15 +147,12 @@ ListParticipantCardAdmin.propTypes = {
   challenges: PropTypes.array.isRequired,
   participants: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
-  minors: PropTypes.array,
   teamInvitations: PropTypes.array,
 };
 export default withTracker(() => {
   const teamInvitations = TeamInvitations.find({}).fetch();
-  const minors = MinorParticipants.find().fetch();
   // console.log(minors);
   return {
     teamInvitations,
-    minors,
   };
 })(ListParticipantCardAdmin);
