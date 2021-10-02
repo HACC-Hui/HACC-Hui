@@ -22,7 +22,7 @@ class Landing extends React.Component {
             <b
               style={{
                 color: '#0B2C52',
-                fontSize: '2.9vh',
+                fontSize: 30,
                 alignSelf: 'flex-start',
                 paddingLeft: 20,
                 marginBottom: 15,
@@ -30,7 +30,7 @@ class Landing extends React.Component {
             >
               Welcome to HACC-Hui
             </b>
-            <p style={{ fontSize: '2.5vh', paddingLeft: 20, color: '#0B2C52' }}>
+            <p style={{ fontSize: 20, paddingLeft: 20, color: '#0B2C52' }}>
               Our goal is to simplify team formation and ongoing team management
               for the Hawaii Annual Code Challenge.
               <br />
@@ -38,6 +38,11 @@ class Landing extends React.Component {
               Here you can create a new team or join an already made one. Our
               application can help you find the perfect team for you, or help
               you look for members that fit your team’s requirements.
+              <br />
+              <br />
+              <b>Deadlines:</b> <br />
+              Team Formation: <b>October 30th, 5 pm.</b><br/>
+              Team Challenge selection: <b>November 6th, 5 pm.</b>
             </p>
           </Grid.Column>
           <Grid.Column

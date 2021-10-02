@@ -33,7 +33,8 @@ const ViewTeam = ({ isCompliant, participants, teamChallenges, team, teamMembers
               {team.name} {isCompliant ? <Icon className="green check"/> : <Icon name="red minus square outline"/> }
             </Item.Header>
             <Item.Description>
-              <strong>Captain:</strong> {captain.firstName} {captain.lastName}, {captain.username},&nbsp;&nbsp;&nbsp;
+              <strong>Captain:</strong> {captain ? `${captain.firstName} ${captain.lastName}: ${captain.username}   `
+                : '   '},
               <strong>Challenge:</strong> {challenge.title}
             </Item.Description>
           </Item.Content>
