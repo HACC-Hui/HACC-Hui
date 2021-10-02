@@ -3,9 +3,9 @@ import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { ZipZap } from 'meteor/udondan:zipzap';
-import { Button, Checkbox, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import { Button, Checkbox, Form, Grid, Header, Item, Segment } from 'semantic-ui-react';
 import { Teams } from '../../../api/team/TeamCollection';
-import ViewTeamExample from './ViewTeamExample';
+import ViewTeamExample from './ViewTeam';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { TeamChallenges } from '../../../api/team/TeamChallengeCollection';
@@ -104,96 +104,79 @@ const ViewTeams = ({ participants, teams, teamChallenges, teamParticipants }) =>
   };
 
   return (
-    <Grid container centered>
-      <Grid.Row>
-        <Grid.Column width={16}>
-          <div style={{
-            backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
-            borderRadius: '2rem',
-          }}>
-            <Header as="h2" textAlign="center">View Teams ({filteredTeams.length})</Header>
-          </div>
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row>
-        <Button onClick={handleDownload}>Download Team Captain emails</Button>
-      </Grid.Row>
-      <Grid.Row>
-        <Grid.Column width={4}>
-          <Segment style={stickyStyle}>
-            <Form>
-              <Form.Field>Select a filter</Form.Field>
-              <Form.Field>
-                <Checkbox checked={filterValue === 'Challenge'} label="No challenge" onChange={handleChange}
-                          radio name='checkboxRadioGroup' value='Challenge'
-                />
-              </Form.Field>
-              <Form.Field>
-                <Checkbox checked={filterValue === 'NonCompliant'} label="Non Compliant" onChange={handleChange}
-                          radio name='checkboxRadioGroup' value='NonCompliant'
-                />
-              </Form.Field>
-              <Form.Field>
-                <Checkbox checked={filterValue === 'NoDevPost'} label="No devpost" onChange={handleChange}
-                          radio name='checkboxRadioGroup' value='NoDevPost'
-                />
-              </Form.Field>
-              <Form.Field>
-                <Checkbox checked={filterValue === 'NoGitHub'} label="No GitHub" onChange={handleChange}
-                          radio name='checkboxRadioGroup' value='NoGitHub'
-                />
-              </Form.Field>
-              <Form.Field>
-                <Checkbox checked={filterValue === 'None'} label="None" onChange={handleChange}
-                          radio name='checkboxRadioGroup' value='None' />
-              </Form.Field>
-            </Form>
-          </Segment>
-        </Grid.Column>
-        <Grid.Column width={12}>
-          <Grid celled>
-            <Grid.Row columns={4} style={{
-              backgroundColor: '#E5F0FE',
+      <Grid container centered>
+        <Grid.Row>
+          <Grid.Column width={16}>
+            <div style={{
+              backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
+              borderRadius: '2rem',
             }}>
-              <Grid.Column>
-                <Header>Team Name</Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header>Members</Header>
-                Name, (GitHub)
-              </Grid.Column>
-              <Grid.Column>
-                <Header>Team Info</Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header>Edit Team</Header>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-          {filteredTeams.map((team) => (
-            <ViewTeamExample key={team._id}
+              <Header as="h2" textAlign="center">View Teams ({filteredTeams.length})</Header>
+            </div>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Button onClick={handleDownload}>Download Team Captain emails</Button>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column width={4}>
+            <Segment style={stickyStyle}>
+              <Form>
+                <Form.Field>Select a filter</Form.Field>
+                {/* <Form.Field> */}
+                {/*  <Checkbox checked={filterValue === 'Challenge'} label="No challenge" onChange={handleChange} */}
+                {/*            radio name='checkboxRadioGroup' value='Challenge' */}
+                {/*  /> */}
+                {/* </Form.Field> */}
+                <Form.Field>
+                  <Checkbox checked={filterValue === 'NonCompliant'} label="Non Compliant" onChange={handleChange}
+                            radio name='checkboxRadioGroup' value='NonCompliant'
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Checkbox checked={filterValue === 'NoDevPost'} label="No devpost" onChange={handleChange}
+                            radio name='checkboxRadioGroup' value='NoDevPost'
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Checkbox checked={filterValue === 'NoGitHub'} label="No GitHub" onChange={handleChange}
+                            radio name='checkboxRadioGroup' value='NoGitHub'
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Checkbox checked={filterValue === 'None'} label="None" onChange={handleChange}
+                            radio name='checkboxRadioGroup' value='None' />
+                </Form.Field>
+              </Form>
+            </Segment>
+          </Grid.Column>
+          <Grid.Column width={12}>
+            <Item.Group divided>
+              {filteredTeams.map((team) => (
+                  <ViewTeamExample key={team._id}
                                    team={team}
                                    teamMembers={getTeamMembers(team)}
-                             isCompliant={teamIsCompliant(team._id)}
-            />
-          ))}
-        </Grid.Column></Grid.Row>
-    </Grid>
+                                   isCompliant={teamIsCompliant(team._id)}
+                  />
+              ))}
+            </Item.Group>
+          </Grid.Column></Grid.Row>
+      </Grid>
   );
 };
 
 ViewTeams.propTypes = {
   participants: PropTypes.arrayOf(
-    PropTypes.object,
+      PropTypes.object,
   ),
   teams: PropTypes.arrayOf(
-    PropTypes.object,
+      PropTypes.object,
   ),
   teamChallenges: PropTypes.arrayOf(
-    PropTypes.object,
+      PropTypes.object,
   ),
   teamParticipants: PropTypes.arrayOf(
-    PropTypes.object,
+      PropTypes.object,
   ),
 };
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import {
   Grid,
   Header,
@@ -11,7 +10,6 @@ import {
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
-import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 
 class ListParticipantCardAdmin extends React.Component {
 
