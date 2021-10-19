@@ -15,7 +15,7 @@ class ChallengeCollection extends BaseSlugCollection {
       title: { type: String },
       slugID: { type: SimpleSchema.RegEx.Id },
       description: { type: String },
-      interests: { type: Array },
+      interests: { type: Array, optional: true },
       'interests.$': { type: String },
       submissionDetail: { type: String },
       pitch: { type: String, optional: true },
