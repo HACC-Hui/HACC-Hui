@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Image } from 'semantic-ui-react';
+import { Grid, Icon, Image } from 'semantic-ui-react';
 
 /**
  * A simple static component to render some text for the landing page.
@@ -92,7 +92,7 @@ class Landing extends React.Component {
             </p>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row style={{ backgroundColor: '#E5F0FE', marginBottom: 15 }}>
+        <Grid.Row style={{ backgroundColor: '#E5F0FE' }}>
           <Grid.Column
             width={8}
             style={{
@@ -126,6 +126,36 @@ class Landing extends React.Component {
             <p style={{ fontSize: 20, fontStyle: 'italic' }}>
               Communicate with your team through Slack
             </p>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row style={{ backgroundColor: '#E5F0FE', marginBottom: 15 }}>
+          <Grid.Column
+            width={8}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+            }}
+          >
+            <Icon centered size='massive' name="eye" />
+            <b style={{ fontSize: 30, fontStyle: 'italic', margin: 15 }}>
+              <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a>
+            </b>
+          </Grid.Column>
+          <Grid.Column
+            width={8}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+            }}
+          >
+            <Icon name="gavel" centered size='massive' />
+            <b style={{ fontSize: 30, fontStyle: 'italic', margin: 15 }}>
+              <a href="https://hacc.hawaii.gov/hacc-judging-criteria/">HACC Judging Criteria</a>
+            </b>
           </Grid.Column>
         </Grid.Row>
       </Grid>
