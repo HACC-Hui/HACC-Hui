@@ -138,7 +138,7 @@ class Landing extends React.Component {
               alignItems: 'center',
             }}
           >
-            <Icon centered size='massive' name="eye" />
+            <Icon size='massive' name="eye" />
             <b style={{ fontSize: 30, fontStyle: 'italic', margin: 15 }}>
               <a href="https://hacc.hawaii.gov/hacc-rules/">HACC Rules</a>
             </b>
@@ -152,7 +152,7 @@ class Landing extends React.Component {
               alignItems: 'center',
             }}
           >
-            <Icon name="gavel" centered size='massive' />
+            <Icon name="gavel" size='massive' />
             <b style={{ fontSize: 30, fontStyle: 'italic', margin: 15 }}>
               <a href="https://hacc.hawaii.gov/hacc-judging-criteria/">HACC Judging Criteria</a>
             </b>

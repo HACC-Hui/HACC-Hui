@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { withTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 import { removeItMethod } from '../../../api/base/BaseCollection.methods';
@@ -56,8 +55,4 @@ ListMinorWidget.propTypes = {
 
 /** Wrap this component in withRouter since we use the <Link> React Router element. */
 
-export default withTracker(() => (
-  {
-    minorParticipants: MinorParticipants.find({}).fetch(),
-  }
-))(ListMinorWidget);
+export default ListMinorWidget;

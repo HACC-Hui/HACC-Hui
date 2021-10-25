@@ -4,10 +4,13 @@ import { Grid, Header, Checkbox, Button, Table } from 'semantic-ui-react';
 import _ from 'underscore';
 import swal from 'sweetalert';
 import { Redirect } from 'react-router-dom';
+import { ZipZap } from 'meteor/udondan:zipzap';
+import moment from 'moment';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
 import { ROUTES } from '../../../startup/client/route-constants';
+import { databaseFileDateFormat } from '../../pages/administrator/DumpDatabase';
 
 class UpdateMinorParticipantsWidget extends React.Component {
 
@@ -51,6 +54,22 @@ class UpdateMinorParticipantsWidget extends React.Component {
     </Table.Row>));
   }
 
+  download() {
+    const minors = this.getMinorParticipants();
+    console.log('download', minors);
+    let csv = 'Minor Participant Name, Participant email, Parent/Guardian Name (Parent/Guardian email)\n';
+    minors.forEach((m) => {
+      csv = `${csv}${m.firstName} ${m.lastName},${m.username},${m.ParentName}\n`;
+    });
+    console.log(csv);
+    const zip = new ZipZap();
+    const dir = 'hacchui-minor-participants';
+    const fileName = `${dir}/${moment().format(databaseFileDateFormat)}-minor-participants.csv`;
+    zip.file(fileName, csv);
+    zip.saveAs(`${dir}.zip`);
+
+  }
+
   submitData() {
     let Error = false;
 
@@ -88,6 +107,7 @@ class UpdateMinorParticipantsWidget extends React.Component {
             borderRadius: '2rem',
           }}>
           <Header as="h2" textAlign="center">Minor Participants List ({this.props.MinorParticipantsID.length})</Header>
+            <Button color="green" onClick={() => this.download()}>Download minor participants</Button>
           </div>
           <div style={{
             borderRadius: '1rem',

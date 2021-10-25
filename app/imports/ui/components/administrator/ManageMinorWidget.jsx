@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import ListMinorWidget from './ListMinorWidget';
 import { MinorParticipants } from '../../../api/user/MinorParticipantCollection';
+import { Participants } from '../../../api/user/ParticipantCollection';
 
 /**
  * Renders the Page for Managing HACC. **deprecated**
@@ -57,8 +58,16 @@ ManageMinorWidget.propTypes = {
 };
 
 // withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-export default withTracker(() => (
-  {
-    minorParticipants: MinorParticipants.find({}).fetch(),
-  }
-))(ManageMinorWidget);
+export default withTracker(() => {
+  const mps = MinorParticipants.find({}).fetch();
+  const minorParticipants = [];
+  mps.forEach((m) => {
+    const result = m;
+    result.username = Participants.findDoc(m.participantID).username;
+    minorParticipants.push(result);
+  });
+  console.log(minorParticipants);
+  return {
+    minorParticipants,
+  };
+})(ManageMinorWidget);
