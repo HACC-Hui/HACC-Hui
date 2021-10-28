@@ -95,10 +95,9 @@ class EditTeamWidget extends React.Component {
     updateData.open = data.open === 'Open';
     if (data.challenge) {
       // build an array of challenge slugs
-      updateData.challenges = data.challenges.map((title) => {
-        const doc = Challenges.findDoc({ title });
-        return Slugs.getNameFromID(doc.slugID);
-      });
+      updateData.challenges = [];
+      const doc = Challenges.findDoc({ title: data.challenge });
+      updateData.challenges.push(Slugs.getNameFromID(doc.slugID));
     }
     if (data.skills) {
       updateData.skills = data.skills.map((name) => {
