@@ -29,7 +29,8 @@ class YourTeamsWidget extends React.Component {
 
     function getTeamParticipants(teamID, teamParticipants) {
       const data = [];
-      const participants = _.filter(teamParticipants, { teamID: teamID });
+      const participants = _.uniqBy(_.filter(teamParticipants, { teamID: teamID }), 'participantID');
+      // console.log(participants);
       for (let i = 0; i < participants.length; i++) {
         for (let j = 0; j < allParticipants.length; j++) {
           if (participants[i].participantID === allParticipants[j]._id) {
@@ -125,11 +126,12 @@ export default withTracker(() => {
   const participant = Participants.findDoc({ userID: Meteor.userId() });
   const participantID = participant._id;
   const teams = Teams.find({ owner: participantID }).fetch();
-  const memberTeams = _.map(TeamParticipants.find({ participantID }).fetch(), (tp) => Teams.findDoc(tp.teamID));
+  const memberTeams = _.map(_.uniqBy(TeamParticipants.find({ participantID }).fetch(), 'teamID'),
+    (tp) => Teams.findDoc(tp.teamID));
   const participants = Participants.find({}).fetch();
   const teamParticipants = TeamParticipants.find({}).fetch();
   const teamInvitation = TeamInvitations.find({}).fetch();
-
+  // console.log(memberTeams);
   return {
     participant,
     teams,

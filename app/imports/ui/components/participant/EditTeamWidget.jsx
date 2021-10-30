@@ -66,7 +66,7 @@ class EditTeamWidget extends React.Component {
   buildTheModel() {
 
     const model = this.props.team;
-    console.log(model);
+    // console.log(model);
     model.challenges = _.map(this.props.challenges, (challenge) => challenge.title);
     model.challenge = this.props.team.challenges[0];
     model.skills = _.map(this.props.skills, (skill) => skill.name);
@@ -76,13 +76,13 @@ class EditTeamWidget extends React.Component {
     } else {
       model.open = 'Close';
     }
-    model.members = _.map(this.props.members, (m) => m.username);
+    model.members = _.uniq(_.map(this.props.members, (m) => m.username));
     // console.log('model', model);
     return model;
   }
 
   submitData(data) {
-    console.log('submit', data);
+    // console.log('submit', data);
     const collectionName = Teams.getCollectionName();
     const updateData = {};
     // description, challenges, skills, tools, image, open
@@ -113,6 +113,9 @@ class EditTeamWidget extends React.Component {
     }
     if (data.image) {
       updateData.image = data.image;
+    }
+    if (data.members) {
+      updateData.participants = data.members;
     }
     // console.log(collectionName, updateData);
     updateMethod.call({ collectionName, updateData }, (error) => {
