@@ -30,6 +30,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log(props.participants);
     this.state = {
       search: '',
       challenges: [],
@@ -78,7 +79,8 @@ class ListParticipantsWidgetAdmin extends React.Component {
       const teamResults = filters.filterByTeam(this.state.teams, this.props.teams,
         this.props.teamParticipants, challengeResults);
       // const noTeamResults = filters.filterNoTeam(this.props.teamParticipants, teamResults);
-      const sorted = filters.sortBy(teamResults, 'participants');
+      const sorted = _.uniqBy(filters.sortBy(teamResults, 'participants'), 'username');
+      // console.log(sorted);
       this.setState({
         result: sorted,
       }, () => {
@@ -199,7 +201,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
       if (!this.state.noTeamCheckbox) {
         const participants = this.state.result;
         const results = filters.filterNoTeam(this.props.teamParticipants, participants);
-        const sorted = filters.sortBy(results, 'participants');
+        const sorted = _.uniqBy(filters.sortBy(results, 'participants'), 'username');
         this.setState({
           result: sorted,
         }, () => {
@@ -218,7 +220,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
       if (!this.state.compliantCheckbox) {
         const participants = this.state.result;
         const results = participants.filter(p => !p.isCompliant);
-        const sorted = filters.sortBy(results, 'participants');
+        const sorted = _.uniqBy(filters.sortBy(results, 'participants'), 'username');
         this.setState({
           result: sorted,
         }, () => {
@@ -236,7 +238,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
     const filterStyle = {
       paddingTop: 4,
     };
-
+    // console.log(this.state.result);
     return (
       <div style={{ paddingBottom: '50px' }}>
         <Grid container doubling relaxed stackable centered>
@@ -360,15 +362,26 @@ ListParticipantsWidgetAdmin.propTypes = {
 
 };
 
-export default withTracker(() => ({
-  participantChallenges: ParticipantChallenges.find({}).fetch(),
-  participantSkills: ParticipantSkills.find({}).fetch(),
-  participantTools: ParticipantTools.find({}).fetch(),
-  teams: Teams.find({}).fetch(),
-  teamParticipants: TeamParticipants.find({}).fetch(),
-  skills: Skills.find({}).fetch(),
-  challenges: Challenges.find({}).fetch(),
-  tools: Tools.find({}).fetch(),
-  participants: Participants.find({}).fetch(),
-
-}))(ListParticipantsWidgetAdmin);
+export default withTracker(() => {
+  const participantChallenges = ParticipantChallenges.find({}).fetch();
+  const participantSkills = ParticipantSkills.find({}).fetch();
+  const participantTools = ParticipantTools.find({}).fetch();
+  const teams = Teams.find({}).fetch();
+  const teamParticipants = TeamParticipants.find({}).fetch();
+  const skills = Skills.find({}).fetch();
+  const challenges = Challenges.find({}).fetch();
+  const tools = Tools.find({}).fetch();
+  const participants = Participants.find({}, { sort: { lastName: 1, firstName: 1 } }).fetch();
+  // console.log(participants);
+  return {
+    participantChallenges,
+    participantSkills,
+    participantTools,
+    teams,
+    teamParticipants,
+    skills,
+    challenges,
+    tools,
+    participants,
+  };
+})(ListParticipantsWidgetAdmin);

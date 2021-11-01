@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import _ from 'lodash';
 import { ZipZap } from 'meteor/udondan:zipzap';
 import { Button, Checkbox, Form, Grid, Header, Item, Segment } from 'semantic-ui-react';
 import { Teams } from '../../../api/team/TeamCollection';
@@ -20,7 +21,7 @@ const getTeamMembers = (team) => {
     const gitHub = participant.gitHub;
     return `${fullName}, (${gitHub})`;
   });
-  return memberNames;
+  return _.uniq(memberNames);
 };
 
 const ViewTeams = ({ participants, teams, teamChallenges, teamParticipants }) => {
@@ -35,14 +36,13 @@ const ViewTeams = ({ participants, teams, teamChallenges, teamParticipants }) =>
 
   const teamIsCompliant = (teamID) => {
     const tps = teamParticipants.filter(tp => tp.teamID === teamID);
-    // eslint-disable-next-line consistent-return
+    let compliant = true;
     tps.forEach(tp => {
       const participant = participants.filter(p => p._id === tp.participantID);
-      if (!participant[0].isCompliant) {
-        return false;
-      }
+      // console.log(participant);
+      compliant = compliant && participant[0].isCompliant;
     });
-    return true;
+    return compliant;
   };
 
   const handleChange = (e, { value }) => {
@@ -181,7 +181,7 @@ ViewTeams.propTypes = {
 };
 
 export default withTracker(() => {
-  const teams = Teams.find({}).fetch();
+  const teams = Teams.find({}, { sort: { name: 1 } }).fetch();
   const teamChallenges = TeamChallenges.find({}).fetch();
   const teamParticipants = TeamParticipants.find({}).fetch();
   const participants = Participants.find({}).fetch();

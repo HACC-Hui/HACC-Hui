@@ -26,11 +26,12 @@ const ViewTeam = ({ isCompliant, participants, teamChallenges, team, teamMembers
   // console.log(team, captain, teamChallenges);
   return (
       <Item onMouseEnter={changeBackground} onMouseLeave={onLeave}
-            style={{ padding: '0rem 1.5rem 0.5rem 1.5rem' }}>
+            style={{ padding: '1.0rem 1.5rem 1.0rem 1.5rem' }}>
         <Modal closeIcon trigger={
           <Item.Content>
             <Item.Header>
-              {team.name} {isCompliant ? <Icon className="green check"/> : <Icon name="red minus square outline"/> }
+              {team.name} {isCompliant ? <Icon className="green check"/> : <Icon name="exclamation circle"
+                                                                                 color="red"/> }
             </Item.Header>
             <Item.Description>
               <strong>Captain:</strong> {captain ? `${captain.firstName} ${captain.lastName}: ${captain.username}   `
