@@ -9,6 +9,7 @@ import {
 } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 
 class ListParticipantCardAdmin extends React.Component {
@@ -38,6 +39,9 @@ class ListParticipantCardAdmin extends React.Component {
                 <Icon name='user' size='tiny' />
                 {this.props.participants.firstName} {this.props.participants.lastName}
                 {this.props.teams.length === 0 ? (<Item.Extra><Icon color='red' name='dont' />No team</Item.Extra>)
+                  : ''}
+                {_.uniq(this.props.teams).length > 1 ? (<Item.Extra><Icon color='red'
+                                                                          name='dont' />Multiple teams</Item.Extra>)
                   : ''}
                 {isMinor ? (<Item.Extra><Icon name='child'/>Minor</Item.Extra>) : ''}
               </Header>
@@ -127,7 +131,7 @@ class ListParticipantCardAdmin extends React.Component {
               <Grid.Column>
                 <Header dividing size="small">Teams</Header>
                 <List bulleted>
-                  {this.props.teams.map((team, i) => <List.Item key={team + i}>{team}</List.Item>)}
+                  {_.uniq(this.props.teams).map((team, i) => <List.Item key={team + i}>{team}</List.Item>)}
                 </List>
               </Grid.Column>
             </Modal.Description>

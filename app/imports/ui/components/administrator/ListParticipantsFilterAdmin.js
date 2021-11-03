@@ -210,6 +210,17 @@ class ListParticipantsFilterAdmin {
     return retVal;
   }
 
+  filterMultipleTeams(teamParticipants, allParticipants) {
+    const retVal = [];
+    allParticipants.forEach((p, i) => {
+      const teams = _.uniqBy(_.filter(teamParticipants, { participantID: p._id }), 'teamID');
+      if (teams.length > 1) {
+        retVal.push(allParticipants[i]);
+      }
+    });
+    return retVal;
+  }
+
   filterByTeam(value, allTeams, teamParticipants, allParticipants) {
     // do no filtering if no teams selected.
     if (value.length === 0) {

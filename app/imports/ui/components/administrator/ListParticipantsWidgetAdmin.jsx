@@ -30,7 +30,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props.participants);
+    // console.log(props.participants);
     this.state = {
       search: '',
       challenges: [],
@@ -38,6 +38,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
       skills: [],
       teams: [],
       noTeamCheckbox: false,
+      multipleTeamsCheckbox: false,
       compliantCheckbox: false,
       result: _.orderBy(this.props.participants, ['name'], ['asc']),
     };
@@ -197,6 +198,26 @@ class ListParticipantsWidgetAdmin extends React.Component {
       zip.saveAs(`${dir}.zip`);
     };
 
+    const handleMultipleTeams = () => {
+      if (!this.state.multipleTeamsCheckbox) {
+        const participants = this.state.result;
+        const results = filters.filterMultipleTeams(this.props.teamParticipants, participants);
+        const sorted = _.uniqBy(filters.sortBy(results, 'participants'), 'username');
+        this.setState({
+          result: sorted,
+        }, () => {
+        });
+      } else {
+        this.setState({
+          result: this.props.participants,
+        }, () => {
+        });
+
+      }
+      const checked = this.state.multipleTeamsCheckbox;
+      this.setState({ multipleTeamsCheckbox: !checked });
+    };
+
     const handleNoTeam = () => {
       if (!this.state.noTeamCheckbox) {
         const participants = this.state.result;
@@ -269,6 +290,7 @@ class ListParticipantsWidgetAdmin extends React.Component {
                   </Header.Content>
                 </Header>
                 <Checkbox onChange={handleNoTeam} label="No Team"/>
+                <Checkbox onChange={handleMultipleTeams} label="Multiple Teams"/>
                 <Checkbox onChange={handleNotCompliant} label="Not Compliant"/>
               </div>
               <div style={filterStyle}>
