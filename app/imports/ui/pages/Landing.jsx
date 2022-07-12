@@ -41,8 +41,8 @@ class Landing extends React.Component {
               <br />
               <br />
               <b>Deadlines:</b> <br />
-              Team Formation: <b>October 30th, 5 pm.</b><br/>
-              Team Challenge selection: <b>November 6th, 5 pm.</b>
+              Team Formation: <b>October 18th, 5 pm.</b><br/>
+              Team Challenge selection: <b>October 18th, 5 pm.</b>
             </p>
           </Grid.Column>
           <Grid.Column
