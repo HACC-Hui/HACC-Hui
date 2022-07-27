@@ -55,7 +55,7 @@ class CreateTeamWidget extends React.Component {
         label: 'Availability',
       },
       name: { type: String, label: 'Team Name' },
-      challenge: { type: String, allowedValues: challengeNames },
+      challenge: { type: String, allowedValues: challengeNames, optional: true },
       skills: { type: Array, label: 'Skills', optional: true },
       'skills.$': { type: String, allowedValues: skillNames },
       tools: { type: Array, label: 'Toolsets', optional: true },
@@ -89,12 +89,13 @@ class CreateTeamWidget extends React.Component {
    */
   // eslint-disable-next-line no-unused-vars
   submit(formData, formRef) {
+    // console.log('create team submit', formData);
     this.setState({ isRegistered: [] });
     this.setState({ notRegistered: [] });
     const owner = this.props.participant.username;
     const { name, description, challenge, skills, tools, participants } = formData;
     if (/^[a-zA-Z0-9-]*$/.test(name) === false) {
-      swal('Error', 'Sorry, no special characters or space allowed.', 'error');
+      swal('Error', 'Sorry, no special characters or space allowed in the Team name.', 'error');
       return;
     }
     let partArray = [];
@@ -106,7 +107,7 @@ class CreateTeamWidget extends React.Component {
     const currPart = Participants.find({}).fetch();
     const isRegistered = [];
     const notRegistered = [];
-
+    // console.log(currPart, partArray);
     for (let i = 0; i < partArray.length; i++) {
       let registered = false;
       for (let j = 0; j < currPart.length; j++) {
@@ -144,10 +145,12 @@ class CreateTeamWidget extends React.Component {
       const doc = Tools.findDoc({ name: t });
       return Slugs.getNameFromID(doc.slugID);
     });
-    const challengeDoc = Challenges.findDoc({ title: challenge });
-    const challengeSlug = Slugs.getNameFromID(challengeDoc.slugID);
-    const challengesArr = [challengeSlug];
-
+    const challengesArr = [];
+    if (challenge) {
+      const challengeDoc = Challenges.findDoc({ title: challenge });
+      const challengeSlug = Slugs.getNameFromID(challengeDoc.slugID);
+      challengesArr.push(challengeSlug);
+    }
     const collectionName = Teams.getCollectionName();
     const definitionData = {
       name,
@@ -158,6 +161,7 @@ class CreateTeamWidget extends React.Component {
       skills: skillsArr,
       tools: toolsArr,
     };
+    // console.log(collectionName, definitionData);
     defineMethod.call(
         {
           collectionName,
@@ -232,7 +236,7 @@ class CreateTeamWidget extends React.Component {
               {/* eslint-disable-next-line max-len */}
               <Message>
                 <Header as="h4" textAlign="center">Team name and Devpost page ALL
-                  have to use the same name</Header>
+                  have to use the same name. Team names cannot have spaces or special characters.</Header>
               </Message>
               <AutoForm
                   ref={ref => {

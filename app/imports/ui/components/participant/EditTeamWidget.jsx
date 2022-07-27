@@ -48,7 +48,7 @@ class EditTeamWidget extends React.Component {
         label: 'Availability',
       },
       name: { type: String },
-      challenge: { type: String, allowedValues: challengeNames },
+      challenge: { type: String, allowedValues: challengeNames, optional: true },
       skills: { type: Array, label: 'Skills', optional: true },
       'skills.$': { type: String, allowedValues: skillNames },
       tools: { type: Array, label: 'Toolsets', optional: true },
