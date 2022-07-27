@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';

@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { expect } from 'chai';
 import moment from 'moment';
 import fc from 'fast-check';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Teams } from './TeamCollection';
 import { makeSampleChallengeSlugArray } from '../challenge/SampleChallenges';

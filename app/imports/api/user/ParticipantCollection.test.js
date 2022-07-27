@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { expect } from 'chai';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { Participants } from './ParticipantCollection';
 import { demographicLevels } from '../level/Levels';
 import { makeSampleSkillSlugArray } from '../skill/SampleSkills';

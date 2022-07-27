@@ -1,5 +1,5 @@
 import moment from 'moment';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import _ from 'lodash';
 import { Interests } from './InterestCollection';
 import { Slugs } from '../slug/SlugCollection';

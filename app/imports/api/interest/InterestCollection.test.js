@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { expect } from 'chai';
 import fc from 'fast-check';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Interests } from './InterestCollection';
 

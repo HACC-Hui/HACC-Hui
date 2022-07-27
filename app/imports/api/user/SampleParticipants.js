@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { Participants } from './ParticipantCollection';
 import { getRandomDemographicLevel } from '../level/Levels';
 import { makeSampleInterestSlugArray } from '../interest/SampleInterests';

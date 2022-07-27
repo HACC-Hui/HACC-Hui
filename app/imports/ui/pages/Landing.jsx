@@ -53,7 +53,7 @@ class Landing extends React.Component {
               alignItems: 'center',
             }}
           >
-            <Image centered size='medium' src='/images/HACC_icon_2021.jpg' />
+            <Image centered size='medium' src='/images/HACC_icon_2022.png' />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row style={{ backgroundColor: '#E5F0FE' }}>
