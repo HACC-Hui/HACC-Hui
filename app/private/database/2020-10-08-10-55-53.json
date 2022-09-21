@@ -97,23 +97,6 @@
       "name": "ParticipantCollection",
       "contents": [
         {
-          "username": "cmoore@hawaii.edu",
-          "firstName": "Cam",
-          "lastName": "Moore",
-          "demographicLevel": "Professional",
-          "isCompliant": true,
-          "linkedIn": "https://www.linkedin.com/in/cam-moore-9a5213/",
-          "gitHub": "https://github.com/cammoore",
-          "challenges": [
-          ],
-          "interests": [
-          ],
-          "skills": [
-          ],
-          "tools": [
-          ]
-        },
-        {
           "username": "aunggum@hawaii.edu",
           "firstName": "Gum",
           "lastName": "Aung",
