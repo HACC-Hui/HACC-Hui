@@ -44,7 +44,7 @@ class HelpPage extends React.Component {
           </Header>
           <h4>
             <b>
-              HACC HUI is an official HACC 2020 site to help participants create
+              HACC HUI is an official HACC 2022 site to help participants create
               and manage their teams
             </b>
           </h4>

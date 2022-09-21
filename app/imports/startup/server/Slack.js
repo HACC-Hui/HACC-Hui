@@ -23,15 +23,15 @@ if (!Meteor.isAppTest) {
   });
 
   app.event('message', async ({ event, say, context }) => {
-    console.log('message', event, context);
+    // console.log('message', event, context);
     if (event.text.toLowerCase().includes('register')) {
       const { profile } = await app.client.users.profile.get({
         token: context.botToken,
         user: event.user,
       });
-      console.log(profile);
+      // console.log(profile);
       const { email, first_name, last_name, real_name } = profile;
-      console.log(email, first_name, last_name, real_name);
+      // console.log(email, first_name, last_name, real_name);
       if (!isAdminEmail(email)) { // they are a participant
         if (!Participants.isDefined({ username: email })) {
           let firstName = first_name;
