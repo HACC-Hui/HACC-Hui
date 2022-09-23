@@ -36,7 +36,7 @@ const ViewTeam = ({ isCompliant, participants, teamChallenges, team, teamMembers
             <Item.Description>
               <strong>Captain:</strong> {captain ? `${captain.firstName} ${captain.lastName}: ${captain.username}   `
                 : '   '},
-              <strong>Challenge:</strong> {challenge.title}
+              <strong>Challenge:</strong> {challenge ? challenge.title : 'None yet.'}
             </Item.Description>
           </Item.Content>
             }>
