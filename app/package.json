@@ -48,7 +48,7 @@
     "jsdoc": "^3.6.7",
     "puppeteer": "^15.5.0",
     "sinon": "^9.2.4",
-    "testcafe": "^1.16.1"
+    "testcafe": "^15.1.317922"
   },
   "scripts": {
     "start": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --exclude-archs web.browser.legacy,web.cordova --settings ../config/settings.development.json --port 3400",
