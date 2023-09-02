@@ -33,6 +33,7 @@
     "xkpasswd": "^1.0.5"
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.3.3",
     "acorn": "^8.10.0",
     "babel-eslint": "^10.1.0",
     "better-docs": "^2.3.2",

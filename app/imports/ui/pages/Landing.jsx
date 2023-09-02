@@ -62,6 +62,8 @@ const Landing = () => {
           </p>
         </Col>
         <Col
+          xs={12}
+          md={6}
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -73,6 +75,8 @@ const Landing = () => {
       </Row>
       <Row style={{ backgroundColor: '#E5F0FE' }}>
         <Col
+          xs={12}
+          md={6}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -87,6 +91,8 @@ const Landing = () => {
           </p>
         </Col>
         <Col
+          xs={12}
+          md={6}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -103,6 +109,8 @@ const Landing = () => {
       </Row>
       <Row style={{ backgroundColor: '#E5F0FE' }}>
         <Col
+          xs={12}
+          md={6}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -110,13 +118,15 @@ const Landing = () => {
             alignItems: 'center',
           }}
         >
-          <Image centered size="small" src="/images/join.png" />
+          <Image fluid src="/images/join.png" />
           <b style={instructionLabelStyles}>Join a team</b>
           <p style={instructionDescriptionStyles}>
             Find a team to join and tackle a challenge together
           </p>
         </Col>
         <Col
+          xs={12}
+          md={6}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -124,7 +134,7 @@ const Landing = () => {
             alignItems: 'center',
           }}
         >
-          <Image centered size="small" src="/images/slackicon.png" />
+          <Image fluid src="/images/slackicon.png" />
           <b style={instructionLabelStyles}>Utilize Slack</b>
           <p style={instructionDescriptionStyles}>
             Communicate with your team through Slack
@@ -133,6 +143,8 @@ const Landing = () => {
       </Row>
       <Row style={{ backgroundColor: '#E5F0FE', marginBottom: 15 }}>
         <Col
+          xs={12}
+          md={6}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -146,6 +158,8 @@ const Landing = () => {
           </b>
         </Col>
         <Col
+          xs={12}
+          md={6}
           style={{
             display: 'flex',
             flexDirection: 'column',
