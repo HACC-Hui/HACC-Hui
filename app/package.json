@@ -53,7 +53,8 @@
     "jsdoc": "^3.6.7",
     "puppeteer": "^15.5.0",
     "sinon": "^9.2.4",
-    "testcafe": "^1.20.1"
+    "testcafe": "^1.20.1",
+    "prettier": "^3.0.3"
   },
   "scripts": {
     "start": "cross-env METEOR_NO_RELEASE_CHECK=1 meteor --exclude-archs web.browser.legacy,web.cordova --settings ../config/settings.development.json --port 3400",
@@ -62,6 +63,7 @@
     "test-integration": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer MOCHA_TIMEOUT=150000 meteor test --exclude-archs web.browser.legacy,web.cordova --full-app --once --driver-package meteortesting:mocha --port 3500",
     "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json",
     "move-docs": "cp -r ../docs/ ../../docusaurus/static/jsdoc/",
-    "deploy": "cross-env DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy hacchui.meteorapp.com --settings ../config/settings.production.json"
+    "deploy": "cross-env DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy hacchui.meteorapp.com --settings ../config/settings.production.json",
+    "check-format": "npx prettier . --check"
   }
 }
