@@ -19,6 +19,7 @@
     "react-addons-pure-render-mixin": "^15.6.3",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^16.14.0",
+    "react-icons": "^4.10.1",
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "semantic-ui-css": "^2.5.0",
@@ -32,6 +33,7 @@
     "xkpasswd": "^1.0.5"
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.3.3",
     "acorn": "^8.10.0",
     "babel-eslint": "^10.1.0",
     "better-docs": "^2.3.2",

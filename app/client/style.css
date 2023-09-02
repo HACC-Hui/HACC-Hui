@@ -14,7 +14,6 @@
   padding-top: 6rem !important;
 }
 
-
 @media screen and (max-width: 750px) {
   .navBar {
     display: none !important;
@@ -34,5 +33,4 @@
     padding-top: 6rem !important;
     margin-left: -1rem !important;
   }
-
 }
