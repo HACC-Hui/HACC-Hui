@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
 import { ZipZap } from 'meteor/udondan:zipzap';
-import { Button, Checkbox, Form, Grid, Header, Item, Segment } from 'semantic-ui-react';
+//import { Button, Checkbox, Form, Grid, Header, Item, Segment } from 'semantic-ui-react';
+import Button from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
+import Grid from 'react-bootstrap';
+import Container from 'react-bootstrap';
+import Stack from 'react-bootstrap';
+
 import { Teams } from '../../../api/team/TeamCollection';
 import ViewTeamExample from './ViewTeam';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
@@ -106,52 +112,52 @@ const ViewTeams = ({ participants, teams, teamChallenges, teamParticipants }) =>
   return (
       <Grid container centered>
         <Grid.Row>
-          <Grid.Column width={16}>
+          <Grid.Col width={16}>
             <div style={{
               backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
               borderRadius: '2rem',
             }}>
-              <Header as="h2" textAlign="center">View Teams ({filteredTeams.length})</Header>
+              <h2 textAlign="center">View Teams ({filteredTeams.length})</h2>
             </div>
-          </Grid.Column>
+          </Grid.Col>
         </Grid.Row>
         <Grid.Row>
           <Button onClick={handleDownload}>Download Team Captain emails</Button>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={4}>
-            <Segment style={stickyStyle}>
+          <Grid.Col width={4}>
+            <Container style={stickyStyle}>
               <Form>
-                <Form.Field>Select a filter</Form.Field>
+                <Form.Group>Select a filter</Form.Group>
                 {/* <Form.Field> */}
                 {/*  <Checkbox checked={filterValue === 'Challenge'} label="No challenge" onChange={handleChange} */}
                 {/*            radio name='checkboxRadioGroup' value='Challenge' */}
                 {/*  /> */}
                 {/* </Form.Field> */}
-                <Form.Field>
-                  <Checkbox checked={filterValue === 'NonCompliant'} label="Non Compliant" onChange={handleChange}
+                <Form.Group>
+                  <Form.Check checked={filterValue === 'NonCompliant'} label="Non Compliant" onChange={handleChange}
                             radio name='checkboxRadioGroup' value='NonCompliant'
                   />
-                </Form.Field>
-                <Form.Field>
-                  <Checkbox checked={filterValue === 'NoDevPost'} label="No devpost" onChange={handleChange}
+                </Form.Group>
+                <Form.Group>
+                  <Form.Check checked={filterValue === 'NoDevPost'} label="No devpost" onChange={handleChange}
                             radio name='checkboxRadioGroup' value='NoDevPost'
                   />
-                </Form.Field>
-                <Form.Field>
-                  <Checkbox checked={filterValue === 'NoGitHub'} label="No GitHub" onChange={handleChange}
+                </Form.Group>
+                <Form.Group>
+                  <Form.Check checked={filterValue === 'NoGitHub'} label="No GitHub" onChange={handleChange}
                             radio name='checkboxRadioGroup' value='NoGitHub'
                   />
-                </Form.Field>
-                <Form.Field>
-                  <Checkbox checked={filterValue === 'None'} label="None" onChange={handleChange}
+                </Form.Group>
+                <Form.Group>
+                  <Form.Check checked={filterValue === 'None'} label="None" onChange={handleChange}
                             radio name='checkboxRadioGroup' value='None' />
-                </Form.Field>
+                </Form.Group>
               </Form>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column width={12}>
-            <Item.Group divided>
+            </Container>
+          </Grid.Col>
+          <Grid.Col width={12}>
+            <Stack gap={5}>
               {filteredTeams.map((team) => (
                   <ViewTeamExample key={team._id}
                                    team={team}
@@ -159,8 +165,8 @@ const ViewTeams = ({ participants, teams, teamChallenges, teamParticipants }) =>
                                    isCompliant={teamIsCompliant(team._id)}
                   />
               ))}
-            </Item.Group>
-          </Grid.Column></Grid.Row>
+            </Stack>
+          </Grid.Col></Grid.Row>
       </Grid>
   );
 };
