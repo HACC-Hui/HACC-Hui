@@ -53,7 +53,7 @@ const ViewTeams = ({ participants, teams, teamChallenges, teamParticipants }) =>
     return compliant;
   };
 
-  const handleChange = (e, { value }) => {
+  const handleChange = ({ target: {value} }) => {
     setFilterValue(value);
     const remainingTeams = [];
     const localTeams = filteredTeams;
@@ -137,24 +137,45 @@ const ViewTeams = ({ participants, teams, teamChallenges, teamParticipants }) =>
                 {/*  /> */}
                 {/* </Form.Field> */}
                 <Form.Group>
-                  <FormCheck checked={filterValue === 'NonCompliant'} label="Non Compliant" onChange={handleChange}
-                            radio name='checkboxRadioGroup' value='NonCompliant'
+                  <FormCheck
+                      type="radio"
+                      label="Non Compliant"
+                      radio name='checkboxRadioGroup'
+                      value='NonCompliant'
+                      checked={filterValue === 'NonCompliant'}
+                      onChange={handleChange}
                   />
 
                 </Form.Group>
                 <Form.Group>
-                  <Form.Check checked={filterValue === 'NoDevPost'} label="No devpost" onChange={handleChange}
-                            radio name='checkboxRadioGroup' value='NoDevPost'
+                  <Form.Check
+                      type="radio"
+                      label="No devpost"
+                      radio name='checkboxRadioGroup'
+                      value='NoDevPost'
+                      checked={filterValue === 'NoDevPost'}
+                      onChange={handleChange}
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Check checked={filterValue === 'NoGitHub'} label="No GitHub" onChange={handleChange}
-                            radio name='checkboxRadioGroup' value='NoGitHub'
+                  <Form.Check
+                      type="radio"
+                      label="No GitHub"
+                      radio name='checkboxRadioGroup'
+                      value='NoGitHub'
+                      checked={filterValue === 'NoGitHub'}
+                      onChange={handleChange}
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Check checked={filterValue === 'None'} label="None" onChange={handleChange}
-                            radio name='checkboxRadioGroup' value='None' />
+                  <Form.Check
+                      type="radio"
+                      label="None"
+                      radio name='checkboxRadioGroup'
+                      value='None'
+                      checked={filterValue === 'None'}
+                      onChange={handleChange}
+                  />
                 </Form.Group>
               </Form>
             </Container>
