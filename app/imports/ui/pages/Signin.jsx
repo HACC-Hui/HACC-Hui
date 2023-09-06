@@ -19,20 +19,20 @@ function Signin() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInfo({ info, [name]: value });
+    setInfo({ ...info, [name]: value });
   }
 
   const submit = () => {
     const { email, password } = info;
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
-        setInfo({ info, error: err.reason });
+        setInfo({ ...info, error: err.reason });
       } else {
         let role = ROLE.PARTICIPANT;
         if (Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN)) {
           role = ROLE.ADMIN;
         }
-        setInfo({ info, error: '', redirectToReferer: true, role: role });
+        setInfo({ ...info, error: '', redirectToReferer: true, role: role });
       }
     });
   }
