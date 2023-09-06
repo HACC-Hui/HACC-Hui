@@ -1,9 +1,9 @@
 import { Selector } from 'testcafe';
 import { Credentials } from './tests.testcafe';
 
-class PageNameTest {
+class HelpPageTest {
   constructor() {
-    this.pageId = '#PAGE-ID';
+    this.pageId = '#help-page';
     this.pageSelector = Selector(this.pageId);
   }
 
@@ -16,18 +16,18 @@ class PageNameTest {
   /** @type {(tc: TestController) => Promise<void>} */
   async test(tc) {
     // await tc.debug();
-    await tc.navigateTo('/#/page-path');
+    await tc.navigateTo('/#/help-page');
     await this.isDisplayed(tc);
   }
 
-  // IN CASE YOUR TEST NEEDS TO SIGN IN FIRST, YOU CAN DO SOMETHING LIKE THIS
-  // /** @type {(tc: TestController) => Promise<void>} */
+  // IN CASE YOUR TEST WANTS CREDENTIALS, YOU CAN DO SOMETHING LIKE THIS
+  // /** @type {(tc: TestController, creds: Credentials) => void} */
   // async test(tc, creds) {
   //   // await tc.debug();
-  //   await signInAs(tc, participantCredentials or adminCredentials);
   //   await tc.navigateTo('/#/page-path');
   //   await this.isDisplayed(tc);
+  //   await this.somethingThatNeedsCreds(tc, creds);
   // }
 }
 
-export const pageNameTest = new PageNameTest();
+export const helpPageTest = new HelpPageTest();

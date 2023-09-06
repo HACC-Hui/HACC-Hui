@@ -4,7 +4,14 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
 import { ZipZap } from 'meteor/udondan:zipzap';
-import { Button, Checkbox, Form, Grid, Header, Item, Segment } from 'semantic-ui-react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Stack from 'react-bootstrap/Stack';
+import FormCheck from 'react-bootstrap/FormCheck'
+
 import { Teams } from '../../../api/team/TeamCollection';
 import ViewTeamExample from './ViewTeam';
 import { TeamParticipants } from '../../../api/team/TeamParticipantCollection';
@@ -45,7 +52,7 @@ const ViewTeams = ({ participants, teams, teamChallenges, teamParticipants }) =>
     return compliant;
   };
 
-  const handleChange = (e, { value }) => {
+  const handleChange = ({ target: {value} }) => {
     setFilterValue(value);
     const remainingTeams = [];
     const localTeams = filteredTeams;
@@ -104,54 +111,76 @@ const ViewTeams = ({ participants, teams, teamChallenges, teamParticipants }) =>
   };
 
   return (
-      <Grid container centered>
-        <Grid.Row>
-          <Grid.Column width={16}>
+      <Container centered>
+        <Row>
+          <Col width={16}>
             <div style={{
               backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
-              borderRadius: '2rem',
+              borderRadius: '2rem', textAlign: "center"
             }}>
-              <Header as="h2" textAlign="center">View Teams ({filteredTeams.length})</Header>
+              <h2>View Teams ({filteredTeams.length})</h2>
             </div>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
+          </Col>
+        </Row>
+        <Row>
           <Button onClick={handleDownload}>Download Team Captain emails</Button>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column width={4}>
-            <Segment style={stickyStyle}>
+        </Row>
+        <Row>
+          <Col width={4}>
+            <Container style={stickyStyle}>
               <Form>
-                <Form.Field>Select a filter</Form.Field>
+                <Form.Group>Select a filter</Form.Group>
                 {/* <Form.Field> */}
                 {/*  <Checkbox checked={filterValue === 'Challenge'} label="No challenge" onChange={handleChange} */}
                 {/*            radio name='checkboxRadioGroup' value='Challenge' */}
                 {/*  /> */}
                 {/* </Form.Field> */}
-                <Form.Field>
-                  <Checkbox checked={filterValue === 'NonCompliant'} label="Non Compliant" onChange={handleChange}
-                            radio name='checkboxRadioGroup' value='NonCompliant'
+                <Form.Group>
+                  <FormCheck
+                      type="radio"
+                      label="Non Compliant"
+                      radio name='checkboxRadioGroup'
+                      value='NonCompliant'
+                      checked={filterValue === 'NonCompliant'}
+                      onChange={handleChange}
                   />
-                </Form.Field>
-                <Form.Field>
-                  <Checkbox checked={filterValue === 'NoDevPost'} label="No devpost" onChange={handleChange}
-                            radio name='checkboxRadioGroup' value='NoDevPost'
+
+                </Form.Group>
+                <Form.Group>
+                  <Form.Check
+                      type="radio"
+                      label="No devpost"
+                      radio name='checkboxRadioGroup'
+                      value='NoDevPost'
+                      checked={filterValue === 'NoDevPost'}
+                      onChange={handleChange}
                   />
-                </Form.Field>
-                <Form.Field>
-                  <Checkbox checked={filterValue === 'NoGitHub'} label="No GitHub" onChange={handleChange}
-                            radio name='checkboxRadioGroup' value='NoGitHub'
+                </Form.Group>
+                <Form.Group>
+                  <Form.Check
+                      type="radio"
+                      label="No GitHub"
+                      radio name='checkboxRadioGroup'
+                      value='NoGitHub'
+                      checked={filterValue === 'NoGitHub'}
+                      onChange={handleChange}
                   />
-                </Form.Field>
-                <Form.Field>
-                  <Checkbox checked={filterValue === 'None'} label="None" onChange={handleChange}
-                            radio name='checkboxRadioGroup' value='None' />
-                </Form.Field>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Check
+                      type="radio"
+                      label="None"
+                      radio name='checkboxRadioGroup'
+                      value='None'
+                      checked={filterValue === 'None'}
+                      onChange={handleChange}
+                  />
+                </Form.Group>
               </Form>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column width={12}>
-            <Item.Group divided>
+            </Container>
+          </Col>
+          <Col width={12}>
+            <Stack gap={5}>
               {filteredTeams.map((team) => (
                   <ViewTeamExample key={team._id}
                                    team={team}
@@ -159,9 +188,9 @@ const ViewTeams = ({ participants, teams, teamChallenges, teamParticipants }) =>
                                    isCompliant={teamIsCompliant(team._id)}
                   />
               ))}
-            </Item.Group>
-          </Grid.Column></Grid.Row>
-      </Grid>
+            </Stack>
+          </Col></Row>
+      </Container>
   );
 };
 
