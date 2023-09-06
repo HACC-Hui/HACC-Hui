@@ -19,20 +19,20 @@ function Signin() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInfo({ [name]: value });
+    setInfo({ info, [name]: value });
   }
 
   const submit = () => {
     const { email, password } = info;
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
-        setInfo({ error: err.reason });
+        setInfo({ info, error: err.reason });
       } else {
         let role = ROLE.PARTICIPANT;
         if (Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN)) {
           role = ROLE.ADMIN;
         }
-        setInfo({ error: '', redirectToReferer: true, role: role });
+        setInfo({ info, error: '', redirectToReferer: true, role: role });
       }
     });
   }
@@ -115,7 +115,7 @@ function Signin() {
               ) : (
                   <Alert variant="danger">
                     <strong>Login was not successful</strong>
-                    <p>{this.state.error}</p>
+                    <p>{info.error}</p>
                   </Alert>
               )}
             </Col>
