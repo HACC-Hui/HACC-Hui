@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container} from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 /**
  * Render a Not Found page if the user enters a URL that doesn't match any route.
