@@ -18,7 +18,6 @@
 
 #page-wrapper {
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
-  padding-top: 1rem;
 }
 
 .mobileBar {

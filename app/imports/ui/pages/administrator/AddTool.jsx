@@ -50,7 +50,7 @@ const AddTool = () => {
   );
 
   return (
-    <Container>
+    <Container id="add-tool-page">
       <h2 className="text-center fw-bold">Add a Tool</h2>
       <AutoForm ref={formRef} schema={formSchema} onSubmit={handleSubmit}>
         <div className="border p-3">

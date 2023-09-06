@@ -1,23 +1,35 @@
-import {} from 'testcafe';
+import { Selector } from 'testcafe';
 import { landingPageTest } from './landingPage.e2e';
-import { helpPageTest } from './HelpPage.e2e'
+import { helpPageTest } from './HelpPage.e2e';
+import { addToolPageTest } from './addToolPage.e2e';
 
 /**
  * @typedef {object} Credentials
- * @property {string} username
+ * @property {string} email
  * @property {string} password
  */
 
 /** @type {Credentials} */
-const participantCredentials = {
-  username: 'john@foo.com',
+export const participantCredentials = {
+  email: 'john@foo.com',
   password: 'changeme',
 };
 
 /** @type {Credentials} */
-const adminCredentials = {
-  username: 'admin@hacchui.ics.hawaii.edu',
+export const adminCredentials = {
+  email: 'admin@hacchui.ics.hawaii.edu',
   password: 'changeme',
+};
+
+/** @type {(tc: TestController, creds: Credentials) => Promise<void>} */
+export const signInAs = async (tc, creds) => {
+  await tc.navigateTo('/#/signin');
+  const emailInput = Selector('input[type="email"]');
+  const passwordInput = Selector('input[type="password"]');
+  await tc.typeText(emailInput, creds.email);
+  await tc.typeText(passwordInput, creds.password);
+  await tc.click(Selector('button').withText('Submit'));
+  await tc.expect(Selector('#landing-page').visible).ok();
 };
 
 fixture('HACC-Hui').page('http://localhost:3400');
@@ -28,4 +40,8 @@ test('Test landing page', async (testController) => {
 
 test('Test Help Page', async (testController) => {
   await helpPageTest.test(testController);
+});
+
+test('Test Add Tool page', async (testController) => {
+  await addToolPageTest.test(testController);
 });
