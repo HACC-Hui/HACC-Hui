@@ -7,7 +7,7 @@ import { Container } from 'react-bootstrap';
  */
 function NotFound() {
     return (
-        <Container as="h2" className="text-center">
+        <Container id="not-found-page" as="h2" className="text-center">
             <p>Page not found</p>
         </Container>
     );
