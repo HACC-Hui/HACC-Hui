@@ -15,18 +15,18 @@ import { ROUTES } from '../../startup/client/route-constants';
  */
 
 function Signin() {
-  this.state = { email: '', password: '', error: '', redirectToReferer: false, role: '' };
+  const [info, setInfo] = useState({ email: '', password: '', error: '', redirectToReferer: false, role: '' });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    setInfo({ [name]: value });
   }
 
   const submit = () => {
-    const { email, password } = this.state;
+    const { email, password } = info;
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
-        this.setState({ error: err.reason });
+        setInfo({ error: err.reason });
       } else {
         let role = ROLE.PARTICIPANT;
         if (Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN)) {
