@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Segment } from 'semantic-ui-react';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 import { ZipZap } from 'meteor/udondan:zipzap';
 import moment from 'moment';
 import swal from 'sweetalert';
@@ -8,8 +9,8 @@ import { dumpDatabaseMethod, dumpTeamCSVMethod } from '../../../api/base/BaseCol
 
 export const databaseFileDateFormat = 'YYYY-MM-DD-HH-mm-ss';
 
-class DumpDatabase extends React.Component {
-  handleClick() {
+function DumpDatabase() {
+  const handleClick = () => {
     dumpDatabaseMethod.call((error, result) => {
       if (error) {
         console.error('Problem dumping database.', error);
@@ -23,7 +24,7 @@ class DumpDatabase extends React.Component {
     });
   }
 
-  handleDumpTeamCSV() {
+  const handleDumpTeamCSV = () => {
     dumpTeamCSVMethod.call((error, result) => {
       if (error) {
         swal('Error', error.message, 'error');
@@ -38,14 +39,12 @@ class DumpDatabase extends React.Component {
     });
   }
 
-  render() {
     return (
-    <Segment>
-      <Button positive={true} onClick={this.handleClick}>Dump the Database</Button>
-      <Button positive={true} onClick={this.handleDumpTeamCSV}>Dump the Teams</Button>
-    </Segment>
+    <Container>
+      <Button style={{ marginTop: '10px', marginBottom: '10px', marginRight: '10px' }} positive={true} onClick={handleClick}>Dump the Database</Button>
+      <Button positive={true} onClick={handleDumpTeamCSV}>Dump the Teams</Button>
+    </Container>
     );
-  }
 }
 
 export default DumpDatabase;
