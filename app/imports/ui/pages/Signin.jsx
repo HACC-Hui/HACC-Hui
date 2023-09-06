@@ -11,7 +11,6 @@ import { ROUTES } from '../../startup/client/route-constants';
 /**
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().
  * Authentication errors modify the component’s state to be displayed
- * @memberOf ui/pages
  */
 
 class Signin extends React.Component {
