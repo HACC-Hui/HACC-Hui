@@ -62,6 +62,8 @@
     "lint": "eslint --quiet --ext .jsx --ext .js ./imports",
     "test-unit": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer MOCHA_TIMEOUT=150000 meteor test --exclude-archs web.browser.legacy,web.cordova --once --driver-package meteortesting:mocha --port 3500",
     "test-integration": "cross-env METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=puppeteer MOCHA_TIMEOUT=150000 meteor test --exclude-archs web.browser.legacy,web.cordova --full-app --once --driver-package meteortesting:mocha --port 3500",
+    "testcafe": "testcafe chrome tests/*.testcafe.js",
+    "testcafe-ci": "testcafe chrome:headless tests/*.testcafe.js -q",
     "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json",
     "move-docs": "cp -r ../docs/ ../../docusaurus/static/jsdoc/",
     "deploy": "cross-env DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy hacchui.meteorapp.com --settings ../config/settings.production.json",

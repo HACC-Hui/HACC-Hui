@@ -23,7 +23,7 @@ const Landing = () => {
   };
 
   return (
-    <Container fluid>
+    <Container fluid id="landing-page">
       <Row style={{ margin: 50 }}>
         <Col
           width={8}
