@@ -32,7 +32,7 @@ function Signin() {
         if (Roles.userIsInRole(Meteor.userId(), ROLE.ADMIN)) {
           role = ROLE.ADMIN;
         }
-        this.setState({ error: '', redirectToReferer: true, role: role });
+        setInfo({ error: '', redirectToReferer: true, role: role });
       }
     });
   }
@@ -52,7 +52,7 @@ function Signin() {
     }
     const { from } = this.props.location.state || { from: { pathname } };
 
-    if (this.state.redirectToReferer) {
+    if (info.redirectToReferer) {
       return <Redirect to={from} />;
     }
 
@@ -110,7 +110,7 @@ function Signin() {
                   marginBottom: 10,
                    }}>Submit</Button>
               </Form>
-              {this.state.error === '' ? (
+              {info.error === '' ? (
                   ''
               ) : (
                   <Alert variant="danger">
