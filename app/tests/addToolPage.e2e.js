@@ -1,9 +1,9 @@
 import { Selector } from 'testcafe';
-import { Credentials } from './tests.testcafe';
+import { Credentials, adminCredentials, signInAs } from './tests.testcafe';
 
-class LandingPageTest {
+class AddToolPageTest {
   constructor() {
-    this.pageId = '#landing-page';
+    this.pageId = '#add-tool-page';
     this.pageSelector = Selector(this.pageId);
   }
 
@@ -16,9 +16,10 @@ class LandingPageTest {
   /** @type {(tc: TestController) => Promise<void>} */
   async test(tc) {
     // await tc.debug();
-    await tc.navigateTo('/#/');
+    await signInAs(tc, adminCredentials);
+    await tc.navigateTo('/#/add-tool');
     await this.isDisplayed(tc);
   }
 }
 
-export const landingPageTest = new LandingPageTest();
+export const addToolPageTest = new AddToolPageTest();

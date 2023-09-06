@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import 'semantic-ui-css/semantic.css';
@@ -61,18 +61,21 @@ import ShowMinorPage from '../pages/administrator/ShowMinorPage';
 const App = () => {
   const [collapseNavbar, setCollapseNavbar] = useState(false);
 
+  const updatePredicate = useCallback(() => {
+    setCollapseNavbar(window.innerWidth < 750);
+  }, []);
+
   useEffect(() => {
     updatePredicate();
-    window.addEventListener('resize', updatePredicate);
+
+    const root = document.querySelector(':root');
+    const footer = document.getElementById('footer');
+    root.style.setProperty('--footer-height', `${footer.offsetHeight}px`);
 
     return () => {
       window.removeEventListener('resize', updatePredicate);
     };
-  }, []);
-
-  const updatePredicate = () => {
-    setCollapseNavbar(window.innerWidth < 750);
-  };
+  }, [updatePredicate]);
 
   // prettier-ignore
   const routes = () => (
@@ -121,20 +124,20 @@ const App = () => {
       {!collapseNavbar ? (
         <>
           <NavBar />
-          {routes()}
+          <div id="page-wrapper">{routes()}</div>
           <Footer />
         </>
       ) : (
-        <div>
+        <>
           <meta
             name="viewport"
             content="width=device-width, maximum-scale=1.5"
           />
           <SideBar visible>
-            {routes()}
+            <div id="page-wrapper">{routes()}</div>
             <Footer />
           </SideBar>
-        </div>
+        </>
       )}
     </Router>
   );

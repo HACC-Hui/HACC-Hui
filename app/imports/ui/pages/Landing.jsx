@@ -39,13 +39,12 @@ const Landing = () => {
               color: '#0B2C52',
               fontSize: 30,
               alignSelf: 'flex-start',
-              paddingLeft: 20,
-              marginBottom: 15,
             }}
           >
             Welcome to HACC-Hui
           </b>
-          <p style={{ fontSize: 20, paddingLeft: 20, color: '#0B2C52' }}>
+          <br />
+          <p style={{ fontSize: 20, color: '#0B2C52' }}>
             Our goal is to simplify team formation and ongoing team management
             for the Hawaii Annual Code Challenge.
             <br />
@@ -55,7 +54,8 @@ const Landing = () => {
             look for members that fit your team’s requirements.
             <br />
             <br />
-            <b>Deadlines:</b> <br />
+            <b>Deadlines:</b>
+            <br />
             Team Formation: <b>October 18th, 5 pm.</b>
             <br />
             Team Challenge selection: <b>October 18th, 5 pm.</b>
@@ -141,7 +141,7 @@ const Landing = () => {
           </p>
         </Col>
       </Row>
-      <Row style={{ backgroundColor: '#E5F0FE', marginBottom: 15 }}>
+      <Row style={{ backgroundColor: '#E5F0FE', paddingBottom: '1rem' }}>
         <Col
           xs={12}
           md={6}
