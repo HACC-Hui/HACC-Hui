@@ -14,18 +14,15 @@ import { ROUTES } from '../../startup/client/route-constants';
  * @memberOf ui/pages
  */
 
-class Signin extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { email: '', password: '', error: '', redirectToReferer: false, role: '' };
-  }
+function Signin() {
+  this.state = { email: '', password: '', error: '', redirectToReferer: false, role: '' };
 
-  handleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   }
 
-  submit = () => {
+  const submit = () => {
     const { email, password } = this.state;
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
@@ -40,7 +37,6 @@ class Signin extends React.Component {
     });
   }
 
-  render() {
     let pathname = ROUTES.LANDING;
     if (Participants.isDefined(Meteor.userId())) {
       const dev = Participants.findDoc({ userID: Meteor.userId() });
@@ -71,7 +67,7 @@ class Signin extends React.Component {
                 justifyContent: 'center',
                 alignItems: 'center' }}>
                 Login to your account</h2>
-              <Form onSubmit={this.submit}
+              <Form onSubmit={submit}
                     style={{
                       display: 'grid',
                       flexDirection: 'column',
@@ -91,7 +87,7 @@ class Signin extends React.Component {
                         type="email"
                         name="email"
                         placeholder="E-mail address"
-                        onChange={this.handleChange}
+                        onChange={handleChange}
                     />
                   </div>
                 </Form.Group>
@@ -105,7 +101,7 @@ class Signin extends React.Component {
                         type="password"
                         name="password"
                         placeholder="Password"
-                        onChange={this.handleChange}
+                        onChange={handleChange}
                     />
                   </div>
                 </Form.Group>
@@ -126,7 +122,6 @@ class Signin extends React.Component {
           </Row>
         </Container>
     );
-  }
 }
 
 Signin.propTypes = {
