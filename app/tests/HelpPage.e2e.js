@@ -1,5 +1,4 @@
 import { Selector } from 'testcafe';
-import { Credentials } from './tests.testcafe';
 
 class HelpPageTest {
   constructor() {
