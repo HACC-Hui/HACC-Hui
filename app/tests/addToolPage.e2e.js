@@ -1,5 +1,5 @@
 import { Selector } from 'testcafe';
-import { Credentials, adminCredentials, signInAs } from './tests.testcafe';
+import { adminCredentials, signInAs } from './_helpers';
 
 class AddToolPageTest {
   constructor() {

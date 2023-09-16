@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 import { adminCredentials, signInAs } from './_helpers';
 
-class PageNameTest {
+class DumpDatabasePageTest {
   constructor() {
     this.pageId = '#dump-database-page';
     this.pageSelector = Selector(this.pageId);
@@ -23,4 +23,4 @@ class PageNameTest {
   }
 }
 
-export const pageNameTest = new PageNameTest();
+export const dumpDatabasePageTest = new DumpDatabasePageTest();
