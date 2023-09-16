@@ -46,6 +46,7 @@ test('Test signout', async (testController) => {
 
 test('Test not found page', async (testController) => {
   await notFoundPageTest.test(testController);
+});
 
 test('Test Help Page', async (testController) => {
   await helpPageTest.test(testController);
