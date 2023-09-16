@@ -7,8 +7,14 @@ import { Selector } from 'testcafe';
  */
 
 /** @type {Credentials} */
-export const participantCredentials = {
+export const incompliantParticipantCredentials = {
   email: 'john@foo.com',
+  password: 'changeme',
+};
+
+/** @type {Credentials} */
+export const compliantParticipantCredentials = {
+  email: 'aunggum@hawaii.edu',
   password: 'changeme',
 };
 

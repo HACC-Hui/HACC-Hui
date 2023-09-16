@@ -1,7 +1,7 @@
 import { fixture, test } from 'testcafe';
-import { adminCredentials } from './_helpers';
 
 import { landingPageTest } from './landingPage.e2e';
+import { signinPageTest } from './SigninPage.e2e';
 import { signoutPageTest } from './SignoutPage.e2e';
 import { notFoundPageTest } from './NotFoundPage.e2e';
 import { helpPageTest } from './HelpPage.e2e';
@@ -14,8 +14,12 @@ test('Test landing page', async (testController) => {
   await landingPageTest.test(testController);
 });
 
-test('Test signout', async (testController) => {
-  await signoutPageTest.test(testController, adminCredentials);
+test('Test sign in page', async (testController) => {
+  await signinPageTest.test(testController);
+});
+
+test('Test sign out page', async (testController) => {
+  await signoutPageTest.test(testController);
 });
 
 test('Test not found page', async (testController) => {
