@@ -4,6 +4,10 @@
   --footer-height: 0px;
 }
 
+h1 {
+  font-family: 'gotham', sans-serif !important;
+}
+
 .navBar {
   background-color: var(--color-blue) !important;
   height: var(--navbar-height);
