@@ -1,5 +1,10 @@
-import React from 'react';
-import { Grid, Segment, Header, Table, Button, Radio } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -18,135 +23,150 @@ import { CanChangeChallenges } from '../../../api/team/CanChangeChallengeCollect
  * Renders the Page for Managing HACC. **deprecated**
  * @memberOf ui/pages
  */
-class ManageHaccWidget extends React.Component {
+const ManageHaccWidget = (props) => {
 
-  state = {
-    canCreateTeams: CanCreateTeams.findOne().canCreateTeams,
-    canChangeChallenges: CanChangeChallenges.findOne()?.canChangeChallenges,
-  }
+  const [canCreate, setCreate] = useState(false);
+  const [canChange, setChange] = useState(false);
 
-  toggleTeam = () => {
-    const { canCreateTeams } = this.state;
-    const doc = CanCreateTeams.findOne();
-    const updateData = {};
-    updateData.id = doc._id;
-    updateData.canCreateTeams = !canCreateTeams;
-    const collectionName = CanCreateTeams.getCollectionName();
-    updateMethod.call({ collectionName, updateData }, (error) => {
-      if (error) {
-        console.error(error);
+  const toggleTeam = async () => {
+    try {
+      const doc = await CanCreateTeams.findOne();
+      if (doc) {
+        const updateData = {
+          id: doc._id,
+          canCreateTeams: !canCreate,
+        };
+        const collectionName = CanCreateTeams.getCollectionName();
+        updateMethod.call({ collectionName, updateData });
+        setCreate(!canCreate);
       }
-    });
-    this.setState((prevState) => ({ canCreateTeams: !prevState.canCreateTeams }));
-  }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  toggleChallenge = () => {
-    const { canChangeChallenges } = this.state;
-    const doc = CanChangeChallenges.findOne();
-    const updateData = {};
-    updateData.id = doc._id;
-    updateData.canChangeChallenges = !canChangeChallenges;
-    const collectionName = CanChangeChallenges.getCollectionName();
-    updateMethod.call({ collectionName, updateData }, (error) => {
-      if (error) {
-        console.error(error);
+  const toggleChallenge = async () => {
+    try {
+      const doc = await CanChangeChallenges.findOne();
+      if (doc) {
+        const updateData = {
+          id: doc._id,
+          canChangeChallenges: !canChange,
+        };
+        const collectionName = CanChangeChallenges.getCollectionName();
+        updateMethod.call({ collectionName, updateData });
+        setChange(!canChange);
       }
-    });
-    this.setState((prevState) => ({ canChangeChallenges: !prevState.canChangeChallenges }));
-  }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  render() {
-    // console.log(this.state);
-    return (
-        <div style={{ paddingBottom: '50px' }}>
-          <Grid container centered>
-            <Grid.Column>
-              <div style={{
-                backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
-                borderRadius: '2rem',
-              }}>
-                <Header as="h2" textAlign="center">Manage HACC</Header>
-                <Header as="h5" textAlign="center">
-                  <Radio toggle label="Can Create Teams"
-                          checked={this.state.canCreateTeams}
-                          onChange={this.toggleTeam} />&nbsp;
-                  <Radio toggle label="Can Change Challenges"
-                         checked={this.state.canChangeChallenges}
-                         onChange={this.toggleChallenge} />
-                </Header>
+  return (
+      <div style={{ paddingBottom: '50px' }}>
+        <Container>
+          <Col>
+            <Container style={{
+              textAlign: "center",
+              backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
+              borderRadius: '2rem',
+            }}>
+              <h2>Manage HACC</h2>
+              <Container className={'d-flex justify-content-center'}>
+                <Row>
+                  <Col>
+                    <h5>
+                      <Form.Check
+                          type={'switch'}
+                          toggle label="Can Create Teams"
+                          checked={canCreate}
+                          onChange={toggleTeam} />&nbsp;
+                    </h5>
+                    <h5>
+                      <Form.Check
+                          type={'switch'}
+                          toggle label="Can Change Challenges"
+                          checked={canChange}
+                          onChange={toggleChallenge} />
+                    </h5>
+                  </Col>
+                </Row>
+              </Container>
+            </Container>
+            <Container style={{
+              textAlign: 'center',
+              borderRadius: '1rem',
+              backgroundColor: '#E5F0FE',
+            }} className={'teamCreate'}>
+              <h2 >Challenges</h2>
+              <Table>
+                <thead>
+                <tr>
+                  <th width={2}>Title</th>
+                  <th width={5}>Description</th>
+                  <th width={2}>Submission Detail</th>
+                  <th width={2}>Pitch</th>
+                  <th width={2}>Edit</th>
+                  <th width={2}>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                {props.challenges.map((challenges =>
+                        <ChallengesAdminWidget key={challenges._id} challenges={challenges} />
+                ))}
+                </tbody>
+              </Table>
+              {/* eslint-disable-next-line max-len */}
+              <div align='center'>
+                <Button style={{
+                  color: 'white', backgroundColor: '#DB2828',
+                  margin: '2rem 0rem',
+                }}><Link to={ROUTES.ADD_CHALLENGE} style={{ color: 'white' }}>Add Challenge</Link></Button>
               </div>
-              <Segment style={{
-                borderRadius: '1rem',
-                backgroundColor: '#E5F0FE',
-              }} className={'teamCreate'}>
-                <Header as="h2" textAlign="center" >Challenges</Header>
-                <Table fixed columns={5}>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell width={2}>Title</Table.HeaderCell>
-                      <Table.HeaderCell width={5}>Description</Table.HeaderCell>
-                      <Table.HeaderCell width={2}>Submission Detail</Table.HeaderCell>
-                      <Table.HeaderCell width={2}>Pitch</Table.HeaderCell>
-                      <Table.HeaderCell width={2}>Edit</Table.HeaderCell>
-                      <Table.HeaderCell width={2}>Delete</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  {/* eslint-disable-next-line max-len */}
-                  <Table.Body>{this.props.challenges.map((challenges => <ChallengesAdminWidget key={challenges._id} challenges={challenges} />
-                  ))}
-                  </Table.Body>
-                </Table>
-                <div align='center'>
-                  <Button style={{
-                    color: 'white', backgroundColor: '#DB2828',
-                    margin: '2rem 0rem',
-                  }}><Link to={ROUTES.ADD_CHALLENGE} style={{ color: 'white' }}>Add Challenge</Link></Button>
-                </div>
-                <Header as="h2" textAlign="center">Skills</Header>
-                <Table>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell>Name</Table.HeaderCell>
-                      <Table.HeaderCell>Description</Table.HeaderCell>
-                      <Table.HeaderCell width={2}>Edit</Table.HeaderCell>
-                      <Table.HeaderCell width={2}>Delete</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  {/* eslint-disable-next-line max-len */}
-                  <Table.Body>{this.props.skills.map((skills => <SkillsAdminWidget key={skills._id} skills={skills} />))}
-                  </Table.Body>
-                </Table>
-                <div align='center'>
-                  <Button style={{
-                    color: 'white', backgroundColor: '#DB2828',
-                    margin: '2rem 0rem',
-                  }}><Link to={ROUTES.ADD_SKILL} style={{ color: 'white' }}>Add Skill</Link></Button>
-                </div>
-                <Header as="h2" textAlign="center">Tools</Header>
-                <Table>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell>Name</Table.HeaderCell>
-                      <Table.HeaderCell>Description</Table.HeaderCell>
-                      <Table.HeaderCell width={2}>Edit</Table.HeaderCell>
-                      <Table.HeaderCell width={2}>Delete</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>{this.props.tools.map((tools => <ToolsAdminWidget key={tools._id} tools={tools} />))}
-                  </Table.Body>
-                </Table>
-                <div align='center'>
-                  <Button style={{
-                    color: 'white', backgroundColor: '#DB2828',
-                    margin: '2rem 0rem',
-                  }}><Link to={ROUTES.ADD_TOOL} style={{ color: 'white' }}>Add Tool</Link></Button>
-                </div>
-              </Segment>
-            </Grid.Column>
-          </Grid>
-        </div>
-    );
-  }
+              <h2>Skills</h2>
+              <Table>
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th width={2}>Edit</th>
+                  <th width={2}>Delete</th>
+                </tr>
+                </thead>
+                {/* eslint-disable-next-line max-len */}
+                <tbody>{props.skills.map((skills => <SkillsAdminWidget key={skills._id} skills={skills} />))}
+                </tbody>
+              </Table>
+              <div align='center'>
+                <Button style={{
+                  color: 'white', backgroundColor: '#DB2828',
+                  margin: '2rem 0rem',
+                }}><Link to={ROUTES.ADD_SKILL} style={{ color: 'white' }}>Add Skill</Link></Button>
+              </div>
+              <h2>Tools</h2>
+              <Table>
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th width={2}>Edit</th>
+                  <th width={2}>Delete</th>
+                </tr>
+                </thead>
+                <tbody>{props.tools.map((tools => <ToolsAdminWidget key={tools._id} tools={tools} />))}
+                </tbody>
+              </Table>
+              <div align='center'>
+                <Button style={{
+                  color: 'white', backgroundColor: '#DB2828',
+                  margin: '2rem 0rem',
+                }}><Link to={ROUTES.ADD_TOOL} style={{ color: 'white' }}>Add Tool</Link></Button>
+              </div>
+            </Container>
+          </Col>
+        </Container>
+      </div>
+  );
 }
 
 ManageHaccWidget.propTypes = {
@@ -157,9 +177,9 @@ ManageHaccWidget.propTypes = {
 
 // withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
 export default withTracker(() => (
-  {
-    challenges: Challenges.find({}).fetch(),
-    skills: Skills.find({}).fetch(),
-    tools: Tools.find({}).fetch(),
-  }
+    {
+      challenges: Challenges.find({}).fetch(),
+      skills: Skills.find({}).fetch(),
+      tools: Tools.find({}).fetch(),
+    }
 ))(ManageHaccWidget);

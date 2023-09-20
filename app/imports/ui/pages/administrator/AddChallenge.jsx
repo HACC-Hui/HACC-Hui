@@ -1,6 +1,11 @@
-import React from 'react';
-import { Grid, Segment, Header } from 'semantic-ui-react';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-semantic';
+import React, { useCallback, useRef } from 'react';
+import {
+  AutoForm,
+  ErrorsField,
+  SubmitField,
+  TextField,
+} from 'uniforms-bootstrap5';
+import { Container } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
@@ -14,59 +19,53 @@ const schema = new SimpleSchema({
   submissionDetail: String,
   pitch: String,
 });
+const formSchema = new SimpleSchema2Bridge(schema);
 
 /**
  * Renders the Page for adding stuff. **deprecated**
  * @memberOf ui/pages
  */
-class AddChallenge extends React.Component {
+const AddChallenge = () => {
+  const formRef = useRef(null);
 
   /** On submit, insert the data.
    * @param data {Object} the results from the form.
-   * @param formRef {FormRef} reference to the form.
    */
-  submit(data, formRef) {
-    const { title, description, submissionDetail, pitch } = data;
-    const definitionData = { title, description, submissionDetail, pitch };
-    const collectionName = Challenges.getCollectionName();
-    console.log(collectionName);
-    defineMethod.call({ collectionName: collectionName, definitionData: definitionData },
-        (error) => {
+  const handleSubmit = useCallback(
+      (data) => {
+        const { title, description, submissionDetail, pitch } = data;
+        const definitionData = { title, description, submissionDetail, pitch };
+        const collectionName = Challenges.getCollectionName();
+        // console.log(collectionName);
+        defineMethod.call({ collectionName, definitionData }, (error) => {
           if (error) {
             swal('Error', error.message, 'error');
-            // console.error(error.message);
+            console.error(error.message);
           } else {
             swal('Success', 'Item added successfully', 'success');
-            formRef.reset();
+            formRef.current.reset();
             // console.log('Success');
           }
         });
-  }
+      },
+      [formRef],
+  );
 
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
-  render() {
-    let fRef = null;
-    const formSchema = new SimpleSchema2Bridge(schema);
-    return (
-        <Grid container centered>
-          <Grid.Column>
-            <Header as="h2" textAlign="center">Add a challenge</Header>
-            <AutoForm ref={ref => {
-              fRef = ref;
-            }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}>
-              <Segment>
-                <TextField name='title' />
-                <TextField name='description' />
-                <TextField name='submissionDetail' />
-                <TextField name='pitch' />
-                <SubmitField value='Submit' />
-                <ErrorsField />
-              </Segment>
-            </AutoForm>
-          </Grid.Column>
-        </Grid>
-    );
-  }
-}
+  return (
+      <Container id="add-challenge-page">
+        <h2 className="text-center fw-bold">Add a Challenge</h2>
+        <AutoForm ref={formRef} schema={formSchema} onSubmit={handleSubmit}>
+          <div className="border p-3">
+            <TextField name="title" />
+            <TextField name="description" />
+            <TextField name="submissionDetail" />
+            <TextField name="pitch" />
+            <SubmitField value="Submit" />
+            <ErrorsField />
+          </div>
+        </AutoForm>
+      </Container>
+  );
+};
 
 export default AddChallenge;
