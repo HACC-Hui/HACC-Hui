@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.1",
-    "react-bootstrap": "^2.8.0"
+    "bootstrap": "^5.3.2",
+    "react-bootstrap": "^2.8.0",
+    "uniforms-bootstrap5": "^4.0.0-alpha.5"
   }
 }
