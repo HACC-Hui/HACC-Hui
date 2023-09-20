@@ -216,8 +216,8 @@ const OpenTeamsPage = () => {
   }
 
   return ready ? (
-    <Container id="open-teams-page">
-      <Card style={{ margin: '2rem' }}>
+    <Container id="open-teams-page" style={{ padding: '2rem' }}>
+      <Card>
         <Card.Header style={{ padding: '1rem' }}>
           <Card.Title
             as={'h1'}
