@@ -18,10 +18,10 @@ class AddSkillPageTest {
     // await tc.debug();
     // IN CASE YOUR TEST NEEDS TO SIGN IN FIRST, YOU CAN DO SOMETHING LIKE THIS
     // await signInAs(tc, participantCredentials or adminCredentials);
-      await this.isDisplayed(tc);
-      await signInAs(tc, adminCredentials);
-      await tc.navigateTo('/#/add-skill');
-      await this.isDisplayed(tc);
+    await this.isDisplayed(tc);
+    await signInAs(tc, adminCredentials);
+    await tc.navigateTo('/#/add-skill');
+    await this.isDisplayed(tc);
   }
 }
 

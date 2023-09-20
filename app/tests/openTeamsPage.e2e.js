@@ -1,9 +1,9 @@
 import { Selector } from 'testcafe';
-import { adminCredentials, signInAs } from './_helpers';
+import { compliantParticipantCredentials, signInAs } from './_helpers';
 
-class ConfigureHaccPageTest {
+class OpenTeamsPageTest {
   constructor() {
-    this.pageId = '#configure-hacc-page';
+    this.pageId = '#open-teams-page';
     this.pageSelector = Selector(this.pageId);
   }
 
@@ -13,14 +13,13 @@ class ConfigureHaccPageTest {
     await tc.expect(this.pageSelector.visible).ok();
   }
 
-  // IN CASE YOUR TEST NEEDS TO SIGN IN FIRST, YOU CAN DO SOMETHING LIKE THIS
   /** @type {(tc: TestController) => Promise<void>} */
   async test(tc) {
     // await tc.debug();
-    await signInAs(tc, adminCredentials);
-    await tc.navigateTo('/#/configure-hacc');
+    await signInAs(tc, compliantParticipantCredentials);
+    await tc.navigateTo('/#/open-teams');
     await this.isDisplayed(tc);
   }
 }
 
-export const configureHaccPageTest = new ConfigureHaccPageTest();
+export const openTeamsPageTest = new OpenTeamsPageTest();

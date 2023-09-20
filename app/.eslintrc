@@ -7,26 +7,24 @@
       "jsx": true
     }
   },
-  "plugins": [
-    "meteor",
-    "react"
-  ],
+  "plugins": ["meteor", "react", "prettier"],
   "settings": {
     "react": {
       "createClass": "createReactClass",
-      "pragma": "React",  // Pragma to use, default to "React"
-      "version": "15.0", // React version, default to the latest React stable release
+      "pragma": "React", // Pragma to use, default to "React"
+      "version": "18", // React version, default to the latest React stable release
       "flowVersion": "0.53" // Flow version
     },
-    "propWrapperFunctions": [ "forbidExtraProps" ]
+    "propWrapperFunctions": ["forbidExtraProps"]
   },
   "extends": [
     "airbnb/base",
     "plugin:meteor/recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
   ],
   "rules": {
-    "arrow-parens": "off",
+    "arrow-parens": "error",
     "camelcase": "off",
     "class-methods-use-this": "off",
     "func-names": "off",
@@ -39,9 +37,12 @@
     "import/no-extraneous-dependencies": "off",
     "linebreak-style": "off",
     "max-len": ["error", 120],
-    "meteor/eventmap-params": [2, { "eventParamName": "event", "templateInstanceParamName": "instance" } ],
+    "meteor/eventmap-params": [
+      2,
+      { "eventParamName": "event", "templateInstanceParamName": "instance" }
+    ],
     "meteor/template-names": "off",
-    "no-confusing-arrow": ["error", {"allowParens": true}],
+    "no-confusing-arrow": ["error", { "allowParens": true }],
     "no-plusplus": "off",
     "no-underscore-dangle": "off",
     "object-curly-newline": "off",
@@ -49,7 +50,7 @@
     "object-shorthand": "off",
     "operator-linebreak": "off",
     "padded-blocks": "off",
-    "indent": "off",
+    "indent": "error",
     "prefer-arrow-callback": "off",
     "prefer-destructuring": "off",
     "prefer-promise-reject-errors": "off"
