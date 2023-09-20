@@ -161,11 +161,11 @@ const ListTeamsRowWidget = ({
     </tr>
   ) : (
     <tr>
-      {Array(7).fill(
-        <td>
+      {[1, 2, 3, 4, 5, 6, 7].map((key) => (
+        <td key={key}>
           <Spinner animation="border" />
-        </td>,
-      )}
+        </td>
+      ))}
     </tr>
   );
 };
