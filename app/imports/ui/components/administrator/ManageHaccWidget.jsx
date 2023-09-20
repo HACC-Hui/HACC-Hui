@@ -63,7 +63,7 @@ const ManageHaccWidget = (props) => {
   };
 
     return (
-        <div style={{ paddingBottom: '50px' }}>
+        <div id="landing-page" style={{ paddingBottom: '50px' }}>
           <Container>
             <Col>
               <div style={{
