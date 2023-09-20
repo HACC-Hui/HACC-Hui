@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ListGroup, Container, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
