@@ -8,6 +8,7 @@ import { addChallengePageTest } from './addChallengePage.e2e';
 import { addSkillPageTest } from './AddSkillPage.e2e';
 import { addToolPageTest } from './addToolPage.e2e';
 import { dumpDatabasePageTest } from './dumpDatabasePage.e2e';
+import { allTeamInvitationsPageTest } from './AllTeamInvitationsPage.e2e';
 import { openTeamsPageTest } from './openTeamsPage.e2e';
 import { listTeamsPageTest } from './listTeamsPage.e2e';
 import { configureHaccPageTest } from './configureHacc.e2e';
@@ -47,6 +48,10 @@ test('Test Add Tool page', async (testController) => {
 
 test('Test dump database page', async (testController) => {
   await dumpDatabasePageTest.test(testController);
+});
+
+test('Test all team invitations page', async (testController) => {
+  await allTeamInvitationsPageTest.test(testController);
 });
 
 test('Test open teams page', async (testController) => {
