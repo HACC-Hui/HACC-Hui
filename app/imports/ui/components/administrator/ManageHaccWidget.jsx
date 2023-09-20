@@ -66,30 +66,33 @@ const ManageHaccWidget = (props) => {
         <div id="landing-page" style={{ paddingBottom: '50px' }}>
           <Container>
             <Col>
-              <div style={{
+              <Container style={{
+                textAlign: "center",
                 backgroundColor: '#E5F0FE', padding: '1rem 0rem', margin: '2rem 0rem',
                 borderRadius: '2rem',
               }}>
-                <Container>
                 <h2>Manage HACC</h2>
-                  <Row>
+                <Container className={'d-flex justify-content-center'}>
+                <Row>
+                  <Col>
                     <h5>
                       <Form.Check
-                          type={'switch'}
-                          toggle label="Can Create Teams"
-                          checked={canCreate}
-                          onChange={toggleTeam} />&nbsp;
+                        type={'switch'}
+                        toggle label="Can Create Teams"
+                        checked={canCreate}
+                        onChange={toggleTeam} />&nbsp;
                     </h5>
                     <h5>
                       <Form.Check
-                          type={'switch'}
-                          toggle label="Can Change Challenges"
-                          checked={canChange}
-                          onChange={toggleChallenge} />
+                        type={'switch'}
+                        toggle label="Can Change Challenges"
+                        checked={canChange}
+                        onChange={toggleChallenge} />
                     </h5>
-                  </Row>
+                  </Col>
+                </Row>
                 </Container>
-              </div>
+              </Container>
               <Container style={{
                 textAlign: 'center',
                 borderRadius: '1rem',
