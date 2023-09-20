@@ -25,12 +25,6 @@ import { CanChangeChallenges } from '../../../api/team/CanChangeChallengeCollect
  */
 const ManageHaccWidget = (props) => {
 
-  /*state = {
-    canCreateTeams: CanCreateTeams.findOne().canCreateTeams,
-    canChangeChallenges: CanChangeChallenges.findOne()?.canChangeChallenges,
-  }
-   */
-
   const [canCreate, setCreate] = useState(false);
   const [canChange, setChange] = useState(false);
 
@@ -67,40 +61,6 @@ const ManageHaccWidget = (props) => {
       console.error(error);
     }
   };
-
-  /*
-  const toggleTeam = () => {
-    const doc = CanCreateTeams.findOne();
-    const updateData = {};
-    updateData.id = doc._id;
-    updateData.canCreateTeams = !canCreate;
-    const collectionName = CanCreateTeams.getCollectionName();
-    updateMethod.call({ collectionName, updateData }, (error) => {
-      if (error) {
-        console.error(error);
-      }
-    });
-    setCreate( !canCreate );
-  }
-
-   */
-
-  /*
-  const toggleChallenge = () => {
-    const doc = CanChangeChallenges.findOne();
-    const updateData = {};
-    updateData.id = doc._id;
-    updateData.canChangeChallenges = !canChange;
-    const collectionName = CanChangeChallenges.getCollectionName();
-    updateMethod.call({ collectionName, updateData }, (error) => {
-      if (error) {
-        console.error(error);
-      }
-    });
-    setChange( !canChange );
-  }
-
-   */
 
     return (
         <div style={{ paddingBottom: '50px' }}>
