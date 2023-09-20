@@ -1,6 +1,6 @@
 import React from 'react';
-import { Grid, Segment, Header } from 'semantic-ui-react';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-semantic';
+import { Container, Col, Card } from 'react-bootstrap';
+import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
@@ -17,13 +17,13 @@ const schema = new SimpleSchema({
  * Renders the Page for adding stuff. **deprecated**
  * @memberOf ui/pages
  */
-class AddSkill extends React.Component {
+const AddSkill = () => {
 
   /** On submit, insert the data.
    * @param data {Object} the results from the form.
    * @param formRef {FormRef} reference to the form.
    */
-  submit(data, formRef) {
+  const submit = (data, formRef) => {
     const { name, description } = data;
     const definitionData = { name, description };
     const collectionName = Skills.getCollectionName();
@@ -39,30 +39,28 @@ class AddSkill extends React.Component {
             // console.log('Success');
           }
         });
-  }
+  };
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
-  render() {
     let fRef = null;
     const formSchema = new SimpleSchema2Bridge(schema);
     return (
-        <Grid container centered>
-          <Grid.Column>
-            <Header as="h2" textAlign="center">Add a skill</Header>
+        <Container fluid>
+          <Col>
+            <h2 style={{ textAlign: 'center' }}>Add a skill</h2>
             <AutoForm ref={ref => {
               fRef = ref;
-            }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}>
-              <Segment>
+            }} schema={formSchema} onSubmit={data => submit(data, fRef)}>
+              <Card>
                 <TextField name='name' />
                 <TextField name='description' />
                 <SubmitField value='Submit' />
                 <ErrorsField />
-              </Segment>
+              </Card>
             </AutoForm>
-          </Grid.Column>
-        </Grid>
+          </Col>
+        </Container>
     );
-  }
-}
+};
 
 export default AddSkill;
