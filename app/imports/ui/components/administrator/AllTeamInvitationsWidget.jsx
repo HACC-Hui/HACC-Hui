@@ -39,22 +39,22 @@ class AllTeamInvitationsWidget extends React.Component {
     const universalTeams = this.props.teams;
 
     function getTeamInvitations(invs) {
-      const data = [];
+      const data = new Set();
       for (let i = 0; i < invs.length; i++) {
         for (let j = 0; j < universalTeams.length; j++) {
           if (invs[i].teamID === universalTeams[j]._id) {
-            data.push(universalTeams[j]);
+            data.add(universalTeams[j]);
           }
         }
       }
-      return _.sortedUniq(data);
+      return Array.from(data);
     }
 
     const universalSkills = this.props.skills;
 
     function getTeamSkills(teamID, teamSkills) {
       const data = [];
-      const skills = _.filter(teamSkills, { teamID: teamID });
+      const skills = teamSkills.filter(teamSkill => teamSkill.teamID === teamID);
       for (let i = 0; i < skills.length; i++) {
         for (let j = 0; j < universalSkills.length; j++) {
           if (skills[i].skillID === universalSkills[j]._id) {
@@ -69,7 +69,7 @@ class AllTeamInvitationsWidget extends React.Component {
 
     function getTeamTools(teamID, teamTools) {
       const data = [];
-      const tools = _.filter(teamTools, { teamID: teamID });
+      const tools = teamTools.filter(teamTool => teamTool.teamID === teamID);
       for (let i = 0; i < tools.length; i++) {
         for (let j = 0; j < universalTools.length; j++) {
           if (tools[i].toolID === universalTools[j]._id) {
@@ -84,7 +84,7 @@ class AllTeamInvitationsWidget extends React.Component {
 
     function getTeamChallenges(teamID, teamChallenges) {
       const data = [];
-      const challenges = _.filter(teamChallenges, { teamID: teamID });
+      const challenges = teamChallenges.filter(teamChallenge => teamChallenge.teamID === teamID);
       for (let i = 0; i < challenges.length; i++) {
         for (let j = 0; j < universalChallenges.length; j++) {
           if (challenges[i].challengeID === universalChallenges[j]._id) {
@@ -99,7 +99,7 @@ class AllTeamInvitationsWidget extends React.Component {
 
     function getTeamDevelopers(teamID, teamParticipants) {
       const data = [];
-      const participants = _.filter(teamParticipants, { teamID: teamID });
+      const participants = teamParticipants.filter(teamParticipant => teamParticipant.teamID === teamID);
       for (let i = 0; i < participants.length; i++) {
         for (let j = 0; j < allDevelopers.length; j++) {
           if (participants[i].participantID === allDevelopers[j]._id) {
