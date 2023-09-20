@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ListGroup, Modal, Card, Button, Container, Col, Row } from 'react-bootstrap';
+import { ListGroup, Modal, Button, Container, Col, Row } from 'react-bootstrap';
 import { FaUsers } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { Participants } from '../../../api/user/ParticipantCollection';
