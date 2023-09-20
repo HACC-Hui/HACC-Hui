@@ -105,7 +105,7 @@ const AllTeamInvitationsWidget = (props) => {
   }
 
   return (
-      <Container>
+      <Container id="all-team-invitations-page">
         <Row>
           <h2 style={{ paddingTop: '2rem' }}>
             Team Invitations

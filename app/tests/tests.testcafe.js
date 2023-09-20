@@ -7,6 +7,7 @@ import { notFoundPageTest } from './NotFoundPage.e2e';
 import { helpPageTest } from './HelpPage.e2e';
 import { addToolPageTest } from './addToolPage.e2e';
 import { dumpDatabasePageTest } from './dumpDatabasePage.e2e';
+import { allTeamInvitationsPageTest } from './AllTeamInvitationsPage.e2e';
 
 fixture('HACC-Hui').page('http://localhost:3400');
 
@@ -36,4 +37,8 @@ test('Test Add Tool page', async (testController) => {
 
 test('Test dump database page', async (testController) => {
   await dumpDatabasePageTest.test(testController);
+});
+
+test('Test all team invitations page', async (testController) => {
+  await allTeamInvitationsPageTest.test(testController);
 });
