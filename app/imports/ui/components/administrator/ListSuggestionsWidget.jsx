@@ -9,7 +9,6 @@ import {
   Dropdown,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { _ } from 'lodash';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Suggestions } from '../../../api/suggestions/SuggestionCollection';
 import ListSuggestionsCard from './ListSuggestionsCard';
@@ -23,21 +22,24 @@ class ListSuggestionsWidget extends React.Component {
     this.state = {
       search: '',
       type: [],
-      result: _.orderBy(this.props.suggestions, ['name'], ['asc']),
+      result: this.props.suggestions.slice().sort(this.compare),
     };
+  }
+
+  compare(a, b) {
+    return a.name.localeCompare(b.name);
   }
 
   componentWillReceiveProps(nextProps) {
     // eslint-disable-next-line max-len
-    if ((_.orderBy(nextProps.suggestions, ['name'], ['asc'])) !== (_.orderBy(this.props.suggestions, ['name'], ['asc']))) {
+    if ((nextProps.suggestions.slice().sort(this.compare)) !== (this.props.suggestions.slice().sort(this.compare))) {
       this.setState({
-        result: _.orderBy(nextProps.suggestions, ['name'], ['asc']),
+        result: nextProps.suggestions.slice().sort(this.compare),
       });
     }
   }
 
   render() {
-
     if (this.props.suggestions.length === 0) {
       return (
           <div align={'center'}>
