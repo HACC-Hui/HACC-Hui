@@ -3,7 +3,7 @@ import { adminCredentials, signInAs } from './_helpers';
 
 class ConfigureHaccPageTest {
   constructor() {
-    this.pageId = '#configure-hacc';
+    this.pageId = '#configure-hacc-page';
     this.pageSelector = Selector(this.pageId);
   }
 
