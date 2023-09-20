@@ -25,7 +25,6 @@
   ],
   "rules": {
     "arrow-parens": "error",
-    "arrow-body-style": ["warn", "always"],
     "camelcase": "off",
     "class-methods-use-this": "off",
     "func-names": "off",
