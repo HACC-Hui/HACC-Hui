@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { ListGroup, Modal, Button, Container, Col, Row } from 'react-bootstrap';
+import {
+  ListGroup,
+  Modal,
+  Button,
+  Container,
+  Col,
+  Row,
+  Card,
+} from 'react-bootstrap';
 import { FaUsers } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { Participants } from '../../../api/user/ParticipantCollection';
@@ -24,108 +32,126 @@ const AllTeamInvitationCard = (props) => {
   });
 
   function commaList(arr) {
-    return arr.length === 0 ? 'None' : arr.reduce((accumulator, current) => accumulator.concat(', ', current));
+    return arr.length === 0
+      ? 'None'
+      : arr.reduce((accumulator, current) => accumulator.concat(', ', current));
   }
 
+  const headerStyle = {
+    fontWeight: 'bold',
+    fontSize: `${20}px`,
+    fontFamily: 'gotham',
+  };
+
+  const modalPStyle = {
+    fontSize: `${18}px`,
+  };
+
   return (
-      <ListGroup.Item>
-        <div
+    <ListGroup.Item>
+      <Card
+        style={{
+          paddingBottom: `${2}rem`,
+          background: hovered ? '#EEE' : 'white',
+          cursor: 'pointer',
+        }}
+        onClick={handleShow}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <Card.Body>
+          <Card.Title
+            as={'h2'}
             style={{
-              background: hovered ? 'lightgray' : 'white',
-              cursor: 'pointer',
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: `${1}rem`,
             }}
-            onClick={handleShow}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}>
-          <Container>
-            <Row>
-              <Col xs="auto">
-                <FaUsers size={35} />
-              </Col>
-              <Col xs="auto">
-                <h2 style={{ fontWeight: 'bold' }}>{props.teams.name}</h2>
-              </Col>
-            </Row>
+          >
+            <FaUsers size={48} />
+            {props.teams.name}
+          </Card.Title>
+
+          <Row>
+            <Col>
+              <h3 style={headerStyle}>Challenges</h3>
+              {props.challenges.slice(0, 3).map((challenge) => (
+                <p style={{ color: 'rgb(89, 119, 199)' }} key={challenge}>
+                  {challenge}
+                </p>
+              ))}
+            </Col>
+            <Col>
+              <h3 style={headerStyle}>Skills</h3>
+              {props.skills.slice(0, 3).map((skill) => (
+                <p key={skill}>{skill}</p>
+              ))}
+            </Col>
+            <Col>
+              <h3 style={headerStyle}>Tools</h3>{' '}
+              {props.tools.slice(0, 3).map((tool) => (
+                <p key={tool}>{tool}</p>
+              ))}
+            </Col>
+            <Col>
+              <h3 style={headerStyle}>Member(s) Invited</h3>
+              {invitedMembers.slice(0, 3).map((members) => (
+                <p key={members}>{members}</p>
+              ))}
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title as={'h2'} style={{ fontWeight: 'bold' }}>
+            {props.teams.name}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Container
+            style={{ display: 'flex', flexDirection: 'column', gap: `${1}rem` }}
+          >
+            <div>
+              <h3 style={headerStyle}>Description</h3>
+              <p style={modalPStyle}>{props.teams.description}</p>
+            </div>
+            <div>
+              <h3 style={headerStyle}>Challenges</h3>
+              <p style={modalPStyle}>{commaList(props.challenges)}</p>
+            </div>
+            <div>
+              <h3 style={headerStyle}>Skills</h3>
+              <p style={modalPStyle}>{commaList(props.skills)}</p>
+            </div>
+            <div>
+              <h3 style={headerStyle}>Tools</h3>
+              <p style={modalPStyle}>{commaList(props.tools)}</p>
+            </div>
+            <div>
+              <h3 style={headerStyle}>Members</h3>
+              <p style={modalPStyle}>
+                {commaList(
+                  props.participants.map((participant) =>
+                    participant.firstName.concat(' ', participant.lastName),
+                  ),
+                )}
+              </p>
+            </div>
+            <div>
+              <h3 style={headerStyle}>Members Invited</h3>
+              <p style={modalPStyle}>{commaList(invitedMembers)}</p>
+            </div>
           </Container>
-          <Container>
-            <Row>
-              <Col>
-                <b style={{ fontSize: '20px' }}>Challenges</b>
-                {props.challenges.slice(0, 3).map((challenge) => <p
-                    style={{ color: 'rgb(89, 119, 199)' }}
-                    key={challenge}>
-                  {challenge}</p>)}
-              </Col>
-              <Col>
-                <b style={{ fontSize: '20px' }}>Skills</b>
-                {props.skills.slice(0, 3).map((skill) => <p key={skill}>
-                  {skill}</p>)}
-              </Col>
-              <Col>
-                <b style={{ fontSize: '20px' }}>Tools</b>
-                {props.tools.slice(0, 3).map((tool) => <p key={tool}>
-                  {tool}</p>)}
-              </Col>
-              <Col>
-                <b style={{ fontSize: '20px' }}>Member(s) Invited</b>
-                {invitedMembers.slice(0, 3).map((members) => <p key={members}>
-                  {members}</p>)}
-              </Col>
-              <Col></Col>
-            </Row>
-          </Container>
-        </div>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>{props.teams.name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-              <Container>
-                <Row style={{ paddingBottom: '15px' }}>
-                  <b style={{ fontSize: '20px' }}>Description</b>
-                  <p style={{ fontSize: '16px' }}>{props.teams.description}</p>
-                </Row>
-                <Row style={{ paddingBottom: '15px' }}>
-                  <b style={{ fontSize: '20px' }}>Challenges</b>
-                  <p style={{ fontSize: '16px' }}>
-                    {commaList(props.challenges)}
-                  </p>
-                </Row>
-                <Row style={{ paddingBottom: '15px' }}>
-                  <b style={{ fontSize: '20px' }}>Skills</b>
-                  <p style={{ fontSize: '16px' }}>
-                    {commaList(props.skills)}
-                  </p>
-                </Row>
-                <Row style={{ paddingBottom: '15px' }}>
-                  <b style={{ fontSize: '20px' }}>Tools</b>
-                  <p style={{ fontSize: '16px' }}>
-                    {commaList(props.tools)}
-                  </p>
-                </Row>
-                <Row style={{ paddingBottom: '15px' }}>
-                  <b style={{ fontSize: '20px' }}>Members</b>
-                  <p style={{ fontSize: '16px' }}>
-                    {commaList(props.participants.map(
-                        participant => participant.firstName.concat(' ', participant.lastName),
-                    ))}
-                  </p>
-                </Row>
-                <Row style={{ paddingBottom: '15px' }}>
-                  <b style={{ fontSize: '20px' }}>Members Invited</b>
-                  <p style={{ fontSize: '16px' }}>
-                    {commaList(invitedMembers)}
-                  </p>
-                </Row>
-              </Container>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={handleClose}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </ListGroup.Item>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" size="lg" onClick={handleClose}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </ListGroup.Item>
   );
 };
 

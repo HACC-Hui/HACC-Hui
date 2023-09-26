@@ -93,7 +93,7 @@ const ListTeamsRowWidget = ({
     let onClickHandler = () => {};
     if (isAMember) {
       disabled = true;
-      msg = 'You sent the request';
+      msg = 'You own the team';
     }
     if (sent || requested) {
       disabled = true;
