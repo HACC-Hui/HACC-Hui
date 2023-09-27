@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListGroup, Container, Spinner } from 'react-bootstrap';
+import { ListGroup, Container } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Teams } from '../../../api/team/TeamCollection';
 import { TeamSkills } from '../../../api/team/TeamSkillCollection';
@@ -12,10 +12,10 @@ import { Challenges } from '../../../api/challenge/ChallengeCollection';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 import AllTeamInvitationCard from '../../components/administrator/AllTeamInvitationCard';
+import withAllSubscriptions from '../../layouts/AllSubscriptionsHOC';
 
 const AllTeamInvitationsPage = () => {
   const {
-    ready,
     teamChallenges,
     teamInvitations,
     teamSkills,
@@ -27,29 +27,6 @@ const AllTeamInvitationsPage = () => {
     participants,
     teamParticipants,
   } = useTracker(() => {
-    const tChallengesSub = TeamChallenges.subscribe();
-    const tInvitationsSub = TeamInvitations.subscribe();
-    const tSkillsSub = TeamSkills.subscribe();
-    const tToolsSub = TeamTools.subscribe();
-    const teamsSub = Teams.subscribe();
-    const skillsSub = Skills.subscribe();
-    const challengesSub = Challenges.subscribe();
-    const toolsSub = Tools.subscribe();
-    const participantsSub = Participants.subscribe();
-    const tParticipantsSub = TeamParticipants.subscribe();
-
-    const rdy =
-      tChallengesSub.ready() &&
-      tInvitationsSub.ready() &&
-      tSkillsSub.ready() &&
-      tToolsSub.ready() &&
-      teamsSub.ready() &&
-      skillsSub.ready() &&
-      challengesSub.ready() &&
-      toolsSub.ready() &&
-      participantsSub.ready() &&
-      tParticipantsSub.ready();
-
     const tChallengesDocs = TeamChallenges.find({}).fetch();
     const tInvitationsDocs = TeamInvitations.find({}).fetch();
     const tSkillsDocs = TeamSkills.find({}).fetch();
@@ -62,7 +39,6 @@ const AllTeamInvitationsPage = () => {
     const tParticipantsDocs = TeamParticipants.find({}).fetch();
 
     return {
-      ready: rdy,
       teamChallenges: tChallengesDocs,
       teamInvitations: tInvitationsDocs,
       teamSkills: tSkillsDocs,
@@ -172,25 +148,20 @@ const AllTeamInvitationsPage = () => {
   return (
     <Container id="all-team-invitations-page">
       <h1 style={{ paddingTop: '2rem' }}>Team Invitations</h1>
-
-      {ready ? (
-        <ListGroup variant="flush">
-          {getTeamInvitations(teamInvitations).map((tInvitation) => (
-            <AllTeamInvitationCard
-              key={tInvitation._id}
-              teams={tInvitation}
-              skills={getTeamSkills(tInvitation._id)}
-              tools={getTeamTools(tInvitation._id)}
-              challenges={getTeamChallenges(tInvitation._id)}
-              participants={getTeamDevelopers(tInvitation._id)}
-            />
-          ))}
-        </ListGroup>
-      ) : (
-        <Spinner animation="border" />
-      )}
+      <ListGroup variant="flush">
+        {getTeamInvitations(teamInvitations).map((tInvitation) => (
+          <AllTeamInvitationCard
+            key={tInvitation._id}
+            teams={tInvitation}
+            skills={getTeamSkills(tInvitation._id)}
+            tools={getTeamTools(tInvitation._id)}
+            challenges={getTeamChallenges(tInvitation._id)}
+            participants={getTeamDevelopers(tInvitation._id)}
+          />
+        ))}
+      </ListGroup>
     </Container>
   );
 };
 
-export default AllTeamInvitationsPage;
+export default withAllSubscriptions(AllTeamInvitationsPage);
