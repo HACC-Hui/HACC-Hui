@@ -12,6 +12,7 @@ import { allTeamInvitationsPageTest } from './AllTeamInvitationsPage.e2e';
 import { openTeamsPageTest } from './openTeamsPage.e2e';
 import { listTeamsPageTest } from './listTeamsPage.e2e';
 import { configureHaccPageTest } from './configureHacc.e2e';
+import { adminEditTeamPageTest } from './adminEditTeamPage.e2e';
 
 fixture('HACC-Hui').page('http://localhost:3400');
 
@@ -64,4 +65,8 @@ test('Test list teams page', async (testController) => {
 
 test('Test Configure HACC page', async (testController) => {
   await configureHaccPageTest.test(testController);
+});
+
+test('Test admin edit team page', async (tc) => {
+  await adminEditTeamPageTest.test(tc);
 });
