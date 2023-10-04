@@ -1,23 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Item, List } from 'semantic-ui-react';
+import ListGroup from 'react-bootstrap/ListGroup';
+
 import { Tools } from '../../../api/tool/ToolCollection';
 
-class ToolItem extends React.Component {
-  render() {
-    const { item } = this.props;
-    const toolName = Tools.findDoc(item.toolID).name;
-    return (
-        <List.Item>
-          <Item>
-            <Item.Content>
-              {toolName}
-            </Item.Content>
-          </Item>
-        </List.Item>
-    );
-  }
-}
+const ToolItem = ({ item }) => {
+  const toolName = Tools.findDoc(item.toolID).name;
+
+  return <ListGroup.Item>{toolName}</ListGroup.Item>;
+};
 
 ToolItem.propTypes = {
   item: PropTypes.object.isRequired,
