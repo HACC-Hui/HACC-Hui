@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { withRouter, Link } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
@@ -47,19 +47,17 @@ const ProfilePage = () => {
     };
   }, []);
 
-  const buildTheModel = () => {
-    const model = participant;
-    model.challenges = devChallenges.map((challenge) => {
+  const model = useMemo(() => {
+    const m = participant;
+    m.challenges = devChallenges.map((challenge) => {
       const c = Challenges.findDoc(challenge.challengeID);
       return c.title;
     });
-    model.skills = devSkills;
-    model.tools = devTools;
-    return model;
-  };
+    m.skills = devSkills;
+    m.tools = devTools;
+    return m;
+  }, [participant, devChallenges, devSkills, devTools]);
 
-  // console.log(;
-  const model = buildTheModel();
   return (
     <Container id="your-profile-page" style={{ marginTop: '2rem' }}>
       <section
