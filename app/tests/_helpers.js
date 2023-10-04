@@ -32,5 +32,6 @@ export const signInAs = async (tc, creds) => {
   await tc.typeText(emailInput, creds.email);
   await tc.typeText(passwordInput, creds.password);
   await tc.click(Selector('button').withText('Submit'));
+  await tc.navigateTo('/#/');
   await tc.expect(Selector('#landing-page').visible).ok();
 };

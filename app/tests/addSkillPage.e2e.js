@@ -16,12 +16,9 @@ class AddSkillPageTest {
   /** @type {(tc: TestController) => Promise<void>} */
   async test(tc) {
     // await tc.debug();
-    // IN CASE YOUR TEST NEEDS TO SIGN IN FIRST, YOU CAN DO SOMETHING LIKE THIS
-    // await signInAs(tc, participantCredentials or adminCredentials);
-      await this.isDisplayed(tc);
-      await signInAs(tc, adminCredentials);
-      await tc.navigateTo('/#/add-skill');
-      await this.isDisplayed(tc);
+    await signInAs(tc, adminCredentials);
+    await tc.navigateTo('/#/add-skill');
+    await this.isDisplayed(tc);
   }
 }
 

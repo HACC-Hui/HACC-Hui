@@ -1,17 +1,17 @@
 import React from 'react';
-import { Grid, Segment, Header } from 'semantic-ui-react';
 import {
   AutoForm,
   ErrorsField,
   SubmitField,
   TextField,
   LongTextField,
-} from 'uniforms-semantic';
+} from 'uniforms-bootstrap5';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter } from 'react-router';
 import swal from 'sweetalert';
+import { Container } from 'react-bootstrap';
 import { updateMethod } from '../../../api/base/BaseCollection.methods';
 import { Skills } from '../../../api/skill/SkillCollection';
 
@@ -20,73 +20,53 @@ import { Skills } from '../../../api/skill/SkillCollection';
  * @memberOf ui/pages
  */
 class EditSkillWidget extends React.Component {
-
   /** On submit, insert the data.
    * @param data {Object} the results from the form.
    * @param formRef {FormRef} reference to the form.
    */
   submit(data) {
-    const {
-      name, description,
-    } = data;
+    const { name, description } = data;
 
     const id = this.props.doc._id;
 
     const updateData = {
-      id, name, description,
+      id,
+      name,
+      description,
     };
 
     const collectionName = Skills.getCollectionName();
-    updateMethod.call({ collectionName: collectionName, updateData: updateData },
-        (error) => {
-          if (error) {
-            swal('Error', error.message, 'error');
-          } else {
-            swal('Success', 'Item edited successfully', 'success');
-          }
-        });
+    updateMethod.call(
+      { collectionName: collectionName, updateData: updateData },
+      (error) => {
+        if (error) {
+          swal('Error', error.message, 'error');
+        } else {
+          swal('Success', 'Item edited successfully', 'success');
+        }
+      },
+    );
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
     const formSchema = new SimpleSchema2Bridge(Skills.getSchema());
     return (
-        <div style={{ backgroundColor: '#C4C4C4' }}>
-          <Grid container centered>
-            <Grid.Column>
-              <div style={{
-                backgroundColor: '#393B44', padding: '1rem 0rem', margin: '2rem 0rem',
-                borderRadius: '2rem',
-              }}>
-                <Header as="h2" textAlign="center" inverted>Edit Skill</Header>
-              </div>
-              <AutoForm schema={formSchema} onSubmit={data => this.submit(data)} model={this.props.doc}
-                        style={{
-                          paddingBottom: '4rem',
-                        }}>
-                <Segment style={{
-                  borderRadius: '1rem',
-                  backgroundColor: '#393B44',
-                }} className={'teamCreate'}>
-                  <Grid container centered>
-                    <Grid.Column style={{ paddingLeft: '3rem', paddingRight: '3rem' }}>
-                      <TextField name='name' required/>
-                      <LongTextField name='description' required/>
-                    </Grid.Column>
-                  </Grid>
-                  <div align='center'>
-                    <SubmitField value='Submit'
-                                 style={{
-                                   color: 'white', backgroundColor: '#24252B',
-                                   margin: '2rem 0rem',
-                                 }}/>
-                  </div>
-                  <ErrorsField/>
-                </Segment>
-              </AutoForm>
-            </Grid.Column>
-          </Grid>
-        </div>
+      <Container id="edit-skill-page">
+        <h2 className="text-center fw-bold">Edit Skill</h2>
+        <AutoForm
+          schema={formSchema}
+          onSubmit={(data) => this.submit(data)}
+          model={this.props.doc}
+        >
+          <div className="border p-3">
+            <TextField name="name" required />
+            <LongTextField name="description" required />
+            <SubmitField value="Submit" />
+            <ErrorsField />
+          </div>
+        </AutoForm>
+      </Container>
     );
   }
 }

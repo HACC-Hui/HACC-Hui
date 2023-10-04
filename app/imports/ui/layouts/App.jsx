@@ -46,7 +46,7 @@ import TeamInvitationsPage from '../pages/participant/TeamInvitationsPage';
 import AdminEditTeamPage from '../pages/administrator/AdminEditTeamPage';
 import SideBar from '../components/SideBar';
 import ViewTeamsPage from '../pages/administrator/ViewTeamsPage';
-import BestFitTeamDisplay from '../pages/participant/BestFitTeamDisplay';
+import OpenTeamsPage from '../pages/participant/OpenTeamsPage';
 import UpdateMinorParticipantsCompliant from '../pages/administrator/UpdateMinorParticipantsCompliant';
 import HelpPage from '../pages/HelpPage';
 import InterestedParticipantPage from '../pages/participant/InterestedParticipantPage';
@@ -93,7 +93,7 @@ const App = () => {
       <ProtectedRoute path={ROUTES.CREATE_TEAM} component={CreateTeamPage} />
       <ProtectedRoute path={ROUTES.EDIT_TEAM} component={EditTeamPage} />
       <ProtectedRoute path={ROUTES.LIST_TEAMS} component={ListTeamsPage} />
-      <ProtectedRoute path={ROUTES.BEST_FIT} component={BestFitTeamDisplay} />
+      <ProtectedRoute path={ROUTES.OPEN_TEAMS} component={OpenTeamsPage} />
       <ProtectedRoute path={ROUTES.DELETE_ACCOUNT} component={DeleteForm} />
       <ProtectedRoute path={ROUTES.YOUR_TEAMS} component={YourTeams} />
       <ProtectedRoute path={ROUTES.LIST_PARTICIPANTS} component={ListParticipantsPage} />

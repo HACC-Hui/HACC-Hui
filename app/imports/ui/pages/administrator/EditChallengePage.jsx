@@ -4,9 +4,7 @@ import EditChallengeWidget from '../../components/administrator/EditChallengeWid
 
 class EditChallengePage extends React.Component {
   render() {
-    return (
-        <EditChallengeWidget />
-    );
+    return <EditChallengeWidget />;
   }
 }
 

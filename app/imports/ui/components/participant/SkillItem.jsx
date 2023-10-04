@@ -1,23 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Item, List } from 'semantic-ui-react';
+import ListGroup from 'react-bootstrap/ListGroup';
+
 import { Skills } from '../../../api/skill/SkillCollection';
 
-class SkillItem extends React.Component {
-  render() {
-    const { item } = this.props;
-    const skillName = Skills.findDoc(item.skillID).name;
-    return (
-        <List.Item>
-          <Item>
-            <Item.Content>
-              {skillName}
-            </Item.Content>
-          </Item>
-        </List.Item>
-    );
-  }
-}
+const SkillItem = ({ item }) => {
+  const skillName = Skills.findDoc(item.skillID).name;
+
+  return <ListGroup.Item>{skillName}</ListGroup.Item>;
+};
 
 SkillItem.propTypes = {
   item: PropTypes.object.isRequired,
