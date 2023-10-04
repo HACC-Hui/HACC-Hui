@@ -15,6 +15,7 @@ import { configureHaccPageTest } from './configureHacc.e2e';
 import { adminEditTeamPageTest } from './adminEditTeamPage.e2e';
 import { editSkillPageTest } from './editSkillPage.e2e';
 import { editToolPageTest } from './editToolPage.e2e';
+import { editChallengePageTest } from './editChallengePage.e2e';
 
 fixture('HACC-Hui').page('http://localhost:3400');
 
@@ -41,7 +42,9 @@ test('Test Help Page', async (testController) => {
 test('Test Add Challenge page', async (testController) => {
   await addChallengePageTest.test(testController);
 });
-
+test('Test Edit Challenge page', async (testController) => {
+  await editChallengePageTest.test(testController);
+});
 test('Test Add Skill page', async (testController) => {
   await addSkillPageTest.test(testController);
 });
