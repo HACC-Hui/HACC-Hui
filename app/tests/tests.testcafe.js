@@ -21,10 +21,16 @@ import { yourProfilePageTest } from './profilePage.e2e';
 
 fixture('HACC-Hui').page('http://localhost:3400');
 
-
+test('Test landing page', async (testController) => {
+  await landingPageTest.test(testController);
+});
 
 test('Test List Suggestions page', async (testController) => {
   await listSuggestionsPageTest.test(testController);
+});
+
+test('Test sign in page', async (testController) => {
+  await signinPageTest.test(testController);
 });
 
 test('Test sign out page', async (testController) => {
