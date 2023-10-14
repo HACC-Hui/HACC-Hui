@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button'
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
@@ -7,8 +7,13 @@ import { removeItMethod } from '../../../api/base/BaseCollection.methods';
 import { Tools } from '../../../api/tool/ToolCollection';
 
 /** Renders a single row in the table. See pages/Listmenuitemss.jsx. */
-class ToolsAdminWidget extends React.Component {
-  removeItem(docID) {
+const ToolsAdminWidget = (props) => {
+  const [toolData, setToolData] = useState(props.tools);
+
+  useEffect(() => {
+    setToolData(props.tools);
+  }, [props.tools]);
+  const removeItem = (docID) => {
     swal({
       title: 'Are you sure?',
       text: 'Once deleted, you will not be able to recover this tool!',
@@ -30,18 +35,16 @@ class ToolsAdminWidget extends React.Component {
         });
   }
 
-  render() {
     return (
         <tr>
-          <th>{this.props.tools.name}</th>
-          <th>{this.props.tools.description}</th>
+          <th>{toolData.name}</th>
+          <th>{toolData.description}</th>
           {/* eslint-disable-next-line max-len */}
-          <th width={2}><Button variant="light"><Link to={`/edit-tool/${this.props.tools._id}`} style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Edit</Link></Button></th>
+          <th width={2}><Button variant="light"><Link to={`/edit-tool/${toolData._id}`} style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Edit</Link></Button></th>
           {/* eslint-disable-next-line max-len */}
-          <th width={2}><Button variant="danger" negative onClick={() => this.removeItem(this.props.tools._id)}>Delete</Button></th>
+          <th width={2}><Button variant="danger" negative onClick={() => removeItem(toolData._id)}>Delete</Button></th>
         </tr>
     );
-  }
 }
 
 /** Require a document to be passed to this component. */
