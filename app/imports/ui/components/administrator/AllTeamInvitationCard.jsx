@@ -1,114 +1,159 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Grid,
-  Header,
-  Image,
-  Item,
+  ListGroup,
   Modal,
-  Icon,
-} from 'semantic-ui-react';
+  Button,
+  Container,
+  Col,
+  Row,
+  Card,
+} from 'react-bootstrap';
+import { FaUsers } from 'react-icons/fa';
 import PropTypes from 'prop-types';
-import { _ } from 'lodash';
 import { Participants } from '../../../api/user/ParticipantCollection';
 import { TeamInvitations } from '../../../api/team/TeamInvitationCollection';
 import { Teams } from '../../../api/team/TeamCollection';
 
-class AllTeamInvitationCard extends React.Component {
+const AllTeamInvitationCard = (props) => {
+  const [show, setShow] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
-  render() {
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-    function changeBackground(e) {
-      e.currentTarget.style.backgroundColor = '#fafafa';
-      e.currentTarget.style.cursor = 'pointer';
-    }
-
-    function onLeave(e) {
-      e.currentTarget.style.backgroundColor = 'transparent';
-    }
-
-    const teamID = Teams.findDoc({ name: this.props.teams.name })._id;
-    const invitations = TeamInvitations.find({ teamID }).fetch();
-    for (let i = 0; i < invitations.length; i++) {
-      invitations[i] = invitations[i].participantID;
-    }
-    const invitedMembers = [];
-    _.forEach(invitations, (id) => {
-      invitedMembers.push(Participants.getFullName(id));
-    });
-    return (
-        <Item onMouseEnter={changeBackground} onMouseLeave={onLeave}
-              style={{ padding: '0rem 2rem 0rem 2rem' }}>
-          <Modal closeIcon trigger={
-            <Item.Content>
-              <Item.Header>
-                <Header as={'h3'} style={{ color: '#263763', paddingTop: '2rem' }}>
-                  <Icon name='users' size='tiny'/>
-                  {this.props.teams.name}
-                </Header>
-              </Item.Header>
-              <Item.Meta>
-                <Item.Meta>
-                  <Grid doubling columns={5}>
-                    <Grid.Column>
-                      <Image src={this.props.teams.image} rounded size='small'/>
-                      <Grid.Column floated={'left'} style={{ paddingBottom: '0.3rem' }}>
-                        {this.props.challenges.slice(0, 3).map((challenge) => <p
-                            style={{ color: 'rgb(89, 119, 199)' }}
-                            key={challenge}>
-                          {challenge}</p>)}
-                      </Grid.Column>
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Header>Skills</Header>
-                      {this.props.skills.slice(0, 3).map((skill) => <p key={skill}>
-                        {skill}</p>)}
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Header>Tools</Header>
-                      {this.props.tools.slice(0, 3).map((tool) => <p key={tool}>
-                        {tool}</p>)}
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Header>Member(s) Invited:</Header>
-                      {invitedMembers.slice(0, 3).map((members) => <p key={members}>
-                        {members}</p>)}
-                    </Grid.Column>
-                  </Grid>
-                </Item.Meta>
-              </Item.Meta>
-            </Item.Content>
-          }>
-            <Modal.Header>{this.props.teams.name}</Modal.Header>
-            <Modal.Content image scrolling>
-              <Image size='medium' src={this.props.teams.image} wrapped/>
-              <Modal.Description>
-                <Header>Description</Header>
-                <p>
-                  {this.props.teams.description}
-                </p>
-                <Header>Challenges</Header>
-                {this.props.challenges.map((challenge) => <p key={challenge}>
-                  {challenge}</p>)}
-                <Header>Skills</Header>
-                {this.props.skills.map((skill) => <p key={skill}>
-                  {skill}</p>)}
-                <Header>Tools</Header>
-                {this.props.tools.map((tool) => <p key={tool}>
-                  {tool}</p>)}
-                <Header>Members</Header>
-                {this.props.participants.map((participant) => <p key={participant}>
-                  {participant.firstName} {participant.lastName}</p>)}
-                <Header>Member(s) Invited:</Header>
-                {invitedMembers.slice(0, 3).map((members) => <p key={members}>
-                  {members}</p>)}
-              </Modal.Description>
-            </Modal.Content>
-          </Modal>
-        </Item>
-    );
+  const teamID = Teams.findDoc({ name: props.teams.name })._id;
+  const invitations = TeamInvitations.find({ teamID }).fetch();
+  for (let i = 0; i < invitations.length; i++) {
+    invitations[i] = invitations[i].participantID;
   }
-}
+  const invitedMembers = [];
+  invitations.forEach((id) => {
+    invitedMembers.push(Participants.getFullName(id));
+  });
+
+  function commaList(arr) {
+    return arr.length === 0
+      ? 'None'
+      : arr.reduce((accumulator, current) => accumulator.concat(', ', current));
+  }
+
+  const headerStyle = {
+    fontWeight: 'bold',
+    fontSize: `${20}px`,
+    fontFamily: 'gotham',
+  };
+
+  const modalPStyle = {
+    fontSize: `${18}px`,
+  };
+
+  return (
+    <ListGroup.Item>
+      <Card
+        style={{
+          paddingBottom: `${2}rem`,
+          background: hovered ? '#EEE' : 'white',
+          cursor: 'pointer',
+        }}
+        onClick={handleShow}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <Card.Body>
+          <Card.Title
+            as={'h2'}
+            style={{
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: `${1}rem`,
+            }}
+          >
+            <FaUsers size={48} />
+            {props.teams.name}
+          </Card.Title>
+
+          <Row>
+            <Col>
+              <h3 style={headerStyle}>Challenges</h3>
+              {props.challenges.slice(0, 3).map((challenge) => (
+                <p style={{ color: 'rgb(89, 119, 199)' }} key={challenge}>
+                  {challenge}
+                </p>
+              ))}
+            </Col>
+            <Col>
+              <h3 style={headerStyle}>Skills</h3>
+              {props.skills.slice(0, 3).map((skill) => (
+                <p key={skill}>{skill}</p>
+              ))}
+            </Col>
+            <Col>
+              <h3 style={headerStyle}>Tools</h3>{' '}
+              {props.tools.slice(0, 3).map((tool) => (
+                <p key={tool}>{tool}</p>
+              ))}
+            </Col>
+            <Col>
+              <h3 style={headerStyle}>Member(s) Invited</h3>
+              {invitedMembers.slice(0, 3).map((members) => (
+                <p key={members}>{members}</p>
+              ))}
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title as={'h2'} style={{ fontWeight: 'bold' }}>
+            {props.teams.name}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Container
+            style={{ display: 'flex', flexDirection: 'column', gap: `${1}rem` }}
+          >
+            <div>
+              <h3 style={headerStyle}>Description</h3>
+              <p style={modalPStyle}>{props.teams.description}</p>
+            </div>
+            <div>
+              <h3 style={headerStyle}>Challenges</h3>
+              <p style={modalPStyle}>{commaList(props.challenges)}</p>
+            </div>
+            <div>
+              <h3 style={headerStyle}>Skills</h3>
+              <p style={modalPStyle}>{commaList(props.skills)}</p>
+            </div>
+            <div>
+              <h3 style={headerStyle}>Tools</h3>
+              <p style={modalPStyle}>{commaList(props.tools)}</p>
+            </div>
+            <div>
+              <h3 style={headerStyle}>Members</h3>
+              <p style={modalPStyle}>
+                {commaList(
+                  props.participants.map((participant) =>
+                    participant.firstName.concat(' ', participant.lastName),
+                  ),
+                )}
+              </p>
+            </div>
+            <div>
+              <h3 style={headerStyle}>Members Invited</h3>
+              <p style={modalPStyle}>{commaList(invitedMembers)}</p>
+            </div>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" size="lg" onClick={handleClose}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </ListGroup.Item>
+  );
+};
 
 AllTeamInvitationCard.propTypes = {
   teams: PropTypes.object.isRequired,

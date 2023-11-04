@@ -1,179 +1,161 @@
-import React from 'react';
-import {
-  Grid,
-  Header,
-  Item,
-  Icon,
-  Segment,
-  Input,
-  Dropdown,
-} from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { _ } from 'lodash';
 import { withTracker } from 'meteor/react-meteor-data';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  InputGroup,
+  ListGroup,
+  Card,
+} from 'react-bootstrap';
+import { FaUsers, FaSearch } from 'react-icons/fa';
 import { Suggestions } from '../../../api/suggestions/SuggestionCollection';
+import Dropdown from '../Dropdown';
 import ListSuggestionsCard from './ListSuggestionsCard';
 import ListSuggestionsFilter from './ListSuggestionsFilter';
 import SuggestToolSkillWidgetAdmin from '../../components/administrator/SuggestToolSkillWidgetAdmin';
 
-class ListSuggestionsWidget extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      search: '',
-      type: [],
-      result: _.orderBy(this.props.suggestions, ['name'], ['asc']),
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // eslint-disable-next-line max-len
-    if ((_.orderBy(nextProps.suggestions, ['name'], ['asc'])) !== (_.orderBy(this.props.suggestions, ['name'], ['asc']))) {
-      this.setState({
-        result: _.orderBy(nextProps.suggestions, ['name'], ['asc']),
-      });
-    }
-  }
-
-  render() {
-
-    if (this.props.suggestions.length === 0) {
-      return (
-          <div align={'center'}>
-            <Header as='h2' icon>
-              <Icon name='users' />
-              There are no suggestions at the moment.
-              <Header.Subheader>
-                Please check back later.
-              </Header.Subheader>
-            </Header>
-          </div>
-      );
-    }
-
-    // eslint-disable-next-line no-unused-vars
-    const sortBy = [
-      { key: 'teams', text: 'teams', value: 'teams' },
-      { key: 'challenges', text: 'challenges', value: 'challenges' },
-      { key: 'skills', text: 'skills', value: 'skills' },
-      { key: 'tools', text: 'tools', value: 'tools' },
-    ];
-
-    const sticky = {
-      position: '-webkit-sticky',
-      // eslint-disable-next-line no-dupe-keys
-      position: 'sticky',
-      top: '6.5rem',
-    };
-
-    const filters = new ListSuggestionsFilter();
-
-    const setFilters = () => {
-      const searchResults = filters.filterBySearch(this.props.suggestions, this.state.search);
-      const typeResults = filters.typeResults(searchResults, this.state.type);
-      const sorted = filters.sortBy(typeResults, 'names');
-      this.setState({
-        result: sorted,
-      }, () => {
-      });
-    };
-
-    const handleSearchChange = (event) => {
-      this.setState({
-        search: event.target.value,
-      }, () => {
-        setFilters();
-      });
-    };
-
-    const getType = (event, { value }) => {
-      this.setState({
-        type: value,
-      }, () => {
-        setFilters();
-      });
-    };
-
-    const typeOptions = [
-      {
-        key: 'All',
-        text: 'All',
-        value: 'All',
-      },
-      {
-        key: 'Tool',
-        text: 'Tool',
-        value: 'Tool',
-      },
-      {
-        key: 'Skill',
-        text: 'Skill',
-        value: 'Skill',
-      },
-    ];
-
-    // console.log(this.props.suggestions);
-
+const ListSuggestionsWidget = ({ suggestions }) => {
+  if (suggestions.length === 0) {
     return (
-        <Grid container doubling relaxed stackable
-              style={{ paddingBottom: '4rem' }}
-        >
-          <Grid.Row centered>
-            <Header as={'h2'} style={{ paddingTop: '2rem' }}>
-              Suggestions
-            </Header>
-          </Grid.Row>
-          <Grid.Column width={4}>
-            <Segment style={sticky}>
-              <div style={{ paddingTop: '2rem' }}>
-                <Header>
-                  <Header.Content>
-                    Total Suggestions: {this.state.result.length}
-                  </Header.Content>
-                </Header>
-              </div>
-              <div style={{ paddingTop: '2rem' }}>
-                <Input icon='search'
-                       iconPosition='left'
-                       placeholder='Search...'
-                       onChange={handleSearchChange}
-                       fluid
-                />
-
-                <div style={{ paddingTop: '2rem' }}>
-                  <Header>Suggestion Types</Header>
-                  <Dropdown
-                      placeholder='Types'
-                      fluid
-                      search
-                      selection
-                      options={typeOptions}
-                      onChange={getType}
-                  />
-                </div>
-              </div>
-              <div style={{ paddingTop: '2rem' }}>
-                <SuggestToolSkillWidgetAdmin />
-              </div>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column width={12}>
-            <Item.Group divided>
-              {this.state.result.map((suggestions) => <ListSuggestionsCard
-                  key={suggestions._id}
-                  type={suggestions.type}
-                  username={suggestions.username}
-                  name={suggestions.name}
-                  description={suggestions.description}
-                  suggestionObj={suggestions}
-              />)}
-            </Item.Group>
-          </Grid.Column>
-        </Grid>
+      <Container align={'center'} id="list-suggestions-page">
+        <Row>
+          <Col> <FaUsers size={200} /></Col>
+        </Row>
+        <Row>
+          <Col as='h1'>There are no suggestions at the moment.</Col>
+        </Row>
+        <Row>
+          <Col as='h2'>Please check back later.</Col>
+        </Row>
+      </Container>
     );
   }
-}
+
+  const [search, setSearch] = useState('');
+  const [type, setType] = useState([]);
+  const compare = (a, b) => a.name.localeCompare(b.name);
+  const [result, setResult] = useState(suggestions.slice().sort(compare));
+
+  useEffect(() => {
+    if (result !== suggestions.slice().sort(compare)) {
+      setResult(suggestions.slice().sort(compare));
+    }
+  }, [suggestions]);
+
+  const filters = new ListSuggestionsFilter();
+
+  const setFilters = () => {
+    const searchResults = filters.filterBySearch(suggestions, search);
+    const typeResults = filters.typeResults(searchResults, type);
+    const sorted = filters.sortBy(typeResults, 'names');
+    setResult(sorted);
+  };
+
+  useEffect(() => {
+    setFilters();
+  }, [type]);
+
+  useEffect(() => {
+    setFilters();
+  }, [search]);
+
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const getType = (value) => {
+    setType(value);
+  };
+
+  const typeOptions = [
+    {
+      key: 'All',
+      text: 'All',
+      value: 'All',
+    },
+    {
+      key: 'Tool',
+      text: 'Tool',
+      value: 'Tool',
+    },
+    {
+      key: 'Skill',
+      text: 'Skill',
+      value: 'Skill',
+    },
+  ];
+
+  return (
+      <Container
+        id="list-suggestions-page"
+        style={{ paddingBottom: '4rem' }}
+      >
+        <Row align={'center'} as={'h1'}>
+          <div style={{ paddingTop: '2rem' }}>
+            Suggestions
+          </div>
+        </Row>
+        <Row>
+          <Col xs={3}>
+            <Card border="secondary" style={{ width: '18rem' }}>
+              <Card.Body>
+                <Row as={'h2'}>
+                  <div style={{ paddingTop: '2rem' }}>
+                    Total Suggestions: {result.length}
+                  </div>
+                  <div style={{ paddingTop: '1rem' }}>
+                    <InputGroup>
+                      <InputGroup.Text>
+                        <FaSearch />
+                      </InputGroup.Text>
+                      <Form.Control type='text'
+                        name='search'
+                        placeholder='Search...'
+                        onChange={handleSearchChange}
+                      />
+                    </InputGroup>
+                  </div>
+                </Row>
+                <Row>
+                  <div style={{ paddingTop: '2rem' }}>
+                    <h2>Suggestion Types</h2>
+                    <Dropdown
+                      items={typeOptions}
+                      onItemSelect={getType}
+                      label="Types"
+                      style={{
+                        backgroundColor: '#ffffff',
+                        color: '#000000',
+                      }}/>
+                  </div>
+                </Row>
+                <Row>
+                  <div style={{ paddingTop: '2rem' }}>
+                    <SuggestToolSkillWidgetAdmin />
+                  </div>
+                </Row>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col width={12}>
+            <ListGroup>
+              {result.map((suggestion) => <ListSuggestionsCard
+                key={suggestion._id}
+                type={suggestion.type}
+                username={suggestion.username}
+                name={suggestion.name}
+                description={suggestion.description}
+                suggestionObj={suggestion}
+              />)}
+            </ListGroup>
+          </Col>
+        </Row>
+      </Container>
+  );
+};
 
 ListSuggestionsWidget.propTypes = {
   suggestions: PropTypes.array.isRequired,

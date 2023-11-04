@@ -1,11 +1,32 @@
+:root {
+  --color-blue: #124884;
+  --navbar-height: 4rem;
+  --footer-height: 0px;
+}
+
+h1 {
+  font-family: 'gotham', sans-serif !important;
+}
+
 .navBar {
-  margin-bottom: 10px;
-  background-color: #124884 !important;
+  background-color: var(--color-blue) !important;
+  height: var(--navbar-height);
+}
+
+#footer {
+  background-color: var(--color-blue);
+  color: white;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+#page-wrapper {
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
 }
 
 .mobileBar {
   display: none !important;
-  background-color: rgb(18, 72, 132) !important;
+  background-color: var(--color-blue) !important;
 }
 
 .sideBar {
@@ -13,7 +34,6 @@
   border-radius: 0 !important;
   padding-top: 6rem !important;
 }
-
 
 @media screen and (max-width: 750px) {
   .navBar {
@@ -24,7 +44,7 @@
     display: block !important;
     margin: 0 !important;
     border-radius: 0 !important;
-    background-color: rgb(18, 72, 132) !important;
+    background-color: var(--color-blue) !important;
   }
 
   .sideBar {
@@ -34,5 +54,4 @@
     padding-top: 6rem !important;
     margin-left: -1rem !important;
   }
-
 }

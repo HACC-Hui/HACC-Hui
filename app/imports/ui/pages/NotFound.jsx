@@ -1,18 +1,16 @@
 import React from 'react';
-import { Header } from 'semantic-ui-react';
+import { Container } from 'react-bootstrap';
 
 /**
  * Render a Not Found page if the user enters a URL that doesn't match any route.
  * @memberOf ui/pages
  */
-class NotFound extends React.Component {
-  render() {
+function NotFound() {
     return (
-      <Header as="h2" textAlign="center">
-        <p>Page not found</p>
-      </Header>
+        <Container id="not-found-page" as="h2" className="text-center">
+            <p>Page not found</p>
+        </Container>
     );
-  }
 }
 
 export default NotFound;
